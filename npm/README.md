@@ -1,9 +1,9 @@
-## What is npm
+# What is npm
 
 A JavaScript package manager.
 
 
-## Install
+# Install
 
 Install [Node.js](https://nodejs.org/en/download/).
 
@@ -15,22 +15,25 @@ $ npm -v
 ```
 
 
-## Steps
+# Steps
 
-1. Initialize package.json
+### Initialize package.json
 
 ```
 $ npm init
 ```
+
 > Reference: [package.json](https://docs.npmjs.com/files/package.json)
 
-2. Search package
+
+### Search package
 
 ```
 $ npm search {package_name}
 ```
 
-3. Find package versions
+
+### Find package versions
 
 ```
 $ npm view {package_name}
@@ -47,70 +50,76 @@ $ npm show {package_name} versions
 > Go to [npm](https://www.npmjs.com) to find the packages.
 
 
-3. Install packages 
 
-* Install globally
+### Install packages 
 
-```
-$ npm install {package_name} -g
-```
+1. Install globally
 
-* The latest release version for production (Default)
-```
-$ npm install {package_name} --save
-```
+   ```
+   $ npm install {package_name} -g
+   ```
 
-> or use [--no-save] option.
+2. The latest release version for production (Default)
 
+   ```
+   $ npm install {package_name} --save
+   ```
 
-* The latest release version for **devDependencies**
-```
-$ npm install {package_name} --save-dev
-```
-
-* Specific version
-
-`$ npm install {package_name}@latest`
-
-`$ npm install {package_name}@">=0.1.0 <0.2.0"`
+   > or use [--no-save] option.
 
 
-* Latest version of 3.X.X
-`$ npm install {package_name}@"^3.0.0"`
+3. The latest release version for **devDependencies**
 
-* Latest version of 3.2.X
-`$ npm install {package_name}@"^3.2.0"`
+   ```
+   $ npm install {package_name} --save-dev
+   ```
 
-> Reference: [npm-install](https://docs.npmjs.com/cli/install)
+4. Specific version
 
+   `$ npm install {package_name}@latest`
 
-4. uninstall packages 
-
-* Uninstall global package
-```
-$ npm uninstall {package_name} -g
-```
-
-* Uninstall local package
-
-```
-$ npm uninstall {package_name} --save
-```
-
-```
-$ npm uninstall {package_name} --save-dev
-```
+   `$ npm install {package_name}@">=0.1.0 <0.2.0"`
 
 
+5. Latest version of 3.X.X
+   
+   `$ npm install {package_name}@"^3.0.0"`
 
-5. List packages installed
+6. Latest version of 3.2.X
+
+   `$ npm install {package_name}@"^3.2.0"`
+
+   > Reference: [npm-install](https://docs.npmjs.com/cli/install)
+
+
+### Uninstall packages 
+
+1. Uninstall global package
+
+   ```
+   $ npm uninstall {package_name} -g
+   ```
+
+2. Uninstall local package
+
+   ```
+   $ npm uninstall {package_name} --save
+   ```
+
+   ```
+   $ npm uninstall {package_name} --save-dev
+   ```
+
+
+
+## List packages installed
 
 ```
 $ npm list [package_name] [-g] [--depth=0]
 ```
 
 
-## More 
+# More 
 
 1. [nvm(Node Version Manager)](https://github.com/creationix/nvm)
 2. [Yarn](https://github.com/yarnpkg/yarn)
