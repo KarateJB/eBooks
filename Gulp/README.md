@@ -35,6 +35,51 @@ $ copy nul gulpfile.js
 
 [gulpfile.js](https://gist.github.com/KarateJB/a1bdc68f282c2765d54d8b3b7819ad40.js)
 
-<script src="https://gist.github.com/KarateJB/a1bdc68f282c2765d54d8b3b7819ad40.js"></script>
+```
+var gulp = require('gulp');
+// Include plugins
+var concat = require('gulp-concat');
+var uglify = require('gulp-uglify');
+var rename = require('gulp-rename');
+
+
+var root = {
+    // webroot: "./scripts/",
+    nmSrc: "./node_modules/",
+    nmDest: "Src/lib-npm/"
+}
+
+//library source
+
+//library destination
+
+
+
+
+// Copy from node_modules
+gulp.task('copy-jquery', function () {
+    return gulp.src(root.nmSrc + "/jquery/dist/**/jquery.*")
+               .pipe(gulp.dest(root.nmDest + '/jquery/'));
+});
+
+
+// Uglify JS Files
+gulp.task('js-uglify', function() {
+   return gulp.src('Src/app.js')
+       .pipe(concat('app.js'))
+       .pipe(rename({ suffix: '.min' }))
+       .pipe(uglify())
+       .pipe(gulp.dest('Src/build'));
+});
+
+//Watch
+gulp.task('watch', function() {
+   gulp.watch('Src/app.js', ['js-uglify']);
+});
+
+
+// Default Task
+gulp.task('default', ['js-uglify','copy-jquery', 'watch']);
+```
 
 
