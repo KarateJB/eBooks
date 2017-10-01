@@ -49,13 +49,6 @@ var root = {
     nmDest: "Src/lib-npm/"
 }
 
-//library source
-
-//library destination
-
-
-
-
 // Copy from node_modules
 gulp.task('copy-jquery', function () {
     return gulp.src(root.nmSrc + "/jquery/dist/**/jquery.*")
