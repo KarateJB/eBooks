@@ -91,7 +91,7 @@ $ npm show {package_name} versions
 
 
 ### Uninstall packages 
-
+np
 1. Uninstall global package
 
    ```
