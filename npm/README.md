@@ -85,7 +85,7 @@ $ npm show {package_name} versions
 
 6. Latest version of 3.2.X
 
-   `$ npm install {package_name}@"^3.2.0"`  
+   `$ npm install {package_name}@"~3.2.0"`  
 
    > Reference: [npm-install](https://docs.npmjs.com/cli/install)  
 
