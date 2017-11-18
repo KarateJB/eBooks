@@ -172,7 +172,9 @@ Inferred out (推論出) user requirement in virtual users’ shoes.
 ### Format
 
 > As a (Who)
+>
 > I Want (What)
+>
 > So that (Why)
 
 **Acceptance criteria**
