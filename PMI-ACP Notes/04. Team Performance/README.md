@@ -113,7 +113,7 @@
 
 
 
-
+<br><br>
 # Team empowerment
 
 ## Small, Generalizing specialist, cross-functional team
@@ -171,7 +171,7 @@ Team member with available capacity and appropriate skills to collectively work(
 ## Trust & Faith
 
 
-
+<br><br>
 # Team collaboration and commitment
 
 ## Close communication and co-location
@@ -229,3 +229,6 @@ Team member with available capacity and appropriate skills to collectively work(
 3.  Purpose
 
 ## Leadership
+
+
+<br><br>
