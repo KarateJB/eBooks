@@ -108,7 +108,7 @@ Good, safe environment
 Tailoring the process due to the difference of project scope, tech challenge and etc.
 
 | <center></center> |  <center>Spirit</center>  | <center>Description</center>  |
-|:-----------------:|:--------------------------|:-----------------------|
+|:------------------|:--------------------------|:-----------------------|
 | Shu 守            | Protect, obey   | Learning and following fundamentals |
 | Ha 破             | Digress(脫離)   | Breaking the rules |
 | Ri 離             | Leave, Separate | * Transcendence(超越)<br>* No trick wins trick(無招勝有招)<br>* Using no way as way, having no limitation as limitation.(以無法為有法，以無限為有限 – 李小龍) |
