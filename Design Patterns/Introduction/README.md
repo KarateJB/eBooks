@@ -41,7 +41,8 @@ We should know,
 Okay, let's take a small practice on Design Pattern: `Strategy`.
 
 
-<br>
+<br />
+
 ## Day 1. Requirement
 
 >>> The user is going to do a task and keep some logs within it.
