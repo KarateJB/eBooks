@@ -1,4 +1,4 @@
-## Before we practice Desgin Patterns
+## Before we practice Design Patterns
 
 ### Knowledge
 
