@@ -17,7 +17,7 @@ We should know,
    | The Law of Demeter (The least knowledge principle) | [LoD](https://en.wikipedia.org/wiki/Law_of_Demeter) |
    | The open closed principle                          | [OCP](https://en.wikipedia.org/wiki/Open/closed_principle) |
 
-3. Pattern types
+3. Patterns
 
    * Creational design patterns
 
@@ -32,5 +32,82 @@ We should know,
      | Chain of responsibility | Command | Interpreter | Iterator | Mediator | Memento | Observer | State | Strategy | Template | Visitor |
 
 
-### Practice environment
+### Practice language
 
+1. C# (.NET Core 2.0)
+2. Python 3.6.2
+
+
+Okay, let's take a small practice on Design Pattern: `Strategy`.
+
+
+## Day 1  Requirment
+
+>>> The user is going to do a task and keep some logs within it.
+>>> However, the user can choose to keep the log in a text file or Database. 
+
+### C#
+
+* ILogger.cs
+
+  ```
+  public interface ILogger
+  {
+      void Debug(string msg);
+      void Warn(string msg);
+      void Error(string msg);
+  }
+  ```
+
+* TextLogger.cs
+
+  ```
+  public class TextLogger:ILogger
+  {
+      public void Debug(string msg) => System.Diagnostics.Trace.WriteLine($"(Text)Debug: {msg}");
+      public void Warn(string msg) => System.Diagnostics.Trace.WriteLine($"(Text)Warn: : {msg}");
+      public void Error(string msg) => System.Diagnostics.Trace.WriteLine($"(Text)Error: : {msg}");
+  }
+  ```
+
+* DbLogger.cs
+
+  ```
+  public class DbLogger:ILogger
+  {
+      public void Debug(string msg) => System.Diagnostics.Trace.WriteLine($"(Database)Debug: {msg}");
+      public void Warn(string msg) => System.Diagnostics.Trace.WriteLine($"(Database)Warn: : {msg}");
+      public void Error(string msg) => System.Diagnostics.Trace.WriteLine($"(Database)Error: : {msg}");
+  }
+  ```
+
+* MyTask.cs
+
+  ```
+  public class MyTask
+  {
+      private ILogger _logger = null;
+      public MyTask(ILogger logger)
+      {
+          if (logger != null)
+              this._logger = logger;
+      }
+
+      public void Run()
+      {
+          //Do something
+          this._logger.Debug($"My task was done on {DateTime.Now.ToString()}");
+      }
+  }
+  ```
+
+
+* Main prgram
+
+  ```
+  ILogger txtLogger = new TextLogger();
+  (new MyTask(txtLogger)).Run();
+  
+  ILogger dbLogger = new DatabaseLogger();
+  (new MyTask(dbLogger)).Run();
+  ```
