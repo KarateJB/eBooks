@@ -45,8 +45,9 @@ Okay, let's take a small practice on Design Pattern: `Strategy`.
 
 ## Day 1. Requirement
 
->>> The user is going to do a task and keep some logs within it.
->>> However, the user can choose to keep the log in a text file or Database. 
+> The user is going to do a task and keep some logs within it. 
+> However, the user can choose to keep the log in a text file or Database. 
+
 
 ### C#
 
