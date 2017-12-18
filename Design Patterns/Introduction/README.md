@@ -105,7 +105,7 @@ Okay, let's take a small practice on Design Pattern: `Strategy`.
   ```
 
 
-* Main prgram
+* Main program
 
   ```
   ILogger txtLogger = new TextLogger();
@@ -113,4 +113,82 @@ Okay, let's take a small practice on Design Pattern: `Strategy`.
   
   ILogger dbLogger = new DatabaseLogger();
   (new MyTask(dbLogger)).Run();
+  ```
+
+
+
+### Python
+
+* BaseLogger.py
+
+  ```
+  from abc import ABC, abstractmethod
+  class BaseLogger(ABC):
+      @abstractmethod
+      def debug(self):
+          pass
+
+      @abstractmethod
+      def warn(self):
+          pass
+
+      @abstractmethod
+      def error(self):
+          pass
+  ```
+
+* TextLogger.py
+
+  ```
+  from BaseLogger import BaseLogger
+
+  class TextLogger(BaseLogger):
+      def debug(self,msg):
+          print("(Text)Debug: " + msg)
+
+      def warn(self,msg):
+          print("(Text)Warn: " + msg)
+
+      def error(self,msg):
+          print("(Text)Error: " + msg)
+          
+  ```
+
+* DbLogger.py
+
+  ```
+  from BaseLogger import BaseLogger
+
+  class DbLogger(BaseLogger):
+      def debug(self,msg):
+          print("(Database)Debug: " + msg)
+
+      def warn(self,msg):
+          print("(Database)Warn: " + msg)
+
+      def error(self,msg):
+          print("(Database)Error: " + msg)
+  ```  
+
+* MyTask.py
+
+  ```
+  from BaseLogger import BaseLogger
+from time import gmtime, strftime
+
+class MyTask:
+    def __init__(self,logger=BaseLogger):
+        self._logger = logger
+
+    def run(self):
+        self._logger.warn("My task was done on " + strftime("%Y-%m-%d %H:%M:%S", gmtime()));
+
+  ```
+
+* Main program
+
+  ```
+  logger = DbLogger()
+  task = MyTask(logger)
+  task.run()
   ```
