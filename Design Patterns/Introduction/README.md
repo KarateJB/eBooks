@@ -174,9 +174,9 @@ Okay, let's take a small practice on Design Pattern: `Strategy`.
 
   ```
   from BaseLogger import BaseLogger
-from time import gmtime, strftime
+  from time import gmtime, strftime
 
-class MyTask:
+  class MyTask:
     def __init__(self,logger=BaseLogger):
         self._logger = logger
 
