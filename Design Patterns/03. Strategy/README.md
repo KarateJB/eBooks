@@ -1,52 +1,29 @@
-## Before we practice Design Patterns
+# Strategy 策略模式
 
-### Knowledge
+## 需求描述
 
-We should know,
+Amy(PO):
+> As a 資料分析者
+>
+> I want 使用者在執行任一系統功能時，系統可以記錄使用記錄在文字檔
+>
+> So that 我們可以知道使用者何時使用了該功能和次數
 
-1. [Gang of Four](http://wiki.c2.com/?GangOfFour), the four authors of the book, "[Design Patterns: Elements of Reusable Object-Oriented Software](https://en.wikipedia.org/wiki/Design_Patterns)"
+## 思考設計
 
-2. Six principles of design patterns
+Tommy:<br> 
+`這個User Story希望可以在系統將使用者行為記錄在文字檔，這是個很簡單的需求，我們開始來加入這項功能吧!`
 
-   | <center>Principle</center> |  <center>aka</center>  |
-   |:---------------------------------------------------|:----|
-   | Single responsibility principle                    | [SRP](https://en.wikipedia.org/wiki/Single_responsibility_principle) |
-   | Liskov Substitution Principle                      | [LSP](https://en.wikipedia.org/wiki/Liskov_substitution_principle) |
-   | Dependency inversion principle                     | [DIP](https://en.wikipedia.org/wiki/Dependency_inversion_principle) |
-   | Interface Segregation Principle                    | [ISP](https://en.wikipedia.org/wiki/Interface_segregation_principle) |
-   | The Law of Demeter (The least knowledge principle) | [LoD](https://en.wikipedia.org/wiki/Law_of_Demeter) |
-   | The open closed principle                          | [OCP](https://en.wikipedia.org/wiki/Open/closed_principle) |
+Jack: <br>
+`記錄在文字檔不利於分析吧？ 我覺得應該寫入到資料庫。`
 
-3. Patterns
+Tommy: <br>
+`事實上，我們在iteration planning會議有提到這個問題，Amy說文字檔就足夠了。況且我們的資料庫設計的backlog還沒排進來，我想我們先在這個功能上保留一些彈性，你覺得如何設計比較好呢？`
 
-   * Creational design patterns
-
-     | Abstract Factory | Builder | Factory Method | Prototype | Singleton |
-      
-   * Structural design patterns
-
-     | Adapter | Bridge | Composite | Decorator | Facade | Flyweight | Proxy |
-
-   * Behavioral design patterns
-
-     | Chain of responsibility | Command | Interpreter | Iterator | Mediator | Memento | Observer | State | Strategy | Template | Visitor |
+Jack:<br>
+`我們來建立兩個具體策略類別(Concrete strategy)，分別實作文字檔和資料庫的記錄功能，在這個iteration先放上文字檔記錄的Strategy!`
 
 
-### Practice language
-
-1. C# (.NET Core 2.0)
-2. Python 3.6.2
-
-
-Okay, let's take a small practice on Design Pattern: `Strategy`.
-
-
-<br />
-
-## Day 1. Requirement
-
-> The user is going to do a task and keep some logs within it. 
-> However, the user can choose to keep the log in a text file or Database. 
 
 
 ### C#
@@ -108,9 +85,11 @@ Okay, let's take a small practice on Design Pattern: `Strategy`.
 * Main program
 
   ```
+  //For current iteration
   ILogger txtLogger = new TextLogger();
   (new MyTask(txtLogger)).Run();
   
+  //Refinement
   ILogger dbLogger = new DatabaseLogger();
   (new MyTask(dbLogger)).Run();
   ```
@@ -188,7 +167,8 @@ Okay, let's take a small practice on Design Pattern: `Strategy`.
 * Main program
 
   ```
-  logger = DbLogger()
+  logger = DbLogger() #Current iteration
+  #logger = TextLogger() #Refinement
   task = MyTask(logger)
   task.run()
   ```
