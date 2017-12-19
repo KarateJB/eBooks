@@ -71,6 +71,8 @@ Jack:<br>
       {
           if (logger != null)
               this._logger = logger;
+          else
+              throw new ArgumentNullException("logger");
       }
 
       public void Run()
@@ -157,7 +159,10 @@ Jack:<br>
 
   class MyTask:
     def __init__(self,logger=BaseLogger):
-        self._logger = logger
+        if logger is None:
+            raise TypeError
+        else:     
+            self._logger = logger
 
     def run(self):
         self._logger.warn("My task was done on " + strftime("%Y-%m-%d %H:%M:%S", gmtime()));
@@ -167,8 +172,8 @@ Jack:<br>
 * Main program
 
   ```
-  logger = DbLogger() #Current iteration
-  #logger = TextLogger() #Refinement
+  logger = TextLogger() #Current iteration
+  #logger = DbLogger() #Refine in next iteration
   task = MyTask(logger)
   task.run()
   ```
