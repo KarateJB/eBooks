@@ -18,12 +18,24 @@
 
    可參考[官方文件](https://docs.microsoft.com/zh-tw/dotnet/core/tools/?tabs=netcore2x)或我的Blog:[[.Net Core] dotnet commands](http://karatejb.blogspot.tw/2017/06/net-core-dotnet-commands.html)
 
+   針對某個Unit test執行測試的指令：
+
+   ```
+   dotnet test --filter "FullyQualifiedName=MyNamespace.MyTestClass.MyTest"
+   ```
+
+   輸出xUnit [ITestOutputHelper](https://xunit.github.io/docs/capturing-output.html)的結果到TRX file:
+
+   ```
+   dotnet test --logger "trx;LogFileName=xxxx.trx
+   ```
+
 
 
 ## Python 3.6.2
 
 1. 安裝[Python](https://www.python.org/downloads/)
-   PS. 寫文章時我的環境是 3.6.2
+   <bPS. 寫文章時我的環境是 3.6.2
 
 2. 安裝Python相關套件
    
