@@ -33,6 +33,9 @@ Lily:<br>
 
 ### C#
 
+- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/CSharp/DP.Domain/Samples/Strategy)
+- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.UnitTest/UtStrategy.cs)
+
 定義策略的介面(也可建立為抽象類別):`ILogger`， 並分別建立兩個實作的具體策略類別：`TextLogger`和`DbLogger`。
 
 * ILogger.cs
@@ -109,6 +112,10 @@ Lily:<br>
 
 
 ### Python
+
+- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/Python/Samples/Strategy
+- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/Python/Samples/Strategy/UtStrategy.py)
+
 
 * BaseLogger.py
 
