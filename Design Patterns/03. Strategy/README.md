@@ -12,26 +12,28 @@ Amy(PO):
 ## 思考設計
 
 JB:<br> 
-`這個User Story希望可以在系統將使用者行為記錄在文字檔，這是個很簡單的需求，我們開始來加入這項功能吧!`
+這個User Story希望可以在系統將使用者行為記錄在文字檔，這是個很簡單的需求，我們開始來加入這項功能吧!
 
 Lily: <br>
-`記錄在文字檔不利於分析吧？ 我覺得應該寫入到資料庫。`
+記錄在文字檔不利於分析吧？ 我覺得應該寫入到資料庫。
 
 JB: <br>
-`事實上，我們在iteration planning會議有提到這個問題，Amy說文字檔就足夠了。況且我們的資料庫設計的backlog還沒排進來，我想我們先在這個功能上保留一些彈性，你覺得如何設計比較好呢？`
+事實上，我們在iteration planning會議有提到這個問題，Amy說文字檔就足夠了。況且我們的資料庫設計的backlog還沒排進來，我想我們先在這個功能上保留一些彈性，你覺得如何設計比較好呢？
 
 Lily:<br>
-`我們來建立兩個具體策略類別(Concrete strategy)，分別實作文字檔和資料庫的記錄功能，在這個iteration先放上文字檔記錄的Strategy!`
+我們可以建立兩個具體策略類別(Concrete strategy)，分別實作文字檔和資料庫的記錄功能，在這個iteration先放上文字檔記錄的Strategy!
 
 
 
 ## Definition of Strategy
 
-> 定義多個演算法，各別封裝這些演算法，並讓它們可以互換 (From [Wiki](https://en.wikipedia.org/wiki/Strategy_pattern))
+> 定義多個演算法，各別封裝這些演算法，並讓它們可以互換 ([Wiki](https://en.wikipedia.org/wiki/Strategy_pattern))
 
 
 
 ### C#
+
+定義策略的介面(也可建立為抽象類別):`ILogger`， 並分別建立兩個實作的具體策略類別：`TextLogger`和`DbLogger`。
 
 * ILogger.cs
 
@@ -66,6 +68,9 @@ Lily:<br>
   }
   ```
 
+將`ILogger`作為其他類別的建構參數，如此我們可以在該類別進行記錄的動作。
+但是實體化，亦即決定要記錄在文字檔或者資料庫則由建立`MyTask`的主程式決定，以利於隨時抽換。
+
 * MyTask.cs
 
   ```
@@ -89,14 +94,14 @@ Lily:<br>
   ```
 
 
-* Main program
+* 主程式
 
   ```
   //For current iteration
   ILogger txtLogger = new TextLogger();
   (new MyTask(txtLogger)).Run();
   
-  //Refinement
+  //Refine in next iteration
   ILogger dbLogger = new DatabaseLogger();
   (new MyTask(dbLogger)).Run();
   ```
@@ -174,7 +179,7 @@ Lily:<br>
 
   ```
 
-* Main program
+* Usage
 
   ```
   logger = TextLogger() #Current iteration
