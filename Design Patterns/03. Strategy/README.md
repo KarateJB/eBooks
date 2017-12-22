@@ -30,151 +30,123 @@ Lily:<br>
 > 定義多個演算法，各別封裝這些演算法，並讓它們可以互換 ([Wiki](https://en.wikipedia.org/wiki/Strategy_pattern))
 
 
+## Source code
 
 ### C#
 
 - [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/CSharp/DP.Domain/Samples/Strategy)
 - [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.UnitTest/UtStrategy.cs)
 
+### Python
+
+- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/Python/Samples/Strategy)
+- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/Python/Samples/Strategy/UtStrategy.py)
+
+
+
 定義策略的介面(也可建立為抽象類別):`ILogger`， 並分別建立兩個實作的具體策略類別：`TextLogger`和`DbLogger`。
 
-* ILogger.cs
+* C#
 
-  ```
-  public interface ILogger
-  {
-      void Debug(string msg);
-      void Warn(string msg);
-      void Error(string msg);
-  }
-  ```
+```
+public interface ILogger
+{
+    void Debug(string msg);
+    void Warn(string msg);
+    void Error(string msg);
+}
 
-* TextLogger.cs
+public class TextLogger:ILogger
+{
+    public void Debug(string msg) => System.Diagnostics.Trace.WriteLine($"(Text)Debug: {msg}");
+    public void Warn(string msg) => System.Diagnostics.Trace.WriteLine($"(Text)Warn: : {msg}");
+    public void Error(string msg) => System.Diagnostics.Trace.WriteLine($"(Text)Error: : {msg}");
+}
 
-  ```
-  public class TextLogger:ILogger
-  {
-      public void Debug(string msg) => System.Diagnostics.Trace.WriteLine($"(Text)Debug: {msg}");
-      public void Warn(string msg) => System.Diagnostics.Trace.WriteLine($"(Text)Warn: : {msg}");
-      public void Error(string msg) => System.Diagnostics.Trace.WriteLine($"(Text)Error: : {msg}");
-  }
-  ```
+public class DbLogger:ILogger
+{
+    public void Debug(string msg) => System.Diagnostics.Trace.WriteLine($"(Database)Debug: {msg}");
+    public void Warn(string msg) => System.Diagnostics.Trace.WriteLine($"(Database)Warn: : {msg}");
+    public void Error(string msg) => System.Diagnostics.Trace.WriteLine($"(Database)Error: : {msg}");
+}
+```
 
-* DbLogger.cs
 
-  ```
-  public class DbLogger:ILogger
-  {
-      public void Debug(string msg) => System.Diagnostics.Trace.WriteLine($"(Database)Debug: {msg}");
-      public void Warn(string msg) => System.Diagnostics.Trace.WriteLine($"(Database)Warn: : {msg}");
-      public void Error(string msg) => System.Diagnostics.Trace.WriteLine($"(Database)Error: : {msg}");
-  }
-  ```
+
+* Python
+
+```
+from abc import ABC, abstractmethod
+class BaseLogger(ABC):
+    @abstractmethod
+    def debug(self):
+        pass
+
+    @abstractmethod
+    def warn(self):
+        pass
+
+    @abstractmethod
+    def error(self):
+        pass
+
+class TextLogger(BaseLogger):
+    def debug(self,msg):
+        print("(Text)Debug: " + msg)
+
+    def warn(self,msg):
+        print("(Text)Warn: " + msg)
+
+    def error(self,msg):
+        print("(Text)Error: " + msg)
+          
+
+class DbLogger(BaseLogger):
+    def debug(self,msg):
+        print("(Database)Debug: " + msg)
+
+    def warn(self,msg):
+        print("(Database)Warn: " + msg)
+
+    def error(self,msg):
+        print("(Database)Error: " + msg)
+```
+
+
 
 將`ILogger`作為其他類別的建構參數，如此我們可以在該類別進行記錄的動作。
 但是實體化，亦即決定要記錄在文字檔或者資料庫則由建立`MyTask`的主程式決定，以利於隨時抽換。
 
-* MyTask.cs
+* C#
 
-  ```
-  public class MyTask
-  {
-      private ILogger _logger = null;
-      public MyTask(ILogger logger)
-      {
-          if (logger != null)
-              this._logger = logger;
-          else
-              throw new ArgumentNullException("logger");
-      }
+```
+public class MyTask
+{
+    private ILogger _logger = null;
+    public MyTask(ILogger logger)
+    {
+        if (logger != null)
+            this._logger = logger;
+        else
+            throw new ArgumentNullException("logger");
+    }
 
-      public void Run()
-      {
-          //Do something
-          this._logger.Debug($"My task was done on {DateTime.Now.ToString()}");
-      }
-  }
-  ```
-
-
-* 主程式
-
-  ```
-  //For current iteration
-  ILogger txtLogger = new TextLogger();
-  (new MyTask(txtLogger)).Run();
-  
-  //Refine in next iteration
-  ILogger dbLogger = new DatabaseLogger();
-  (new MyTask(dbLogger)).Run();
-  ```
+    public void Run()
+    {
+        //Do something
+        this._logger.Debug($"My task was done on {DateTime.Now.ToString()}");
+    }
+}
+```
 
 
+* Python
 
-### Python
+```
+from BaseLogger import BaseLogger
+from time import gmtime, strftime
 
-- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/Python/Samples/Strategy
-- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/Python/Samples/Strategy/UtStrategy.py)
-
-
-* BaseLogger.py
-
-  ```
-  from abc import ABC, abstractmethod
-  class BaseLogger(ABC):
-      @abstractmethod
-      def debug(self):
-          pass
-
-      @abstractmethod
-      def warn(self):
-          pass
-
-      @abstractmethod
-      def error(self):
-          pass
-  ```
-
-* TextLogger.py
-
-  ```
-  from BaseLogger import BaseLogger
-
-  class TextLogger(BaseLogger):
-      def debug(self,msg):
-          print("(Text)Debug: " + msg)
-
-      def warn(self,msg):
-          print("(Text)Warn: " + msg)
-
-      def error(self,msg):
-          print("(Text)Error: " + msg)
-          
-  ```
-
-* DbLogger.py
-
-  ```
-  from BaseLogger import BaseLogger
-
-  class DbLogger(BaseLogger):
-      def debug(self,msg):
-          print("(Database)Debug: " + msg)
-
-      def warn(self,msg):
-          print("(Database)Warn: " + msg)
-
-      def error(self,msg):
-          print("(Database)Error: " + msg)
-  ```  
-
-* MyTask.py
-
-  ```
-  from BaseLogger import BaseLogger
-  from time import gmtime, strftime
-
-  class MyTask:
+class MyTask:
     def __init__(self,logger=BaseLogger):
         if logger is None:
             raise TypeError
@@ -183,14 +155,29 @@ Lily:<br>
 
     def run(self):
         self._logger.warn("My task was done on " + strftime("%Y-%m-%d %H:%M:%S", gmtime()));
+```
 
-  ```
 
-* Usage
+主程式...
 
-  ```
-  logger = TextLogger() #Current iteration
-  #logger = DbLogger() #Refine in next iteration
-  task = MyTask(logger)
-  task.run()
-  ```
+* C#
+
+```
+//For current iteration
+ILogger txtLogger = new TextLogger();
+(new MyTask(txtLogger)).Run();
+
+//Refine in next iteration
+ILogger dbLogger = new DatabaseLogger();
+(new MyTask(dbLogger)).Run();
+```
+
+
+* Python
+
+```
+logger = TextLogger() #Current iteration
+#logger = DbLogger() #Refine in next iteration
+task = MyTask(logger)
+task.run()
+```
