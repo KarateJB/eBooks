@@ -33,17 +33,6 @@ Lily: <br>
 > 定義一個表示法，使用表示法來解釋(翻譯)語言中的句子([Wiki](https://en.wikipedia.org/wiki/Interpreter_pattern)
 
 
-## Sample Codes
-
-### C#
-- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/CSharp/DP.Domain/Samples/Interpreter)
-- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.UnitTest/UtInterpreter.cs)
-
-### Python
-
-- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/Python/Samples/Interpreter)
-- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/Python/Samples/Interpreter/UtInterpreter.py)
-
 
 
 建立`Context`類別以存放翻譯前(`String`)及翻譯後(`PayData`物件)的資料。
@@ -249,4 +238,14 @@ for exp in expressions:
 > 2. 本篇這個需求也可以使用Strategy來完成，想一想Expression類別其實跟Strategy類別的概念是相通的。
 
 
+
+## Sample Codes
+
+1. C#
+- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/CSharp/DP.Domain/Samples/Interpreter)
+- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.UnitTest/UtInterpreter.cs)
+
+2. Python
+- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/Python/Samples/Interpreter)
+- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/Python/Samples/Interpreter/UtInterpreter.py)
 

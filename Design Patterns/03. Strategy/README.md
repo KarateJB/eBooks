@@ -30,18 +30,6 @@ Lily:<br>
 > 定義多個演算法，各別封裝這些演算法，並讓它們可以互換 ([Wiki](https://en.wikipedia.org/wiki/Strategy_pattern))
 
 
-## Source code
-
-### C#
-
-- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/CSharp/DP.Domain/Samples/Strategy)
-- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.UnitTest/UtStrategy.cs)
-
-### Python
-
-- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/Python/Samples/Strategy)
-- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/Python/Samples/Strategy/UtStrategy.py)
-
 
 
 定義策略的介面(也可建立為抽象類別):`ILogger`， 並分別建立兩個實作的具體策略類別：`TextLogger`和`DbLogger`。
@@ -181,3 +169,17 @@ logger = TextLogger() #Current iteration
 task = MyTask(logger)
 task.run()
 ```
+
+
+## Source code
+
+1. C#
+
+- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/CSharp/DP.Domain/Samples/Strategy)
+- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.UnitTest/UtStrategy.cs)
+
+2. Python
+
+- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/Python/Samples/Strategy)
+- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/Python/Samples/Strategy/UtStrategy.py)
+
