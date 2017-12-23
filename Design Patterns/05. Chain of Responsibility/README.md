@@ -85,9 +85,9 @@ public interface IHandler
 
 public class Handler : IHandler
 {
-    public IHandler Next { get; set; }
+    public virtual IHandler Next { get; set; }
 
-    public Content Action(string localization)
+    public virtual Content Action(string localization)
     {
         return this.Next.Action(localization);
     }
@@ -97,5 +97,68 @@ public class Handler : IHandler
 
 
 * Python
+
+```
+```
+
+接下來開始定義實際作業的`Receiver`類別(苦命工程師?)，一樣是實作`IHandler`，當然你也可以選擇繼承`Handler`再覆寫。
+注意我們要在每個`Receiver`裡面再宣告一個職責鍊的下一個`Receiver`，在目前作業完成後去呼叫下一個`Receiver`的作業。
+這樣整個職責鍊就串起來了!
+
+* C#
+```
+public class ReceiverZh : IHandler
+{
+        public IHandler Next { get; set; } //Next Receiver
+
+        public Content Action(string localization)
+        {
+            if (localization.Equals("zh-TW"))
+            {
+                var content =  new Content{
+                    Country=DataFactory.CountryZh,
+                    City=DataFactory.CityZh
+                };
+                return content;
+            }
+            else
+                System.Diagnostics.Trace.WriteLine($"Not zh-TW, go to next receiver...");
+            
+            #region Do next
+            if (this.Next == null) //Set a default next receiver
+                this.Next = new ReceiverCn();
+
+            return this.Next.Action(localization);
+            #endregion
+        }
+}
+```
+
+* Python
+```
+```
+
+接下來請依樣畫葫驢建立`ReceiverCn`,`ReceiverEn`類別，並且設定順序依序為：
+`Handler` -> `ReceiverZh` -> `ReceiverCn` -> `ReceiverEn` -> `ReceiverException`
+
+
+
+我們直接來看主程式如何使用職責鍊。
+
+* C#
+```
+string localization="zh-CN";
+var handler = new Handler();
+var content = handler.Action(localization);
+```
+
+* Python
+```
+```
+
+上面執行的結果會是
+
+*Not zh-TW, go to next receiver...*
+*台湾 台东市*
 
 
