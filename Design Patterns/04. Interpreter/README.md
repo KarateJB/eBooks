@@ -28,7 +28,7 @@ Lily: <br>
 
 
 
-## Definition of Interpreter
+## 定義
 
 > 定義一個表示法，使用表示法來解釋(翻譯)語言中的句子([Wiki](https://en.wikipedia.org/wiki/Interpreter_pattern)
 
