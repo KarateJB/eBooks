@@ -16,16 +16,16 @@ JB:<br>
 
 Lily: <br>
 的確是可行，不過依據需求，訂單除了各家不同還區分產品且還至少分成"一般"和"急件"，
-我們得讓列印這個行為不要依賴於實體，而是依賴於抽象。 
 我想可以使用橋接模式(Bridge)來實做這個需求。
 
 JB: <br>
-我看過Bridge的UML，但是它實在和Strategy太像了，差異在哪裡呢？
+我看過Bridge的定義和說明，它和Strategy的差異在哪裡呢？
 
 Lily:<br>
 Strategy屬於行為模式(Behavioral design patterns)。
 Bridge屬於結構型模式(Structural design patterns)，它將抽象和實做解耦合，使兩者可獨立的變化。
-喔，我們還是來Pair Programming實際做一下吧？
+喔，我們還是來Pair Programming實際用Bridge來作為解決這個問題的結構，然後再加上Strategy處理列印的細節。
+
 
 
 ## 定義
@@ -37,7 +37,6 @@ Bridge屬於結構型模式(Structural design patterns)，它將抽象和實做�
 
 ![](https://2.bp.blogspot.com/-mBvP1yuuR_4/WkBoZwHUZlI/AAAAAAAAFnU/esA7xMCFEVQIMXejyemMwVfRS71t1BZsACLcBGAs/s1600/Bridge.png)
 
-建議不要在定義上咬文嚼字，看過範例程式碼再回頭重新看一下定義和UML會比較清楚。
 
 以我們這個使用者案例來看，最後執行的結果是：`列印訂單`。
 所以依據以下條件對照Bridge：
@@ -298,10 +297,10 @@ class PrintStg(ABC):
 
 class FatbookPrintStg(PrintStg):
     def printA(self):
-        print("Use FatbookPrintStg to Print A's oreder")
+        print("Use FatbookPrintStg to Print A's order")
 
     def printB(self):
-        print("Use FatbookPrintStg to Print B's oreder")
+        print("Use FatbookPrintStg to Print B's order")
 
 ```
 
@@ -368,10 +367,19 @@ order.printOrderB()
 
 輸出結果為：
 
-*Use FatbookPrintStg to Print A's oreder*<br>
-*Use FatbookPrintStg to Print B's oreder*
+*Use FatbookPrintStg to Print A's order*<br>
+*Use FatbookPrintStg to Print B's order*
 
 
+## Sample Codes
+
+1. C#
+- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/CSharp/DP.Domain/Samples/Bridge)
+- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.UnitTest/UtBridge.cs)
+
+2. Python
+- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/Python/Samples/Bridge)
+- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/Python/Samples/Bridge/UtBridge.py)
 
 
 

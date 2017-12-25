@@ -84,8 +84,20 @@ logger.warn("Facade works!")
 logger.read()
 ```
 
+## Sample Codes
+
+1. C#
+- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/CSharp/DP.Domain/Samples/Facade)
+- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.UnitTest/UtFacade.cs)
+
+2. Python
+- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/Python/Samples/Facade)
+- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/Python/Samples/Facade/UtFacade.py)
+
+
+
 ## Reference
 
--[Design Pattern : Facade](http://karatejb.blogspot.tw/2013/10/design-pattern-facade.html)
+- [Design Pattern : Facade](http://karatejb.blogspot.tw/2013/10/design-pattern-facade.html)
 
 
