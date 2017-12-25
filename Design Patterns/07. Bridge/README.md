@@ -30,12 +30,14 @@ Bridge屬於結構型模式(Structural design patterns)，它將抽象和實做�
 
 ## 定義
 
-> 1. 分離Abstraction及Implementor，使兩者可獨立變化。
-> 2. 在run time設定Abstraction裡的Implementor
+> 1. 分離Abstraction及Implementor，使兩者可獨立變化。<br>
+> 2. 在run time設定Abstraction裡的Implementor<br>
+> 3. [WIKI](https://en.wikipedia.org/wiki/Bridge_pattern)
+
 
 ![](https://2.bp.blogspot.com/-mBvP1yuuR_4/WkBoZwHUZlI/AAAAAAAAFnU/esA7xMCFEVQIMXejyemMwVfRS71t1BZsACLcBGAs/s1600/Bridge.png)
 
-我建議不要在定義上咬文嚼字，看過範例程式碼再回頭重新看一下定義和UML會比較清楚。
+建議不要在定義上咬文嚼字，看過範例程式碼再回頭重新看一下定義和UML會比較清楚。
 
 以我們這個使用者案例來看，最後執行的結果是：`列印訂單`。
 所以依據以下條件對照Bridge：
@@ -303,7 +305,7 @@ class FatbookPrintStg(PrintStg):
 
 ```
 
-更新實做`Iprinter`的類別：`PrinterUsaul`和`PrinterEmergency`，或者如下建立一個新的類別。
+更新實做`Iprinter`的類別：`PrinterUsual`和`PrinterEmergency`，或者如下建立一個新的類別。
 注意該類別裡面的邏輯已經抽換成`IPrintStg`所定義的方法。
 
 * C#
@@ -368,7 +370,6 @@ order.printOrderB()
 
 *Use FatbookPrintStg to Print A's oreder*<br>
 *Use FatbookPrintStg to Print B's oreder*
-
 
 
 
