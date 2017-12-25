@@ -49,6 +49,7 @@ Bridge屬於結構型模式(Structural design patterns)，它將抽象和實做�
 我們先來寫列印(Implementor)的部分，並且先假設每家供應商相同的訂單格式是相同的，只有區分一般/急件。
 後面我們再加上策略模式來調整 不同供應商商-相同產品-但格式不同的需求。
 
+
 * C#
 ```
 public interface IPrinter
@@ -84,9 +85,38 @@ public class PrinterEmergency : IPrinter
 
 * Python
 ```
+from abc import ABC, abstractmethod
+
+class Printer(ABC):
+    @abstractmethod
+    def orderA(self):
+        pass
+
+    @abstractmethod
+    def orderB(self):
+        pass
+
+
+class PrinterUsual(Printer):
+    def orderA(self):
+        print("Order A (Take your time, bro)")
+
+    def orderB(self):
+        print("Order B (Take your time, bro)")
+
+
+class PrinterEmergency(Printer):
+    def orderA(self):
+        print("Order A : Emergency!")
+
+    def orderB(self):
+        print("Order B : Emergency!")
 ```
 
+
 我們接下來會實做供應商處理訂單的 Abstraction。
+注意為了區別兩家供應商，我們假設第二家供應商(Goople)並沒有提供產品B的服務，所以在要求列印產品B的時候會回覆錯誤訊息。
+
 
 * C#
 ```
@@ -137,6 +167,50 @@ public class GoopleOrder : IOrder
 
 * Python
 ```
+from abc import ABC, abstractmethod
+
+class Order(ABC):
+    @abstractmethod
+    def printOrderA(self):
+        pass
+
+    @abstractmethod
+    def printOrderB(self):
+        pass
+
+
+class FatbookOrder(Order):
+    _printer = None
+
+    def __init__(self, printer=Printer):
+        if printer is None:
+            raise TypeError
+        else:     
+            self._printer = printer
+
+    def printOrderA(self):
+        self._printer.orderA()
+
+    def printOrderB(self):
+        self._printer.orderB()
+
+
+class GoopleOrder(Order):
+    _printer = None
+
+    def __init__(self, printer=Printer):
+        if printer is None:
+            raise TypeError
+        else:     
+            self._printer = printer
+
+    def printOrderA(self):
+        self._printer.orderA()
+
+    def printOrderB(self):
+        err = "Goople does't have product B!"
+        print(err)
+        # raise ValueError(err)
 ```
 
 
@@ -157,6 +231,22 @@ IOrder order3 = new GoopleOrder(new PrinterUsual());
 order3.PrintOrderB();
 ```
 
+* Python
+```
+# 列印第一家廠商:產品B的訂單
+order1 = FatbookOrder(PrinterUsual())
+order1.printOrderB()
+
+# 列印第二家廠商:產品A的急單
+order2 = GoopleOrder(PrinterEmergency())
+order2.printOrderA()
+
+# 列印第二家廠商:產品B的訂單=>但該廠商並無產品B
+order3 = GoopleOrder(PrinterUsual())
+order3.printOrderB()
+
+```
+
 結果為：
 *Order B (Take your time, bro)*<br>
 *Order A : Emergency!*<br>
@@ -165,12 +255,10 @@ order3.PrintOrderB();
 
 由以上程式碼我們可以藉由抽換Abstraction以及Implementor來改變不同供應商不同列印的細節。
 另外如果需要再達到相同產品但是各供應商訂單不同的需求，則可再加上Strategy的組合。
-以下僅以C#程式碼說明之。
+
+開始建立Strategy介面(或抽象類別)和實做類別。
 
 * C#
-
-建立Strategy介面和類別。
-
 ```
 public interface IPrintStg
 {
@@ -192,9 +280,33 @@ public class FatbookPrintStg : IPrintStg
 }
 ```
 
+* Python
+```
+from abc import ABC, abstractmethod
+
+class PrintStg(ABC):
+    @abstractmethod
+    def printA(self):
+        pass
+
+    @abstractmethod
+    def printB(self):
+        pass
+
+
+class FatbookPrintStg(PrintStg):
+    def printA(self):
+        print("Use FatbookPrintStg to Print A's oreder")
+
+    def printB(self):
+        print("Use FatbookPrintStg to Print B's oreder")
+
+```
+
 更新實做`Iprinter`的類別：`PrinterUsaul`和`PrinterEmergency`，或者如下建立一個新的類別。
 注意該類別裡面的邏輯已經抽換成`IPrintStg`所定義的方法。
 
+* C#
 ```
 public class PrinterCostom : IPrinter
 {
@@ -216,13 +328,40 @@ public class PrinterCostom : IPrinter
 }
 ```
 
+* Python
+```
+class PrinterCustom(Printer):
+    _printStg=None
+
+    def __init__(self, printStg=PrintStg):
+        if printStg is None:
+            raise TypeError
+        else:     
+            self._printStg = printStg
+    
+    def orderA(self):
+        self._printStg.printA()
+
+    def orderB(self):
+        self._printStg.printB()
+```
+
 來看一下主程式如何應用Bridge和Strategy的組合：
 
+* C#
 ```
 var stg = new FatbookPrintStg();
 IOrder order = new FatbookOrder(new PrinterCostom(stg));
 order.PrintOrderA();
 order.PrintOrderB();
+```
+
+* Python
+```
+stg = FatbookPrintStg();
+order = FatbookOrder(PrinterCustom(stg))
+order.printOrderA()
+order.printOrderB()
 ```
 
 輸出結果為：
