@@ -23,15 +23,12 @@ JB:<br>
 
 ## 定義
 
-> 讓工廠類別(Factory Class)去做建立物件的細節，至於使用者只要使用Factory去建立需要的物件，不需要知道物件怎麼建立的，或是細節。
-
-
-> 通過轉換已經存在類別的接口以適應而不改變它。([WIKI](https://en.wikipedia.org/wiki/Adapter_pattern))<br>
+> 讓工廠類別(Factory Class)去做建立物件的細節，至於使用者只要使用Factory去建立需要的物件，不需要知道物件怎麼建立的，或是細節。([WIKI](https://en.wikipedia.org/wiki/Abstract_factory_pattern))
 
 以下將介紹幾種常用的工廠模式：
 1. Static factory
 2. Abstract factory
-3. Generic factory
+3. Generic factory (C#)
 
 
 假設在這個需求，我們有三個不同的Database server需要連線，分別為
@@ -41,6 +38,7 @@ JB:<br>
 
 我們把對應的DB Server name和連線字串存放在`DbContext`類別:
 
+* C#
 ```
 public class DbContext
 {
@@ -52,6 +50,41 @@ public class DbContext
     }
 }
 ```
+
+* Python
+```
+class DbContext:
+    def __init__(self, server="", connectionStr=""):
+        self.server = server
+        self.connectionStr= connectionStr
+
+    def connect(self):
+        print("Connect to {0}".format(self.server))
+
+```
+
+另外建立一個列舉型別：`DbEnum`，下一個步驟可利用它作為參數決定`DbContext`的細節。
+
+* C#
+```
+public enum DbEnum
+{
+    DataMart = 1,
+    History,
+    Online
+}
+```
+
+* Python
+```
+from enum import Enum
+
+class DbEnum(Enum):
+     DataMart = 1
+     History = 2
+     Online = 3
+```
+
 
 ### Static Factory
 
@@ -122,6 +155,34 @@ public class StcDbFactory
 
 * Python
 ```
+class StcDbFactory(object):
+    @staticmethod
+    def create(dbEnum:DbEnum):
+        
+        return {
+            DbEnum.DataMart: DbContext(server="DataMart", connectionStr="DataMart connection string"),
+            DbEnum.History: DbContext(server="History", connectionStr="History connection string"),
+            DbEnum.Online: DbContext(server="Online", connectionStr="Online connection string")
+        }[dbEnum]
+
+    @staticmethod
+    def createDataMart():
+        dbContext = DbContext(
+            server="DataMart", connectionStr="DataMart connection string")
+        return dbContext
+
+    @staticmethod
+    def createHistory():
+        dbContext = DbContext(
+            server="History", connectionStr="History connection string")
+        return dbContext
+
+    @staticmethod
+    def createOnline():
+        dbContext = DbContext(
+            server="Online", connectionStr="Online connection string")
+        return dbContext
+
 ```
 
 
@@ -142,6 +203,13 @@ olDbcontext.Connect();
 
 * Python
 ```
+#1. 由參數決定建立哪種連線
+dmDbcontext = StcDbFactory.create(DbEnum.DataMart)
+dmDbcontext.connect()
+
+#2. 直接呼叫對應的方法
+olDbcontext = StcDbFactory.createOnline()
+olDbcontext.connect()
 ```
 
 
@@ -174,6 +242,23 @@ public class DataMartDbFactory : AbsDbFactory
 
 * Python
 ```
+class AbsDbFactory(ABC):
+    @abstractmethod
+    def create(self):
+        """Return DbContext"""
+        pass
+
+class DataMartDbFactory(AbsDbFactory):
+    def create(self):
+        return DbContext(server = "DataMart",connectionStr = "DataMart connection string")
+
+class HistoryDbFactory(AbsDbFactory):
+    def create(self):
+        return DbContext(server = "History",connectionStr = "History connection string")
+
+class OnlineDbFactory(AbsDbFactory):
+    def create(self):
+        return DbContext(server = "Online",connectionStr = "Online connection string")
 ```
 
 使用方式：
@@ -187,14 +272,16 @@ dmDbcontext.Connect();
 
 * Python
 ```
+dmFactory = DataMartDbFactory()
+dmDbcontext =  dmFactory.create()
+dmDbcontext.connect();
 ```
 
 
 ### Generic factory
 
-或是建立interface : `IDbContext`，再建立各資料庫類別實作它； 由泛型工廠建立對應之類別。
+我們可以利用C#的泛型(Generic)，搭配建立interface : `IDbContext`及實作它，由泛型工廠(Generic Factory)建立對應之類別。
 
-* C#
 ```
 public interface IDbContext
 {
@@ -221,32 +308,25 @@ public static class GenericDbFactory<T> where T : IDbContext, new()
 }
 ```
 
-* Python
-```
-```
 
 使用方式：
 
-* C#
 ```
 var olDbcontext =  GenericDbFactory<OnlineDbContext>.Create();
 olDbcontext.Connect();
 ```
 
-* Python
-```
-```
 
 
 ## Sample Codes
 
 1. C#
-- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/CSharp/DP.Domain/Samples/Adapter)
-- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.UnitTest/UtAdapter.cs)
+- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/CSharp/DP.Domain/Samples/Factory)
+- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.UnitTest/UtFactory.cs)
 
 2. Python
-- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/Python/Samples/Adapter)
-- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/Python/Samples/Adapter/UtAdapter.py)
+- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/Python/Samples/Factory)
+- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/Python/Samples/Factory/UtFactory.py)
 
 
 
