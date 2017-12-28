@@ -29,4 +29,111 @@ Lily:
 
 ## 定義
 
-> Prototype屬於為Creational design patterns，
+> Prototype屬於為Creational design patterns， 可使用已建立好的Prototype將資訊直接複製到新物件上
+
+原型模式在C#可實作`IClonable`、在Python可透過`copy.copy(x)`及`copy.deepcopy(x)`兩個操作方法來達成。
+但是原型模式有更深層的意義在於
+1. 儲存原型
+2. 方便的調用原型複製(Clone)功能
+
+我們以下的範例除了建立原型，也會將原型儲存到原型儲存庫(Prototype Store)裡面以隨時調用。
+
+我們先建立Prototype的interface(或抽象類別)。
+在C#也可以選擇不要實作`IClonable`，而自行加入一個`Clone`函式
+
+* C#
+```
+public interface IPrototype:ICloneable
+{
+}
+```
+
+* Python
+```
+from abc import ABC, abstractmethod
+
+class Prototype(ABC):
+
+    @abstractmethod
+    def clone(self):
+        pass
+
+```
+
+
+接下來我們要建立要作為原型的類別，並且實作`IPrototype`(C#)或`Prototype`(Python)，我們在這些類別名稱前面加上Prototype以方便辨識， 另外額外建立一個基礎類別`BaseStore`來存放特店的基本屬性。
+
+C#
+```
+public class BaseStore
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Phone { get; set; }
+}
+public class PrototypeFatbook : BaseStore, IPrototype
+{
+    public string Ads { get; set; }
+
+    public object Clone()
+    {
+        Trace.WriteLine("Cloning PrototypeFatbook");
+        return Utility.DeepClone(this);
+    }
+}
+public class PrototypeGoople : BaseStore, IPrototype
+{
+    public string SearchEngine { get; set; }
+
+    public object Clone()
+    {
+        Trace.WriteLine("Cloning PrototypeGoople");
+        return Utility.DeepClone(this);
+    }
+}
+```
+
+* Python
+```
+class BaseStore:
+    def __init__(self, id, name, phone):
+        self.id = id
+        self.name = name
+        self.phone = phone
+
+
+class PrototypeFatbook(BaseStore, Prototype):
+    def __init__(self, id, name, phone, ads):
+        super().__init__(id, name, phone)
+        self.ads = ads
+
+    def clone(self):
+        print("Cloning PrototypeFatbook")
+        return copy.deepcopy(self)
+
+
+class PrototypeGoople(BaseStore, Prototype):
+    def __init__(self, id, name, phone, searchEngine):
+        super().__init__(id, name, phone)
+        self.searchEngine = searchEngine
+
+    def clone(self):
+        print("Cloning PrototypeGoople")
+        return copy.deepcopy(self)
+```
+
+注意上面我省略列出了`Clone`方法裡面的複製方法和一些細節，可在文章最底下瀏覽原始程式碼。
+
+接下來，我們要實作一個原型儲存庫(Prototype Store)來存放建立好的原型實體物件。
+
+
+
+
+
+
+
+
+## Reference
+1. [copy — Shallow and deep copy operations](https://docs.python.org/3.6/library/copy.html)
+2. [How to Compare Object Instances in your Unit Tests Quickly and Easily](https://buildplease.com/pages/testing-deep-equalilty/)
+3. [Compare Datatype, Value in C#](https://www.codeproject.com/Questions/998515/Compare-Datatype-Value-in-Csharp)
