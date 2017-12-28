@@ -3,9 +3,9 @@
 ## 需求描述
 
 Amy(PO):
-> As a 產品經理<br>
-> I want 多國語系介面<br>
-> So that 顯示使用者對應的語系內容<br>
+> As a 產品經理
+> I want 多國語系介面
+> So that 顯示使用者對應的語系內容。
 
 
 ## 思考設計
@@ -39,7 +39,7 @@ Hachi:<br>
 程式碼太長了；而且未來如果我們需要支援更多語系，這個Switch會越來越龐大。
 
 JB:<br>
-我很想幫你，可是我現在得去開一個EPR的會議。天啊! 他們總是搞不清楚職責，ERP不是我們Team負責的，他們應該丟給...
+我很想幫你，可是我現在得去開一個ERP的會議。天啊! 他們總是搞不清楚職責，ERP不是我們Team負責的，他們應該丟給...
 
 Hachi:<br>
 等等! 你提到了"職責"？ 感謝你! 我想可以用職責鍊模式來重構這段程式碼! 
@@ -69,6 +69,7 @@ PM`整理了一些資訊`，再交給資深工程師 =>
 也就是說在每個Chain上的接收者可以選擇直接丟給下一個適合的接收者，或是選擇**做事**再判斷適合的接收者後**往後丟**。
 我們要練習的多國語系案例比較偏向**不符合我的職責就往後丟**的情況。
 其實職責鍊的用法非常多，我們的範例算是相對簡單的用法。
+
 
 
 建立`IHandler`介面和職責鍊的頭(大家有事先找PM處理的概念)：`Handler`。
@@ -143,7 +144,6 @@ class Handler(HandlerBase):
 注意我們要在每個`Receiver`裡面再宣告一個職責鍊的下一個`Receiver`，在目前作業完成後去呼叫下一個`Receiver`的作業。
 這樣整個職責鍊就開始串起來了!
 
-
 * C#
 ```
 public class ReceiverZh : IHandler
@@ -204,7 +204,7 @@ class ReceiverZh(HandlerBase):
 
 
 接下來請依樣畫葫驢建立`ReceiverCn`,`ReceiverEn`類別，並且設定預設的職責鍊順序為：
-[Handler](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.Domain/Samples/ChainOfResponsibility/Handler.cs) -> [ReceiverZh](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.Domain/Samples/ChainOfResponsibility/ReceiverZh.cs) -> [ReceiverCn](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.Domain/Samples/ChainOfResponsibility/ReceiverCn.cs) -> [ReceiverEn](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.Domain/Samples/ChainOfResponsibility/EceiverEn.cs) -> [ReceiverException](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.Domain/Samples/ChainOfResponsibility/ReceiverException.cs)
+[Handler](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.Domain/Samples/ChainOfResponsibility/Handler.cs) -> [ReceiverZh](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.Domain/Samples/ChainOfResponsibility/ReceiverZh.cs) -> [ReceiverCn](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.Domain/Samples/ChainOfResponsibility/ReceiverCn.cs) -> [ReceiverEn](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.Domain/Samples/ChainOfResponsibility/ReceiverEn.cs) -> [ReceiverException](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.Domain/Samples/ChainOfResponsibility/ReceiverException.cs)
 
 1. 為什麼需要最後一個`ReceiverException`？ 
    因為老闆總是會隨便亂丟不屬於我們職責的工作進來>.<  我們職責鍊無法處理的事情，那就要說出來讓老闆知道：
