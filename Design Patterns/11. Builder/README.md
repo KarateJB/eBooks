@@ -24,7 +24,7 @@ Lily:<br>
 
 ## 定義
 
-> 建造者模式(Builder)也是Creational design pattern，它支援多型(Polymorphism)，與Factory不同的地方在於，Builder封裝了一步一步建立部分元件，最後再回傳一個完整的物件。([WIKI](https://en.wikipedia.org/wiki/Builder_pattern))
+> 建造者模式(Builder)也是Creational design pattern，它支援多型(Polymorphism)，與Factory不同的地方在於，Builder模式一步一步建立實體物件的部分組成，最後再回傳一個完整的物件。([WIKI](https://en.wikipedia.org/wiki/Builder_pattern))
 
 建造者模式包含了以下元素：
 1. Builder(建造者) : 負責建造
@@ -53,6 +53,25 @@ public class MainData:IMainData
 
 * Python
 ```
+class Report:
+    def __init__(self, name="", data=""):
+        self.name=name
+        self.data=data
+
+
+class LeaveRecord:
+    def __init__(self, gradeFrom, gradeTo, weeks, data=""):
+        self.gradeFrom=gradeFrom
+        self.gradeTo=gradeTo
+        self.weeks = weeks
+        self.data=data
+
+class MainData:
+    def __init__(self, targetBU="", report=Report, leaveRecord=LeaveRecord):
+        self.targetBU = targetBU
+        self.report=report
+        self.leaveRecord=leaveRecord
+
 ```
 
 
@@ -137,6 +156,58 @@ public class BuilderIT : IBuilder
 
 * Python
 ```
+from abc import ABC, abstractmethod
+
+class Builder(ABC):
+    @abstractmethod
+    def init(self):
+        pass
+
+    @abstractmethod
+    def buildReport(self, main=MainData):
+        pass
+
+    @abstractmethod
+    def buildLeaveRecord(self, main=MainData):
+        pass
+
+
+class BuilderFI(Builder):
+    def init(self):
+        print("Initializing from BuilderFI!")
+        main = MainData(targetBU="Financial Department")
+        return main;
+
+    def buildReport(self, main=MainData):
+        print("Building Report from BuilderFI!")
+        main.report = Report(name="ROI report")
+
+    def buildLeaveRecord(self, main=MainData):
+        print("Building LeaveRecord from BuilderFI!")
+        main.leaveRecord = LeaveRecord(
+            gradeFrom = 5,
+            gradeTo = 10,
+            weeks = 2
+        )
+
+
+class BuilderIT(Builder):
+    def init(self):
+        print("Initializing from BuilderIT!")
+        main = MainData(targetBU="IT")
+        return main;
+
+    def buildReport(self, main=MainData):
+        print("Building Report from BuilderIT!")
+        main.report = Report(name="Overtime report")
+
+    def buildLeaveRecord(self, main=MainData):
+        print("Building LeaveRecord from BuilderIT!")
+        main.leaveRecord = LeaveRecord(
+            gradeFrom = 1,
+            gradeTo = 8,
+            weeks = 4
+        )
 ```
 
 
@@ -148,10 +219,38 @@ public class BuilderIT : IBuilder
 
 * C#
 ```
+public class Director
+{
+    protected IBuilder _builder;
+    public Director(IBuilder builder) 
+    {
+        this._builder = builder;
+    }
+
+    public virtual IMainData Construct()
+    {
+        var rtn = this._builder.Init();
+        this._builder.BuildReport(rtn);
+        this._builder.BuildLeaveRecord(rtn);
+        return rtn;
+    }
+}
 ```
 
 * Python
 ```
+class Director():
+    
+    _builder = None
+
+    def __init__(self, builder=Builder):
+        self._builder = builder
+        
+    def construct(self):
+        rtn = self._builder.init()
+        self._builder.buildReport(rtn)
+        self._builder.buildLeaveRecord(rtn)
+        return rtn
 ```
 
 ### 開始建造!
@@ -160,10 +259,16 @@ public class BuilderIT : IBuilder
 
 * C#
 ```
+var builder = new BuilderFI();
+var director = new Director(builder);
+var mainData = director.Construct();
 ```
 
 * Python
 ```
+myBuilder = BuilderFI()
+director = Director(builder=myBuilder)
+mainData = director.construct()
 ```
 
 
@@ -177,9 +282,9 @@ public class BuilderIT : IBuilder
 
 上面的`Director`已經可以依據我們傳入的`Builder`建立對應的物件。
 剛才提到Director至少傳入一個Builder，那有沒有可能需要第二個Builder參數呢？
-我們再建立一個給CEO專用的Director類別，但是CEO關心的就不僅是單一個BU的資訊，而可能是：
-- 報表：看財務部 (最近營收掉了喔...)
-- 請假資訊：看資訊部 (系統要上線了，哪個不長眼的還請假...)
+我們再建立一個給CXO專用的Director類別，但是CEO關心的就不僅是單一個BU的資訊，而可能是：
+- 報表：看財務部 (CXO: 最近營收掉了喔...)
+- 請假資訊：看資訊部 (CXO: 系統要上線了，哪個不長眼的還請假...)
 
 這個需求我們得藉由傳入兩個Builder來完成。
 
@@ -207,7 +312,19 @@ public class DirectorCEO : Director
 
 * Python
 ```
-
+class DirectorCEO(Director):
+    
+    _builderExtra = None
+    def __init__(self, builder1=Builder, builder2=Builder):
+        super(DirectorCEO, self).__init__(builder=builder1)
+        self._builderExtra = builder2
+        
+    def construct(self):
+        rtn = self._builder.init()
+        rtn.targetBU = "CEO"
+        self._builder.buildReport(rtn)
+        self._builderExtra.buildLeaveRecord(rtn)
+        return rtn
 ```
 
 主程式
@@ -223,9 +340,13 @@ var mainData = director.Construct();
 
 * Pyhton
 ```
+myBuilder1 = BuilderFI()
+myBuilder2 = BuilderIT()
+director = DirectorCEO(builder1=myBuilder1, builder2=myBuilder2)
+mainData = director.construct()
 ```
 
-跑程式的結果如下，可以看到請假資訊的確是由`BuilderIT`建造出來的。
+跑程式的結果如下，可以看到請假資訊已改由`BuilderIT`建造出來。
 
 *Initializing from BuilderFI!*<br>
 *Building Report from BuilderFI!*<br>
@@ -256,9 +377,12 @@ public class BuilderFI : IBuilder
 
 我們在Create方法裡面，直接把實體物件建立出來了。
 現在`BuilderFI`已經變成Abstract Factory(抽象工廠)!
-我們可以直接 `var newInstance = (new BuilderFI()).Create()`，但是**如何**建立已被放在這個Builder，而未被抽像出來到Director。  
+我們可以直接 `var newInstance = (new BuilderFI()).Create()`，但是**如何建立**已被放在這個Builder的`Create()`方法。
+如果採用建造者模式，我們就可以再抽象化**如何建立**這件事，甚至如第二個例子看到的，去組合各種Builder。  
 
-> 我們一般人裝潢房屋時，直接請裝潢師傅的話，他會說交給我就好了(但是價錢/工料/工藝對一般人來說都是黑箱作業)。如果多請一個設計師，他可以和你討論細節，讓我知道清楚知道哪些要做、哪些工可以省成本，然後再針對細節客製化。
+> 我們一般人裝潢房屋時，直接請裝潢師傅的話，他會說交給我就好了(但是價錢、工料、工法對一般人來說都是黑箱作業)。
+> 如果多請一個設計師，你可以只告訴他：我想要一個公主風的房間!
+> 他就清楚知道哪些要做、哪些工可以省成本，也可以針對細節客製化，由他跟裝潢師傅談就可以了。
 >
 > 所以誰是Director? 誰是Builder呢? 相信您已經有答案了!
 
@@ -267,12 +391,12 @@ public class BuilderFI : IBuilder
 ## Sample Codes
 
 1. C#
-- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/CSharp/DP.Domain/Samples/Factory)
-- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.UnitTest/UtFactory.cs)
+- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/CSharp/DP.Domain/Samples/Builder)
+- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.UnitTest/UtBuilder.cs)
 
 2. Python
-- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/Python/Samples/Factory)
-- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/Python/Samples/Factory/UtFactory.py)
+- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/Python/Samples/Builder)
+- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/Python/Samples/Builder/UtBuilder.py)
 
 
 
