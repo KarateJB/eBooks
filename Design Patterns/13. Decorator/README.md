@@ -4,7 +4,7 @@
 
 Amy(PO):
 > As a 物流部秘書<br>
-> I want 報價單系統可以在標準運費上加上其他服務費：加點/假日運送/延誤費"並費用最大化<br>
+> I want 報價單系統可以在標準運費上加上其他服務費：加點/假日運送/延遲費"並費用最大化<br>
 > So that 配合成本轉嫁客戶之策略，節首公司之支出<br>
 
 
@@ -22,232 +22,393 @@ Lily:<br>
 附加服務費用：
 - 加點：每多一個加收總價*10%
 - 假日運送：總價*20%
-- 延誤：N(小時)*NTD$500
+- 延遲：N(小時)*NTD$500
 
 我們必須抽象化標準和附加的費用類別，如果用繼承的方式，附加服務費用類別便會相依於標準運費類別。
 想想看，所有的費用計算類別都有相同的行為嗎？
 
 Hachi:
 當然是的，他們的行為就是計費(微笑)。
-我想你說的是讓所有費用計算類別繼承相同的抽象類別(或實作相同的介面)。
+我想你指的是讓所有費用計算類別繼承相同的抽象類別來實作計費方法，對嗎？
 
 Lily:
-很好，接下來我們來看看我們計算附加服務費用需要哪些資訊？
+是的，接下來我們來看看我們計算附加服務費用需要哪些資訊？
 
 Hachi:
-加點服務和假日運送需要知道總價...延誤費需要知道延誤了幾小時...
-我懂了! 我們必須將抽象計費類別作為一個參數傳到另一個計費類別X，讓總價可以被計算出來再算X的費用。
+加點服務和假日運送需要知道總價...延遲費需要知道延遲了幾小時...
+我懂了! 我們必須將標準計費類別作為一個參數傳到加收的服務計費類別，讓總價可以被計算出來再算其他額外費用。
 
 Lily:
 沒錯! 使用既有類別讓他們有新的能力是裝飾者模式(Decorator)的特性。 讓我們來看怎麼實做吧!
 
 
-
-
-
-這次我來回答吧! 設計模式裡面有一個組合模式(Composite)最適合來表示樹狀結構了!
-
-Lily:<br>
-沒錯! Composite可以讓我們快速長出有階層關係的樹狀結構! 然後...我們可以提早結束跨年去囉! 
-
-
-
 ## 定義
 
-> 組合模式可以表示單一和群體階層(Part-whole hierarchy)的關係，而群體為這單一物件的相同型別集合，他們有著相同的行為。
+> 裝飾者模式可在不繼承原有類別情況下，對原類別加強或新增功能。
 
-企業組織圖為適合使用組合模式的其中一個例子：
-
-![](https://2.bp.blogspot.com/-ddFzGOjpqlc/WkgEaSPE6nI/AAAAAAAAFoA/NrUKQbhVW8ctsmR1xqSehEOZr8xssvFGwCLcBGAs/s1600/Composite.PNG)
-
-每一個單位(node)底下可能還會有多種單位(nodes)，另外nodes裡面的每個單位雖然隸屬於同一單位底下，但其性質可能不同。
-所以我們先抽像化node，並用組合模式來表示這種階層關係。
+在這個計費模組的需求，我們先建立一個存放計費相關欄位的Model:
 
 * C#
 ```
-public abstract class Organization
+public class Transport
 {
-    public string Title { get; set; }
-    public string Head { get; set; }
-    public List<Organization>  SubOrganizations { get; set; }
-    public abstract void Add(Organization org);
-    public abstract void Remove(string title); 
+    /// 運送點
+    public string Place { get; set; }
+    /// 里程
+    public int Miles { get; set; }
+    /// 是否加點
+    public bool IsExtraPlace { get; set; }
+    /// 假日運送
+    public bool IsHoliday { get; set; }
+    /// 延誤時數
+    public int DelayHours { get; set; } = 0;
+}
+```
 
-    public abstract void PrintVision(); 
+* Python
+```
+class Transport:
+    def __init__(self, place="", miles=0, isExtraPlace=False, isHoliday=False, delayHours =0 ):
+        self.place = place
+        self.miles = miles
+        self.isExtraPlace = isExtraPlace
+        self.isHoliday = isHoliday
+        self.delayHours = delayHours
+```
+
+
+我們建立標準的計費類別如下。
+
+## 被裝飾者(既有類別)
+
+* C#
+```
+public interface IPricer
+{
+    string Customer { get; set; }
+    string Receiver { get; set; }
+    string Freight { get; set; }
+    
+    decimal Price(Transport transport);
+}
+
+//里程計費
+public class MilePricer : IPricer
+{
+    public string Customer { get; set; }
+    public string Receiver { get; set; }
+    public string Freight { get; set; }
+
+    public decimal Price(Transport transport)
+    {
+        //以里程計算：一公里NTD$30
+
+        var price = transport.Miles*30;
+        Trace.WriteLine($"以里程計算(一公里NTD$30) = {price}");
+        return price;
+    }
+}
+//運送點計費
+public class PlacePricer : IPricer
+{
+    public string Customer { get; set; }
+    public string Receiver { get; set; }
+    public string Freight { get; set; }
+
+    public decimal Price(Transport transport)
+    {
+        //以運送點計算(如台南NTD$5,000、新竹NTD$1,000)
+        var price = 0;
+        switch (transport.Place)
+        {
+            case "台南":
+                price = 5000;
+                break;
+            case "新竹":
+                price = 1000;
+                break;
+            default:
+                price = 2500;
+                break;
+        };
+
+        Trace.WriteLine($"以運送點計算 = {price}");
+        return price;
+    }
 }
 ```
 
 * Python
 ```
 from abc import ABC, abstractmethod
+from Models import Transport
 
-class Organization(ABC):
+class Pricer(ABC):
+    def __init__(self, customer="", receiver="", freight=""):
+        self.customer = customer
+        self.receiver = receiver
+        self.freight = freight
 
     @abstractmethod
-    def add(self, org):
+    def price(self, transport=Transport):
+        """Return Total Price"""
         pass
 
-    @abstractmethod
-    def remove(self, title):
-        pass        
+
+class MilePricer(Pricer):
+    """以里程計費
+    """
+    def price(self, transport=Transport):
+        """Return Total Price
+        以里程計算：一公里NTD$30
+        """
+        price = transport.miles * 30
+        print("以里程計算(一公里NTD$30) = {0}".format(price))
+        return price
+
+
+class PlacePricer(Pricer):
+    """運送點計費
+    """
+    def price(self, transport=Transport):
+        """Return Total Price
+        以里程計算：一公里NTD$30
+        """
+        price = 2500
+        price = {
+            '台南': 5000,
+            '新竹': 1000,
+        }[transport.place]
+        print("以運送點計算 = {0}".format(price))
+        return price
+```
+
+接著我們定義一個Decorator抽象類別，目標：
+- 將計費介面(或抽象類別)作為建構子參數傳入Decorator
+- 讓下一個步驟的裝飾類別可以實作抽象方法：`Price`(計價)，並在這個方法運用上面傳進來的物件
+
+ C#
+```
+public abstract class Decorator : IPricer
+{
+    public string Customer { get; set; }
+    public string Receiver { get; set; }
+    public string Freight { get; set; }
+    public abstract decimal Price(Transport transport);
+    protected IPricer stdPricer { get; set; }
+
+    public Decorator(IPricer pricer)
+    {
+        this.stdPricer = pricer;
+        this.Customer = pricer.Customer;
+        this.Receiver = pricer.Receiver;
+    }
+}
+```
+
+* Pyhton
+```
+from abc import ABC, abstractmethod
+
+class Decorator(ABC):
+    def __init__(self, stdPricer=Pricer):
+        self.customer = stdPricer.customer
+        self.receiver = stdPricer.receiver
+        self.freight = stdPricer.freight
+        self.stdPricer = stdPricer
 
     @abstractmethod
-    def printVision(self):
+    def price(self, transport=Transport):
+        """Return Total Price"""
         pass
 ```
 
-接著我們開始定義多個組織單位。
+有了Decorator的抽象類別，我們可以開始實作其他服務加收的計費類別。
 
 * C#
 ```
-/// <summary>
-/// 新產品開發部
-/// </summary>
-public class NewProdDev : Organization
+/// 加點服務計費
+public class ExtraPlacePricer : Decorator
 {
-    public NewProdDev(string title, string head)
+    public ExtraPlacePricer(IPricer pricer) : base(pricer)
     {
-        this.Title = title;
-        this.Head = head;
-        this.SubOrganizations = new List<Organization>();
     }
 
-    public override void Add(Organization org)
+    public override decimal Price(Transport transport)
     {
-        this.SubOrganizations.Add(org);
-    }
+        var defaultPrice = this.stdPricer.Price(transport);
+        var servicePrice = defaultPrice * (decimal)0.1;
+        var totalPrice = defaultPrice + Math.Floor(servicePrice);
+        Trace.WriteLine($"加點服務費用 = {servicePrice}，總費用={totalPrice}");
+        return totalPrice;
 
-    public override void Remove(string title)
-    {
-        var target = this.SubOrganizations.Where(x=>x.Title.Equals(title)).FirstOrDefault();
-        this.SubOrganizations.Remove(target);
-    }
-
-    public override void PrintVision()
-    {
-        Trace.WriteLine("開發管理部Vision：讓人類生活更美好!");
     }
 }
 
-/// <summary>
-/// 行動裝置部
-/// </summary>
-public class MobileProd : NewProdDev
+/// 假日運送服務計費
+public class HolidayPricer : Decorator
 {
-    public MobileProd(string title, string head):base(title, head)
+    public HolidayPricer(IPricer pricer) : base(pricer)
     {
     }
 
-    public override void PrintVision()
+    public override decimal Price(Transport transport)
     {
-        Trace.WriteLine("行動裝置部Vision：讓人類二十四小時都離不開手機!");
+        var defaultPrice = this.stdPricer.Price(transport);
+        var servicePrice = defaultPrice * (decimal)0.2;
+        var totalPrice = defaultPrice + Math.Floor(servicePrice);
+        Trace.WriteLine($"假日運送服務費用 = {servicePrice}，總費用={totalPrice}");
+        return totalPrice;
+
     }
 }
 
-//...其餘單位請參考MobileProd建立
+/// 延遲計費
+public class DelayPricer : Decorator
+{
+    public DelayPricer(IPricer pricer) : base(pricer)
+    {
+    }
+
+    public override decimal Price(Transport transport)
+    {
+        var defaultPrice = this.stdPricer.Price(transport);
+        var servicePrice = transport.DelayHours * 500;
+        var totalPrice = defaultPrice + (decimal)servicePrice;
+        Trace.WriteLine($"延遲費用 = {servicePrice}，總費用={totalPrice}");
+        return totalPrice;
+
+    }
+}
 ```
 
 * Python
 ```
-class NewProdDev(Organization):
-    """開發管理部
+class ExtraPlacePricer(Decorator):
+    """加點服務計費
     """
-    
-    def __init__(self, title="",head=""):
-        self.title = title
-        self.head = head
-        self.subOrganizations=[]
-    
-    def add(self, org):
-        self.subOrganizations.append(org)
-        print("{0}下新增單位：{1}".format(self.title, org.title))
+    def __init__(self, stdPricer=Pricer):
+        super().__init__(stdPricer)
 
-    def remove(self, title):
-        for el in self.subOrganizations:
-            if(el.title==title):
-                self.subOrganizations.remove(el)
-                print("{0}下移除單位：{1}".format(self.title, title))
-    
+    def price(self, transport=Transport):
+        """Return Total Price"""
+        defaultPrice = self.stdPricer.price(transport)
+        servicePrice = Decimal(defaultPrice * 0.1)
+        totalPrice = defaultPrice + math.floor(servicePrice)
+        print("加點服務費用 = {0}，總費用={1}".format(servicePrice,totalPrice))
+        return totalPrice
 
-    def printVision(self):
-        print("開發管理部Vision：讓人類生活更美好!")
-
-
-
-        
-class MobileProd(NewProdDev):
-    """行動裝置部
+class HolidayPricer(Decorator):
+    """假日運送計費
     """
-    def __init__(self, title="", head=""):
-        super().__init__(title, head)
-        
-    def printVision(self):
-        print("行動裝置部Vision：讓人類二十四小時都離不開手機!")
+    def __init__(self, stdPricer=Pricer):
+        super().__init__(stdPricer)
 
-class AppDev(NewProdDev):
-    def __init__(self, title="", head=""):
-        super().__init__(title, head)
+    def price(self, transport=Transport):
+        """Return Total Price"""
+        defaultPrice = self.stdPricer.price(transport)
+        servicePrice = Decimal(defaultPrice * 0.2)
+        totalPrice = defaultPrice + math.floor(servicePrice)
+        print("假日運送服務費用 = {0}，總費用={1}".format(servicePrice,totalPrice))
+        return totalPrice
 
-    def printVision(self):
-        print("APP開發課Vision：不要加班!要跨年!")
-
-class NewBsDev(NewProdDev):
-    """新商機開發課
+class DelayPricer(Decorator):
+    """延遲計費
     """
-    def __init__(self, title="", head=""):
-        super().__init__(title, head)
-        
-    def printVision(self):
-        print("新商機開發課Vision：Show me the money!")
+    def __init__(self, stdPricer=Pricer):
+        super().__init__(stdPricer)
+
+    def price(self, transport=Transport):
+        """Return Total Price"""
+        defaultPrice = self.stdPricer.price(transport)
+        servicePrice = transport.delayHours * 500
+        totalPrice = defaultPrice + math.floor(servicePrice)
+        print("延遲費用 = {0}，總費用={1}".format(servicePrice,totalPrice))
+        return totalPrice
 ```
 
 
-主程式使用Composite的範例：
+我們來看主程式怎麼使用裝飾者模式來在標準運費下，多收其他服務費。
 
 * C#
 ```
-Organization newProdDev = new NewProdDev(title: "XX銀行-產品管理部", head: "達斯西帝斯");
-Organization mobileProd = new MobileProd(title: "XX銀行-行動裝置部", head: "達斯維達");
-Organization appDev = new AppDev(title: "XX銀行-APP開發課", head: "弒星者");
-Organization newBsDev = new NewBsDev(title: "XX銀行-新商機開發課", head: "白兵隊長");
+/*
+* 標準運費：以里程計
+* 其他費用：加點和延遲費
+*/
 
-mobileProd.Add(appDev);
-mobileProd.Add(newBsDev);
-newProdDev.Add(mobileProd);
+var transport = new Transport
+{
+    Miles = 200,
+    Place = "台南",
+    IsExtraPlace = true,
+    IsHoliday = false,
+    DelayHours = 3
+};
 
-this.printVision(newProdDev); //遞迴列印出所有單位的Vision
+IPricer stdPricer = new MilePricer()
+{
+    Customer = "莉亞公主",
+    Receiver = "反抗軍",
+    Freight = "死星建造圖"
+};
+
+var extraPlacePricer = new ExtraPlacePricer(stdPricer);
+var delayPricer = new DelayPricer(extraPlacePricer);
+
+delayPricer.Price(transport);
 ```
+
+執行結果：
+*以里程計算(一公里NTD$30) = 6000*
+*加點服務費用 = 600.0，總費用=6600*
+*延遲費用 = 1500，總費用=8100*
+
+
 
 * Python
 ```
-newProdDev = NewProdDev(title="XX銀行-產品管理部", head="達斯西帝斯")
-mobileProd = MobileProd(title="XX銀行-行動裝置部", head="達斯維達")
-appDev = AppDev(title="XX銀行-APP開發課", head="弒星者")
-newBsDev = NewBsDev(title="XX銀行-新商機開發課", head="白兵隊長")
+"""
+標準運費：以地點計
+其他費用：加點和假日運送
+"""
 
-newProdDev.add(mobileProd)
-mobileProd.add(appDev)
-mobileProd.add(newBsDev)
+transport = Transport(
+    miles=50,
+    place="新竹",
+    isExtraPlace=True,
+    isHoliday=True,
+    delayHours=0
+)
 
-self.printVisions(newProdDev) #遞迴列印出所有單位的Vision
+stdPricer = PlacePricer(
+    customer="莉亞公主",
+    receiver="老路克天行者",
+    freight="藍色光劍"
+)
+
+extraPlacePricer = ExtraPlacePricer(stdPricer)
+holidayPricer = HolidayPricer(extraPlacePricer)
+
+holidayPricer.price(transport)
 ```
 
-顯示結果如下...
+執行結果：
+*以運送點計算 = 1000*
+*加點服務費用 = 100，總費用=1100*
+*假日運送服務費用 = 220，總費用=1320*
 
-*XX銀行-產品管理部下新增單位：XX銀行-行動裝置部*
-*XX銀行-行動裝置部下新增單位：XX銀行-APP開發課*
-*XX銀行-行動裝置部下新增單位：XX銀行-新商機開發課*
-*開發管理部Vision：讓人類生活更美好!*
-*行動裝置部Vision：讓人類二十四小時都離不開手機!*
-*APP開發課Vision：不要加班!要跨年!*
-*新商機開發課Vision：Show me the money!*
+
+
+更多範例可以在以下Sample Codes的單元測試找到唷! 
+
 
 ## Sample Codes
 
 1. C#
-- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/CSharp/DP.Domain/Samples/Composite)
-- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.UnitTest/UtComposite.cs)
+- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/CSharp/DP.Domain/Samples/Decorator)
+- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.UnitTest/UtDecorator.cs)
 
 2. Python
-- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/Python/Samples/Composite)
-- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/Python/Samples/Composite/UtComposite.py)
+- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/Python/Samples/Decorator)
+- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/Python/Samples/Decorator/UtDecorator.py)
