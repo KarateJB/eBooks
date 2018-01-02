@@ -7,42 +7,36 @@ Amy(PO):
 > I want 報價單系統可以在其他服務費加上更多彈性：<br>
 > - 加點: 若單趟載超過兩個點，改加收總價*15%
 > - 延遲費: 超過兩小時後的時間，改為每小時NTD$1,000<br>
-> So that 業務可針對大單採原來之計價，但小單則採新制<br>
+> So that 業務可在大單採原來之計價，但小單則採新制<br>
 
 
 ## 思考設計
 
-JB<br>:
-休假回來第一天好累阿! 恩，這個User Story拆成幾項工作了，我們負責的是哪一部分？
+JB:<br>
+延續[Day13.Decorator 裝飾者模式](https://ithelp.ithome.com.tw/articles/10195207)的需求，
+我們只要再建立幾個實作`Decorator`的計費類別就可以了吧!?
 
-Hachi:<br> 
-在後端提供Cache的機制，除了回傳暫存的資料也要能建立及管理這些暫存。
+Lily:<br>
+等等，再思考一下。我們在裝飾者模式中使用這幾個其他服務費的類別時，動態注入了什麼？
 
-JB<br>:
-好的，那我們來建造一個類別可以儲存和提供共用的Cache資料... 疑? 我們在[Day3.Prototype 原型模式](https://ithelp.ithome.com.tw/articles/10194600)有用Prototype Store做一樣的事情耶!  
+JB:<br> 
+計費抽象類別(`IPricer`)! 通常是指定哪一個標準計費和其他服務計費。
+
+Lily:<br>
+是的，因為我們要動態裝飾，或者說加強這些注入類別的計費能力。
+但是這個新需求並不需要注入一個`IPricer`類別，因為我們要加強的是某個**特定類別**的計費能力。
+例如，需求之一，*加點: 若單趟載超過兩個點，改加收總價*15%*，只會擴充`ExtraPlacePricer`(加點計費類別)的計費能力。
+
+JB:<br>
+聽起來像是裝飾者模式(Decorator)採用了聚合(Aggregation)，而代理模式(Proxy)則是屬於組合(Composition)關係。
 
 Lily<br>:
-沒錯! 概念是相同的：目的都在於建立一個可存取資料的倉庫。 
-我們這次要使用享元模式(Flyweight)，這一次的需求不需要去複製任何資料，我們只要單純提供一個Cache Store就可以了!
+是的! 讓我們開始動工吧!
 
 
 ## 定義
 
-> 享元模式可在儲存和取出共用的物件、狀態等資訊。目的在於減少頻繁建立物件所消耗的資源。([WIKI](https://en.wikipedia.org/wiki/Flyweight_pattern))
-
-
-享元模式使用的時機如下：
-1. 共享對像會頻繁的建立，而且每次建立需耗費可觀的資源
-2. 共享對像適合為獨立且輕量的的小元素，且不會由本身來改變其狀態和資料
-3. 提供介面讓外部程式改變其狀態和資料
-
-
-網站的暫存資料很適合將其作為Flyweight物件存放並共享給整個網站使用，因為暫存資料一般有以下特性：
-1. 變動性小
-2. 因資料共用性，一般習慣將暫存以小範圍管理之方式建立
-
-注意享元模式(Flyweight)為Structural design pattern而非Creational design pattern，
-它通常會搭配工廠模式(Factory)，由工廠提供資料，而Flyweight提供一個共享的結構。
+> 提供一個代理類別，透過這個代理去操作原有的類別。([WIKI](https://en.wikipedia.org/wiki/Proxy_pattern))
 
 
 * C#
