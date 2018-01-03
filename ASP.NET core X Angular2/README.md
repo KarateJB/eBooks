@@ -24,5 +24,5 @@ This ebook includes building basic **ASP.NET Core** application and how to integ
 
 I am a [Star Wars](http://www.starwars.com/) biggest fan, a blogger and a father :)
 
-At work, I am a technical project manager and focus on Project/Product management, Scrum and full-stack development. 
+At work, I am a technical project manager and focus on Project/Product management, Agile and full-stack development. 
 You can find me on my [Blog](http://karatejb.blogspot.tw/).
