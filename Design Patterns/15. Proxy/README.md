@@ -5,8 +5,9 @@
 Amy(PO):
 > As a 物流部秘書<br>
 > I want 報價單系統可以在其他服務費加上更多彈性：<br>
-> - 加點: 若單趟載超過兩個點，第三個點開始每加一點加收總價*15%
+> - 加點: 若單趟載超過兩個點，第三個點開始每加一點加收總價*20%
 > - 延遲費: 超過兩小時後的時間，改為每小時NTD$1,000<br>
+>
 > So that 業務可在大單採原來之計價，但小單則採新制<br>
 
 
@@ -17,7 +18,7 @@ JB:<br>
 我們只要再建立幾個實作`Decorator`的計費類別就可以了吧!?
 
 Lily:<br>
-等等，再思考一下。我們在裝飾者模式中使用這幾個其他服務費的類別時，動態注入了什麼？
+等等，我們思考一下。我們在裝飾者模式中使用這幾個其他服務費的類別時，動態注入了什麼？
 
 JB:<br> 
 計費抽象類別(`IPricer`)! 通常是指定哪一個標準計費和其他服務計費。
@@ -25,7 +26,7 @@ JB:<br>
 Lily:<br>
 是的，因為我們要動態裝飾，或者說加強這些注入類別的計費能力。
 但是這個新需求並不需要注入一個`IPricer`類別，因為我們要加強的是某個**特定類別**的計費能力。
-例如，需求之一，*加點: 若單趟載超過兩個點，第三個點開始每加一點加收總價*15%*，只會擴充`ExtraPlacePricer`(加點計費類別)的計費能力。
+例如，需求之一，*加點: 若單趟載超過兩個點，第三個點開始每加一點加收總價*20%*，只會擴充`ExtraPlacePricer`(加點計費類別)的計費能力。
 
 JB:<br>
 聽起來像是裝飾者模式(Decorator)採用了聚合(Aggregation)，而代理模式(Proxy)則是屬於組合(Composition)關係。
@@ -94,6 +95,33 @@ public class DelayPricerProxy : IPricer
 
 * Python
 ```
+class ExtraPlacePricerProxy(Pricer):
+    """加點服務計費代理類別
+    """
+    def __init__(self, pricer=Pricer):
+        self.extraPlacePricer = ExtraPlacePricer(pricer)
+
+    def price(self, transport=Transport):
+        """Pseudo codes 
+        if(...):
+          self.extraPlacePricer.Price();
+        else:
+          do other pricing logics.
+        """
+
+class DelayPricerProxy(Pricer):
+    """延遲計費
+    """
+    def __init__(self,  pricer=Pricer):
+        self.delayPricer = DelayPricer(pricer)
+
+    def price(self, transport=Transport):
+        """Pseudo codes 
+        if(...):
+          self.delayPricer.Price();
+        else:
+          do other pricing logics.
+        """
 ```
 
 以上是Proxy的標準用法，但是因為我們延續了[Day13.Decorator 裝飾者模式](https://ithelp.ithome.com.tw/articles/10195207)的需求和程式碼，
@@ -123,7 +151,7 @@ public class DelayPricerProxy : IPricer
         decimal servicePrice = 0;
         var exceedMaxDelayHours = 0;
         
-        if(transport.DelayHours<=MAX_DELAY_HOURS) //未超過
+        if(transport.DelayHours<=MAX_DELAY_HOURS)
         {
             totalPrice = this._delayPricer.Price(transport);
         }
@@ -144,10 +172,38 @@ public class DelayPricerProxy : IPricer
 
  * Python
  ```
+ class DelayPricerProxy(Pricer):
+    """延遲計費
+    """
+
+    MAX_DELAY_HOURS = 2
+
+    def __init__(self,  pricer=Pricer):
+        super().__init__(pricer.customer, pricer.receiver, pricer.freight)
+        self.delayPricer = DelayPricer(pricer)
+
+    def price(self, transport=Transport):
+        """Return Total Price"""
+        totalPrice = 0
+        servicePrice = 0
+        exceedMaxDelayHours = 0
+
+        if(transport.delayHours <= self.MAX_DELAY_HOURS):
+            totalPrice = self.delayPricer.price(transport)
+        else:
+            exceedMaxDelayHours = transport.delayHours - self.MAX_DELAY_HOURS  # 計算超過的小時
+            transport.delayHours = self.MAX_DELAY_HOURS
+            totalPrice = self.delayPricer.price(transport)
+
+        servicePrice = exceedMaxDelayHours * 1000
+        totalPrice += servicePrice
+        print("延遲(超過兩小時)服務費用 = {0}，總費用={1}".format(servicePrice, totalPrice))
+        return totalPrice
+
  ```
 
 當我們完成了Proxy(代理)類別，
-還記得我們原本在[Day13.Decorator 裝飾者模式](https://ithelp.ithome.com.tw/articles/10195207)的主程式可以撰寫如下來計算加上延遲費的總運費。
+我們回憶一下在[Day13.Decorator 裝飾者模式](https://ithelp.ithome.com.tw/articles/10195207)的主程式可以撰寫如下，以計算加上延遲費的總運費。
 
 * C#
 ```
@@ -173,6 +229,27 @@ var totalPrice = delayPricer.Price(transport);
 
 * Python
 ```
+"""
+標準運費：以里程計
+其他費用：延遲五小時
+"""
+
+transport = Transport(
+    miles=200,
+    place="死星",
+    extraPlaceCnt = 0,
+    isHoliday=False,
+    delayHours=5
+)
+
+stdPricer = MilePricer(
+    customer = "達斯維達",
+    receiver = "白布丁",
+    freight = "路克天行者"
+)
+
+delayPricer = DelayPricer(stdPricer)
+totalPrice = delayPricer.price(transport)
 ```
 
 現在我們可以利用上面建立的代理直接抽換，來對某客戶的託運單採用超過兩點即收取額外費用的計費方式。
@@ -185,13 +262,17 @@ var totalPrice = delayPricer.Price(transport);
 
 * Python
 ```
+delayPricer = DelayPricerProxy(stdPricer)
+totalPrice = delayPricer.price(transport)
 ```
 
 - 原本的運費計算方式結果：
+
 *以里程計算(一公里NTD$30) = 6000*
 *延遲費用 = 2500，總費用=8500*
 
 - 新的運費計算方式結果：
+
 *以里程計算(一公里NTD$30) = 6000*
 *延遲費用 = 1000，總費用=7000*
 *延遲(超過兩小時)服務費用 = 3000，總費用=10000*
@@ -216,7 +297,7 @@ var totalPrice = delayPricer.Price(transport);
 
 1. 特性：
    - 提供相同的介面，讓主程式依賴於抽象
-   - 主程式使用的介面和方法不會改變
+   - 主程式使用的介面和方式不會改變
 
 2. 使用時機：
    - 在不改變主程式的行為下，讓代理完成其它實作類別的功能
@@ -227,9 +308,15 @@ var totalPrice = delayPricer.Price(transport);
 ## Sample Codes
 
 1. C#
-- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/CSharp/DP.Domain/Samples/Flyweight)
-- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.UnitTest/UtFlyweight.cs)
+- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/CSharp/DP.Domain/Samples/Proxy)
+- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.UnitTest/UtProxy.cs)
 
 2. Python
-- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/Python/Samples/Flyweight)
-- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/Python/Samples/Flyweight/UtFlyweight.py)
+- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/Python/Samples/Proxy)
+- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/Python/Samples/Proxy/UtProxy.py)
+
+
+## Reference
+
+- [What is the exact difference between Adapter and Proxy patterns?
+](https://stackoverflow.com/a/37694622/7045253)

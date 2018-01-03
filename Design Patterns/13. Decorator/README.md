@@ -20,7 +20,7 @@ Lily:<br>
 - 以運送點計算(如台南NTD$5,000、新竹NTD$1,000)
 
 附加服務費用：
-- 加點：每多一個加收總價*10%
+- 加點：加收總價*10%
 - 假日運送：總價*20%
 - 延遲：N(小時)*NTD$500
 
@@ -56,8 +56,8 @@ public class Transport
     public string Place { get; set; }
     /// 里程
     public int Miles { get; set; }
-    /// 是否加點
-    public bool IsExtraPlace { get; set; }
+    /// 加點數
+    public int ExtraPlaceCnt { get; set; }
     /// 假日運送
     public bool IsHoliday { get; set; }
     /// 延誤時數
@@ -68,12 +68,12 @@ public class Transport
 * Python
 ```
 class Transport:
-    def __init__(self, place="", miles=0, isExtraPlace=False, isHoliday=False, delayHours =0 ):
-        self.place = place
-        self.miles = miles
-        self.isExtraPlace = isExtraPlace
-        self.isHoliday = isHoliday
-        self.delayHours = delayHours
+    def __init__(self, place="", miles=0, extraPlaceCnt=0, isHoliday=False, delayHours =0 ):
+        self.place = place #運送點
+        self.miles = miles #里程
+        self.extraPlaceCnt = extraPlaceCnt #加點數
+        self.isHoliday = isHoliday #假日運送
+        self.delayHours = delayHours #延誤時數
 ```
 
 
@@ -236,9 +236,13 @@ public class ExtraPlacePricer : Decorator
 
     public override decimal Price(Transport transport)
     {
-        var defaultPrice = this.stdPricer.Price(transport);
-        var servicePrice = defaultPrice * (decimal)0.1;
-        var totalPrice = defaultPrice + Math.Floor(servicePrice);
+        decimal totalPrice = this.stdPricer.Price(transport);
+        decimal servicePrice = 0;
+        if (transport.ExtraPlaceCnt > 0)
+        {
+            servicePrice = totalPrice * (decimal)0.1;
+            totalPrice = totalPrice + Math.Floor(servicePrice);
+        }
         Trace.WriteLine($"加點服務費用 = {servicePrice}，總費用={totalPrice}");
         return totalPrice;
 
@@ -272,9 +276,9 @@ public class DelayPricer : Decorator
 
     public override decimal Price(Transport transport)
     {
-        var defaultPrice = this.stdPricer.Price(transport);
+        var totalPrice = this.stdPricer.Price(transport);
         var servicePrice = transport.DelayHours * 500;
-        var totalPrice = defaultPrice + (decimal)servicePrice;
+        totalPrice +=  (decimal)servicePrice;
         Trace.WriteLine($"延遲費用 = {servicePrice}，總費用={totalPrice}");
         return totalPrice;
 
@@ -287,20 +291,26 @@ public class DelayPricer : Decorator
 class ExtraPlacePricer(Decorator):
     """加點服務計費
     """
+
     def __init__(self, stdPricer=Pricer):
         super().__init__(stdPricer)
 
     def price(self, transport=Transport):
         """Return Total Price"""
-        defaultPrice = self.stdPricer.price(transport)
-        servicePrice = Decimal(defaultPrice * 0.1)
-        totalPrice = defaultPrice + math.floor(servicePrice)
-        print("加點服務費用 = {0}，總費用={1}".format(servicePrice,totalPrice))
+        totalPrice = self.stdPricer.price(transport)
+        servicePrice = 0
+        if (transport.extraPlaceCnt > 0):
+            servicePrice = Decimal(totalPrice * 0.1)
+            totalPrice = totalPrice + math.floor(servicePrice)
+
+        print("加點服務費用 = {0}，總費用={1}".format(servicePrice, totalPrice))
         return totalPrice
+
 
 class HolidayPricer(Decorator):
     """假日運送計費
     """
+
     def __init__(self, stdPricer=Pricer):
         super().__init__(stdPricer)
 
@@ -309,12 +319,14 @@ class HolidayPricer(Decorator):
         defaultPrice = self.stdPricer.price(transport)
         servicePrice = Decimal(defaultPrice * 0.2)
         totalPrice = defaultPrice + math.floor(servicePrice)
-        print("假日運送服務費用 = {0}，總費用={1}".format(servicePrice,totalPrice))
+        print("假日運送服務費用 = {0}，總費用={1}".format(servicePrice, totalPrice))
         return totalPrice
+
 
 class DelayPricer(Decorator):
     """延遲計費
     """
+
     def __init__(self, stdPricer=Pricer):
         super().__init__(stdPricer)
 
@@ -323,7 +335,7 @@ class DelayPricer(Decorator):
         defaultPrice = self.stdPricer.price(transport)
         servicePrice = transport.delayHours * 500
         totalPrice = defaultPrice + math.floor(servicePrice)
-        print("延遲費用 = {0}，總費用={1}".format(servicePrice,totalPrice))
+        print("延遲費用 = {0}，總費用={1}".format(servicePrice, totalPrice))
         return totalPrice
 ```
 
@@ -341,7 +353,7 @@ var transport = new Transport
 {
     Miles = 200,
     Place = "台南",
-    IsExtraPlace = true,
+    ExtraPlaceCnt = 1,
     IsHoliday = false,
     DelayHours = 3
 };
@@ -353,8 +365,8 @@ IPricer stdPricer = new MilePricer()
     Freight = "死星建造圖"
 };
 
-var extraPlacePricer = new ExtraPlacePricer(stdPricer);
-var delayPricer = new DelayPricer(extraPlacePricer);
+IPricer extraPlacePricer = new ExtraPlacePricer(stdPricer);
+IPricer delayPricer = new DelayPricer(extraPlacePricer);
 
 delayPricer.Price(transport);
 ```
@@ -376,7 +388,7 @@ delayPricer.Price(transport);
 transport = Transport(
     miles=50,
     place="新竹",
-    isExtraPlace=True,
+    extraPlaceCnt=1,
     isHoliday=True,
     delayHours=0
 )
