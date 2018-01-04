@@ -4,9 +4,9 @@
 
 Amy(PO):
 > As a 銀行行員<br>
-> I want 計算客戶評分時，可採用各金融商品之評分模型但給與權重<br>
-> 1. 採用各金融商品之評分模型但分別給與權重
-> 2. 採用各金融商品之評分模型，加總後作平均
+> I want 計算客戶評分時，可採用: <br>
+> 1. 各金融商品之評分模型但分別給與權重
+> 2. 各金融商品之評分模型，加總後作平均
 >
 > So that 參考各模組之評分，達到KYC客戶風險評估之目的<br>
 
@@ -80,27 +80,54 @@ public class OptionColleague : IColleague
         return 10;
     }
 }
-/// 房貸評分模型
-public class LoanColleague : IColleague
-{
-    public string Prod { get; set; } = "房貸";
-    public IMediator Mediator { get; set; }
-    public LoanColleague(IMediator mediator=null)
-    {
-        this.Mediator = mediator;
-    }
-    public decimal Score()
-    {
-        //Implement the real score model here.
-        return 30;
-    }
-}
-///信貸評分模型(CreditColleague)請參考上面自行實作。
+
+///信貸評分模型(CreditColleague)及房貸評分模型(LoanColleague)請參考選擇權評分模型(OptionColleague)實作。
 ```
 
 * Python
 ```
+from abc import ABC, abstractmethod
+from Mediator import Mediator
 
+
+class Colleague(ABC):
+    @property
+    @abstractmethod
+    def mediator(self):
+        pass
+
+    @mediator.setter
+    @abstractmethod
+    def mediator(self, val=Mediator):
+        pass
+
+    @abstractmethod
+    def score(self):
+        pass
+
+
+class OptionColleague(Colleague):
+    """選擇權評分模型"""
+    
+    _mediator = None
+
+    def __init__(self):
+        self.prod = "期貨/選擇權"
+
+    @property
+    def mediator(self):
+        return self._mediator
+
+    @mediator.setter
+    def mediator(self, val=Mediator):
+        self._mediator = val
+
+    def score(self):
+        # Implement the real score model here.
+        return 10
+
+
+# 信貸評分模型(CreditColleague)及房貸評分模型(LoanColleague)請參考選擇權評分模型(OptionColleague)實作。
 ```
 
 
@@ -150,6 +177,37 @@ public class MediatorWeight : IMediator
 
 * Pyhton
 ```
+from abc import ABC, abstractmethod
+
+class Mediator(ABC):
+
+    def __init__(self):
+        self.option = None
+        self.credit = None
+        self.loan = None
+
+    @abstractmethod
+    def score(self):
+        pass
+
+
+class MediatorWeight(Mediator):
+
+    def __init__(self, weightOption, weightCredit, weightLoan):
+        self.option = OptionColleague()
+        self.credit = CreditColleague()
+        self.loan = LoanColleague()
+
+        self.weightOption = weightOption
+        self.weightCredit = weightCredit
+        self.weightLoan = weightLoan
+
+    def score(self):
+        scoreOption = self.option.score() * self.weightOption
+        scoreCredit = self.credit.score() * self.weightCredit
+        scoreLoan = self.loan.score() * self.weightLoan
+
+        return scoreOption + scoreCredit + scoreLoan
 ```
 
 
@@ -170,13 +228,19 @@ var score = option.Mediator.Score();
 
 Trace.WriteLine($"{option.Prod} 權重計分結果={score.ToString()}");
 ```
-
 執行結果： *期貨/選擇權 權重計分結果=36.0*
+
 
 * Python
 ```
-```
+mediatorForOption = MediatorWeight(
+            weightsForOption[0], weightsForOption[1], weightsForOption[2])
+option = OptionColleague()
+option.mediator = mediatorForOption
+score = option.mediator.score()  # Score!
+print("{0} 權重計分結果={1}".format(option.prod, score))
 
+```
 執行結果： *期貨/選擇權 權重計分結果=36.0*
 
 
@@ -231,10 +295,30 @@ decimal actualLoanScore = loan.Mediator.Score();
 
 1. 定義新的Mediator
 ```
+class MediatorAverage(Mediator):
+
+    def __init__(self):
+        self.option = OptionColleague()
+        self.credit = CreditColleague()
+        self.loan = LoanColleague()
+
+    def score(self):
+        scoreOption = self.option.score()
+        scoreCredit = self.credit.score()
+        scoreLoan = self.loan.score()
+
+        return (scoreOption + scoreCredit + scoreLoan) / 3
+
 ```
 
 2. 主程式抽換中介者
 ```
+mediator = MediatorAverage()
+loan = LoanColleague()
+loan.mediator = mediator
+score = loan.mediator.score()
+
+print("{0} 平均計分結果={1}".format(loan.prod, score))
 ```
 
 執行結果： *房貸 平均計分結果=20*
