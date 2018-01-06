@@ -14,18 +14,17 @@ JB:<br>
 我想可以透過一個`switch`來判斷某個需求目前的狀態，然後執行對應的作業。
 
 Hachi:<br>
-恩，不過依照我們在[Day5.Chain of Responsibility 職責鍊模式](https://ithelp.ithome.com.tw/articles/10193451)的經驗，用`switch`可不是個好主意。
+恩，不過依照我們在[Day5.Chain of Responsibility 職責鍊模式](https://ithelp.ithome.com.tw/articles/10193451)的經驗，用`switch`可能不是個好主意。
 我們需要設定一個可以在每個狀態流動的模型，然後依照每個狀態去執行對應的動作。
 
 Lily:<br>
-我們可以使用狀態模式(State)來實作這個需求，避免多重判斷的程式碼。
-而且還可以設定這些狀態的順序。
+我們可以使用狀態模式(State)來實作這個需求，避免多重判斷和作業的程式碼。
 
 JB:<br>:
-聽起來不錯! 不過職責鍊也提供了有順序的作業，他們有何不同呢？
+聽起來不錯! 不過職責鍊也可以解決這個問題吧...!? 他們有何不同呢？
 
 Lily:<br>
-我們先用狀態模式實作這個需求，然後我們討論這兩種模式的使用時機。
+我們先用狀態模式實作這個需求，然後我們再討論這兩種模式的使用時機。
 
 
 
@@ -36,7 +35,7 @@ Lily:<br>
 
 實作狀態模式的方式：
 1. 建立每一種狀態的類別，它們定義了該狀態下要做那些事，以及決定下一個狀態。
-2. 建立存放狀態的對象(Context)，它具有執行作業的權力。
+2. 建立存放狀態的對象(Context)，它具有改變狀態的權力。
 
 
 ### State
@@ -109,6 +108,50 @@ public class StateDone : State
 
 * Python
 ```
+from abc import ABC, abstractmethod
+import Context
+
+class State(ABC):
+    @abstractmethod
+    def action(self,context=Context):
+        pass
+
+class StateToDo(State):
+    def action(self,context=Context):
+        
+        # Do something...
+
+        # Set next state
+        context.currentState = StateWorking()
+        print("The requirement is on TODO list, send email to IT manager.");
+
+class StateWorking(State):
+    def action(self,context=Context):
+        
+        # Do something...
+
+        # Set next state
+        context.currentState = StateTesting()
+        print("The requirement is completed, send email to users!");
+
+
+class StateTesting(State):
+    def action(self,context=Context):
+        
+        # Do something...
+
+        # Set next state
+        context.currentState = StateDone()
+        print("Test ok, send email to operation team!");
+    
+class StateDone(State):
+    def action(self,context=Context):
+        
+        # Do something...
+
+        # Set next state
+        context.currentState = None
+        print("Close the requirement, send email to all stakeholders!");
 ```
 
 
@@ -143,23 +186,32 @@ public class Context
 
 * Python
 ```
+class Context:
+    
+    def __init__(self):
+        self.currentState = States.StateToDo()
+
+    def action(self):
+        self.currentState.action(self)
 ```
 
 
-我們來看一個標準的State使用範例：
+我們來看一個State的展示範例，我們用迴圈一次執行所有狀態的轉換：
 
 * C#
 ```
 var context = new Context();
 while (context.CurrentState!=null)
 {
-    actualFinalState = context.CurrentState.ToString();
     context.Action();
 }
 ```
 
 * Python
 ```
+context = Context.Context()
+while (context.currentState != None):
+    context.action()
 ```
 
  執行結果：
@@ -171,23 +223,23 @@ while (context.CurrentState!=null)
 
 
 假設在使用者測試(Testing)時發現Defect，必須回到上一狀態(Working)讓開發團隊處理。
-我們可以額外定義一個`PreviousAction()`方法來回到上一個狀態：
+我們可以額外定義一個`ActionBack()`方法來回到上一個狀態：
 
 * C#
 ```
 public abstract class State
 {
     public abstract void Action(Context context);
-    public abstract void PreviousAction(Context context);
+    public abstract void ActionBack(Context context);
     
 }
 
-///僅列出測試狀態的類別
+///僅列出測試狀態的類別: 加入ActionBack方法
 public class StateTesting : State
 {
     //Skip...
 
-    public override void PreviousAction(Context context)
+    public override void ActionBack(Context context)
     {
         //Do something
 
@@ -197,13 +249,14 @@ public class StateTesting : State
     }
 }
 
+///Context: 加入ActionBack方法
 public class Context
 {
     //Skip...
 
-    public void PreviousAction()
+    public void ActionBack()
     {
-        this._state.PreviousAction(this);
+        this._state.ActionBack(this);
     }
 
 }
@@ -211,12 +264,58 @@ public class Context
 ///主程式(回到上一個狀態)
 if (hasDefect)
 {
-    context.PreviousAction();
+    context.ActionBack();
 }
 ```
 
+
 * Python
 ```
+class State(ABC):
+    @abstractmethod
+    def action(self,context=Context):
+        pass
+
+    @abstractmethod
+    def actionBack(self,context=Context):
+        pass
+
+"""僅列出測試狀態的類別: 加入ActionBack方法"""
+class StateTesting(State):
+    def __str__(self):
+        return "Testing(測試中)"
+
+    def action(self,context=Context):
+        
+        # Do something...
+
+        # Set next state
+        context.currentState = StateDone()
+        print("Test ok, send email to operation team!");
+    
+    def actionBack(self,context=Context):
+        
+        # Do something...
+
+        # Set next state
+        context.currentState = StateWorking()
+        print("Test NG, send email to development team!");
+
+"""Context: 加入ActionBack方法"""
+class Context:
+    
+    def __init__(self):
+        self.currentState = States.StateToDo()
+
+    def action(self):
+        self.currentState.action(self)
+
+    def actionBack(self):
+        self.currentState.actionBack(self)
+                
+"""主程式(回到上一個狀態)"""
+if(hasDefect):
+    context.actionBack()
 ```
 
 執行結果：
@@ -232,20 +331,26 @@ if (hasDefect)
 
 ### State vs Chain of Responsibility
 
+狀態模式和職責鏈模式都可以解決**有順序**、**多重判斷=>執行邏輯**的問題，例如IF ELSE，SWITCH CASE。
+但兩者運作的方式不同：
+
+- State(狀態模式)
+  1. 由對象(Context)控制何時轉換狀態及執行該狀態下的工作。 
+  2. 對像透過已定義好的順序，往前或往後轉換狀態。
+
+- Chain of Responsibility(職責鏈模式)
+  1. 對象只能決定何時發起鏈上的第一個點(Handler)，鏈上其他的點接續完成作業。
+  2. 對像能在開始作業前，改變職責鏈的順序。
 
 
 
 ## Sample Codes
 
 1. C#
-- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/CSharp/DP.Domain/Samples/ChainOfResponsibility)
-- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.UnitTest/UtChainOfResposibility.cs)
+- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/CSharp/DP.Domain/Samples/State)
+- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.UnitTest/UtState.cs)
 
 2. Python
-- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/Python/Samples/ChainOfResponsibility)
-- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/Python/Samples/ChainOfResponsibility/UtChainOfResponsibility.py)
+- [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/Python/Samples/State)
+- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/Python/Samples/State/UtState.py)
 
-
-## Reference
-
-- [Design Pattern : Chain of Responsibility](http://karatejb.blogspot.tw/2013/10/design-pattern-chain-of-responsibility.html)
