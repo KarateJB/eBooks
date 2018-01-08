@@ -23,13 +23,13 @@ Iterator...我好像在哪裡看過...?
 
 Lily:<br>
 Iterator(迭代器)提供逐一訪問集合(容器)內部元素的方法。
-我們在C#常使用的`System.Array`、`System.Collections`或是`System.Collections.Generic`命名空間下，無論是`Array`,`IDictionay`,`IList`...都有實作`IEnumerable`介面，所以可以透過`GetEnumerator()`這個方法來取得迭代器，讓我們可以透過`foreach`來訪問這些集合(容器)的元素。
+我們在C#常使用的`System.Array`、`System.Collections`或是`System.Collections.Generic`命名空間下，無論是`Array`,`IDictionay`,`IList`...都有實作`IEnumerable`介面，所以可以透過`GetEnumerator()`這個方法來取得迭代器，讓我們可以搭配`foreach`來訪問這些集合(容器)的元素。
 
 JB:<br>
 那我們要如何利用Iterator(迭代器模式)來重構這個需求呢？
 
 Lily:<br>
-
+原本的主程式是從購物車篩選特定種類的商品(例如...書籍)，再放到訪問者模式的ObjectStructure：
 ```
 IObjectStructure checkout = new ObjectStructure();
 //Attach the elements into ObjectStructure
@@ -38,7 +38,7 @@ this.Shopcart.Where(item=>item.ProductType.Equals(ProductTypeEnum.Book)).ToList(
 });
 ```
 
-我們要自訂可以過濾商品種類的迭代器，將特定種類的商品(例如...書)放入ObjectStructure：
+我們要自訂可以過濾商品種類的迭代器，將特定種類的商品放入ObjectStructure：
 ```
 IObjectStructure checkout = new ObjectStructure();
 var iterator = new ConcreteIterator(ProductTypeEnum.Book);
@@ -49,15 +49,188 @@ while (!iterator.IsFinal)
 }
 ```
 
+另外，在迭代器模式中定義了封裝了Iterator的介面：Aggregate
+所以我們最後的程式碼如下：
+```
+IObjectStructure checkout = new ObjectStructure();
+Aggregate aggregate = new ConcreteAggregate(ProductTypeEnum.Book);
+checkout.Elements = aggregate.GetAll();
+```
 
-現在，無論是List或Set，無論真正的實作是ArrayList、LinkedList、HashSet...，都可以使用這個foreach方法來 顯示內部所收集的物件。
-
-這 是Iterator模式的實現，不同的物件內部在組織資料方式並不相同（陣列？鏈結？雜湊？），所提供的公開存取介面也不一樣，為了有一致的方式來逐一取 得物件內部的資料，您可以讓一個Iterator於物件內部進行收集，之後傳回Iterator物件，透過該Iterator來逐一取得物件內部資料。
 
 
 ## 定義
 
 > 迭代器提供一種方法來逐一訪問對象的元素，而不暴露其結構。
+
+
+### UML
+
+![](http://1.bp.blogspot.com/-mqjKw8354ws/UpMiWO14EvI/AAAAAAAAA0Q/HdIMupnBDJo/s1600/Iterator001.jpg)
+
+1. Iterator : 提供存放集合，以及操作、尋覽集合的方法
+2. Aggregate：將Iterator封裝給Client使用的介面
+3. ConcreteAggregate 依賴於 ConcreteIterator，ConcreteIterator則關聯ConcreteIterator
+
+
+### Iterator
+
+注意我們刻意在Iterator的建構子帶入參數：`ProductTypeEnum prodType`
+目的在於尋覽內部元素時，跳過不屬於該商品種類的元素。
+
+* C#
+```
+public abstract class Iterator
+{
+    public abstract IElement Current();
+    public abstract IElement First();
+    public abstract IElement Next();
+    public abstract bool IsFinal {get;}
+    public abstract void Add(IElement elm); 
+}
+
+public class ConcreteIterator : Iterator
+{
+    private Aggregate _aggregate = null;
+    private ProductTypeEnum _prodType;
+    private int _pointer = 0;
+    private List<IElement> _collection = new List<IElement>();
+
+    public override bool IsFinal
+    {
+        get
+        {
+            if (this._pointer >= (this._collection.Count - 1))
+                return true;
+            else
+                return false;
+        }
+    }
+
+    public ConcreteIterator(Aggregate aggregate, ProductTypeEnum prodType)
+    {
+        this._aggregate = aggregate;
+        this._prodType = prodType;
+    }
+
+    public override IElement Current()
+    {
+        if (this._pointer >= this._collection.Count)
+        {
+            throw new IndexOutOfRangeException();
+        }
+        else
+        {
+            var elm = this._collection[this._pointer];
+            while (!elm.ProductType.Equals(this._prodType))
+            {
+                this._pointer++;
+                if (this._pointer >= this._collection.Count)
+                    return null;
+                else
+                    elm = this._collection[this._pointer];
+            }
+
+            return this._collection[this._pointer];
+        }
+    }
+
+    public override IElement First()
+    {
+        this._pointer = 0;
+        return this.Current();
+    }
+
+    public override IElement Next()
+    {
+        this._pointer++;
+        return this.Current();
+    }
+
+    public override void Add(IElement elm)
+    {
+        this._collection.Add(elm);
+    }
+}
+```
+
+* Python
+```
+```
+
+
+### Aggregate
+
+* C#
+```
+public abstract class Aggregate
+{
+    public abstract Iterator GetIterator();
+    public abstract List<IElement> GetAll();
+    public abstract void Add(IElement elm);
+}
+
+public class ConcreteAggregate : Aggregate
+{
+    private Iterator _iterator;
+
+    public ConcreteAggregate(ProductTypeEnum prodType)
+    {
+        this._iterator = new ConcreteIterator(this, prodType);
+    }
+    public override void Add(IElement elm)
+    {
+        this._iterator.Add(elm);
+    }
+
+    public override Iterator GetIterator()
+    {
+        return this._iterator;
+    }
+
+    public override List<IElement> GetAll()
+    {
+        List<IElement> list = new List<IElement>();
+        list.Add(this._iterator.First());
+
+        while (!this._iterator.IsFinal)
+        {
+            var elm = this._iterator.Next();
+            if (elm != null)
+                list.Add(elm);
+        }
+        return list;
+    }
+}
+```
+
+* Python
+```
+```
+
+
+--
+
+透過以上實作的迭代器，我們可以將[Day20.Visitor 訪問者模式](https://ithelp.ithome.com.tw/articles/10196407)的主程式改寫如下(執行結果不變)：
+
+* C#
+```
+private List<IElement> Shopcart = null;
+this.Shopcart = new List<IElement>(){
+    //放一些商品....
+};
+
+IObjectStructure checkout = new ObjectStructure();
+checkout.Elements = aggregate.GetAll();
+
+//Accept all the elements and execute the strategy from certain Visitor 
+checkout.Accept(new VisitorDiscount4Count());
+
+```
+
+* Python
+```
+```
 
 
 
