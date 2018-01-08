@@ -202,7 +202,7 @@ class ProductTypeEnum(Enum):
 
 
 class Element(ABC):
-    def __init__(self, productType=ProductTypeEnum, name="", unitPrice=0, amount=0):
+    def __init__(self, productType:ProductTypeEnum, name="", unitPrice=0, amount=0):
         self.productType = productType
         self.name = name
         self.unitPrice = Decimal(unitPrice)

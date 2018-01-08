@@ -16,7 +16,7 @@ JB:<br>
 疑!? 我以為這個Backlog已經在昨天: [Day20.Visitor 訪問者模式](https://ithelp.ithome.com.tw/articles/10196407)完成了? 
 
 Lily:<br>
-我們的確是完成了開發，而且Amy測試OK... 所以我們這個iteration的所有backlog都已經完成了! 所以我們在明天的iteration review會議之前還有一些時間可以藉由重構來學習Iterator(迭代器模式)這個設計模式。
+我們的確是完成了開發，而且Amy測試OK... 所以我們這個iteration的所有backlog都已經完成了! 在明天的iteration review會議之前還有一些時間可以藉由重構來學習Iterator(迭代器模式)這個設計模式。
 
 JB:<br>
 Iterator...我好像在哪裡看過...?
@@ -57,11 +57,15 @@ Aggregate aggregate = new ConcreteAggregate(ProductTypeEnum.Book);
 checkout.Elements = aggregate.GetAll();
 ```
 
+JB:<br>
+看來我們已經有單元測試程式碼了，
+讓我們開始Red-Green-Refactor吧!
+
 
 
 ## 定義
 
-> 迭代器提供一種方法來逐一訪問對象的元素，而不暴露其結構。
+> 迭代器提供一種方法來逐一訪問對象的元素，而不暴露其結構。 ([https://en.wikipedia.org/wiki/Iterator_pattern]())
 
 
 ### UML
@@ -156,6 +160,71 @@ public class ConcreteIterator : Iterator
 
 * Python
 ```
+from abc import ABC, abstractmethod
+from Elements import Element, ProductTypeEnum
+import Aggregate
+
+class Iterator(ABC):
+    @abstractmethod
+    def current(self) -> Element:
+        pass
+
+    @abstractmethod
+    def first(self) -> Element:
+        pass
+    
+    @abstractmethod    
+    def next(self) -> Element:
+        pass
+
+    @abstractmethod
+    def isFinal(self) -> bool:
+        pass
+
+    @abstractmethod
+    def add(self, elm:Element):
+        pass
+
+
+
+class ConcreteIterator(Iterator):
+
+    def __init__(self, aggregate: Aggregate, prodType: ProductTypeEnum):
+        self.aggregate = aggregate
+        self.prodType = prodType
+        self.pointer = 0
+        self.collection = []
+
+    def current(self) -> Element:
+        if (self.pointer >= len(self.collection)):
+                raise Exception("IndexOutOfRangeException:pointer")
+        else:
+            elm = self.collection[self.pointer]
+            while (not elm.productType==self.prodType):
+                self.pointer = self.pointer + 1
+                if (self.pointer >= len(self.collection)):
+                    return None
+                else:
+                    elm = self.collection[self.pointer]
+
+            return self.collection[self.pointer]
+
+    def first(self) -> Element:
+        self.pointer = 0
+        return self.current()
+    
+    def next(self) -> Element:
+        self.pointer = self.pointer +1
+        return self.current()
+        
+    def isFinal(self) -> bool:
+        if (self.pointer >= (len(self.collection) - 1)):
+            return True
+        else:
+            return False
+
+    def add(self, elm:Element):
+        self.collection.append(elm)
 ```
 
 
@@ -206,6 +275,47 @@ public class ConcreteAggregate : Aggregate
 
 * Python
 ```
+import Iterator
+from abc import ABC, abstractmethod
+from Elements import Element, ProductTypeEnum
+
+
+class Aggregate(ABC):
+
+    @abstractmethod
+    def getIterator(self) -> Iterator.Iterator:
+        pass
+
+    @abstractmethod    
+    def getAll(self):
+        pass
+
+    @abstractmethod
+    def add(self, elm:Element):
+        pass
+        
+
+class ConcreteAggregate(Aggregate):
+    
+    def __init__(self, prodType:ProductTypeEnum):
+        self.iterator = Iterator.ConcreteIterator(self, prodType)
+
+    def add(self,elm:Element):
+        self.iterator.add(elm)
+
+    def getIterator(self) -> Iterator.Iterator:
+        return self.iterator
+
+    def getAll(self):
+        list = []
+        list.append(self.iterator.first())
+
+        while (not self.iterator.isFinal()):
+            elm = self.iterator.next()
+            if (elm != None):
+                list.append(elm)
+
+        return list
 ```
 
 
@@ -217,7 +327,7 @@ public class ConcreteAggregate : Aggregate
 ```
 private List<IElement> Shopcart = null;
 this.Shopcart = new List<IElement>(){
-    //放一些商品....
+    //Some products..
 };
 
 IObjectStructure checkout = new ObjectStructure();
@@ -225,11 +335,27 @@ checkout.Elements = aggregate.GetAll();
 
 //Accept all the elements and execute the strategy from certain Visitor 
 checkout.Accept(new VisitorDiscount4Count());
-
 ```
+
+
 
 * Python
 ```
+_shopcart = [
+    #Some products..
+]
+
+aggregate = ConcreteAggregate(Elements.ProductTypeEnum.Book)
+for prod in _shopcart:
+    aggregate.add(prod)
+
+checkout = ObjectStructure()
+# Attach the elements into ObjectStructure
+for item in aggregate.getAll():
+    checkout.attach(item)
+
+# Accept all the elements and execute the strategy from certain Visitor
+checkout.accept(VisitorDiscount4Count())
 ```
 
 
