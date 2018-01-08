@@ -74,3 +74,4 @@ while (!iterator.IsFinal)
 
 ## Reference
 - [如何：使用 foreach 存取集合類別 (C# 程式設計手冊)](https://docs.microsoft.com/zh-tw/dotnet/csharp/programming-guide/classes-and-structs/how-to-access-a-collection-class-with-foreach)
+- [C# IEnumerator, IEnumerable, and Yield](http://dev.twsiyuan.com/2016/03/csharp-ienumerable-ienumerator-and-yield-return.html)
