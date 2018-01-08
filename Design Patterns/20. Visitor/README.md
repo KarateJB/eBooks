@@ -14,16 +14,16 @@ Amy(PO):
 
 JB:<br> 
 這個需求看起來很簡單，但是仔細想了一下，發現要寫好程式很困難耶! 我們得考慮：
-1. 既有的優惠條件會不會改變?
-2. 會不會未來再新增其他商品的優惠？ 
+- 既有的優惠條件會不會改變?
+- 會不會未來再新增其他商品的優惠？ 
 
 Lily:<br>
 你說的沒錯，唯一不變的就是"變"。 
-所以我們得把這些優惠的條件和算法轉換成[策略模式(Strategy)](https://ithelp.ithome.com.tw/articles/10192935)；這個可以解決第一個問題。
-第二個問題，我們得把相同優惠策略的商品放在一個抽象的集合(或容器)，結帳時，把在相同集合的不同商品採用一樣的優惠策略計算最後的價錢!
+所以我們得把這些折扣的算法轉換成[策略模式(Strategy)](https://ithelp.ithome.com.tw/articles/10192935)；這個可以解決第一個問題。
+第二個問題，我們得把相同優惠策略的商品放在一個抽象的容器，結帳時，把在相同集合的不同商品採用一樣的優惠策略計算最後的價錢，未來如果有其他商品需要用到現成的優惠，就可以把它也丟到這個抽象的容器即可!
 
 JB:<br>
-聽起來好像將某一個集合裡面的元素，讓他們跑同一個策略？
+聽起來好像將某一個容器裡面的所有元素，讓他們跑同一個策略？
 
 Lily:<br>
 沒錯! 這種行為(Behavioral design patterns)叫做**Visitor訪問者模式**!
@@ -51,14 +51,14 @@ Lily:<br>
 
 ### Visitor
 
-1. Visitor須提供一個訪問的方法。
-2. Visitor其實就是策略(Strategy)，我們稍後在Element就會帶入策略的抽象類別。
+1. Visitor(訪問者)須提供一個訪問的方法。
+2. Visitor其實就是策略(Strategy)，我們稍後在Element就會帶入這個Visitor(抽象的策略類別)。
 
 我們在這個行銷活動，要建立兩個商品計算折扣後價格的策略，分別為：
 - 該項商品數量10以上八折優惠
 - 該項商品總價$1,000以上九折優惠
 
-PS. 我在建立Visitor時只考慮**計算的公式**，而先不考慮它適用於哪些商品。
+PS. 建立Visitor時只考慮**計算的公式**，而先不考慮它適用於哪些商品。
 
 
 * C#
@@ -108,6 +108,43 @@ public class VisitorDiscount4TotalPrice : Visitor
 
 * Python
 ```
+from abc import ABC, abstractmethod
+from decimal import Decimal
+
+class Visitor(ABC):
+    @abstractmethod
+    def visit(self, element=Elements.Element):
+        pass
+
+class VisitorDiscount4Count(Visitor):
+    """該項商品數量10以上八折優惠"""
+
+    def visit(self, elm=Elements.Element):
+        if(elm.amount >= 10):
+            elm.totalPrice = elm.unitPrice * Decimal(elm.amount) * Decimal(0.8)
+            print("(折扣!){0}: 單價${1}, 數量{2}, 20% off, 總價格={3}".format(
+                elm.name, elm.unitPrice, elm.amount, "{0:.2f}".format(elm.totalPrice)))
+        else:
+            elm.totalPrice = elm.unitPrice * Decimal(elm.amount)
+            print("{0}: 單價${1}, 數量{2}, 總價格={3}".format(
+                elm.name, elm.unitPrice, elm.amount, "{0:.2f}".format(elm.totalPrice)))
+
+
+class VisitorDiscount4TotalPrice(Visitor):
+    """該項商品總價$1,000以上九折優惠"""
+
+    def visit(self, elm=Elements.Element):
+
+        totalPrice = elm.unitPrice * Decimal(elm.amount)
+        if(totalPrice > 1000):
+            elm.totalPrice = Decimal(totalPrice) * Decimal(0.9)
+            print("(折扣!){0}: 單價${1}, 數量{2}, 10% off, 總價格={3}".format(
+                elm.name, elm.unitPrice, elm.amount, "{0:.2f}".format(elm.totalPrice)))
+        else:
+            elm.totalPrice = totalPrice
+            print("{0}: 單價${1}, 數量{2}, 總價格={3}".format(
+                elm.name, elm.unitPrice, elm.amount, "{0:.2f}".format(elm.totalPrice)))
+
 ```
 
 
@@ -154,6 +191,35 @@ public class Product : IElement
 
 * Python
 ```
+from abc import ABC, abstractmethod
+from enum import Enum
+from decimal import Decimal
+
+class ProductTypeEnum(Enum):
+    Book = 1,  # 書
+    Living = 2,  # 生活用品
+    Electronic = 3  # 電子用品
+
+
+class Element(ABC):
+    def __init__(self, productType=ProductTypeEnum, name="", unitPrice=0, amount=0):
+        self.productType = productType
+        self.name = name
+        self.unitPrice = Decimal(unitPrice)
+        self.amount = amount
+        self.totalPrice=Decimal(0)
+
+    @abstractmethod
+    def accept(self, visitor):
+        pass
+
+
+class Product(Element):
+    def __init__(self, productType=ProductTypeEnum, name="", unitPrice=0, amount=0):
+        super().__init__(productType, name, unitPrice, amount)
+
+    def accept(self, visitor):
+        visitor.visit(self)
 ```
 
 到這邊已經完成了策略模式! 我們可以在主程式這樣使用它：(以C#為例)
@@ -171,7 +237,7 @@ elm.Accept(new VisitorDiscount4Count());
 
 ObjectStructure的作用：
 1. 提供存取Element的介面
-2. 執行訪問多個Element
+2. 接受訪問者，讓訪問者可以訪問多個Element 
 
 * C#
 ```
@@ -208,6 +274,24 @@ public class ObjectStructure : IObjectStructure
 
 * Pyhton
 ```
+import Elements
+import Visitors
+
+
+class ObjectStructure:
+    def __init__(self):
+        self.elements = []
+
+    def attach(self,element: Elements.Element):
+        self.elements.append(element)
+
+    def detach(self,element: Elements.Element):
+        self.elements.remove(element)
+
+    def accept(self,visitor: Visitors.Visitor):
+        for elm in self.elements:
+            elm.accept(visitor)
+
 ```
 
 我們來看這個購物車如何透過訪問者模式結帳：
@@ -217,10 +301,7 @@ public class ObjectStructure : IObjectStructure
 private List<IElement> Shopcart = null;
 this.Shopcart = new List<IElement>(){
     new Product { ProductType=ProductTypeEnum.Book, Name="設計模式的解析與活用", UnitPrice=480, Amount=20 },
-    new Product { ProductType=ProductTypeEnum.Book, Name="使用者故事對照", UnitPrice=580, Amount=5 },
-    new Product { ProductType=ProductTypeEnum.Living, Name="吸塵器", UnitPrice=2000, Amount=2 },
-    new Product { ProductType=ProductTypeEnum.Living, Name="毛巾", UnitPrice=50, Amount=10 },
-    new Product { ProductType=ProductTypeEnum.Electronic, Name="Surface Pro", UnitPrice=50000, Amount=2}
+    new Product { ProductType=ProductTypeEnum.Book, Name="使用者故事對照", UnitPrice=580, Amount=5 }
 };
 
 IObjectStructure checkout = new ObjectStructure();
@@ -235,27 +316,59 @@ checkout.Accept(new VisitorDiscount4Count());
 ```
 
 以上針對購物車裡面的書籍，將其放入ObjectStructure，再統一使用`VisitorDiscount4Count`(該項商品數量10以上八折優惠)訪問。 執行結果：
+
 *(折扣!)設計模式的解析與活用: 單價$480, 數量20, 20% off, 總價格=7680.0*
 *使用者故事對照: 單價$580, 數量5, 總價格=2900*
 
 
 * Python
 ```
+_shopcart = [
+            Elements.Product(productType=Elements.ProductTypeEnum.Living,
+                             name="吸塵器", unitPrice=2000, amount=2),
+            Elements.Product(productType=Elements.ProductTypeEnum.Living,
+                             name="毛巾", unitPrice=50, amount=10)
+        ]
 
+checkout = ObjectStructure()
+
+# Attach the elements into ObjectStructure
+targetProds = [
+    x for x in self._shopcart if x.productType == Elements.ProductTypeEnum.Living]
+for item in targetProds:
+    checkout.attach(item)
+
+# Accept all the elements and execute the strategy from certain Visitor
+checkout.accept(VisitorDiscount4TotalPrice())
 ```
 
-以上針對購物車裡面的書籍，將其放入ObjectStructure，再統一使用`VisitorDiscount4TotalPrice`(該項商品數該項商品總價$1,000以上九折優惠)訪問。 執行結果：
-(折扣!)吸塵器: 單價$2000, 數量2, 10% off, 總價格=3600.0 
-毛巾: 單價$50, 數量10, 總價格=500
+以上針對購物車裡面的生活用品，將其放入ObjectStructure，再統一使用`VisitorDiscount4TotalPrice`(該項商品數該項商品總價$1,000以上九折優惠)訪問。 執行結果：
+
+*(折扣!)吸塵器: 單價$2000, 數量2, 10% off, 總價格=3600.00*
+*毛巾: 單價$50, 數量10, 總價格=500.00*
+
+
+### Visitor vs. Strategy
+
+我們來看了解一下兩者的使用時機：
+1. Strategy 是設計來對一個物件 注入不同處理邏輯。
+2. Visitor 是設計來對多個物件 注入處理邏輯， 當然也可以對單一個物件注入不同處理邏輯。
+3. Strategy 簡單，適用於多數場合。
+4. Visitor 本身使用了 Strategy的概念。
+5. Visitor 適用於有多個實作類別或是子類別，而且每個類別需要特別的處理邏輯。
+
+
 
 ## Sample Codes
 
 1. C#
 - [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/CSharp/DP.Domain/Samples/Visitor)
-- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.UnitTest/UtChainOfResposibility.cs)
+- [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.UnitTest/UtVisitor.cs)
 
 2. Python
 - [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/Python/Samples/Visitor)
 - [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/Python/Samples/Visitor/UtVisitor.py)
 
 
+## Reference
+- [What is the difference between Strategy pattern and Visitor Pattern?](https://stackoverflow.com/questions/8665295/what-is-the-difference-between-strategy-pattern-and-visitor-pattern)
