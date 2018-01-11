@@ -1,6 +1,6 @@
 # Singleton 單例模式
 
-> 僅將此篇文章獻給我的致友、導師，Charles，此篇文章參考了大部分他的知識和文章，原文：[程湘之間](http://charlesbc.blogspot.tw/2009/04/design-pattern-singleton.html)
+> 僅將此篇文章獻給我的摯友、導師，Charles，此篇文章參考了大部分他的知識和文章，原文：[程湘之間](http://charlesbc.blogspot.tw/2009/04/design-pattern-singleton.html)
 
 ## 需求描述
 
@@ -13,8 +13,7 @@ Amy(PO):
 ## 思考設計
 
 Hachi:<br>
-「在產品發表會螢幕上打上線上預購的數目」？ 
-我突然想到購物節電商即時顯示的即時交易數據!
+「在產品發表會螢幕上打上線上預購的數目」？ 讓我想到購物節電商即時顯示的即時交易數據!
 
 JB:<br>
 你說的沒錯! 這次就是這樣搞! 
@@ -24,7 +23,7 @@ Lily:<br>
 別替他們擔心! 業務部的人已經評估一個預購量，讓我們在預購開始時，直接逐筆累加在螢幕上的預購數! 讓現場看起來幾秒之內我們就收到了幾萬筆預購!! 然後螢幕放個綵帶的動畫...副總上台致詞轉移焦點...結束完美的發表會!
 
 Hachi:<br>
-寫個迴圈，每秒累加一個亂數就完成這個需求了 XD
+所以我們寫個迴圈，每秒累加一個亂數就算完成這個需求了嗎!
 
 Lily:<br>
 哈哈! 你學的很快! 不過我們重點是在於真正線上客戶的預購! 畢竟他們收到的預購號碼不能重複!
@@ -35,8 +34,6 @@ Lily:<br>
 
 > 確保類別只有一個實例(instance)，並提供所有對象訪問這個實例的方法。([WIKI](https://en.wikipedia.org/wiki/Singleton_pattern))
 
-
-> 注意Singleton class和Static class最大的不同是它可以被實例成物件
 
 
 ## Singleton in C#
@@ -90,12 +87,12 @@ public sealed class NonThreadSafeSingleton: NumberProvider
 
 例如在單元測試程式模擬同時有十位客戶(10 Threads)作線上預購，結果使用Non thread-safe Singleton造成其中五位客戶產生了重複的預購號碼： 1 和 2 。
 
-(19)陳 先生預購2組: *1* *2* 
-(21)施 先生預購2組: *1* *2* 
-(20)謝 先生預購2組: *1* *2* 
-(22)林 先生預購2組: *1* *2* 
-(8)林 先生預購2組: *1* *2* 
-(8)李 先生預購2組: *11* *12* 
+*(19)陳 先生預購2組，預購號碼為: 1，2* 
+*(21)施 先生預購2組，預購號碼為: 1，2* 
+*(20)謝 先生預購2組，預購號碼為: 1，2* 
+*(22)林 先生預購2組，預購號碼為: 1，2*
+*(8)林 先生預購2組，預購號碼為: 1，2* 
+*(8)李 先生預購2組，預購號碼為: 11，12* 
 ....
 
 PS. 以上輸出格式為 (執行緒ID) XXX預購N組: 預購號碼
@@ -195,12 +192,66 @@ public class NumberProvider
 ```
 
 這樣就可以確保在多個客戶同時線上預購時，不會取到相同的號碼。
+單元測試程式碼請參考[這裡](https://github.com/KarateJB/DesignPattern.Sample/blob/master/CSharp/DP.UnitTest/UtSingleton.cs)。
+
 
 
 ## Singleton in Python
 
-https://stackoverflow.com/questions/31875/is-there-a-simple-elegant-way-to-define-singletons
-https://stackoverflow.com/questions/6760685/creating-a-singleton-in-python
+在Python因為沒有private修飾詞，無法在類別裡建立私有的變數來作為單例實體。
+比較直覺的方式是採用module的方式來作為Singleton模式。
+或是利用以下程式碼建立一個單例類別`NumberProvider`。
+
+```
+def singleton(cls):
+    obj = cls()
+    # Always return the same object
+    cls.__new__ = staticmethod(lambda cls: obj)
+    # Disable __init__
+    try:
+        del cls.__init__
+    except AttributeError:
+        pass
+    return cls
+
+
+@singleton
+class NumberProvider():
+    counter =0
+    def getNumber(self):
+        self.counter+=1
+        return self.counter
+```
+
+
+
+在多執行緒的測試程式碼：
+
+```
+class GetNumberThread(threading.Thread):
+    def __init__(self):
+        super().__init__()
+
+    def run(self):
+        for i in range(0, 30):
+            singleton = NumberProvider()
+            number = singleton.getNumber()
+            print(number)
+
+
+if(NumberProvider()==NumberProvider()):
+    print('Correct!')
+    
+threads = []
+for i in range(0,10):
+    thread = GetNumberThread()
+    threads.append(thread)
+    thread.start()
+
+for thread in threads:
+    thread.join()
+
+```
 
 
 
@@ -217,3 +268,5 @@ https://stackoverflow.com/questions/6760685/creating-a-singleton-in-python
 ## Reference
 - [程湘之間 - Design Pattern: Singleton 的型式](http://charlesbc.blogspot.tw/2009/04/design-pattern-singleton.html)
 - [Implementing the Singleton Pattern in C# (C# in Depth)](http://csharpindepth.com/Articles/General/Singleton.aspx)
+- [Is there a simple, elegant way to define singletons?](https://stackoverflow.com/questions/31875/is-there-a-simple-elegant-way-to-define-singletons)
+- [How to use threading in Python?](https://stackoverflow.com/questions/2846653/how-to-use-threading-in-python)
