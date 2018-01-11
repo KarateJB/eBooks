@@ -20,7 +20,7 @@
 3. 當執行某個作戰計畫時，你只要下達"執行"，讓每個命令都將直接下達各部隊指揮官，由各指揮官去執行任務的細節即可
 
 #### 圖二
-![](https://2.bp.blogspot.com/-AcIuWP_VJK0/WlRTHOZTQRI/AAAAAAAAFrY/6EOWzkWhC0oyL4LzYnch9li7UspM5M7CACLcBGAs/s1600/Command_2.png)
+![](https://4.bp.blogspot.com/-GfLPQfYJqgQ/WlRTG7u3o1I/AAAAAAAAFrU/cGmbMV7P6a0SH5MhU59oAc7YIkP7cRJAwCLcBGAs/s1600/Command_2.png)
 [Photo from kknews.cc](https://kknews.cc/history/mga2l69.html)
 
 
@@ -29,7 +29,7 @@
 
 ## 定義
 
-> 將請求封裝為物件，允許使用不同的請求來參數化客戶端，駐列或記錄這些請求，並支持可撤銷的操作 ([https://en.wikipedia.org/wiki/Command_pattern]())
+> 將請求封裝為物件，允許使用不同的請求來參數化客戶端，駐列或記錄這些請求，並支持可撤銷的操作 ((WIKI)[https://en.wikipedia.org/wiki/Command_pattern])
 
 
 ### UML
@@ -56,7 +56,7 @@
   2. 當收到Client(總指揮官)執行的通知，執行所有內部的命令
 
 #### 圖三
-![](https://2.bp.blogspot.com/-AcIuWP_VJK0/WlRTHOZTQRI/AAAAAAAAFrY/6EOWzkWhC0oyL4LzYnch9li7UspM5M7CACLcBGAs/s1600/Command_3.png)
+![](https://1.bp.blogspot.com/-zs-HWeJ0tPI/WlRTHghKusI/AAAAAAAAFrc/NNtj4hHfDiU7PVEma38LMs2lays3HVzhwCLcBGAs/s1600/Command_3.png)
 [Photo from kknews.cc](https://kknews.cc/history/mga2l69.html)  
 
 
@@ -118,6 +118,53 @@ public class ReceiverArmy : IReceiver
 
 * Python
 ```
+from abc import ABC, abstractmethod
+
+class Receiver(ABC):
+    @abstractmethod
+    def gatherArmy(self):
+        """集合部隊"""
+        pass
+
+    @abstractmethod
+    def fire(self):
+        """開火"""
+        pass
+
+    @abstractmethod
+    def setHighGround(self):
+        """設定制高點=有利之位置"""
+        pass
+
+    @abstractmethod
+    def hold(self):
+        """等待開火指示"""
+        pass
+
+    @abstractmethod
+    def support(self):
+        """支援"""
+        pass
+
+class ReceiverAirForce(Receiver):
+
+    def fire(self):
+        print('[AirForce] 自由開火!')
+
+    def gatherArmy(self):
+        print('[AirForce] 集合戰鬥機飛官!')
+
+    def hold(self):
+        print('[AirForce] 組織巡邏隊形進行觀察!')    
+
+    def setHighGround(self):
+        print('[AirForce] 飛高高!')
+
+    def support(self):
+        print('[AirForce] 以機槍掃射掩護!')
+
+        
+# ReceiverNavy和ReceiverAirForce類別請參考ReceiverArmy自行建立或參考Github之原始碼
 ```
 
 
@@ -128,7 +175,7 @@ public class ReceiverArmy : IReceiver
 每個命令必須有一個部隊(Receiver)來執行細節。
 這裡我們讓總指揮官的命令包含：
 1. Breakthrough：突破
-2. Defense: 防守
+2. Defense: 防禦
 3. Support: 支援
 
 
@@ -156,7 +203,7 @@ public class CmdBreakthrough:Command
         this._receiver.Fire();
     }
 }
-///Defense: 防守
+///Defense: 防禦
 public class CmdDefense : Command
 {
     public CmdDefense(IReceiver receiver):base(receiver)
@@ -185,6 +232,43 @@ public class CmdSupport : Command
 
 * Python
 ```
+from abc import ABC, abstractmethod
+from Receivers import Receiver
+
+class Command(ABC):
+    def __init__(self, receiver:Receiver):
+        self.receiver = receiver
+     
+    @abstractmethod
+    def execute(self):
+        pass
+
+class CmdSupport(Command):
+    """Support: 支援"""
+    def __init__(self, receiver:Receiver):
+        super().__init__(receiver)
+    
+    def execute(self):
+        self.receiver.support()
+
+class CmdDefense(Command):
+    """Defense: 防禦"""    
+    def __init__(self, receiver:Receiver):
+        super().__init__(receiver)
+    
+    def execute(self):
+        self.receiver.setHighGround()
+        self.receiver.hold()
+        
+
+class CmdBreakthrough(Command):
+    """Breakthrough: 突破"""        
+    def __init__(self, receiver:Receiver):
+        super().__init__(receiver)
+    
+    def execute(self):
+        self.receiver.gatherArmy()
+        self.receiver.fire()
 ```
 
 
@@ -223,6 +307,21 @@ public class Invoker
 
 * Python
 ```
+from Commands import Command
+
+class Invoker:
+    def __init__(self):
+        self.commands=[]
+    
+    def addCommand(self, cmd:Command):
+        self.commands.append(cmd)
+
+    def cancelCommand(self, cmd:Command):
+        self.commands.remove(cmd)
+
+    def invoke(self):
+        for cmd in self.commands:
+            cmd.execute()
 ```
 
 Now is the time! 總指揮官! 請開始利用命令模式來執行兩階段的D-Day登陸作戰吧! 
@@ -242,7 +341,7 @@ IReceiver airForce = new ReceiverAirForce();
 Invoker invokerLanding = new Invoker();
 Command[] commands4Landing = new Command[]{
     new CmdBreakthrough(navy),  //海軍突破
-    new CmdDefense(army), //陸軍防守
+    new CmdDefense(army), //陸軍
     new CmdSupport(airForce) //空軍支援
 };
 commands4Landing.ToList().ForEach( cmd =>{
@@ -254,7 +353,7 @@ Invoker invokerLanded = new Invoker();
 Command[] commandsLanded = new Command[]{
     new CmdBreakthrough(army), //陸軍突破
     new CmdSupport(navy), //海軍支援
-    new CmdDefense(airForce) //空軍防守
+    new CmdDefense(airForce) //空軍防禦
 };
 commandsLanded.ToList().ForEach( cmd =>{
     invokerLanded.AddCommand(cmd);
@@ -285,6 +384,49 @@ invokerLanded.Invoke();
 
 * Python
 ```
+# 準備海陸空軍
+        navy = ReceiverNavy()
+        army = ReceiverArmy()
+        airForce = ReceiverAirForce()
+            
+        """D-Day前:指揮官建立作戰計畫"""
+                
+        # 登陸作戰命令
+        invokerLanding = Invoker()
+        commands4Landing = [
+                CmdBreakthrough(navy),  #海軍突破
+                CmdDefense(army), #陸軍防禦
+                CmdSupport(airForce) #空軍支援
+        ]
+        
+        for cmd in commands4Landing:
+            invokerLanding.addCommand(cmd)
+
+        # 登陸後作戰命令
+        invokerLanded = Invoker()
+        commandsLanded = [
+            CmdBreakthrough(army), # 陸軍突破
+            CmdSupport(navy), # 海軍支援
+            CmdDefense(airForce) # 空軍防禦
+        ]
+        for cmd in commandsLanded:
+            invokerLanded.addCommand(cmd)
+
+
+        """D-Day:開始執行作戰計畫"""
+
+        print("搶灘作戰開始!-----------------")
+        invokerLanding.invoke()
+
+        isEnemyTough = True
+        if(isEnemyTough): #敵方砲火猛烈=>更新命令
+            # 取消空軍支援
+            invokerLanded.cancelCommand(commandsLanded[2])
+            # 改加入空軍突破
+            invokerLanded.addCommand(CmdBreakthrough(airForce))
+
+        print("陸地作戰開始!-----------------")            
+        invokerLanded.invoke()
 ```
 
 注意在主程式刻意模擬在搶灘成功後、陸地作戰前，更改了陸地作戰的命令。
@@ -304,16 +446,16 @@ invokerLanded.Invoke();
 *[AirForce] 自由開火!*
 
 
-恭喜你! 登陸作戰成功!
-但是現實軟體開發中我們可不會真的拿起槍來作戰...那麼何時適合用命令模式呢？
-以下是我自己的理解：
-1. Receiver注入到Command => 策略模式(Strategy)
-2. Command的Execute方法 =>  外觀模式(Facade)
-3. Invoker => 類似訪問者模式(Visitor)，但命令模式的不同處是被Invoke的對象被定義在Command
+恭喜指揮官! 登陸作戰成功!
 
-所以命令模式(Command)適合以下場景：
-- 一次執行多個對象
-- 對象需要抽換策略和抽換執行策略的邏輯
+那麼何時適合用命令模式呢？
+- 當需要執行多個對象
+- 且對象需要抽換策略和抽換執行策略的邏輯
+
+
+命令模式在Behavioral design patterns是其中一個相對複雜的模式，但是也是用來解釋Behavioral design patterns最好的模式；
+它解除了高階模組與低階模組的耦合關係，讓兩者都依賴於抽象，大大的增加了程式碼的彈性與可擴充性!
+
 
 
 ## Sample Codes
@@ -325,3 +467,4 @@ invokerLanded.Invoke();
 2. Python
 - [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/Python/Samples/Command)
 - [Unit Test](https://github.com/KarateJB/DesignPattern.Sample/blob/master/Python/Samples/Command/UtCommand.py)
+

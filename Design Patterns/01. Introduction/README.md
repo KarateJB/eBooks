@@ -1,6 +1,6 @@
 ## 學習設計模式的方式
 
-1. 買/借本好書
+1. 買(借)本好書
 2. 初步了解設計模式 (先有概念)
 3. 模仿及練習書上範例
 4. 重新再讀一次
@@ -11,7 +11,7 @@
 方式並無絕對好壞，重點在於解決及預防問題。
 
 
-## 買本好書
+## 買(借)本好書
 
 以下是部分建議的書單，可以參考看看。
 
@@ -42,22 +42,21 @@
 
    * Creational design patterns
 
-     | Abstract Factory | Builder | Factory Method | Prototype | Singleton |
+     | [Abstract Factory](https://ithelp.ithome.com.tw/articles/10194363) | [Builder](https://ithelp.ithome.com.tw/articles/10194814) | [Factory Method]((https://ithelp.ithome.com.tw/articles/10194363)) | [Prototype](https://ithelp.ithome.com.tw/articles/10194600) | Singleton |
       
    * Structural design patterns
 
-     | Adapter | Bridge | Composite | Decorator | Facade | Flyweight | Proxy |
+     | [Adapter](https://ithelp.ithome.com.tw/articles/10194158) | [Bridge](https://ithelp.ithome.com.tw/articles/10193914) | [Composite](https://ithelp.ithome.com.tw/articles/10195044) | [Decorator](https://ithelp.ithome.com.tw/articles/10195207) | [Facade](https://ithelp.ithome.com.tw/articles/10193671) | [Flyweight](https://ithelp.ithome.com.tw/articles/10195427) | [Proxy](https://ithelp.ithome.com.tw/articles/10195625) |
 
    * Behavioral design patterns
 
-     | Chain of responsibility | Command | Interpreter | Iterator | Mediator | Memento | Observer | State | Strategy | Template | Visitor |
+     | [Chain of responsibility](https://ithelp.ithome.com.tw/articles/10193451) | [Command](https://ithelp.ithome.com.tw/articles/10196669) | [Interpreter](https://ithelp.ithome.com.tw/articles/10193177) | [Iterator](https://ithelp.ithome.com.tw/articles/10196545) | [Mediator](https://ithelp.ithome.com.tw/articles/10195923) | [Memento](https://ithelp.ithome.com.tw/articles/10196102) | [Observer](https://ithelp.ithome.com.tw/articles/10196777) | [State](https://ithelp.ithome.com.tw/articles/10196254) | [Strategy](https://ithelp.ithome.com.tw/articles/10192935) | [Template](https://ithelp.ithome.com.tw/articles/10195762) | [Visitor](https://ithelp.ithome.com.tw/articles/10196407) |
   
 
 ## 參考別人經驗
 
    每個軟體開發人在從規劃架構到寫一個小函式的風格和方式都或多或少會有不同。
-   這也是此系列文的初衷，拋磚引玉、和大家一起切磋進步。
-   歡迎任何指正/回饋/建議。
+   這也是此系列文的初衷，拋磚引玉、和大家一起切磋進步。歡迎提供任何指正/回饋/建議。
 
 
 ## 實作的語言
@@ -71,6 +70,6 @@
 1. 描述需求
 2. 思考如何解決問題
 3. 程式碼範例及說明
-4. 程式碼參考位置(Github)
+4. 程式碼參考位置([Github](https://github.com/KarateJB/DesignPattern.Sample))
 
 
