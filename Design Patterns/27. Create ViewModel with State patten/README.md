@@ -1,4 +1,4 @@
-# Render PartialView with Builder patten in ASP.NET MVC
+# 在ASP.NET MVC利用建造者模式來製造View Model
 
 我們在先前的文章已用實例來說明GOF的
 - Creational design patterns
@@ -45,6 +45,17 @@ ASP.NET Core的學習和細節可以參考[John Wu](https://ithelp.ithome.com.tw
 ## Sample Codes
 
 - [Source code](https://github.com/KarateJB/DesignPattern.Sample/tree/master/CSharp/DP.Website)
+
+
+### 建立ASP.NET Core MVC專案
+
+```
+dotnet new mvc --name DP.Website
+dotnet sln DP.sln add DP.Website/DP.Website.csproj
+cd DP.Website
+dotnet restore
+dotnet build  
+```
 
 
 ### 建立View Models
