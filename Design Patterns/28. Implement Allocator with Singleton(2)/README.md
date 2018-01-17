@@ -54,8 +54,151 @@ public class MyController : BaseController
 可以參考我的這篇文章：[[ASP.NET Core] Dependency Injection service lifetime](http://karatejb.blogspot.tw/2017/06/aspnet-core-dependency-injection.html)
 
 
+### 實作取號的Singleton類別
+
+有了以上DI的基礎後，我們開始來實作取號的單例類別。
+
+* \Allocator.Service\AllocatorGetValProvider.cs
+```
+public interface IAllocatorGetValProvider
+{
+    /// <summary>
+    /// 取號
+    /// </summary>
+    /// <returns></returns>
+    long GetNextVal(String key);
+}
+
+public sealed class AllocatorGetValProvider : IAllocatorGetValProvider
+{
+    private DbContextFactory _dbFactory = null;
+    private string _key = String.Empty; //紀錄Key Name
+    private Int64 _minHiVal = 0;
+    private Int64 _maxHiVal = 0;
+
+    private static Int64 INTERVAL = 10; //minHi~maxHi
+    private static object block = new object();
+
+    public AllocatorGetValProvider(DbContextFactory dbFactory)
+    {
+        if (dbFactory != null)
+            this._dbFactory = dbFactory;
+    }
 
 
+    /// <summary>
+    /// 取號
+    /// </summary>
+    /// <returns></returns>
+    public Int64 GetNextVal(String key)
+    {
+        lock (block)
+        {
+            if (!key.Equals(this._key))
+            {
+                //當Singleton被重新建立時(例如AP重啟)，強制跳號
+                this.setMinMaxHi(key: key, isForceReset: true);
+                this._key = key;
+            }
+            else
+            {
+                if (this._minHiVal < this._maxHiVal)
+                {
+                    this._minHiVal++;
+                }
+                else
+                {
+                    this.setMinMaxHi(key: key, isForceReset: true);
+                }
+            }
+
+            return this._minHiVal;
+        }
+    }
+    /// <summary>
+    /// 取得NEXT HI
+    /// </summary>
+    private void setMinMaxHi(string key, bool isForceReset=false)
+    {
+        try
+        {
+            //設定 TransactionScope的 Option
+            TransactionOptions transOptions = new TransactionOptions()
+            {
+                IsolationLevel = System.Transactions.IsolationLevel.Serializable,
+                Timeout = new TimeSpan(0, 0, 1) //timeout : 1 min
+            };
+
+            using (var dbContext = this._dbFactory.CreateDbContext())
+            using (var dbContextTransaction = dbContext.Database.BeginTransaction())
+            using (var hlService = new HiLoService<DAL.Models.HiLo>(dbContext))
+            {
+                Int64 dbNextHi = 0;
+                Int64 dbMaxVal = 0;
+
+                #region Get current HiLo from database
+                var hilo = hlService.Get(x => x.Key.Equals(key)).FirstOrDefault();
+                if (hilo != null)
+                {
+                    dbNextHi = hilo.NextHi;
+                    dbMaxVal = hilo.MaxValue;
+                }
+                else
+                {
+                    throw new Exception("The key is not exist in HiLo master table!");
+                }
+                #endregion
+
+                #region 設定Singleton可用的minHi/maxHi value
+                //this.setMinMaxHiValStrategy(dbNextHi, dbMaxVal);
+                if (isForceReset || (this._minHiVal + 1) > dbMaxVal)
+                {
+                    //重新設定新Range
+                    this._minHiVal = dbNextHi + INTERVAL;
+                    this._maxHiVal = dbMaxVal + INTERVAL;
+
+                    hilo.NextHi = this._minHiVal;
+                    hilo.MaxValue = this._maxHiVal;
+                    hlService.Update(hilo);
+                }
+                else
+                {
+                    this._maxHiVal = dbMaxVal;
+                }
+                #endregion
+
+                dbContextTransaction.Commit();
+            }
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+}
+```
+
+以上的程式碼重點在於：
+- `INTERVAL`: 決定每次分配號碼範圍的大小，例如設定INTERVAL=10，表示每次只會分配10個號碼。
+- 當提供的號碼(Lo)將超出分配的範圍時，重設Singleton的`_minHiVal`和`_maxHiVal`並更新回資料庫。
+- 當**重啟應用程式**或者**Client查詢另一組分派器(Key)**時，Singleton的`_minHiVal`和`_maxHiVal`將不具有參考價值，而必須回到資料庫取得新的分配範圍。
+  例如：當INTERVAL100且已分配101-200，目前已取號到135，但是在AP重啟(等於Singleton物件被重新建立)及資料庫不記錄已用到哪一個號碼情況下，將直接重新分配201-300。 所以AP重啟後，Client拿到的第一個號碼是201。
+- 必須LOCK取號的動作，避免重複取得相同的號碼:
+  ```
+  public Int64 GetNextVal(String key)
+  {
+    lock (block)
+    {
+        //取號...
+    }
+  }
+  ```
+
+### 注入Singleton類別
+
+* \Allocator.Service\AllocatorGetValProvider.cs
+```
+```
 
 
 實際利用Postman建立一個分配器：
