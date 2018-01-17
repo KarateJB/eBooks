@@ -166,4 +166,5 @@ public async Task<HttpResponseMessage> Create([FromBody]HiLo hilo)
 
 
 ## Reference
-- [[ASP.NET Core] Dependency Injection service lifetime](http://karatejb.blogspot.tw/2017/06/aspnet-core-dependency-injection.html)
+- [Linear block allocator - a superior alternative to hilo](http://literatejava.com/hibernate/linear-block-allocator-a-superior-alternative-to-hilo/)
+- [The hilo algorithm](https://vladmihalcea.com/the-hilo-algorithm/)
