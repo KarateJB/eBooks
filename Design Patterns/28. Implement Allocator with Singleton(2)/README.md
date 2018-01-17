@@ -9,9 +9,9 @@
 
 - [Source code](https://github.com/KarateJB/AspNetCore.LinearAllocator)
 
+<br><br>
 
-
-### ASP.NET Core - Dependency Injection
+## ASP.NET Core - Dependency Injection
 
 由於必須使用單例模式(Singleton)來設計取號這個動作，在ASP.NET Core可以很方便的利用DI機制來建立一個Singleton instance。
 方式為在Startup.cs的`ConfigureServices`這個方法裡面注入我們的Singleton服務物件。
@@ -54,6 +54,9 @@ public class MyController : BaseController
 可以參考我的這篇文章：[[ASP.NET Core] Dependency Injection service lifetime](http://karatejb.blogspot.tw/2017/06/aspnet-core-dependency-injection.html)
 
 
+
+
+<br><br>
 ### 實作取號的Singleton類別
 
 有了以上DI的基礎後，我們開始來實作取號的單例類別。
@@ -179,35 +182,143 @@ public sealed class AllocatorGetValProvider : IAllocatorGetValProvider
 ```
 
 以上的程式碼重點在於：
-- `INTERVAL`: 決定每次分配號碼範圍的大小，例如設定INTERVAL=10，表示每次只會分配10個號碼。
-- 當提供的號碼(Lo)將超出分配的範圍時，重設Singleton的`_minHiVal`和`_maxHiVal`並更新回資料庫。
-- 當**重啟應用程式**或者**Client查詢另一組分派器(Key)**時，Singleton的`_minHiVal`和`_maxHiVal`將不具有參考價值，而必須回到資料庫取得新的分配範圍。
-  例如：當INTERVAL100且已分配101-200，目前已取號到135，但是在AP重啟(等於Singleton物件被重新建立)及資料庫不記錄已用到哪一個號碼情況下，將直接重新分配201-300。 所以AP重啟後，Client拿到的第一個號碼是201。
-- 必須LOCK取號的動作，避免重複取得相同的號碼:
-  ```
-  public Int64 GetNextVal(String key)
-  {
-    lock (block)
+1. `INTERVAL`: 決定每次分配號碼範圍的大小，例如設定INTERVAL=10，表示每次只會分配10個號碼。
+2. 當提供的號碼(Lo)將超出分配的範圍時，重設Singleton的`_minHiVal`和`_maxHiVal`並更新回資料庫。
+3. 當**重啟應用程式**或者**Client查詢另一組分派器**時，Singleton的`_minHiVal`和`_maxHiVal`將不具有參考價值，而必須回到資料庫取得新的分配範圍。
+   > 例如：當INTERVAL100且已分配101-200，目前已取號到135，但是在AP重啟(等於Singleton物件被重新建立)及資料庫不記錄已用到哪一個號碼情況下，將直接重新分配201-300。 所以AP重啟後，Client拿到的第一個號碼是201。
+4. 必須LOCK取號的動作，避免重複取得相同的號碼:
+
+
+
+### 注入Singleton物件
+
+* \Allocator.WebApi\Startup.cs
+```
+public void ConfigureServices(IServiceCollection services)
+{
+    #region Singleton HiLo-GetValue Provider
+    var dbFactory = new DbContextFactory(CurrentEnvironment.EnvironmentName);
+    services.AddSingleton<IAllocatorGetValProvider>(provider => new AllocatorGetValProvider(dbFactory));
+    #endregion
+}
+```
+
+接著我們可以在API Controller使用這個注入的Singleton物件，並將之作為參數丟給分配器管理者`AllocatorManager`的`GetNextVal`方法 (這邊使用了策略模式!)。
+
+* \Allocator.WebApi\AllocatorController.cs
+```
+[Route("api/[controller]")]
+public class AllocatorController : BaseController
+{
+    private readonly IHostingEnvironment _env = null;
+    private readonly IAllocatorGetValProvider getValProvider = null;
+
+    public AllocatorController(IHostingEnvironment env, IAllocatorGetValProvider getVal)
     {
-        //取號...
+        this._env = env;
+        this.getValProvider = getVal;
+    }  
+    
+    // GET api/hilo/keyName
+    [Route("GetNext/{key}")]
+    public async Task<Sequence> GetNext(String key)
+    {
+        if (String.IsNullOrEmpty(key))
+        {
+            throw new HttpRequestException("The key should not be NULL!");
+        }
+        else
+        {
+            using(var dbFactory = new DbContextFactory(this._env.EnvironmentName))
+            using(var allocatorMng = new AllocatorManager(dbFactory))
+            {
+                var seq = allocatorMng.GetNextVal(key, this.getValProvider);
+                return seq;
+            }
+        }
     }
-  }
-  ```
-
-### 注入Singleton類別
-
-* \Allocator.Service\AllocatorGetValProvider.cs
-```
+}
 ```
 
+最後我們更新分配器管理者`AllocatorManager`的`GetNextVal`方法如下：
 
-實際利用Postman建立一個分配器：
+* \Allocator.Service\AllocatorManager.cs
+```
+public class AllocatorManager : IDisposable
+{
+    private DbContextFactory _dbFactory = null;
 
-![](https://1.bp.blogspot.com/-wGUS9ymfP6U/Wl3eIQ2qAEI/AAAAAAAAFtE/XIdyI8kqUqsS692n69y1qZEN1OnedtBDQCLcBGAs/s1600/allocator_create.png)
+    public AllocatorManager(DbContextFactory dbFactory)
+    {
+        this._dbFactory = dbFactory;
+    }
+
+    /// Create new HiLo instance in database
+    //Skip CreateHiLoInstance method here...
+
+    /// 取得Next value
+    public Domain.Models.Sequence GetNextVal(string key, IAllocatorGetValProvider getValProvider)
+    {
+        var seq = new Domain.Models.Sequence()
+        {
+            Key = key,
+            Value = getValProvider.GetNextVal(key)
+        };
+        return seq;
+    }
+}
+```
+
+### 測試取號
+
+請確定如[Day28](https://ithelp.ithome.com.tw/articles/10197383)文末的方式建立一組Key分別為"TMS","HR"的分配器。(下圖為資料表HiLos的Snapshot)
+
+![](https://2.bp.blogspot.com/-TidOBdrKN00/Wl7je_lshKI/AAAAAAAAFts/4L9a9m9fI0M8rUW1YEMueGYiVFh-18vqwCLcBGAs/s1600/LinearSeq_db.png)
 
 
 
-取號的部分我們明天再來實作。
+我們實際利用Postman來取號：
+
+![](https://2.bp.blogspot.com/-729E205aYW0/Wl7ir75YYQI/AAAAAAAAFtk/YMoclW5VM20HjlV4ODtEyDR_Cgcd39BEgCLcBGAs/s1600/LinearSeq_getnum.png)
+
+> 等等! 為什麼第一個號碼不是**1**呢? <br>
+> 原因在上面有提到因為我們是第一次啟動Web API(等於重啟)，所以分配器會分配下一組範圍值給我們。<br>
+> 現在再重新查詢資料表的資料，其應被更新為：<br>
+> ![](https://1.bp.blogspot.com/-7j9MO8tFNzA/Wl7kjo97CaI/AAAAAAAAFt4/NZhtTzWbAzQQ8tm0_MtffWOxYkItvPlaQCLcBGAs/s1600/LinearSeq_db2.png)
+
+另外可以在Postman將這個Request存到Collection並利用Collection Runner執行多次來觀察取號的情形。
+
+![](https://1.bp.blogspot.com/-5DAz6oKZX_A/Wl7oKjaaCbI/AAAAAAAAFuE/Nb3D3i6TyGAz0LxC7-9Yh5C5-eoycSNVACLcBGAs/s1600/postman.png)
+
+![](https://4.bp.blogspot.com/-QG-aJtZU4P8/Wl7oK2fY0aI/AAAAAAAAFuI/9kGlD8W5CZEK6T95IorSoSUGcT6Cw1m0ACLcBGAs/s1600/postman_collection.png)
+
+如果要測試Concurrent requests推薦使用[SuperBenchmarker](https://github.com/aliostad/SuperBenchmarker)。
+我們用以下的指令來測試共1,000個requests，每次併發10個Cocurrent request。
+```
+sb -u http://localhost:5123/api/HiLo/GetNext/TMS -n 1000 -c 10 -m GET
+```
+
+其結果如以下LOG(只擷取最後面幾個Response logs)，可以確認1,000次取號都是沒有重複的。
+
+![](https://1.bp.blogspot.com/-PqRYBfM2vaE/Wl7vK0GpzqI/AAAAAAAAFuY/EhAGS_mugYsyVFFgJlg_SSrq5GZWHdT7wCLcBGAs/s1600/LinearSeq_sb.png)
+
+
+
+如果有興趣也可以同時開兩個CMD分別執行下面的sb指令來對不同的分配器作取號，可以觀察到送出request的Key有切換時，原本那一組分配的號碼範圍立即失效，分配器會重新指派下一組。
+
+```
+sb -u http://localhost:5123/api/Allocator/GetNext/TMS -n 1000 -c 10 -m GET -l C:\temp\log1.log
+sb -u http://localhost:5123/api/Allocator/GetNext/HR -n 1000 -c 10 -m GET -l C:\temp\log2.log
+```
+
+
+
+
+## Summary
+
+用了兩天的時間來說明如何利用單例模式(Singleton)來實作線性分配器(Linear Allocator)。
+至於高低位分配器(Hi/Lo)差別只在於演算法的不同，實際上只要修改`AllocatorGetValProvider`裡面的邏輯即可。
+
 
 
 ## Reference
