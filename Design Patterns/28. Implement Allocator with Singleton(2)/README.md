@@ -316,9 +316,9 @@ sb -u http://localhost:5123/api/Allocator/GetNext/HR -n 1000 -c 10 -m GET -l C:\
 
 ## Summary
 
-用了兩天的時間來說明如何利用單例模式(Singleton)來實作線性分配器(Linear Allocator)。
-至於高低位分配器(Hi/Lo)差別只在於演算法的不同，實際上只要修改`AllocatorGetValProvider`裡面的邏輯即可。
-
+用了兩天的時間來說明如何利用單例模式(Singleton)來實作線性分配器(Linear Allocator)，主要是希望能藉由這篇文章讓大家能理解： 
+1. Singleton的應用時機
+2. Singleton可以建立一個唯一實體物件的特性
 
 
 ## Reference
