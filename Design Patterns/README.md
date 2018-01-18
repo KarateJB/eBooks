@@ -20,27 +20,18 @@
 13. [Decorator 裝飾者模式](https://github.com/KarateJB/eBooks/tree/master/Design%20Patterns/13.%20Decorator)
 14. [Flyweight 享元模式](https://github.com/KarateJB/eBooks/tree/master/Design%20Patterns/14.%20Flyweight)
 15. [Proxy 代理模式](https://github.com/KarateJB/eBooks/tree/master/Design%20Patterns/15.%20Proxy)
-16. []()
-17. []()
-18. []()
-19. []()
-20. []()
-21. []()
-22. []()
-23. []()
-24. []()
-25. []()
-26. []()
-27. []()
-28. []()
-29. []()
-30. []()
-
-
-
-## Who am I
-
-I am a [Star Wars](http://www.starwars.com/) biggest fan, a blogger and a father :)
-
-At work, I am a technical project manager and focus on Project/Product management, Agile and full-stack development. 
-You can find me on my [Blog](http://karatejb.blogspot.tw/).
+16. [Template Method 樣板方法](https://github.com/KarateJB/eBooks/tree/master/Design%20Patterns/16.%20Template)
+17. [Mediator 中介者模式](https://github.com/KarateJB/eBooks/tree/master/Design%20Patterns/17.%20Mediator)
+18. [Memento 備忘錄模式](https://github.com/KarateJB/eBooks/tree/master/Design%20Patterns/18.%20Memento)
+19. [State 狀態模式](https://github.com/KarateJB/eBooks/tree/master/Design%20Patterns/19.%20State)
+20. [Visitor 訪問者模式](https://github.com/KarateJB/eBooks/tree/master/Design%20Patterns/20.%20Visitor)
+21. [Iterator 迭代器模式](https://github.com/KarateJB/eBooks/tree/master/Design%20Patterns/21.%20Iterator)
+22. [Command 命令模式](https://github.com/KarateJB/eBooks/tree/master/Design%20Patterns/22.%20Command)
+23. [Observer 觀察者模式](https://github.com/KarateJB/eBooks/tree/master/Design%20Patterns/23.%20Observer)
+24. [Singleton 單例模式](https://github.com/KarateJB/eBooks/tree/master/Design%20Patterns/24.%20Singleton)
+25. [[實例] 在策略模式使用委派解耦合](https://github.com/KarateJB/eBooks/tree/master/Design%20Patterns/25.%20Use%20delegate%20in%20Strategy%20for%20decoupling)
+26. [[實例] 在ASP.NET Core利用建造者模式來製造View Model](https://github.com/KarateJB/eBooks/tree/master/Design%20Patterns/26.%20Create%20ViewModel%20with%20Builder%20patten)
+27. [[實例] 在ASP.NET Core利用狀態模式來製造View Model](https://github.com/KarateJB/eBooks/tree/master/Design%20Patterns/27.%20Create%20ViewModel%20with%20State%20patten)
+28. [[實例] 使用單例模式實做線性分配器(1/2)](https://github.com/KarateJB/eBooks/tree/master/Design%20Patterns/28.%20Implement%20Allocator%20with%20Singleton(1))
+29. [[實例] 使用單例模式實做線性分配器(2/2)](https://github.com/KarateJB/eBooks/tree/master/Design%20Patterns/29.%20Implement%20Allocator%20with%20Singleton(2))
+30. [Retrospective 回顧](https://github.com/KarateJB/eBooks/tree/master/Design%20Patterns/30.%20Retrospective)
