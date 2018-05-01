@@ -70,6 +70,24 @@ git add zzz.html
 git commit --amend --no-edit
 ```
 
+## Reset
+
+- Checkout file for latest commit
+```
+$ git checkout xxx.file
+```
+
+- Reset to relative commit (^: previous commit)
+```
+$ git reset {sha1-code}^
+``` 
+
+or
+
+```
+$ git reset {sha1-code}~2
+```
+
 
 ## Log
 
