@@ -85,7 +85,7 @@ $ git reset {sha1-code}^
 or
 
 ```
-$ git reset {sha1-code}~2
+$ git reset {sha1-code}~1
 ```
 
 
