@@ -118,6 +118,11 @@ $ git blame xxx.file
 $ git blame -L 10,20 xxx.file
 ```
 
+- reflog: show commit and head moving logs
+```
+$ git reflog
+```
+
 
 ## .gitignore
 
