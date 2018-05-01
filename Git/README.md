@@ -4,7 +4,6 @@
 
 
 
-
 ## Initialize
 
 ```
@@ -91,7 +90,15 @@ Git log --after="2018-03-02" --since="10am" --until="18pm"
 Git log --grep="Fix bugs"
 ```
 
+- See commit logs for every line in a file
+```
+$ git blame xxx.file
+```
 
+- See commit logs for certain lines in a file
+```
+$ git blame -L 10,20 xxx.file
+```
 
 
 ## .gitignore
