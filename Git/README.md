@@ -188,20 +188,20 @@ $ git reset {sha1-code}~1
 ## Log
 
 ```
-git log --oneline --graph
+$ git log --oneline --graph
 ```
 
 ```
-git log --author="JB" 
+$ git log --author="JB" 
 ```
 
 ```
-Git log --after="2018-03-02" --since="10am" --until="18pm"
+$ git log --after="2018-03-02" --since="10am" --until="18pm"
 ```
 
 - Search commit messages
 ```
-Git log --grep="Fix bugs"
+$ git log --grep="Fix bugs"
 ```
 
 - See commit logs for every line in a file
@@ -217,6 +217,38 @@ $ git blame -L 10,20 xxx.file
 - reflog: show commit and head moving logs
 ```
 $ git reflog
+```
+
+- list files
+```
+$ git ls-files -s
+```
+
+## Branch
+
+- Create new branch
+```
+$ git branch {new_branch_name}
+```
+
+- Checkout branch or create new branch if not exist
+```
+$ git checkout -b {branch_name}
+``` 
+
+- Rename branch
+```
+$ git branch -m {old_branch_name} {new_branch_name}
+```
+
+- Delete branch
+```
+$ git branch -d {branch_name}
+```
+
+- Delete branch (force)
+```
+$ git branch -D {branch_name}
 ```
 
 
