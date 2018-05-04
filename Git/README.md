@@ -252,6 +252,42 @@ $ git branch -D {branch_name}
 ```
 
 
+## Merge branches
+
+```
+$ git checkout {source_branch}
+$ git merge {target_branch}
+```
+
+if conflict...
+
+- Apply source ones
+```
+$ git checkout --ours xxx.file
+$ git add xxx.file
+$ git commit -m "...."
+``` 
+
+- Apply target ones
+```
+$ git checkout --theirs xxx.file
+$ git add xxx.file
+$ git commit -m "...."
+``` 
+
+## Rebase branches
+
+```
+$ git checkout {source_branch}
+$ git rebase {target_branch}
+```
+
+if conflict, use the same commands on *Merge Branch* and then 
+```
+$ git rebase --continue
+```
+
+
 ## .gitignore
 
 - Ignore single file
