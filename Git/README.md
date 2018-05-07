@@ -4,10 +4,21 @@
 
 
 
-## Initialize
+## Initialize and configuration
 
+- Initialize
 ```
 $ git init
+```
+
+- Configure
+```
+$ git config --global -e
+```
+
+- Use VSCODE for default git editor ([reference](https://stackoverflow.com/a/36644561/7045253))
+```
+$ git config --global core.editor "code --wait"
 ```
 
 
@@ -29,19 +40,20 @@ $ git add .
 - Remove the file and track it 
 
 ```
-git rm xxx.file
+$ git rm xxx.file
 ```
+  
   Which equals to 
 
 ```
-del xxx.file
-git add xxx.file
+$ del xxx.file
+$ git add xxx.file
 ```
 
 - Rename the file and track it
 
 ```
-git mv xxx.file yyy.file
+$ git mv xxx.file yyy.file
 ```
 
   Which equals to 
@@ -54,21 +66,30 @@ git add --all
 - Untrack the file already committed
 
 ```
-git rm xxx.file --cached
+$ git rm xxx.file --cached
 ```
 
 
 - Amend the last commit’s message 
 ```
-git commit --amend -m “Refine message"
+$ git commit --amend -m “Refine message"
 ```
 
 
 - Add tracked file to the last commit
 ```
-git add zzz.html
-git commit --amend --no-edit
+$ git add zzz.html
+$ git commit --amend --no-edit
 ```
+
+- Update the commit history
+```
+$ git rebase -i {begin_sha-1_code}
+```
+
+  which will open the default git editor
+
+  ![](assets/011.png)
 
 ## Diff
 
@@ -250,6 +271,19 @@ $ git branch -d {branch_name}
 ```
 $ git branch -D {branch_name}
 ```
+
+- Checkout certain commit and create branch from it
+```
+$ git checkout {sha-1 code}
+$ git branch {new_branch_name}
+```
+
+  or one line like this 
+
+```
+$ git branch {new_branch_name} {sha-1 code}
+```   
+
 
 
 ## Merge branches
