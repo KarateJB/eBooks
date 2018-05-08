@@ -11,9 +11,20 @@
 $ git init
 ```
 
-- Configure
+- Configure (Glabal)
 ```
 $ git config --global -e
+```
+
+- Configure (Local)
+```
+$ git config --local -e
+```
+
+- Config user name and email
+```
+$ git config --local user.name {your_name}
+$ git config --local user.email {your_email}
 ```
 
 - Use VSCODE for default git editor ([reference](https://stackoverflow.com/a/36644561/7045253))
@@ -235,9 +246,26 @@ $ git blame xxx.file
 $ git blame -L 10,20 xxx.file
 ```
 
+- Verifies the connectivity and validity of the objects
+```
+$ git fsck
+```
+  
+  for unreachable objects
+
+```
+$ git fsck --unreachable
+```
+
+
 - reflog: show commit and head moving logs
 ```
 $ git reflog
+```
+
+- reflog: clean logs (nake forbidden objects to unreachable)
+```
+$ git reflog expire --all --expire=now
 ```
 
 - list files
@@ -246,6 +274,17 @@ $ git ls-files -s
 ```
 
 ## Branch
+
+- List local branches
+```
+$ git branch
+```
+
+- List remote branches
+```
+$ git branch -r
+$ git branch --remote
+```
 
 - Create new branch
 ```
@@ -339,6 +378,20 @@ $ git add xxx.file
 $ git commit -m "...."
 ``` 
 
+- Merge certain commit from other branch
+```
+$ git cherry-pick {sha-1 code 1} {sha-1 code 2}
+```
+
+- Pick certain commit to index
+```
+$ git cherry-pick {sha-1 code} --no-commit
+```
+
+
+
+
+
 ## Rebase branches
 
 ```
@@ -351,6 +404,14 @@ if conflict, use the same commands on *Merge Branch* and then
 $ git rebase --continue
 ```
 
+## Garbage collection
+
+- GC immediatly
+```
+$ git gc --prune=now
+```
+
+> Don't forget the reflog, make them expired by `$ git reflog expire --all --expire=now`
 
 ## .gitignore
 
