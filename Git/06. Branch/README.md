@@ -1,0 +1,110 @@
+# Branch
+
+## List local branches
+
+```
+$ git branch
+```
+
+## List remote branches
+
+```
+$ git branch -r
+$ git branch --remote
+```
+
+## Create new branch
+
+```
+$ git branch {new_branch_name}
+```
+
+## Checkout branch or create new branch if not exist
+
+```
+$ git checkout -b {branch_name}
+``` 
+
+## Rename branch
+
+```
+$ git branch -m {old_branch_name} {new_branch_name}
+```
+
+## Delete branch
+
+```
+$ git branch -d {branch_name}
+```
+
+## Delete branch (force)
+
+```
+$ git branch -D {branch_name}
+```
+
+## Checkout certain commit and create branch from it
+
+```
+$ git checkout {sha-1 code}
+$ git branch {new_branch_name}
+```
+
+or one line like this 
+
+```
+$ git branch {new_branch_name} {sha-1 code}
+```   
+
+
+
+# Merge branches
+
+```
+$ git checkout {source_branch}
+$ git merge {target_branch}
+```
+
+if conflict...
+
+- Apply source ones
+```
+$ git checkout --ours xxx.file
+$ git add xxx.file
+$ git commit -m "...."
+``` 
+
+- Apply target ones
+```
+$ git checkout --theirs xxx.file
+$ git add xxx.file
+$ git commit -m "...."
+``` 
+
+- Merge certain commit from other branch
+```
+$ git cherry-pick {sha-1 code 1} {sha-1 code 2}
+```
+
+- Pick certain commit to index
+```
+$ git cherry-pick {sha-1 code} --no-commit
+```
+
+
+
+
+# Rebase branches
+
+```
+$ git checkout {source_branch}
+$ git rebase {target_branch}
+```
+
+if conflict, use the same commands on *Merge Branch* and then 
+
+```
+$ git rebase --continue
+```
+
+
