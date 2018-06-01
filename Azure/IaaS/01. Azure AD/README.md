@@ -1,8 +1,8 @@
 
 # Azure AD
 
-Go to `Azure Active Directory` and copy the **domain name** of Azure AD.
-For example, "xxxx.onmicrosoft.com".
+打開左邊功能列 `Azure Active Directory`， 複製右上方的 **domain name** 。
+例如: "xxxx.onmicrosoft.com".
 
 ![](../assets/003.png) 
 
