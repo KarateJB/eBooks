@@ -1,7 +1,7 @@
 
 ### [AngularJS](https://github.com/KarateJB/eBooks/tree/master/AngularJS) (2016, 27 articles)
 ### [ASP.NET core X Angular2](https://github.com/KarateJB/eBooks/tree/master/ASP.NET%20core%20X%20Angular2) (2016-2017, 31 articles) 
-### [Azure](https://github.com/KarateJB/eBooks/tree/master/Azure)(2018, 9 articles) 
+### [Azure (Chinese)](https://github.com/KarateJB/eBooks/tree/master/Azure)(2018, 9 articles) 
 ### [npm](https://github.com/KarateJB/eBooks/tree/master/npm) (2017, 1 articles) 
 ### [Gulp](https://github.com/KarateJB/eBooks/tree/master/Gulp) (2017, 1 articles) 
 ### [Git](https://github.com/KarateJB/eBooks/tree/master/Git) (2018, 1 articles) 
