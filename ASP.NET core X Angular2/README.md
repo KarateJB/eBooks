@@ -1,4 +1,4 @@
-## ASP.NET X Angular2
+# ASP.NET X Angular2
 
 ### Writer: JB
 
