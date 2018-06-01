@@ -87,6 +87,26 @@ Sizing
 
 
 
+## 設定網路安全性群組
+
+為了在每一台VM都可以連入PORT 80，必須在每一台VM設定連入規則(Set Firewall's input rule)。
+在`虛擬機器`下，點選`網路安全性群組`。
+
+![](../assets/060.png)
+
+
+選擇`輸入安全性規則`，打開PORT 80
+
+![](../assets/061.png)
+
+![](../assets/062.png)
+
+
+
+
+
+
+
 
 
 

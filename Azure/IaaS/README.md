@@ -126,17 +126,4 @@ net use Z: \\stor052826.file.core.windows.net\share /u:AZURE\stor052826 tkD2tlIm
 ## Create Virtal network
 
 
-## Set Firewall's input rule
-
-為了在每一台VM都可以連入PORT 80，必須在每一台VM設定連入規則。
-在`虛擬機器`下，點選`網路安全性群組`。
-
-![](assets/060.png)e
-
-
-選擇`輸入安全性規則`，打開PORT 80
-
-![](assets/061.png)
-
-![](assets/062.png)
 
