@@ -3,7 +3,7 @@
 ## Create container
 
 ```
-$ docker create -it {image repository name}:{tag}
+$ docker create -it {image name}:{tag}
 ```
 
 ex. 
@@ -67,7 +67,7 @@ $ docker rm {container id/name}
 `docker Run` = `docker create` + `docker start`
 
 ```
-$ docker run [-d] {image repository name}[:tag] 
+$ docker run [-d] {image name}[:tag] 
 ```
 
 |        Parameter        | in short | Value | Description |

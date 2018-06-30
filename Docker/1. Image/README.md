@@ -4,7 +4,7 @@
 ## Pull image
 
 ```
-docker pull [hub's registry/]{repository name}[:tag]
+docker pull [hub's registry/]{image name}[:tag]
 ```
 
 |        Parameter        | in short | Value | Description |
@@ -36,7 +36,7 @@ $ docker images
 ## Inspect image to see more details
 
 ```
-$ docker inspect {repository name}[:tag]
+$ docker inspect {image name}[:tag]
 ```
 
 If you want to only see the spefic information, give the hierarchy by `-f`.
@@ -51,7 +51,7 @@ $ docker inspect -f {{".ContainerConfig.Hostname"}} ubuntu:14.04
 ## Tag the local images
 
 ```
-$ docker tag {repository name}:{tag} {TAG's repository name}:{TAG's tag}
+$ docker tag {image name}:{tag} {TAG's image name}:{TAG's tag}
 ```
 
 > Notice the TAG will point to the same image.
@@ -71,7 +71,7 @@ $ docker search [name]
 ## Delete local image
 
 ```
-$ docker rmi {repository name}[:tag] [-f]
+$ docker rmi {image name}[:tag] [-f]
 ```
 
 > Do not use `-f` to force delete the image.
@@ -86,7 +86,7 @@ $ docker rmi {repository name}[:tag] [-f]
 ## Create image
 
 ```
-$ docker commit -m "xxxxx" -a "JB Lin" {container's id} {repository name}[:tag]
+$ docker commit -m "xxxxx" -a "JB Lin" {container's id} {image name}[:tag]
 ```
 
 |        Parameter        | in short | Value | Description |
@@ -110,7 +110,7 @@ $ docker commit -m "Add a new file" -a "JB" 0ffa461707cb my-test:0.0.1
 ## Save image
 
 ```
-$ docker save -o {file_name}.tar {repository name}[:tag]
+$ docker save -o {file_name}.tar {image name}[:tag]
 ```
 
 ex. `$ docker save -o my-test_0.0.1.tar my-test:0.0.1`
@@ -127,5 +127,5 @@ ex. `docker load --input my-test_0.0.1.tar`
 ## Upload image to hub
 
 ```
-docker push {repository name}[:Tag]
+docker push {image name}[:Tag]
 ```
