@@ -36,7 +36,7 @@ $ docker run -d --name my-dev -v /jb/volume:/app:ro nginx:latest
 1. Create a sharing data-volume container
 
     ```
-    $ docker run -it -v /dbdata --name dbstorage ubuntu
+    $ docker run -it -v /dbdata --name dbdata ubuntu
     
     $ root@xxxx:/# ls
     bin boot dbdata ... 
@@ -50,8 +50,8 @@ $ docker run -d --name my-dev -v /jb/volume:/app:ro nginx:latest
 2. Create other containers and mount the previous data volume
 
     ```
-    $ docker run -it --volumes-from dbstorage --name db1 ububtu
-    $ docker run -it --volumes-from dbstorage --name db2 ububtu
+    $ docker run -it --volumes-from dbdata --name db1 ububtu
+    $ docker run -it --volumes-from dbdata --name db2 ububtu
     ```
 
 3. Check the data volume in db1 or db2
@@ -62,3 +62,30 @@ $ docker run -d --name my-dev -v /jb/volume:/app:ro nginx:latest
     $ root@xxxx:/# ls dbdata
     test.file
     ```
+
+4. Backup the data volume from one container to another
+
+   ```
+   $ docker run -it --volumes-from dbdata -v "$(pwd)/backup":/backup --name dbbackup ubuntu 
+   $ root@xxxx:/# tar cvf /backup/backup.tar /dbdata
+   ```
+
+   The above cmd can be shorten in to one line like this,
+   ```
+   $ docker run --volumes-from dbdata \ 
+     -v "$(pwd)/backup":/backup --name dbbackup ubuntu \
+     tar cvf /backup/backup.tar /dbdata 
+   ```
+
+   This will result in packing `/dbdata` to `backup.tar` 
+
+5. Restore the data volume
+   
+   ```
+   $ docker start dbbackup
+   $ docker exec -it dbbackup /bin/bash
+   $ root@xxxx:/# tar -xvf /backup/backup.tar 
+   ```
+   
+   > The commnad `tar -xvf /xxxx.tar -C /zzz/yyyy` to unpack it to specified path.
+
