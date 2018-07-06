@@ -15,7 +15,11 @@ $ docker run -d -P --name my-nginx nginx
 $ docker container port my-nginx 
 ```
 
+> `docker container port` equals to `docker port`
+
 > Result: 80/tcp -> 0.0.0.0:32768
+
+
 
 
 ### Map host:5000 to container:80
@@ -26,6 +30,19 @@ $ docker container port my-nginx
 ```
 
 > Result: 80/tcp -> 0.0.0.0:5000
+
+
+### Map multiple ports to container
+
+```
+$ docker run -d -p 1234:5000 -p 5678:6000 --name my-nginx nginx
+$ docker container port my-nginx
+```
+
+> Result: <br />
+> 5000/tcp -> 0.0.0.0:1234 <br />
+> 6000/tcp -> 0.0.0.0:5678
+
 
 
 ### Map ports range to container
@@ -39,4 +56,31 @@ $ docker container port my-nginx
 > 8000/tcp -> 0.0.0.0:8000 <br />
 > 8001/tcp -> 0.0.0.0:8001 <br />
 > 8002/tcp -> 0.0.0.0:8002 <br />
+
+
+
+### Map specified Host IP and Port to container
+
+Map Host 127.0.0.1:3000 to Container's port 5000
+
+```
+$ docker run -d -p 127.0.0.1:3000:5000 --name my-nginx nginx
+```
+
+
+For random host port, use `::` :
+
+```
+$ docker run -d -p 127.0.0.1::80 --name my-nginx nginx
+```
+
+> Result: 80/tcp -> 127.0.0.1:32768
+
+
+### Map UDP Port
+
+```
+$ docker run -d -p 127.0.0.1:5000:80/udp --name my-nginx nginx
+```
+
 
