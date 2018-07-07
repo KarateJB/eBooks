@@ -84,3 +84,43 @@ $ docker run -d -p 127.0.0.1:5000:80/udp --name my-nginx nginx
 ```
 
 
+## Linking
+
+> Warning: The --link flag is a legacy feature of Docker. It may eventually be removed in the future. <br />
+> See reference [here](https://docs.docker.com/network/links/).
+
+1. Create a DB container
+
+    ```
+    $ docker run -d -p 3306:3306 --name mysql-db mysql
+    ```
+
+
+2. Create Web container
+
+    ```
+    $ docker start mysql-db
+    $ docker run --name my-web --link mysql-db:my-db ubuntu:14.04
+    ```
+
+    > * `--link my-sql-db:my-db` = link container'name: my-sql-db, as alias name: my-db  
+    > * Make sure linking to a RUNNINNG container!
+    > * `--link` will update web server's environment variable and `/etc/hosts` as following,
+
+3. Ping DB in Web
+
+    Check /etc/hosts
+    
+    ```
+    $ docker exec -it my-web /bin/bash
+    $ root@xxxx:/# cat /etc/hosts
+    ```
+     
+    ![](assets/001.png) 
+
+
+    ```
+    $ root@xxxx:/# apt-get update 
+    $ root@xxxx:/# apt-get install -y iputils-ping 
+    $ root@xxxx:/# ping my-db
+    ```

@@ -97,3 +97,13 @@ ex.
 $ docker exec -it ae12303240a0 /bin/bash
 ```
 
+
+## Inspect container to see more details
+
+
+- See name
+
+    ```
+    $ docker inspect -f {{".Name"}} {container id}
+    ```
+
