@@ -78,7 +78,7 @@ $ docker rmi {image name}[:tag] [-f]
 >
 > Instead, show the containers by `docker ps -a`
 >
-> And delete the container of the image first by `docker rm {container id}`
+> And delete the container of the image first by `docker rm <container id>`
 
 
 
@@ -110,7 +110,7 @@ $ docker commit -m "Add a new file" -a "JB" 0ffa461707cb my-test:0.0.1
 ## Save image
 
 ```
-$ docker save -o {file_name}.tar {image name}[:tag]
+$ docker save -o <file_name>.tar <image name>[:tag]
 ```
 
 ex. `$ docker save -o my-test_0.0.1.tar my-test:0.0.1`
@@ -119,7 +119,7 @@ ex. `$ docker save -o my-test_0.0.1.tar my-test:0.0.1`
 ## Load image
 
 ```
-$docker load --input {filename}.tar
+$docker load --input <filename>.tar
 ```
 
 ex. `docker load --input my-test_0.0.1.tar`
@@ -127,5 +127,5 @@ ex. `docker load --input my-test_0.0.1.tar`
 ## Upload image to hub
 
 ```
-docker push {image name}[:Tag]
+docker push <image name>[:Tag]
 ```

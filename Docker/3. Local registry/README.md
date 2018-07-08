@@ -18,8 +18,8 @@ Output (for example): `192.123.45.678`
 ### Push image to local registry
 
 ```
-$ docker tag {image name}:{tag} 192.123.45.678:5000/{name}[:tag]
-$ docker push 192.123.45.678:5000/{name}[:tag]
+$ docker tag <image name>:<tag> 192.123.45.678:5000/<name>[:tag]
+$ docker push 192.123.45.678:5000/<name>[:tag]
 ```
 
 ex.
@@ -39,7 +39,7 @@ The pushing result will be like this,
 ### Pull image from local registry
 
 ```
-$ docker pull 192.123.45.678:5000/{name}[:tag]
+$ docker pull 192.123.45.678:5000/<name>[:tag]
 ```
 
 ex. 

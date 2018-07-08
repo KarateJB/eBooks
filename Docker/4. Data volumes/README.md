@@ -5,7 +5,7 @@
 ## Mount a container's data volume
 
 ````
-$ docker run -d --name xxx -v {/directory path} {image}[:tag]
+$ docker run -d --name xxx -v </directory path> <image>[:tag]
 ````
 
 ex.  Create an /app directory inside the container
@@ -19,7 +19,7 @@ $ docker run -d --name devtest -v /app nginx:latest
 Mount a local directory (if not exist, will create it) to the container,
 
 ```
-$ docker run -d --name xxx -v {local directory path}:{/container directory path}[:rw|:ro] {image}[:tag]
+$ docker run -d --name xxx -v <local directory path>:</container directory path>[:rw|:ro] <image>[:tag]
 ```
 |        Parameter        | in short | Value | Description |
 |:------------------------|:--------:|:-----:|:------------|

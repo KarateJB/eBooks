@@ -3,7 +3,7 @@
 ## Create container
 
 ```
-$ docker create -it {image name}:{tag}
+$ docker create -it <image name>:<tag>
 ```
 
 ex. 
@@ -40,7 +40,7 @@ docker ps -n=2
 ## Start a container
 
 ```
-$ docker start {container id/name}
+$ docker start <container id/name>
 ```
 
 ex.
@@ -51,14 +51,14 @@ ex.
 ## Stop a container
 
 ```
-$ docker stop {container id/name}
+$ docker stop <container id/name>
 ```
 
 
 ## Delete a container
 
 ```
-$ docker rm {container id/name}
+$ docker rm <container id/name>
 ```
 
 
@@ -67,7 +67,7 @@ $ docker rm {container id/name}
 `docker Run` = `docker create` + `docker start`
 
 ```
-$ docker run [-d] {image name}[:tag] 
+$ docker run [-d] <image name>[:tag] 
 ```
 
 |        Parameter        | in short | Value | Description |
@@ -83,13 +83,13 @@ $ docker run ubuntu:14.04 /bin/echo "Hello, world"
 ## Enter the container
 
 ```
-$ docker attach {container id/name}
+$ docker attach <container id/name>
 ```
 
 or 
 
 ```
-$ docker exec {container id/name}
+$ docker exec <container id/name>
 ```
 
 ex.
@@ -104,6 +104,6 @@ $ docker exec -it ae12303240a0 /bin/bash
 - See name
 
     ```
-    $ docker inspect -f {{".Name"}} {container id}
+    $ docker inspect -f {{".Name"}} <container id>
     ```
 
