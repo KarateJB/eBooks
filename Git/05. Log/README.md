@@ -13,6 +13,11 @@ $ git log --author="JB"
 $ git log --after="2018-03-02" --since="10am" --until="18pm"
 ```
 
+```
+$ git log --pretty=format:"%H %an %ad"
+$ git log --pretty=format:"%h %an %ad"
+```
+
 ## Search commit messages
 
 ```
