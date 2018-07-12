@@ -23,14 +23,34 @@ The major parts in a Dockerfile are:
 | ENV | Environment variables | <ul><li>`LABEL <key> <value>`</li><li>`LABEL <key>=<value></li></ul>` | `ENV MY_VERSION 1.2`<br />`RUN /bin/bash echo $MY_VERSION is released` |
 | COPY | Copy from local's `<src>` to `<dest>` | `COPY <src> <dest>` | |
 | ADD | Like COPY, BUT the source can be URL or TAR (which will be unpacked) | `ADD <src> <dest>` | |
-| ENTRYPOINT | Container's entry point |  | |
-| VOLUME | Create data volume | | |
-| USER | The user name or UID for running container | | |
-| WORKDIR | The work directory for build | | |
-| ARG | The arguments for the image | | |
-| ONBUILD | The commands executed when the image is used as a base image | | |
-| STOPSIGNAL | Signal for stopping the container | | |
-| HEALTHCHECK | State check | | |
-| SHELL | Default shell | | |
+| ENTRYPOINT | Container's entry point, should have only one ENTRYPOINT | <ul><li>`ENTRYPOINT <command> <param1> <param1>`: Run in shell(/bin/sh -c)</li><li>`ENTRYPOINT ["<execuable>", "<param1>", "<param2>"]`: exec the command</li></ul>  | |
+| VOLUME | Create data volume, such as database file or static files | `VOLUME ["/data"]` | |
+| USER | The user name or UID for running container | `USER <user name>` | `RUN groupadd -r redis && useradd -r -g redis redis`<br />`USER redis`<br />`RUN ...` |
+| WORKDIR | The work directory for build | `WORKDIR /path/..` | `WORKDIR /x`<br />`WORKDIR /y`<br />`RUN pwd`<br /> pwd will be /x/y. |
+| ARG | The arguments for the image, which can be set when exec `docker build -arg <arg_name>=<value>` | `ARG <name>[=default value]` | |
+| ONBUILD | The commands executed when the image is used as a base image | `ONBUILD <other commands>` | `ONBUILD ADD ./app/src` |
+| STOPSIGNAL | Signal for stopping the container | `STOPSIGNAL <message>` | |
+| SHELL | Default shell, which is `SHELL ["/bin/sh","-c"]` in default | `SHELL ["execuable", "parameters"]` | `SHELL ["/bin/sh","-c"]` |
+
+
+
+> ## USER
+>
+>```
+># Create user: redis
+>$ RUN groupadd -r redis && useradd -r -g redis redis
+># Download gosu
+>$ RUN wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.7/gosu-amd64" \
+>    && chmod +x /usr/local/bin/gosu \
+>    && gosu nobody true
+># CMD execute as other user
+>CMD [ "exec", "gosu", "redis", "redis-server" ]
+>```
+
+
+## .dockerignore
+
+
+## Build image
 
 
