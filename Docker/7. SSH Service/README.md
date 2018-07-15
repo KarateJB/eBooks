@@ -23,7 +23,12 @@ root@xxx:/# mkdir -p /var/run/sshd
 root@xxx:/# /usr/sbin/sshd -D &
 ```
 
-![](assets/001.png)
+* Reference picture
+
+  ![](assets/001.png)
+
+
+
 
 See which port is listening, the default port for SSH is 22.
 
@@ -40,7 +45,9 @@ root@xxx:/# netstat -tunlp
 | u | | | udp |
 
 
-![](assets/002.png)
+* Reference picture
+
+  ![](assets/002.png)
 
 
 ### Cancel PAM's login contraints
@@ -98,7 +105,9 @@ root@xxx:/# chmod +x run.sh
 $ docker commit ubuntuSSH ubuntu-sshd:0.01
 ```
 
-![](assets/005.png)
+* Result
+
+  ![](assets/005.png)
 
 
 ## Use the image to create a container
@@ -119,7 +128,9 @@ In the local server, use the following command to connect it,
 $ ssh 192.168.99.200 -p 1122 
 ```
 
-![](assets/006.png)
+* Reference picture
+
+  ![](assets/006.png)
 
 
 
@@ -133,7 +144,16 @@ $ ssh-keygen -t rsa
 
 which will default generate a key to `/root/.ssh/id_rsa.pub`.
 
-![](assets/003.png)
+* Reference picture
+
+  ![](assets/003.png)
+
+
+
+* id_rsa.pub
+
+  ![](assets/004.png)
+
 
 
 > You can pass the key to remote server with [ssh-copy-id](https://www.ssh.com/ssh/copy-id) by the following command,
