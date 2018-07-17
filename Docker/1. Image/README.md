@@ -119,13 +119,24 @@ ex. `$ docker save -o my-test_0.0.1.tar my-test:0.0.1`
 ## Load image
 
 ```
-$docker load --input <filename>.tar
+$ docker load --input <filename>.tar
 ```
 
 ex. `docker load --input my-test_0.0.1.tar`
 
+
 ## Upload image to hub
 
 ```
-docker push <image name>[:Tag]
+$ docker push <image name>[:Tag]
 ```
+
+> Must tag the image as the format: `<docker_user>/<image>[:<tag>]`
+
+ex.
+```
+$ docker tag my-ubuntu:0.01 karatejb/my-ubuntu:0.01
+$ docker push karatejb/my-ubuntu:0.01
+```
+
+

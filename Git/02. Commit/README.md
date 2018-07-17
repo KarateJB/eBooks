@@ -49,7 +49,7 @@ $ git rm xxx.file --cached
 ## Amend the last commit’s message 
 
 ```
-$ git commit --amend -m “Refine message"
+$ git commit --amend -m "Refine message"
 ```
 
 
