@@ -1,17 +1,17 @@
 # Branch
 
-## List local branches
+## List branches
 
 ```
 $ git branch
 ```
 
-## List remote branches
+|        Parameter        | in short | Value | Description |
+|:------------------------|:--------:|:-----:|:------------|
+| (no parameters) |  | | List local branches |
+| --remote | -r | | List remote branches |
+| --all | -a | | List local and remote branches |
 
-```
-$ git branch -r
-$ git branch --remote
-```
 
 ## Create new branch
 
