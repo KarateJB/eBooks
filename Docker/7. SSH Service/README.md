@@ -60,7 +60,7 @@ root@xxx:/# sed -ri 's/session required pam_loginuid.so/#session required pam_lo
 
 ### SSH key
 
-Create .ssh for root user and copy a RSA public key of local in order to login to `root/.ssh/authorized_keys`, see [How to generate a key](#How-to-generate-RSA-Key).
+Create .ssh for root user and copy a RSA public key of local in order to login to `root/.ssh/authorized_keys`, see [How to generate a key](#how-to-generate-rsa-key).
 
 ```
 root@xxx:/# mkdir root/.ssh
