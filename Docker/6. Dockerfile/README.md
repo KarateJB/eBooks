@@ -50,7 +50,38 @@ The major parts in a Dockerfile are:
 
 ## .dockerignore
 
+Create `.dockerignore` to ignore files or folders.
+
+```
+*/tmp
+*/*/tmp*
+```
 
 ## Build image
 
+```
+$ docker build -t <repository>/<image name> [-f] <docker file's directory>
+```
+
+|        Parameter        | in short | Value | Description |
+|:------------------------|:--------:|:-----:|:------------|
+| -f |  | | Absolute dockerfile's directory path |
+
+
+## Reverse image to get Dockerfile
+
+- Pull dockerfile-from-image
+
+  ```
+  $ docker pull centurylink/dockerfile-from-image
+  ```
+
+- Reverse an image
+  
+  ```
+  $ docker run -v /var/run/docker.sock:/var/run/docker.sock centurylink/dockerfile-from-image <Image tag/id> Dockerfile.txt
+  ```
+
+
+  docker run -v /var/run/docker.sock:/var/run/docker.sock centurylink/dockerfile-from-image mysql Dockerfile.txt
 

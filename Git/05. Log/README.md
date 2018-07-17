@@ -18,6 +18,10 @@ $ git log --pretty=format:"%H %an %ad"
 $ git log --pretty=format:"%h %an %ad"
 ```
 
+```
+$ git log --after="2018-07-11" --pretty=format:"%h %an %ad"
+```
+
 ## Search commit messages
 
 ```
