@@ -16,6 +16,8 @@ root@xxx:/# apt-get -y install vim
 | --yes, --assume-yes | -y | | Automatic yes to prompts; assume "yes" as answer to all prompts and run non-interactively.<br /> If an undesirable situation, such as changing a held package, trying to install a unauthenticated package or removing an essential package occurs then apt-get will abort.<br /> Configuration Item: APT::Get::Assume-Yes. |
 
 
+
+
 ### Create directory /var/run/sshd and start SSH service
 
 ```
@@ -96,7 +98,7 @@ root@xxx:/# chmod +x run.sh
 
 
 
-## Commit to a image
+## Commit as an image
 
 > Command: <br />
 > `$ docker commit <Container name/id> <Repository[:tag]>` 
@@ -134,6 +136,109 @@ $ ssh 192.168.99.200 -p 1122
 
 
 
+
+
+---
+
+## Using Dockerfile to create the image with SSH service.
+
+### Create working directory/files
+
+```
+$ mkdir sshd_ubuntu
+$ cd sshd_ubuntu
+$ touch Dockerfile run.sh authorized_keys
+$ ls
+```
+
+Now lets write the content of `run.sh` and `authorized_keys`.
+
+
+* run.sh
+
+  ```
+  #!/bin/bash
+  /usr/sbin/sshd -D
+  ```
+
+* authorized_keys
+
+  1. Create SSH keys on local by
+     
+     ```
+     $ ssh-keygen -t rsa
+     ```
+
+  2. Copy the key from `~/.ssh/id_rsa.pub` to `authorized_keys`
+
+
+### Dockerfile
+
+Update the `Dockerfile` as following,
+  
+```
+FROM ubuntu 14.04
+
+MAINTAINER <docker_user> (docker_user@xxx.com)
+
+# Start RUN commands
+
+RUN apt-get update
+
+# Install SSH
+RUN mkdir -p /var/run/sshd
+RUN mkdir -p /root/.ssh
+
+# Cancel PAM constraints
+RUN sed -ri 's/session required pam_loginuid.so/#session required pam_loginuid.so/g' /etc/pam.d/sshd  
+
+
+# Copy files and set permission
+
+ADD authorized_keys /root/.ssh/authorized_keys
+ADD run.sh /run.sh
+RUN chmod 755 /run.sh
+
+# Default port is 22
+EXPOSE 22
+
+# Commands for starting the container
+CMD ["/run.sh"]
+
+```
+
+### Create Image
+
+Make sure you are currently in the root folder of `Dockerfile`, and use `docker build` to create the image. 
+
+```
+$ docker build -t <image name>:<tag>
+```
+
+For example,
+
+```
+$ docker build -t ubuntu-sshd:0.02
+```
+
+
+
+### Create a container by the image
+
+```
+$ docker run -d -p 1022:22 ubuntu-sshd:0.02
+```
+
+### Test the SSH service
+
+```
+$ ssh 192.168.99.200 -p 1122
+```
+
+
+
+# Reference
+
 ## How to generate RSA key
 
 Generate a RSA public key in local to login to container.
@@ -160,3 +265,4 @@ which will default generate a key to `/root/.ssh/id_rsa.pub`.
 > ```
 > $ ssh-copy-id -i /root/.ssh/id_rsa.pub <host name/ip>
 > ```
+

@@ -65,7 +65,10 @@ $ docker build -t <repository>/<image name> [-f] <docker file's directory>
 
 |        Parameter        | in short | Value | Description |
 |:------------------------|:--------:|:-----:|:------------|
-| -f |  | | Absolute dockerfile's directory path |
+| --tag | -t | | Name and optionally a tag in the `name:tag` format |
+| --file | -f | | Absolute dockerfile's directory path (Default is `./Dockerfile`) |
+
+> See more on [docs.docker.com](https://docs.docker.com/engine/reference/commandline/build/)
 
 
 ## Reverse image to get Dockerfile
