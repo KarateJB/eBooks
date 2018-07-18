@@ -222,6 +222,14 @@ For example,
 $ docker build -t ubuntu-sshd:0.02 .
 ```
 
+![](assets/007.png)
+
+
+Build successfully!
+
+![](assets/008.png)
+
+
 
 
 ### Create a container by the image
