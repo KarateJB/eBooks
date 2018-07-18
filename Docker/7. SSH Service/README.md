@@ -177,7 +177,7 @@ Now lets write the content of `run.sh` and `authorized_keys`.
 Update the `Dockerfile` as following,
   
 ```
-FROM ubuntu 14.04
+FROM ubuntu:14.04
 
 MAINTAINER <docker_user> (docker_user@xxx.com)
 
@@ -186,6 +186,7 @@ MAINTAINER <docker_user> (docker_user@xxx.com)
 RUN apt-get update
 
 # Install SSH
+RUN apt-get install -y openssh-server
 RUN mkdir -p /var/run/sshd
 RUN mkdir -p /root/.ssh
 
@@ -212,13 +213,13 @@ CMD ["/run.sh"]
 Make sure you are currently in the root folder of `Dockerfile`, and use `docker build` to create the image. 
 
 ```
-$ docker build -t <image name>:<tag>
+$ docker build -t <image name>:<tag> -f <path for dockerfile>
 ```
 
 For example,
 
 ```
-$ docker build -t ubuntu-sshd:0.02
+$ docker build -t ubuntu-sshd:0.02 .
 ```
 
 
