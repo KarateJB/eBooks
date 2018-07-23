@@ -67,7 +67,7 @@ Now lets cutomize the previous image, `apache2-webserver`, to support both `SSH`
 ```
 $ mkdir -p apache-webserver-ssh/sample
 $ cd apache-webserver-ssh
-$ touch Dockerfile run.sh /sample/index.html
+$ touch Dockerfile run.sh sample/index.html
 ```
 
 * index.html
@@ -109,6 +109,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # Start RUN commands
 
 # 1.Install
+RUN apt-get update
 RUN apt-get -yq install apache2
 RUN rm -rf /var/lib/apt/lists/*
 
