@@ -122,9 +122,10 @@ ADD run.sh /run.sh
 RUN chmod 755 /*.sh
 
 # 4.Create a website and set link to /var/www/html
-RUN mkdir -p /var/lock/apache2 && mkdir -p /app 
+RUN mkdir -p /var/lock/apache2 && mkdir -p /app
 RUN rm -fr /var/wwww/html
-RUN ln -s /app /var/www/html
+RUN mkdir -p /var/wwww/html
+RUN ln -s /app/index.html /var/www/html/index.html
 COPY sample/ /app
 
 
@@ -132,7 +133,7 @@ COPY sample/ /app
 ENV APACHE_RUN_USER www-data 
 ENV APACHE_RUN_GROUP www-data 
 ENV APACHE_LOG_DIR /var/log/apache2 
-ENV APACHE_PID_FILE /var/run/apache2.pid 
+ENV APACHE_PID_FILE /var/run/apache2.pid
 ENV APACHE_RUN_DIR /var/run/apache2 
 ENV APACHE_LOCK_DIR /var/lock/apache2 
 ENV APACHE_SERVERADMIN admin@localhost 
@@ -153,6 +154,8 @@ CMD ["/run.sh"]
 > `$ tree .`
 > 
 
+> To use Windows's tree, type `$ cmd //c tree .`
+
 
 ### Build Dockerfile to image
 
@@ -163,5 +166,14 @@ $ docker build -t apache2-webserver:0.02 .
 ### Run the container
 
 ```
-$ docker run -dit -P --name my-apache apache2-webserver:0.02
+$ docker run -dit -p 8000:80 -p 33:22 --name my-apache apache2-webserver:0.02
+$ docker container port my-apache
+```
+
+
+## 
+
+
+```
+$ docker run -i -d -p 8000:80 -p 33:22 -e APACHE_SERVERNAME=MyTest -v `pwd`/www/html:var/www/html:ro apache2-webserver:0.02
 ```
