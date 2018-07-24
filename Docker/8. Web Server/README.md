@@ -175,7 +175,7 @@ $ docker container port my-apache
 
 Create local directories and html file.
 
-> Notice if you encounter the problem of not seeing the folders/files of data volume in the container, checkout my this [trouble-shooting post]().
+> Notice if you encounter the problem of not seeing the folders/files of data volume in the container, checkout this [trouble-shooting post](http://karatejb.blogspot.com/2018/07/docker-trouble-shooting-cannot-mount.html).
 
 ```
 $ mkdir -p /www/html
