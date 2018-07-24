@@ -14,25 +14,25 @@ $ touch Dockerfile public-html/index.html
 
 * Dockerfile
 
-  ```
-  FROM httpd:2.4
-  COPY ./public-html/ /usr/local/apache2/htdocs/
-  ```
+```
+FROM httpd:2.4
+COPY ./public-html/ /usr/local/apache2/htdocs/
+```
 
 * index.html
 
-  ```
-  <!DOCTYPE html>
-  <html\>
-    <head>
-        <meta charset="utf-8" />
-        <title></title>
-    </head>
-    <body>
-        <h1>Hello, Docker!</h1>
-    </body> 
-  </html>
-  ```
+```
+<!DOCTYPE html>
+<html\>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h1>Hello, Docker!</h1>
+</body> 
+</html>
+```
 
 ### Build Dockerfile to image
 
@@ -123,8 +123,8 @@ RUN chmod 755 /*.sh
 
 # 4.Create a website and set link to /var/www/html
 RUN mkdir -p /var/lock/apache2 && mkdir -p /app
-RUN rm -fr /var/wwww/html
-RUN mkdir -p /var/wwww/html
+RUN rm -fr /var/www/html
+RUN mkdir -p /var/www/html
 RUN ln -s /app/index.html /var/www/html/index.html
 COPY sample/ /app
 
@@ -171,9 +171,44 @@ $ docker container port my-apache
 ```
 
 
-## 
+## Use host's data volume
 
+Create local directories and html file.
+
+> Notice if you encounter the problem of not seeing the folders/files of data volume in the container, checkout my this [trouble-shooting post]().
 
 ```
-$ docker run -i -d -p 8000:80 -p 33:22 -e APACHE_SERVERNAME=MyTest -v `pwd`/www/html:var/www/html:ro apache2-webserver:0.02
+$ mkdir -p /www/html
+$ touch /www/html/index.html
 ```
+
+* index.html
+
+```
+<!DOCTYPE html>
+  <html\>
+    <head><meta charset="utf-8" /><title</title></head>
+    <body>
+        <h1>Hello, this page is in data volume!</h1>
+    </boy> 
+</html>
+
+```
+
+
+Run the container and set the data volume mapping.
+
+```
+$ docker run -i -d -p 8000:80 -p 33:22 -e APACHE_SERVERNAME=mytest -v "/www/html":/app:ro --name my-apache apache2-webserver:0.02
+$ docker exec -it my-apache /bin/bash
+root@xxxx:/app# ls
+html
+root@xxxx:/app# ls html
+index.html
+```
+
+And what we see is the content from host's index.html.
+
+![](assets/003.png)
+
+
