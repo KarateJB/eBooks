@@ -4,7 +4,6 @@
 
 ## Set a time-to-live timeout
 
--  
 ```
 $ EXPIRE <key> <seconds>
 $ PEXPIRE <key> <milliseconds>
