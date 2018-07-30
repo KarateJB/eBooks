@@ -66,7 +66,25 @@ $ docker search [name]
 |        Parameter        | in short | Value | Description |
 |:------------------------|:--------:|:-----:|:------------|
 | --no-trunc |  | true,false(default) | Don’t truncate output |
-		
+| --limit | | Default 25 | Max number of search results |
+| --filter | -f |  | Filter output based on conditions provided |
+| --format |  |  | Pretty-print search using a Go template |
+
+
+- Search images with stars>=5 and are official
+
+```
+$ docker search <image name> --filter stars=5 --filter is-official=true
+```
+
+- Search images which are automated builds
+
+```
+$ docker search <image name> --filter is-automated
+```
+
+
+
 
 ## Delete local image
 
