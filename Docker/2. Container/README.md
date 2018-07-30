@@ -76,6 +76,8 @@ $ docker run [-d] <image name>[:tag]
 | --interactive | -i | | Keep STDIN open even if not attache |
 | --tty | -t | | Allocate a pseudo-tty |
 | --rm |  | | Automatically clean up the container and remove the file system when the container exits, (See [Clean up (--rm)](https://docs.docker.com/engine/reference/run/#clean-up---rm)) |
+| --link |  | `--link <container'sname/id>:<alias>` | Add link to another container. The `--link` flag is a legacy feature of Docker, see [Docker document](https://docs.docker.com/network/links/) and samples in [5. Connect to container](https://github.com/KarateJB/eBooks/tree/master/Docker/5.%20Connect%20to%20container) |
+
 
 
 > The `-it` instructs Docker to allocate a pseudo-TTY connected to the container’s stdin; creating an interactive bash shell in the container.
@@ -85,6 +87,7 @@ ex.
 ```
 $ docker run ubuntu:14.04 /bin/echo "Hello, world"
 ```
+
 
 ## Enter the container
 

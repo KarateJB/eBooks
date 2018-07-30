@@ -4,7 +4,7 @@
 ## Run
 
 ```
-$ docker run -d --name <my-mongo> mongo[:<tag>]
+$ docker run -d --name <my-mongo> mongo[:<tashg>]
 ```
 
 > Default port:`27017`
@@ -13,20 +13,48 @@ $ docker run -d --name <my-mongo> mongo[:<tag>]
 
 ```
 $ docker exec -it <my-mongo> sh
+> mongo
+MongoDB shell version v4.0.0
+Welcome to the MongoDB shell
+
+> db.version()
+4.0.0
+
 > show dbs
+admin  0.000GB
+config 0.000GB
+local  0.000GB
+
 > db.stats()
+{
+    "db" : "test",
+    "collections" : 0,
+    "objects" : 0,
+    "dataSize" : 0,0,
+    "numExtents" : 0,,
+    "indexSize" : 0,
+    "fileSize" : 0,
+    "fsTotalSize" : 0,
+    "ok" : 1
+}
+
+> exit
+bye
 ```
 
-## Connect to mongoDB
+## Connect to mongoDB in another container
 
-To use `mongo-cli` directly, run the container like this, 
+To use the db server's `mongo-cli` from another container, run the container like this,
 
 ```
-$ docker run -it --entrypoint mongo --host db --link <my-mongo>:db  mongo[:<tag>] 
-> db.version();
-> db.stats();
-> show dbs
+$ docker run -it --link <my-mongo-container>:<alias> db --entrypoint mongo <image>[:<tag>] --host db
 ```
+
+ex.
+```
+$ docker run -it --link my-mongo:db --entrypoint mongo --name mongo-client mongo:4.0.0 --host db
+```
+
 
 ## Custom Dockefile
 
