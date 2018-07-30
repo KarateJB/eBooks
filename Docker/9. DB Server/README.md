@@ -4,7 +4,7 @@
 ## Run
 
 ```
-$ docker run -d --name <my-mongo> mongo[:<tashg>]
+$ docker run -d --name <my-mongo> mongo[:<tag>]
 ```
 
 > Default port:`27017`
@@ -76,7 +76,7 @@ ENV AUTH yes
 # ADD
 ADD run.sh /run.sh
 ADD set_mongodb_password.sh /set_mongodb_password.sh
-RUN chmod 755 */.sh
+RUN chmod 755 ./*.sh
 
 EXPOSE 27017
 EXPOSE 28017
@@ -102,17 +102,18 @@ fi
 /usr/bin/mongod --smallfiles --nojournal &
 
 PASS=${MONGODB_PASS:-$(pwgen -s 12 1)}
-_word=$( [ ${MONGODB_PASS} ] ) && echo "preset" || echo "random"
+_word=$( [ ${MONGODB_PASS} ] ) && echo "preset" || echo "random" )
 
 RET=1
 while [[ RET -ne 0 ]]; do
-    echo "=>Waiting for confirmation of MongoDB service startup"
+    echo "=> Waiting for confirmation of MongoDB service startup"
     sleep 5
     mongo admin --eval "help" > /dev/null 2>&1
     RET=$?
 done
 
-echo "=> Creating as admin user with ${_word} password in MongoDB"
+# Use docker logs + id to see the following output
+echo "=> Creating an admin user with ${_word} password in MongoDB"
 mongo admin --eval "db.adduser({user: 'admin', pwd: '$PASS', roles: ['userAdminAnyDatabase', 'dbAdminAnyDatabase']});"
 mongo admin --eval "db.shutdownServer();"
 
@@ -120,7 +121,7 @@ echo "=> Done!"
 touch /.mongodb_password_set
 
 echo "========================================"
-echo "You can now connect to the MongoDB server with:"
+echo "You can now connect to the MongoDB server by"
 echo ""
 echo "  mongo admin -u admin -p $PASS --host <host> --port <port>"
 echo ""
@@ -144,4 +145,45 @@ else
     export mongodb='/usr/bin/mongod --nojournal  --httpinterface --rest' 
 
 fi
+
+if[ ! -f /data/db/mongod.lock ]; then
+    eval $mongodb
+else
+    export mongodb=$mongodb' --dbpath /data/db'
+    rm /data/db/mongod.lock
+    mongod --dbpath /data/db --repair && eval $mongodb
+
+fi
 ```
+
+Now build the image,
+
+```
+$ docker build -t mongodb-pure
+```
+
+and start a container,
+
+```
+$ docker run -d -p 27017:27017 -p 28017:28017 --name my-mongo mongodb-pure
+```
+
+To see the default admin's password, use `docker logs`
+
+```
+$ docker logs my-mongo
+```
+
+or change the default passwrod when starting the container,
+
+```
+$ docker run -d -p 27017:27017 -p 28017:28017 -e MONGODB_PASS="xxxxx" --name my-mongo mongodb-pure
+```
+
+or access MongoDB without password,
+
+```
+$ docker run -d -p 27017:27017 -p 28017:28017 -e AUTH=no --name my-mongo mongodb-pure
+```
+
+
