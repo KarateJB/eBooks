@@ -59,11 +59,11 @@ $ docker run -it --link my-mongo:db --entrypoint mongo --name mongo-client mongo
 ## Custom Dockefile
 
 ```
-FROM sshd
+FROM karatejb/ubuntu-sshd
 MAINTAINER <docker_user> (<duckeruser>@docker.com)
 
 RUN apt-get update && \
-    apt-get install -y mongo pwgen && \
+    apt-get install -y mongodb pwgen && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -75,7 +75,7 @@ ENV AUTH yes
 
 # ADD
 ADD run.sh /run.sh
-ADD set_mongodb_password.sh /set_mongodb_password.sh
+ADD set_mongodb_pwd.sh /set_mongodb_pwd.sh
 RUN chmod 755 ./*.sh
 
 EXPOSE 27017
@@ -152,7 +152,6 @@ else
     export mongodb=$mongodb' --dbpath /data/db'
     rm /data/db/mongod.lock
     mongod --dbpath /data/db --repair && eval $mongodb
-
 fi
 ```
 
