@@ -133,12 +133,12 @@ echo "========================================"
 
 ```
 #!/bin/bash
-if [ ! -f /mongodb_password_set]; then
+if [ ! -f /.mongodb_password_set ]; then
     /set_mongo_password.sh
 
 fi
 
-if [ "$AUTH" == "yes"]; then
+if [ "$AUTH" == "yes" ]; then
     # Set startup parameters here
     export mongodb='/usr/bin/mongod --nojournal --auth --httpinterface --rest'
 else
@@ -158,7 +158,7 @@ fi
 Now build the image,
 
 ```
-$ docker build -t mongodb-pure
+$ docker build -t mongodb-pure .
 ```
 
 and start a container,
