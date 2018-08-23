@@ -84,10 +84,10 @@ EXPOSE 28017
 CMD ["/run.sh"]
 ```
 
-`set_mongodb_user_pwd.sh` is the script to set User id and Password.
+`set_mongodb_pwd.sh` is the script to set User id and Password.
 
 
-* set_mongodb_user_pwd.sh
+* set_mongodb_pwd.sh
 
 ```
 #!/bin/bash
@@ -134,7 +134,7 @@ echo "========================================"
 ```
 #!/bin/bash
 if [ ! -f /.mongodb_password_set ]; then
-    /set_mongo_password.sh
+    /set_mongodb_password.sh
 
 fi
 
