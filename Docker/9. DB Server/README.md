@@ -93,7 +93,7 @@ CMD ["/run.sh"]
 #!/bin/bash
 
 #Check if already set the password
-if[ -f /.mongodb_password_set ]; then
+if [ -f /.mongodb_password_set ]; then
     echo "MongoDB's password had been set!"
     exit 0
 
