@@ -102,7 +102,7 @@ fi
 /usr/bin/mongod --smallfiles --nojournal &
 
 PASS=${MONGODB_PASS:-$(pwgen -s 12 1)}
-_word=$( [ ${MONGODB_PASS} ] ) && echo "preset" || echo "random" )
+_word=$( [ ${MONGODB_PASS} ] && echo "preset" || echo "random" )
 
 RET=1
 while [[ RET -ne 0 ]]; do
@@ -134,7 +134,7 @@ echo "========================================"
 ```
 #!/bin/bash
 if [ ! -f /.mongodb_password_set ]; then
-    /set_mongodb_password.sh
+    /set_mongodb_pwd.sh
 
 fi
 
@@ -146,7 +146,7 @@ else
 
 fi
 
-if[ ! -f /data/db/mongod.lock ]; then
+if [ ! -f /data/db/mongod.lock ]; then
     eval $mongodb
 else
     export mongodb=$mongodb' --dbpath /data/db'
