@@ -140,9 +140,9 @@ fi
 
 if [ "$AUTH" == "yes" ]; then
     # Set startup parameters here
-    export mongodb='/usr/bin/mongod --nojournal --auth --httpinterface --rest'
+    export mongodb='/usr/bin/mongod --nojournal --auth --rest'
 else
-    export mongodb='/usr/bin/mongod --nojournal  --httpinterface --rest' 
+    export mongodb='/usr/bin/mongod --nojournal --rest' 
 
 fi
 
