@@ -58,12 +58,20 @@ $ docker run -it --link my-mongo:db --entrypoint mongo --name mongo-client mongo
 
 ## Custom Dockefile
 
+
+> Notice that we will use the Mongodb 3.0.X in this example. <br />
+> However, if we would like to install the new versions of Mongodb, we have to update the local package database manually.<br />
+> See more details on [Install MongoDB on Ubuntu](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/#using-deb-packages-recommended)
+
+
 ```
-FROM karatejb/ubuntu-sshd
+FROM karatejb/ubuntu-sshd:0.01
 MAINTAINER <docker_user> (<duckeruser>@docker.com)
 
-RUN apt-get update && \
-    apt-get install -y mongodb pwgen && \
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 && \
+    echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb.list && \
+    apt-get update && \
+    apt-get install -y mongodb-org=3.0.15 pwgen && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -114,7 +122,7 @@ done
 
 # Use docker logs + id to see the following output
 echo "=> Creating an admin user with ${_word} password in MongoDB"
-mongo admin --eval "db.adduser({user: 'admin', pwd: '$PASS', roles: ['userAdminAnyDatabase', 'dbAdminAnyDatabase']});"
+mongo admin --eval "db.createUser({user: 'admin', pwd: '$PASS', roles: [ { role: 'root', db: 'admin' } ]});"
 mongo admin --eval "db.shutdownServer();"
 
 echo "=> Done!"
@@ -186,3 +194,36 @@ $ docker run -d -p 27017:27017 -p 28017:28017 -e AUTH=no --name my-mongo mongodb
 ```
 
 
+### Login to MongoyDB locally
+
+Since we create a user `admin` for `admin` database, we can login to it by  `mongo admin -u <user name> -p <password>`.
+
+```
+$ docker exec -it my-mongo sh
+# mongo admin -u admin -p xxxxxxx
+> db.createUser(
+  {
+    user: "jb",
+    pwd: "1234qwer",
+    roles: [ { role: "root", db: "admin" } ]
+  });
+> db.getUsers();
+```
+
+
+### Login to MongoyDB remotely
+
+Now we will create another MongoDB client container and collect to the previous MongoDB server by the new user: `jb`.
+
+```
+$ docker run --it mongo:3.0.15 sh
+# mongo admin -u jb -p 1234qwer --host 192.168.XX.XXX --port 27017
+```
+
+
+
+## Reference
+
+- [Install MongoDB on Ubuntu](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/#using-deb-packages-recommended)
+- [Connect to MongoDB via Mongo Shell](https://docs.mongodb.com/tutorials/connect-to-mongodb-shell/) 
+- [Unable to locate package mongodb-org (stackoverflow)](https://stackoverflow.com/a/28966356/7045253)
