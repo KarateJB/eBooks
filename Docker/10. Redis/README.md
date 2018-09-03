@@ -1,7 +1,7 @@
 # Redis
+---
 
 ## Create a Redis container
-
 
 ```
 $ docker run --name my-redis -d redis

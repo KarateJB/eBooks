@@ -1,6 +1,5 @@
 # Apache
 ---
-
 We are going to create a container as a [Apache](https://httpd.apache.org/) web server.  
 
 ## Create Dockerfile with [httpd](https://hub.docker.com/_/httpd/)
