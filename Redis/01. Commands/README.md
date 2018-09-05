@@ -1,5 +1,6 @@
 # Commands
 
+
 | Cmd |     Usage   | Return value | tags | Description |
 |:----|:------------|:-------------|:----:|:------------|
 | [EXISTS](https://redis.io/commands/exists) | `EXISTS <key>` | `1` : exist, or `0` : not exist) | `Key` | Check if the key exists. |

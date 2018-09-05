@@ -23,15 +23,15 @@
 ### Set and Get
 
 ```
-$ redis-cli set <myKey> <myValue>
-$ redis-cli get <myKey>
+> SET <myKey> <myValue>
+> GET <myKey>
 ```
 
 ex.
 ```
-$ redis-cli set my-key my-value
+> SET my-key my-value
 OK
-$ redis-cli get my-key
+> GET my-key
 my-value
 ```
 
@@ -39,22 +39,22 @@ my-value
 ### Only set when the key is not exist
 
 ```
-$ redis-cli setnx <myKey> <myValue> 
+> SETNX <myKey> <myValue> 
 ```
 
 ### Return the old value and then set new value
 
 ```
-$ redis-cli getset <myKey> <myValue>
+> GETSET <myKey> <myValue>
 ```
 
 ex.
 ```
-$ redis-cli set my-key "Hello!"
+> SET my-key "Hello!"
 OK
-$ redis-cli getset my-key "HiHi!"
+> GETSET my-key "HiHi!"
 "Hello!"
-$ redis-cli get my-key
+>  GET my-key
 "HiHi!"
 ```
 
@@ -63,26 +63,26 @@ $ redis-cli get my-key
 To set and get multiple key-value pairs, use `MSET` and `MGET` instead of `SET` and `GET`.
 
 ```
-$ redis-cli mset <key1> <value1> <key2> <value2> [<key3> <value3> ...]
+> MSET <key1> <value1> <key2> <value2> [<key3> <value3> ...]
 ```
 
 ```
-$ redis-cli mget <key1> <key2> [<key3>...]
+> MGET <key1> <key2> [<key3>...]
 ```
 
 
 ### Number handling
 
 ```
-$ redis-cli set counter 100
+> SET counter 100
 OK
-$ redis-cli incr counter
+> INCR counter
 (integer) 101
-$ redis-cli incrby counter 50
+> INCRBY counter 50
 (integer) 151
-$ redis-cli decr counter
+> DECR counter
 (integer) 150
-$ redis-cli decrby counter 50
+> DECRBY counter 50
 (integer) 100
 ```
 
@@ -94,11 +94,11 @@ $ redis-cli decrby counter 50
 ### PUSH elements
 
 ```
-$ redis-cli rpush my-list A B C
+> RPUSH my-list A B C
 (integer) 3
-$ redis-cli lpush my-list 1 2 3
+> LPUSH my-list 1 2 3
 (integer) 3
-$ redis-cli lrange my-list 0 -1
+> LRANGE my-list 0 -1
 "3"
 "2"
 "1"
@@ -113,11 +113,11 @@ $ redis-cli lrange my-list 0 -1
 To pop the last elemet,
 
 ```
-$ redis-cli rpop my-list
+> RPOP my-list
 "C"
-$ redis-cli rpop my-list
+> RPOP my-list
 "B"
-$ redis-cli lrange my-list 0 -1
+> LRANGE my-list 0 -1
 "3"
 "2"
 "1"
@@ -128,11 +128,11 @@ $ redis-cli lrange my-list 0 -1
 To pop the first elemet,
 
 ```
-$ redis-cli lpop my-list
+> LPOP my-list
 "3"
-$ redis-cli lpop my-list
+> LPOP my-list
 "2"
-$ redis-cli lrange my-list 0 -1
+> LRANGE my-list 0 -1
 "1"
 "A"
 ```
@@ -145,21 +145,21 @@ Redis Sets are unordered collections of strings. The `SADD` command adds new ele
 ### Add members
 
 ```
-$ redis-cli sadd <key> <member1> [<member2>...]
+> SADD <key> <member1> [<member2>...]
 ```
 
 ex.
 ```
-$ redis-cli sadd my-set A B C
+> SADD my-set A B C
 (integer) 3
-$ redis-cli sadd my-set D
+> SADD my-set D
 (integer) 1
 ```
 
 ### Get all members
 
 ```
-$ redis-cli smembers my-set
+> SMEMBERS my-set
 "D"
 "C"
 "B"
@@ -169,9 +169,9 @@ $ redis-cli smembers my-set
 ### Check if a member is exist in a set
 
 ```
-$ redis-cli sismember my-set A
+> SISMEMBER my-set A
 (integer) 1
-$ redis-cli sismember my-set X
+> SISMEMBER my-set X
 (integer) 0
 ```
 
@@ -180,25 +180,25 @@ $ redis-cli sismember my-set X
 - Removes and returns random member(s) from a set
 
 ```
-$ redis-cli SMEMBERS key1
+> SMEMBERS key1
 "C"
 "B"
 "A"
-$ redis-cli SPOP key1
+> SPOP key1
 "B"
-$ redis-cli SPOP key1 2
+> SPOP key1 2
 "C"
 "A"
-$ redis-cli SMEMBERS key1
+> SMEMBERS key1
 (empty list or set)
 ```
 
 - Returns random member(s) from a set
 
 ```
-$ redis-cli SRANDMEMBER key1
+> SRANDMEMBER key1
 "C"
-$ redis-cli SRANDMEMBER key1 2
+> SRANDMEMBER key1 2
 "B"
 "A"
 ```
@@ -206,11 +206,11 @@ $ redis-cli SRANDMEMBER key1 2
 ### Get the intersection of 2 sets
 
 ```
-$ redis-cli SADD key1 A B C
+> SADD key1 A B C
 (integer) 3
-$ redis-cli SADD key2 C D E
+> SADD key2 C D E
 (integer) 3
-$ redis-cli SINTER key1 key2
+> SINTER key1 key2
 "C"
 ```
 
@@ -226,16 +226,15 @@ Rules:
 ### Add members
 
 ```
-$ redis-cli ZADD <key> <score1> <member1> [<score2> <member2> ... ] 
+> ZADD <key> <score1> <member1> [<score2> <member2> ... ] 
 ```
 
 ex.
 ```
-$ redis-cli ZADD my-zset 10 "Star Wars"
+> ZADD my-zset 10 "Star Wars"
 (integer) 1
-$ redis-cli ZADD my-zset 20 "God Father" 30 "Fight Club"
-(integer) 2
-$ redis-cli 
+> ZADD my-zset 20 "God Father" 30 "Fight Club"
+(integer) 2 
 ```
 
 
@@ -245,23 +244,23 @@ $ redis-cli
 - ASC
 
 ```
-$ redis-cli ZRANGE <key> <start> <stop>
+> ZRANGE <key> <start> <stop>
 ```
 
 - DESC
 
 ```
-$ redis-cli ZREVRANGE <key> <start> <stop>
+> ZREVRANGE <key> <start> <stop>
 ```
 
 ex.
 ```
-$ redis-cli ZRANGE my-zset 0 -1
+> ZRANGE my-zset 0 -1
 "Star Wars"
 "God Father"
 "Fight Club"
 
-$ redis-cli ZREVRANGE my-zset 0 -1
+> ZREVRANGE my-zset 0 -1
 "Fight Club"
 "God Father"
 "Star Wars"
@@ -271,13 +270,13 @@ $ redis-cli ZREVRANGE my-zset 0 -1
 
 - Get member with score = 10
     ```
-    $ redis-cli ZRANGEBYSCORE my-zset 10 10
+    > ZRANGEBYSCORE my-zset 10 10
     "Star Wars"
     ```
 
 - 10 <= score <= 30
     ```
-    $ redis-cli ZRANGEBYSCORE my-zset 10 30
+    > ZRANGEBYSCORE my-zset 10 30
     "Star Wars"
     "God Father"
     "Fight Club"
@@ -285,20 +284,20 @@ $ redis-cli ZREVRANGE my-zset 0 -1
 
 - 10 < score < 30
     ```
-    $ redis-cli ZRANGEBYSCORE my-zset (10 (30
+    > ZRANGEBYSCORE my-zset (10 (30
     "God Father"
     ```
 
 - 10 <= score < 30
     ```
-    $ redis-cli ZRANGEBYSCORE my-zset 10 (30
+    > ZRANGEBYSCORE my-zset 10 (30
     "Star Wars"
     "God Father"
     ```
 
 - 10 < score <= 30
     ```
-    $ redis-cli ZRANGEBYSCORE my-zset (10 30
+    > ZRANGEBYSCORE my-zset (10 30
     "God Father"
     "Fight Club"
     ```
@@ -307,11 +306,11 @@ $ redis-cli ZREVRANGE my-zset 0 -1
 ### Get ranking
 
 ```
-$ redis-cli ZRANK my-zset "Star Wars"
+> ZRANK my-zset "Star Wars"
 (integer) 0
-$ redis-cli ZRANK my-zset "God Father"
+> ZRANK my-zset "God Father"
 (integer) 1
-$ redis-cli ZRANK my-zset "Fight Club"
+> ZRANK my-zset "Fight Club"
 (integer) 2
 ```
 
@@ -324,19 +323,19 @@ Redis Hashs are field-value pairs.
 ### Set field-value to hash
 
 ```
-$ redis-cli HMSET <key> <field1> <value1> [<field2> <value2> ...]
+> HMSET <key> <field1> <value1> [<field2> <value2> ...]
 ```
 
 ex.
 ```
-$ redis-cli HMSET my-hash Name "JB" Age "37" City "Taipei"
+> HMSET my-hash Name "JB" Age "37" City "Taipei"
 OK
 ```
 
 ### Get all fields and values
 
 ```
-$ redis-cli HGETALL my-hash
+> HGETALL my-hash
 1) "Name"
 2) "JB"
 3) "Age"
@@ -348,9 +347,9 @@ $ redis-cli HGETALL my-hash
 ### Get value(s) for field(s)
 
 ```
-$ redis-cli HGET my-hash Name
+> HGET my-hash Name
 "JB"
-$ redis-cli HMGET my-hash Age City
+> HMGET my-hash Age City
 1) "37"
 2) "Taipei"
 ```
@@ -361,7 +360,7 @@ $ redis-cli HMGET my-hash Age City
 > Bitmaps are not an actual data type, but a set of bit-oriented operations defined on the String type. Since strings are binary safe blobs and their maximum length is 512 MB, they are suitable to set up to 232 different bits.
 
 ```
-$ `SETBIT <key> <offset> <value>`
+> SETBIT <key> <offset> <value>
 ```
 
 ex.
@@ -373,27 +372,27 @@ For a Hex value, `0x7F`（= 127）, its binary representation on 8-bit is
 | bit | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
 
 ```
-$ redis-cli SETBIT my-bits 0 0
+> SETBIT my-bits 0 0
 (integer) 0 
-$ redis-cli SETBIT my-bits 1 1
+> SETBIT my-bits 1 1
 (integer) 0
-$ redis-cli SETBIT my-bits 2 1 
+> SETBIT my-bits 2 1 
 (integer) 0
-$ redis-cli SETBIT my-bits 3 1 
+> SETBIT my-bits 3 1 
 (integer) 0
-$ redis-cli SETBIT my-bits 4 1 
+> SETBIT my-bits 4 1 
 (integer) 0
-$ redis-cli SETBIT my-bits 5 1 
+> SETBIT my-bits 5 1 
 (integer) 0
-$ redis-cli SETBIT my-bits 6 1 
+> SETBIT my-bits 6 1 
 (integer) 0
-$ redis-cli SETBIT my-bits 7 1 
+> SETBIT my-bits 7 1 
 (integer) 0
 
-$ redis-cli BITCOUNT my-bits
+> BITCOUNT my-bits
 (integer) 7
 
-$ redis-cli GET my-bits
+> GET my-bits
 "\x7f"
 ```
 
@@ -404,9 +403,9 @@ $ redis-cli GET my-bits
 
 
 ```
-$ redis-cli pfadd hll a b c d
+> PFADD hll a b c d
 (integer) 1
-$ redis-cli pfcount hll
+> PFCOUNT hll
 (integer) 4
 ```
 

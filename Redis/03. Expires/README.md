@@ -5,8 +5,8 @@
 ## Set a time-to-live timeout
 
 ```
-$ EXPIRE <key> <seconds>
-$ PEXPIRE <key> <milliseconds>
+> EXPIRE <key> <seconds>
+> PEXPIRE <key> <milliseconds>
 ```
 
 
@@ -14,8 +14,8 @@ $ PEXPIRE <key> <milliseconds>
 ## Set a absolute-date timeout
 
 ```
-$ EXPIREAT <key> <timestamp_in_seconds>
-$ PEXPIREAT <key> <timestamp_in_milliseconds>
+> EXPIREAT <key> <timestamp_in_seconds>
+> PEXPIREAT <key> <timestamp_in_milliseconds>
 ```
 
 
@@ -23,12 +23,12 @@ $ PEXPIREAT <key> <timestamp_in_milliseconds>
 
 - Returns the remaining time to live of a key in seconds 
 ```
-$ TTL <key>
+> TTL <key>
 ```
 
 - Returns the remaining time to live of a key in millionseconds 
 ```
-$ PTTL <key>
+> PTTL <key>
 ```
 
 
@@ -36,38 +36,38 @@ $ PTTL <key>
 
 ex.
 ```
-$ redis-cli SET key1 "Test"
+> SET key1 "Test"
 "OK"
-$ redis-cli EXPIRE key1 10
+> EXPIRE key1 10
 (integer) 1
-$ redis-cli TTL key1
+> TTL key1
 (integer) 8
-$ redis-cli PTTL key1
+> PTTL key1
 (integer) 6
-$ redis-cli PTTL key1
+> PTTL key1
 (integer) 2
-$ redis-cli PTTL key1
+> PTTL key1
 (integer) 0
-$ redis-cli PTTL key1
+> PTTL key1
 (integer) -2
-$ redis-cli GET key1
+> GET key1
 (nil)
 ```
 
 ex.
 ```
-$ redis-cli SET key2 "Test"
+> SET key2 "Test"
 "OK"
-$ redis-cli EXPIREAT key2 1532908800
+> EXPIREAT key2 1532908800
 (integer) 1
-$ redis-cli TTL key1
+> TTL key1
 (integer) 243305
 ```
 
 ---
 
 
-1. The timeout will only be cleared by commands that delete or overwrite the contents of the key, including [DEL](https://redis.io/commands/del), SET(https://redis.io/commands/set), GETSET(https://redis.io/commands/getset) and all the `*STORE` commands. 
+1. The timeout will only be cleared by commands that delete or overwrite the contents of the key, including [DEL](https://redis.io/commands/del), [SET](https://redis.io/commands/set), [GETSET](https://redis.io/commands/getset) and all the `*STORE` commands. 
 2. The timeout can also be cleared, turning the key back into a persistent key, using the [PERSIST](https://redis.io/commands/persist) command.
 3. If a key is renamed with [RENAME](https://redis.io/commands/rename), the associated time to live is transferred to the new key name.
    If the new key's name exists when doing `RENAME`, for example `RENAME key1 key2`, the final characteristics on key2 will be the ones on key1, cus `RENAME` will do `DEL key2` in this case.
@@ -78,15 +78,15 @@ $ redis-cli TTL key1
 ## Make a key to persistent
 
 ```
-$ redis-cli SET key1 "Test"
+> SET key1 "Test"
 "OK"
-$ redis-cli EXPIRE key1 1000
+> EXPIRE key1 1000
 (integer) 1
-$ redis-cli TTL key1
+> TTL key1
 (integer) 998
-$ redis-cli PERSIST key1
+> PERSIST key1
 (integer) 1
-$ redis-cli TTL key1
+> TTL key1
 (integer) -1
 ```
 
