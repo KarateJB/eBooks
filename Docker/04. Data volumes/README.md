@@ -59,7 +59,7 @@ $ docker run -d --name my-dev -v /jb/volume:/app:ro nginx:latest
 
     ```
     $ docker start db1
-    $ docker exec --it db1 /bin/bash
+    $ docker exec -it db1 /bin/bash
     $ root@xxxx:/# ls dbdata
     test.file
     ```

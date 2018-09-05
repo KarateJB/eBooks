@@ -74,6 +74,7 @@ $ docker run [-d] <image name>[:tag]
 |        Parameter        | in short | Value | Description |
 |:------------------------|:--------:|:-----:|:------------|
 | -d |  | | Detached mode: Run container in the background (See [Detached vs foreground](https://docs.docker.com/engine/reference/run/#detached-vs-foreground)) |
+| --workdir | -w | | Working directory inside the container |
 | --interactive | -i | | Keep STDIN open even if not attache |
 | --tty | -t | | Allocate a pseudo-tty |
 | --rm |  | | Automatically clean up the container and remove the file system when the container exits, (See [Clean up (--rm)](https://docs.docker.com/engine/reference/run/#clean-up---rm)) |
