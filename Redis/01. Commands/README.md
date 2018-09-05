@@ -1,7 +1,8 @@
 # Commands
 
-| Cmd | Usage | Return value | tags |Description |
-|:----|:------|:-------------|:----:|:------------|
+
+| Cmd |     Usage   | Return value | tags | Description |
+|:----|:------------|:-------------|:----:|:------------|
 | [EXISTS](https://redis.io/commands/exists) | `EXISTS <key>` | `1` : exist, or `0` : not exist) | `Key` | Check if the key exists. |
 | [DEL](https://redis.io/commands/del) | `DEL <key1> [<key2> ...]` | The number of keys that were removed. | `Key` | Delete one or multiple key(s) |
 | [RENAME](https://redis.io/commands/rename) | `RENAME <key> <newKey>`  | `OK` or `(error) Err no such key` when the key doesn't exist | `Key` | When the newKey exists, it will do an implicit DEL operation. | 
@@ -44,15 +45,19 @@
 | [PEXPIRE](https://redis.io/commands/pexpire) | `PEXPIRE <key> <milliseconds>` | `1` : the timeout was set successfully<br />0 : the key does not exist. | `Key`,`Expire` | Set a time-to-live to a key in milliseconds. | 
 | [EXPIREAT](https://redis.io/commands/expireat) | `EXPIREAT <key> <timestamp>` | `1` : the timeout was set successfully<br />0 : the key does not exist.  | `Key`,`Expire` | Give an absolute Unix timestamp (seconds). A timestamp in the past will delete the key immediately. |
 | [PEXPIREAT](https://redis.io/commands/expireat) | `PEXPIREAT <key> <timestamp>` | `1` : the timeout was set successfully<br />0 : the key does not exist.  | `Key`,`Expire` | Give an absolute Unix timestamp (milliseconds). A timestamp in the past will delete the key immediately. |
-
 | [TTL](https://redis.io/commands/ttl) | `TTL <key>` | `-2` : the key does not exist<br />`-1` : the key exists but not setting an timeout<br />`>0` : Left expired time in seconds | `Key`,`Expire` | | 
 | [PTTL](https://redis.io/commands/pttl) | `PTTL <key>` | `-2` : the key does not exist<br />`-1` : the key exists but not setting an timeout<br />`>0` : Left expired time in milliseconds | `Key`,`Expire` | | 
 | [PERSIST](https://redis.io/commands/persist) | `PERSIST <key>` | `1` : the timeout was removed successfully<br />`0` : if key does not exist or does not have an associated timeout | `Key`,`Expire` | Remove the existing timeout on key, turning the key to persistent |
+| [PUBLISH](https://redis.io/commands/publish) | `PUBLISH <channel> <message>` | The number of clients that received the message. | | Publish a message to channel |
+| [SUBSCRIBE](https://redis.io/commands/subscribe) | `SUBSCRIBE <channel1> [<channel2> ...]` | | | Subscribe channel(s) |
+| [PSUBSCRIBE](https://redis.io/commands/psubscribe) | `PSUBSCRIBE <pattern> [<pattern> ...]` | | | Subscribes chennel(s) of given patterns. |
+| [UNSUBSCRIBE](https://redis.io/commands/unsubscribe) | `UNSUBSCRIBE` or `UNSUBSCRIBE <channel1> [<channel2> ...]` | | | Unsubscribe channel(s) |
+| [PUNSUBSCRIBE](https://redis.io/commands/punsubscribe) | `PUNSUBSCRIBE` or `PUNSUBSCRIBE <pattern> [<pattern> ...]` | | | Unsubscribe channel(s) of given patterns |
 | | | | | |
 | | | | | |
 | | | | | |
 | | | | | |
-| | | | | |
+
 
 
 
