@@ -1,9 +1,6 @@
-# Programming environment 
+# Python
 
-
-## Python
-
-### Create Dockerfile from Python:3-onbuild
+## Create Dockerfile from Python:3-onbuild
 
 
 ```
@@ -67,7 +64,7 @@ CMD ["python", "./sample.py"]
 ```
 
 
-#### Build and start a container
+### Build and start a container
 
 ```
 $ docker build -t py3-demo .
@@ -91,7 +88,7 @@ $ docker run -it --rm -v /py-official:/usr/src/app -w /usr/src/app python:3.7 py
 ```
 
 
-### Create Dockerfile from PyPy
+## Create Dockerfile from PyPy
 
 ```
 $ mkdir pypy
@@ -111,7 +108,7 @@ CMD ["pypy3","./sample.py"]
 We use the same content on previous Python3 example.
 
 
-#### Build and start a container
+### Build and start a container
 
 ```
 $ docker build -t pypy-demo .
@@ -130,3 +127,53 @@ $ docker run -it --rm -v "$(pwd)":/usr/src/app -w /usr/src/app pypy:3 pypy sampl
 $ docker run -it --rm -v /py-official:/usr/src/app -w /usr/src/app pypy:3 pypy3 sample.py
 ```
 
+
+
+# Node.js
+
+- Dockerfile
+
+```
+FROM node:4-onbuild
+EXPOSE 8888
+```
+
+- server.js
+
+```
+'use strict';
+
+var connect - require('connect');
+var serverStatuc = require('server-static');
+
+var app = connect();
+appp.user('/', serverStatic('.'), {'index': ['index.html'] }});
+app.listen(8080);
+
+console.log('Nodejs works!');
+
+
+- package.json
+
+
+Create a package.json by 
+
+```
+$ npm init
+```
+
+
+### Build and run
+
+
+```
+$ docker build -t node-demo .
+$ docker run -it -P node-demo
+$ docker ps
+```
+
+
+
+
+
+```
