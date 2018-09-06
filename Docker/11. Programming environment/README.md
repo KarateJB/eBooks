@@ -12,31 +12,6 @@ $ cd py-officail
 $ touch Dockerfile sample.py requirments.txt
 ```
 
-- Dockerfile
-
-```
-FROM python:3-onbuild
-RUN pip install -r requirements.txt
-CMD ["python", "./sample.py"]
-```
-
-> The `onbuild` image steps automatically `COPY` in your directory and install dependencies so the python code is available in the  container.
-
-The above Dockerfile is equal to
-
-```
-FROM python:3.7
-
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-
-COPY requirements.txt /usr/src/app/
-RUN pip install -r requirements.txt
-
-COPY . /usr/src/app
-CMD ["python", "./sample.py"]
-```
-
 - sample.py
 
 This is a sample code for calculating Fibonacci numbers.
@@ -66,6 +41,32 @@ We can install the packages by `RUN pip install -r requirements.txt`
 > ```
 
 
+
+- Dockerfile
+
+```
+FROM python:3-onbuild
+RUN pip install -r requirements.txt
+CMD ["python", "./sample.py"]
+```
+
+> The `onbuild` image steps automatically `COPY` in your directory and install dependencies so the python code is available in the  container.
+
+
+
+The above Dockerfile is similar with the following Dockerfile with `python` image.
+
+```
+FROM python:3.7
+
+RUN mkdir -p /usr/src/app
+COPY . /usr/src/app/
+WORKDIR /usr/src/app
+RUN pip install -r requirements.txt
+CMD ["python", "./sample.py"]
+```
+
+
 #### Build and start a container
 
 ```
@@ -77,6 +78,8 @@ $ docker run -it --rm py3-demo
 
 ### Execute a single .py
 
+You can mount a voulume to local and run the `sample.py` on the fly.
+
 ```
 $ docker run -it --rm -v "$(pwd)":<directory path> -w <directory path> python:3.7 python <XXXX.py>
 ```
@@ -84,6 +87,7 @@ $ docker run -it --rm -v "$(pwd)":<directory path> -w <directory path> python:3.
 For example,
 ```
 $ docker run -it --rm -v "$(pwd)":/usr/src/app -w /usr/src/app python:3.7 python sample.py
+$ docker run -it --rm -v /py-official:/usr/src/app -w /usr/src/app python:3.7 python sample.py
 ```
 
 
@@ -111,7 +115,7 @@ We use the same content on previous Python3 example.
 
 ```
 $ docker build -t pypy-demo .
-$ docker run -it --rm --name my-py3 py3-demo
+$ docker run -it --rm py3-demo
 ```
 
 ### Execute a single .py by PyPy
@@ -122,5 +126,7 @@ $ docker run -it --rm -v "$(pwd)":<directory path> -w <directory path> pypy:3 py
 
 For example,
 ```
-$ docker run -it --rm --name my-py3 py3-demo -v "$(pwd)":/usr/src/myapp -w /usr/src/myapp pypy:3 pypy <XXXX.py>
+$ docker run -it --rm -v "$(pwd)":/usr/src/app -w /usr/src/app pypy:3 pypy sample.py
+$ docker run -it --rm -v /py-official:/usr/src/app -w /usr/src/app pypy:3 pypy3 sample.py
 ```
+
