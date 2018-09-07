@@ -35,18 +35,18 @@ The major parts in a Dockerfile are:
 
 
 
-> ## USER
->
->```
-># Create user: redis
->$ RUN groupadd -r redis && useradd -r -g redis redis
-># Download gosu
->$ RUN wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.7/gosu-amd64" \
->    && chmod +x /usr/local/bin/gosu \
->    && gosu nobody true
-># CMD execute as other user
->CMD [ "exec", "gosu", "redis", "redis-server" ]
->```
+## USER
+
+```
+# Create user: redis
+$ RUN groupadd -r redis && useradd -r -g redis redis
+# Download gosu
+$ RUN wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.7/gosu-amd64" \
+    && chmod +x /usr/local/bin/gosu \
+    && gosu nobody true
+# CMD execute as other user
+CMD [ "exec", "gosu", "redis", "redis-server" ]
+```
 
 
 ## .dockerignore
@@ -61,13 +61,14 @@ Create `.dockerignore` to ignore files or folders.
 ## Build image
 
 ```
-$ docker build -t <repository>/<image name> [-f] <docker file's directory>
+$ docker build [--no-cache] -t <repository>/<image name> [-f] <docker file's directory>
 ```
 
 |        Parameter        | in short | Value | Description |
 |:------------------------|:--------:|:-----:|:------------|
 | --tag | -t | | Name and optionally a tag in the `name:tag` format |
 | --file | -f | | Absolute dockerfile's directory path (Default is `./Dockerfile`) |
+| --no-cache |  | | Disable cache on the build |
 
 > See more on [docs.docker.com](https://docs.docker.com/engine/reference/commandline/build/)
 

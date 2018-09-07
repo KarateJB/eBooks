@@ -90,6 +90,25 @@ $ npm show {package_name} versions
    > Reference: [npm-install](https://docs.npmjs.com/cli/install)  
 
 
+### Install packages from package.json
+
+```
+$ npm install
+```
+
+To install only those in `devDependencies`:
+
+```
+$ npm install --only=dev[elopment]
+```
+To install without those in `devDependencies`:
+
+```
+$ npm install --only=prod[uction]
+```
+
+
+
 ### Uninstall packages 
 np
 1. Uninstall global package
