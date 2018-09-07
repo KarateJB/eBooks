@@ -126,5 +126,5 @@ $ curl http://$(docker-machine ip default):1212
   <body>
       <h2>Hello, Nodejs!</h2>
   </body>
-  </html>
+</html>
 ```
