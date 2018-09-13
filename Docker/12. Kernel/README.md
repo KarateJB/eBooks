@@ -128,11 +128,14 @@ When Docker create a container, it
 3. The other virtual interface will be put into the created container
 4. Assign a IP to the container's eth0 and internal interface: docker0's IP from docker0 網卡
 
+![](assets/002.png)
+
+
 When running a container, we can modify the settings thru `--net`.
 
 `--net=bridge`
 
-Default value, create new 網卡 for a new container in Docker bridge: docker0
+Default value, create new virtual network card for a new container in Docker bridge: docker0
 
 `--net=none`
 
@@ -155,4 +158,3 @@ Use `network` commands to create the network, usaually bind it with exist virtua
 * [DOCKER基础技术：LINUX NAMESPACE（上）](https://coolshell.cn/articles/17010.html)
 * [DOCKER基础技术：LINUX NAMESPACE（下）](https://coolshell.cn/articles/17029.html)
 * [Docker基础技术-Linux Namespace](https://www.jianshu.com/p/353eb8d8eb05)
-- 
