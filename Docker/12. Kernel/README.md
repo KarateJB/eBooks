@@ -37,7 +37,7 @@ So that when the `Docker Daemon` is down, the containers will still be alive.
 
 ## namespace
 
-Docker uses many Linux namespace technologies for isolation.
+Docker uses many [Linux namespace](https://en.wikipedia.org/wiki/Linux_namespaces) technologies for isolation.
 Here are some of the most important ones. 
 
 
@@ -80,18 +80,43 @@ PID                 PPID
 
  
 
-### IPC(Interprocesses Communication) 
+### IPC(Interprocesses Communication)
 
-### Mount
+IPC is the communication protocals between processes. Some methodology implement IPC, such as [semaphore](https://en.wikipedia.org/wiki/Semaphore_(programming)),[message queue](https://en.wikipedia.org/wiki/Message_queue),[pipe](https://en.wikipedia.org/wiki/Pipeline_(Unix)),mutex(binary semaphore),[share memory](https://en.wikipedia.org/wiki/Shared_memory),[socket](https://en.wikipedia.org/wiki/Unix_domain_socket)
+
+
+
+### Mount(Mnt namespace)
+
+
+Mount namespaces control mount points. Upon creation the mounts from the current mount namespace are copied to the new namespace, but mount points created afterwards do not propagate between namespaces.
+
+> The clone flag, `CLONE_NEWNS`, is used in `clone()` to create a new namespace.
+
+However it's possible to propagate mount points between namespaces by using [share subtrees](https://lwn.net/Articles/689856/).
+
+
 
 ### UTS(UNIX Time-sharing System)
 
-### User
+ Time-sharing is the sharing of a computing resource among many users by means of multiprogramming and multi-tasking at the same time.
+ That is, the computer divides its execution time into multiple time periods, and distributes these time periods to the tasks specified by the users. Take certain amount of time for each task by turns until all tasks are completed.
+
+### User(User ID)
+
+User namespaces are a feature to provide both privilege isolation and user identification segregation across multiple sets of processes. With administrative assistance it is possible to build a container with seeming administrative rights without actually giving elevated privileges to user processes. Like the PID namespace, user namespaces are nested and each new user namespace is considered to be a child of the user namespace that created it. (From [WIKI](https://en.wikipedia.org/wiki/Linux_namespaces#User_ID_(user)))
+
+Reference: [Isolate containers with a user namespace](https://docs.docker.com/engine/security/userns-remap/)
 
 
-## CGroups
 
-Control group 
+## CGroups (Control group)
+
+Cgroups are used to 
+1. Isolate processes
+2. Allocate resources(CPU, RAM, disk), like processor time, number of processes per group, amount of memory per control group or combination of such resources for a process or set of processes
+3. Checkpointing and restarting from checkpoint
+
 
 
 ### Create virtual network
@@ -121,3 +146,13 @@ They can connect to each other by `lo`(Loopback)
 `--net=user_defined_network`
 
 Use `network` commands to create the network, usaually bind it with exist virtual network.
+
+
+
+## References
+
+* [Linux namespaces(WIKI)](https://en.wikipedia.org/wiki/Linux_namespaces)
+* [DOCKER基础技术：LINUX NAMESPACE（上）](https://coolshell.cn/articles/17010.html)
+* [DOCKER基础技术：LINUX NAMESPACE（下）](https://coolshell.cn/articles/17029.html)
+* [Docker基础技术-Linux Namespace](https://www.jianshu.com/p/353eb8d8eb05)
+- 
