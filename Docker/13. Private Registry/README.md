@@ -29,18 +29,35 @@ docker run -d -p 5000:5000 \
 
 ### Distribution source code
 
-First install `Golang`.
+Install docker-ce on ubuntu,
 
 ```
-$ apt-get- update
-$ apt-get install golang
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+# add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+# apt-get update
+# apt-get install docker-ce
 ```
 
-Create directory: `$GOPATH/src/github/docker/` and get the distribution source code from Github.
+
+Install the below packages to allow apt to use a repository over HTTPS:
 
 ```
+$ apt-get install \
+          apt-transport-https \
+          ca-certificates \
+          curl \
+          software-properties-common
+```
+
+
+
+
+Create directory: `/go/src/github/docker/` and get the distribution source code from Github.
+
+```
+$ export GOPATH=/go
 $ mkdir -p $GOPATH/src/github/docker/
-$ cd $GOPATH/src/github/docker/
+$ cd $GOPATH/src/github.com/docker/
 $ git clone https://github.com/docker/distribution.git
 $ cd distribution
 ```
@@ -52,19 +69,6 @@ $ cp cmd/registry/config-dev.yml /etc/docker/registry/config.yml
 $ mkdir -p /var/lib/registry
 ```
 
-Start installing it.
-
-```
-$ make PREFIX=/go clean binaries
-```
-
-
-And then start the service,
-
-```
-$ registry serve /etc/docker/registry/config.yml
-```
-
 Test it,
 
 ```
@@ -72,3 +76,7 @@ $ curl -i 127.0.0.1:5000/v2/
 
 ```
 
+## Reference
+
+- [docker.github.io](https://github.com/docker/docker.github.io/blob/master/registry/deploying.md)
+- [Running your own Docker Registry](https://www.admintome.com/blog/running-your-own-docker-registry/)
