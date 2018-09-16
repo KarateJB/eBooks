@@ -11,14 +11,21 @@ go version go1.11 linux/amd64
 ```
 
 
-Compile a local .go
+Compile a local go file:
 
 ```
-$ docker run --rm -v "$(pwd)":/usr/src/myapp -w /usr/src/myapp golang:<tag> go build -v /usr/src/myapp
+$ docker run --rm -v "$(pwd)":/usr/src/myapp -w /usr/src/myapp golang:<tag> go build -v .
+_/usr/src/myapp
 ```
-
 > `-v`:  print the names of packages as they are compiled
 
+
+Run a local go file:
+
+```
+$ docker run --rm -v "$(pwd)":/usr/src/myapp -w /usr/src/myapp golang:<tag> go run .
+Hello, world!
+```
 
 
 ## Create Dockerfile (Example 1.)
@@ -133,3 +140,4 @@ Hello World
 ## Reference
 
 - [如何在 Docker 中设置 Go 并部署应用](https://linux.cn/article-8113-1.html)
+- [Building Minimal Docker Containers for Go Applications](https://blog.codeship.com/building-minimal-docker-containers-for-go-applications/)
