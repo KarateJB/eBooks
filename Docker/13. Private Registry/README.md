@@ -1,4 +1,5 @@
 # Private Docker Registry
+---
 
 > The Registry is a stateless, highly scalable server side application that stores and lets you distribute Docker images. (See reference: [Docker Registry](https://docs.docker.com/registry/))
 
@@ -17,62 +18,60 @@ For example, to put the private images in local directory:
 
 ```
 docker run -d -p 5000:5000 \
-              --restart=always
-              --name my-registry
+              --restart=always \
+              --name my-registry \
               -v /opt/data/registry:/var/lib/registry \
               registry
 ```
 
-### Push image
+
+However the Registry is insecure with no HTTPS support, we will use self-signed certificates to secure the private Registry at next step.
+
+For more information about how to pull/push images from/to an insecure Registry, see [03. Local registry]().
+
+
+
+## Architecture for this tutorial
+
+We will create 2 containers:
+1. Private Registry
+2. Docker on client side (=Docker in docker)
+
+> You can skip 2. if you want to use the Docker on host.
+
+
+
+
+
+## Modify hosts
+
+In this example, we will use `jb.com` as the domain name.
+First add the host name and IP mapping to `hosts` file.
+
+> `hosts` file location:
+> - Linux: `/etc/hosts`
+> - Windows: `C:\Windows\System32\drivers\etc\hosts`
+
+For example,
 
 ```
-$ docker tag <image name>:<tag> 192.123.45.678:5000/<name>[:tag]
-$ docker push 192.123.45.678:5000/<name>[:tag]
+192.168.99.100  jb.com 
 ```
 
-ex.
-```
-$ docker tag centos:latest 192.123.45.678:5000/centos
-$ docker push 192.123.45.678:5000/centos
-$ curl http://$(docker-machine ip default):5000/v2/_catalog 
-```
-
-The pushing result will be like this,
-
-![](assets/001.png)
-
-![](assets/002.png)
-
-
-### Pull image
+## Make self-signed certificates
 
 ```
-$ docker pull 192.123.45.678:5000/<name>[:tag]
+$ openssl req -newkey rsa:4096 -nodes -sha256 -keyout certs/<domain>.key -x509 -days 365 -out certs/<domain>.crt
 ```
 
-ex. 
-```
-$ docker pull 192.123.45.678:5000/centos
-```
-
-
-
-
-
-add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-## Make local TLS certificate
-
-```
-$ openssl req -newkey rsa:4096 -nodes -sha256 -keyout certs/jb.key -x509 -days 365 -out certs/jb.crt
-```
+Assume 
 
 
 ```
 docker run -d -p 443:443 \
-              --restart=always
-              --name my-registry
+              --restart=always \
+              --name my-registry \
               -v /opt/data/registry:/var/lib/registry \
-
               -e REGISTRY_HTTP_ADDR=0.0.0.0:443 \
               -e REGISTRY_HTTP_TLS_CERTIFICATE=/opt/data/registry/certs/<domain>.crt \
               -e REGISTRY_HTTP_TLS_KEY=/opt/data/registry/certs/<domain>.key \

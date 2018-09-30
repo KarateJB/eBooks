@@ -1,7 +1,14 @@
 # Create local registry
 ---
 
-## Without Certification
+> The Registry is a stateless, highly scalable server side application that stores and lets you distribute Docker images. (See reference: [Docker Registry](https://docs.docker.com/registry/))
+
+We are going to use the official Docker image: [registry](https://hub.docker.com/_/registry/) to create a local insecure Docker Registry. 
+
+For a secure Docker Registry with TSL certificates, see [13. Private Registry]().
+
+
+## Without Certificates
 
 ```
 $ docker pull registry
@@ -16,10 +23,39 @@ $ echo $(docker-machine ip default)
 Output (for example): `192.123.45.678`
 
 
-### Push image to local registry
+### Insecure registry setting
+
+The local registry is insecure as a plain HTTP registry.
+We cannot pull/push images from/to a insecure registry until we configure Docker to entirely disregard security for the registry.
+
+Edit the `daemon.json` file, whose default location is
+- Linux: `/etc/docker/daemon.json`
+- Windows:  `C:\ProgramData\docker\config\daemon.json`
+
+If it doesn't exist, create one with the content:
 
 ```
-$ docker tag <image name>:<tag> 192.123.45.678:5000/<name>[:tag]
+{
+  "insecure-registries" : [
+	"192.123.45.678:5000"
+  ]
+}
+```
+
+and restart Docker by 
+
+```
+$ service docker stop
+$ service docker start
+```
+
+
+### Push image to local registry
+
+Tag a image as `<registry ip>:<port>/<image name>[:tag]`
+
+```
+$ docker tag <image name>:<tag> 192.123.45.678:5000/<image name>[:tag]
 $ docker push 192.123.45.678:5000/<name>[:tag]
 ```
 
