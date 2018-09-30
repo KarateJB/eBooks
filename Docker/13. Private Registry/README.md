@@ -100,17 +100,18 @@ We will make a Dockerfile for installing Docker on Ubuntu:16.04 and copy the cer
 $ touch dockerfile
 ```
 
-Current working directries is as following,
 
+Current working directries is as following,
+```
 -registry
  |-certs
    |-jb.crt
    |-jb.key
  |-Dockerfile  
+```
 
 
 - Dockerfile
-
 ```
 FROM ubuntu:16.04
 
@@ -234,6 +235,7 @@ $ docker run \
 
 Current working directries is as following,
 
+```
 -registry
  |-auth
    |-htpasswd
@@ -241,7 +243,7 @@ Current working directries is as following,
    |-jb.crt
    |-jb.key  
  |-Dockerfile  
-
+```
 
 ### Create container: Private Registry with basic auth
 
