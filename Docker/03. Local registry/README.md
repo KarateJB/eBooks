@@ -85,3 +85,6 @@ $ docker pull 192.123.45.678:5000/centos
 ```
 
 
+## Reference
+
+- [Test an insecure registry](https://docs.docker.com/registry/insecure/)
