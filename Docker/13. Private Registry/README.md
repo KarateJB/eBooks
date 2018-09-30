@@ -43,7 +43,7 @@ We will create 2 containers:
 
 
 
-## Modify hosts
+## Modify hosts file
 
 In this example, we will use `jb.com` as the domain name.
 First add the host name and IP mapping to `hosts` file.
