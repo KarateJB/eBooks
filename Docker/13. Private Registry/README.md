@@ -100,6 +100,15 @@ We will make a Dockerfile for installing Docker on Ubuntu:16.04 and copy the cer
 $ touch dockerfile
 ```
 
+Current working directries is as following,
+
+-registry
+ |-certs
+   |-jb.crt
+   |-jb.key
+ |-Dockerfile  
+
+
 - Dockerfile
 
 ```
@@ -147,7 +156,14 @@ $ docker run -it --privileged --name my-docker-client docker-client /bin/bash
 Docker version 18.06.1-ce. build e68fc7a
 ```
 
-Don't forget to modify `hosts` file in the container,
+Don't forget to modify `hosts` file in the container for your host name and IP mapping! Or simply add the mapping when start the container:
+
+```
+$ docker exec my-docker-client /bin/sh -c "echo '192.168.99.123 jb.com >> /etc/hosts"
+```
+
+
+You can also ping or telnet the connection of Private Registry server by 
 
 ```
 # vim /etc/hosts
@@ -172,19 +188,116 @@ Now we can test pulling/pushing from/to the secure Private Registry as following
 ```
 ![](assets/002.png)
 
+And the image is shown in local host's mapping data volume direcory: `/registry/docker/registry/v2/repositories`
+
+![](assets/003.png)
+
 
 ```
 # docker images jb.com:443/redis
 ```
-![](assets/003.png)
+![](assets/004.png)
 
 
 
 ```
 # docker pull jb.com:443/redis
 ```
-![](assets/004.png)
+![](assets/005.png)
 
+
+
+## Add Native basic auth
+
+Now we are going to add [Native basic auth]() on the Private Registry to enable access restriction by username/password.
+
+
+### Create password file 
+
+In local host server, create a password file like this,
+
+```
+$ docker run \
+         --entrypoint htpasswd \
+        registry[:<tag>] -Bbn <username> <password> > auth/htpasswd	
+
+```
+
+For example, create a password file for the user `dockeruser`, with password `dockerpwd`:
+```
+$ mkdir auth
+$ docker run \
+         --entrypoint htpasswd \
+         registry:2 -Bbn dockeruser dockerpwd > auth/htpasswd	
+
+```
+
+Current working directries is as following,
+
+-registry
+ |-auth
+   |-htpasswd
+ |-certs
+   |-jb.crt
+   |-jb.key  
+ |-Dockerfile  
+
+
+### Create container: Private Registry with basic auth
+
+```
+$ docker run -d -p 443:443 \
+              --restart=always \
+              --name my-registry \
+              -v /registry:/var/lib/registry \
+			  -e "REGISTRY_AUTH=htpasswd" \
+              -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \
+              -e REGISTRY_AUTH_HTPASSWD_PATH=/var/lib/registry/auth/htpasswd \
+              -e REGISTRY_HTTP_ADDR=0.0.0.0:443 \
+              -e REGISTRY_HTTP_TLS_CERTIFICATE=/var/lib/registry/certs/jb.crt \
+              -e REGISTRY_HTTP_TLS_KEY=/var/lib/registry/certs/jb.key \
+              registry
+```
+
+### Login to the Private Registry
+
+Now run the other container: `my-docker-client` (Docker on docker) to push the image and you will get a fail message: `no basic auth credentials`! 
+
+```
+$ docker exec -it my-docker-client /bin/bash
+# docker push jb.com:443/redis
+```
+![](assets/006.png)
+
+> Notice that if you get a error which shows `The docker daemon is not running`, start the docker by `service docker start`.
+
+
+Use [docker login](https://docs.docker.com/engine/reference/commandline/login/) to login to the Private Registry with the username:`dockeruser` and password:`dockerpwd`,
+
+```
+$ docker login <registry hostname>:<port>
+```
+
+For example,
+```
+docker login jb.com:443
+```
+![](assets/007.png)
+
+
+### Push/Pull images
+
+```
+$ docker tag ubuntu:14.04 jb.com:443/ubuntu:14.04
+$ docker push jb.com:443/ubuntu:14.04 
+```
+
+![](assets/008.png)
+
+
+```
+$ docker pull jb.com:443/ubuntu:14.04 
+```
 
 
 ## Reference
