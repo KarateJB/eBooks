@@ -302,6 +302,84 @@ $ docker pull jb.com:443/ubuntu:14.04
 ```
 
 
+## Nginx proxy
+
+We will install Nginx to create the proxy from external port to internal port in host server, such as port 15000(external) => 443(internal).
+
+### Install Nginx
+
+```
+$ apt-get -y install nginx
+```
+
+
+### Configuration
+
+In `/etc/nginx/sites-available/`, add new website config: `docker-registry.conf`
+
+```
+$ cd /etc/nginx/sites-available/
+$ touch docker-registry.conf
+```
+
+- docker-registry.conf
+
+> Reference: [convox/registry/nginx.conf](https://github.com/convox/registry/blob/master/nginx.conf)
+
+```
+# Internal docker registry port
+upstream docker-registry {
+  server localhost:5000;
+}
+
+# Proxy server listens on port 15000
+server {
+  listen 15000;
+  server_name jb.com;
+  add_header 'Docker-Distribution-Api-Version' 'registry/2.0' always;
+
+  # SSL on
+  ssl on;
+  ssl_certificate /etc/ssl/certs/myrepo.crt;
+  ssl_certificate_key /etc/ssl/private/myrepo.key;
+
+  proxy_pass                            http://docker-registry;
+  proxy_set_header    Host                \$http_host;    # required for docker client's sake
+  proxy_set_header    X-Real-IP           \$remote_addr;  # pass on real client's IP
+  proxy_set_header    X-Forwarded-For     \$proxy_add_x_forwarded_for;
+  proxy_set_header    X-Forwarder-Proto   \$schema;
+  proxy_read_timeout                      700;
+
+  # Disable size limit and avoid HTTP 413 for large image uploading
+  client_max_body_size 0;  
+  
+  # Required to avoid HTTP 411 on issue 1486 (https://github.com/docker/docker/issues/1486)
+  chunked_transfer_encoding on;
+
+  location /v2/ {
+    # Ban the request from old-version docker
+    if(\$http_user_agent ~ "^(docker\/1\.(3|4|5(?!\.[0-9]-dev))|Go ).*\$") {
+      return 404;
+    }
+
+    # Pass the request
+    proxy_pass http://docker-registry;
+  }
+}
+```
+
+
+```
+$ ln -s /etc/nginx/sites-available/docker-registry.conf  /etc/nginx/sites-enabled/docker-registry.conf
+$ service nginx restart 
+```
+
+### Push/Pull images
+
+```
+$ docker push jb.com:15000/ubuntu:latest
+```
+
 ## Reference
 
 - [docker.github.io](https://github.com/docker/docker.github.io/blob/master/registry/deploying.md)
