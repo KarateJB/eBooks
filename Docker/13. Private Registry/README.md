@@ -71,7 +71,7 @@ $ openssl req -newkey rsa:4096 -nodes -sha256 -keyout certs/<domain>.key -x509 -
 
 For example, the following command will create `jb.crt` and `jb.key`, 
 ```
-$ $ openssl req -newkey rsa:4096 -nodes -sha256 -keyout certs/jb.key -x509 -days 365 -out certs/jb.crt
+$ openssl req -newkey rsa:4096 -nodes -sha256 -keyout certs/jb.key -x509 -days 365 -out certs/jb.crt
 ```
 
 **Be sure to use the name `jb.com`(or you domain name) as a [CN(Common name)](https://support.dnsimple.com/articles/what-is-common-name/).**
@@ -160,7 +160,7 @@ Docker version 18.06.1-ce. build e68fc7a
 Don't forget to modify `hosts` file in the container for your host name and IP mapping! Or simply add the mapping when start the container:
 
 ```
-$ docker exec my-docker-client /bin/sh -c "echo '192.168.99.123 jb.com >> /etc/hosts"
+$ docker exec my-docker-client /bin/sh -c "echo '192.168.99.123 jb.com' >> /etc/hosts"
 ```
 
 
@@ -379,6 +379,79 @@ $ service nginx restart
 ```
 $ docker push jb.com:15000/ubuntu:latest
 ```
+
+### User authentication
+
+Modify the `location` settings in  `/etc/nginx/sites-available/docker-registry.conf` 
+
+- docker-registry.conf
+
+```
+# ....
+
+
+location / {
+  # Set auth_basic file
+  auth_basic "Enter Username/Password";
+  auth_basic_user_file docker-registry-htpasswd;
+
+  proxy_pass http://docker-registrys;
+}
+```
+
+Notice that the `docker-registry-htpasswd` file shall be put under `/etc/nginx/`.
+
+
+- docker-registry-htpasswd
+
+The content's format is as following,
+
+```
+<username1>:<password1>
+<username2>:<password2>
+```
+
+
+Notice that the password must be encrypted by `crypt`.
+We can encrypt the password by `htpasswd` toolk,
+
+```
+$ aptitude install apache2-utils -y
+```
+
+and set the username/password like this,
+
+```
+$ hypasswd -c /etc/nginx/docker-registry-htpasswd <username> 
+New password: *******
+Re-type password: ********
+Adding password for <username>
+```
+
+> Ignore `-c` parameter when the file exists
+
+
+Restart Nginx
+
+```
+$ service nginx restart
+```
+
+
+Now we can test it thru browser, open `hyyps://jb.com:15000/v2/`, it will shows dialog to enter the username and password.
+However, test it with curl:
+```
+$ curl <username>:<password>@jb.com:433/v2/
+```
+
+
+
+
+ 
+
+
+
+
 
 ## Reference
 
