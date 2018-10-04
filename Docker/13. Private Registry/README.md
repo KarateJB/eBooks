@@ -445,7 +445,26 @@ $ curl <username>:<password>@jb.com:433/v2/
 ```
 
 
+### Compose file
 
+```
+registry:
+  restart: always
+  image: registry:2.6.2
+  ports:
+    - 443:443
+  environment:
+    REGISTRY_HTTP_ADDR=0.0.0.0:443
+    REGISTRY_HTTP_TLS_CERTIFICATE=/var/lib/registry/certs/jb.crt
+    REGISTRY_HTTP_TLS_KEY=/var/lib/registry/certs/jb.key
+    REGISTRY_AUTH_HTPASSWD_PATH=/auth/docker-registry-htpasswd
+    REGISTRY_AUTH_HTPASSWD_REALM=basic
+  volumes:
+    - /registry:/var/lib/registry
+    - /registry/certs:/var/lib/registry/certs
+    - /registry/auth:/var/lib/registry/auth                
+
+```
 
  
 
