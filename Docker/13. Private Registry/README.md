@@ -326,10 +326,11 @@ $ touch docker-registry.conf
 
 > Reference: [convox/registry/nginx.conf](https://github.com/convox/registry/blob/master/nginx.conf)
 
+
 ```
 # Internal docker registry port
 upstream docker-registry {
-  server localhost:5000;
+  server jb.com:443;
 }
 
 # Proxy server listens on port 15000
@@ -340,19 +341,19 @@ server {
 
   # SSL on
   ssl on;
-  ssl_certificate /etc/ssl/certs/myrepo.crt;
-  ssl_certificate_key /etc/ssl/private/myrepo.key;
+  ssl_certificate /etc/docker/certs.d/jb.com:443/jb.crt;
+  ssl_certificate_key /etc/docker/certs.d/jb.com:443/jb.key;
 
-  proxy_pass                            http://docker-registry;
+  proxy_pass                              http://docker-registry;
   proxy_set_header    Host                \$http_host;    # required for docker client's sake
   proxy_set_header    X-Real-IP           \$remote_addr;  # pass on real client's IP
   proxy_set_header    X-Forwarded-For     \$proxy_add_x_forwarded_for;
-  proxy_set_header    X-Forwarder-Proto   \$schema;
+  proxy_set_header    X-Forwarded-Proto   \$scheme;
   proxy_read_timeout                      700;
 
   # Disable size limit and avoid HTTP 413 for large image uploading
-  client_max_body_size 0;  
-  
+  client_max_body_size 0;
+
   # Required to avoid HTTP 411 on issue 1486 (https://github.com/docker/docker/issues/1486)
   chunked_transfer_encoding on;
 
