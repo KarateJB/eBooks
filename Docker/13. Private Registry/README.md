@@ -523,3 +523,5 @@ registry:
 
 - [docker.github.io](https://github.com/docker/docker.github.io/blob/master/registry/deploying.md)
 - [Running your own Docker Registry](https://www.admintome.com/blog/running-your-own-docker-registry/)
+- [How To Create a Self-Signed SSL Certificate for Nginx in Ubuntu 18.04](https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-18-04)
+- [How to check if port is in use on Linux or Unix](https://www.cyberciti.biz/faq/unix-linux-check-if-port-is-in-use-command/)
