@@ -338,40 +338,43 @@ server {
   listen 15000;
   server_name jb.com;
   add_header 'Docker-Distribution-Api-Version' 'registry/2.0' always;
+  error_log /var/log/nginx/nginx.vhost.error.log;
 
   # SSL on
   ssl on;
   ssl_certificate /etc/docker/certs.d/jb.com:443/jb.crt;
   ssl_certificate_key /etc/docker/certs.d/jb.com:443/jb.key;
 
-  proxy_pass                              http://docker-registry;
-  proxy_set_header    Host                \$http_host;    # required for docker client's sake
-  proxy_set_header    X-Real-IP           \$remote_addr;  # pass on real client's IP
-  proxy_set_header    X-Forwarded-For     \$proxy_add_x_forwarded_for;
-  proxy_set_header    X-Forwarded-Proto   \$scheme;
+  proxy_set_header    Host                $http_host;    # required for docker client's sake
+  proxy_set_header    X-Real-IP           $remote_addr;  # pass on real client's IP
+  proxy_set_header    X-Forwarded-For     $proxy_add_x_forwarded_for;
+  proxy_set_header    X-Forwarded-Proto   $scheme;
   proxy_read_timeout                      700;
 
   # Disable size limit and avoid HTTP 413 for large image uploading
   client_max_body_size 0;
 
   # Required to avoid HTTP 411 on issue 1486 (https://github.com/docker/docker/issues/1486)
-  chunked_transfer_encoding on;
+  # chunked_transfer_encoding on;
 
   location /v2/ {
-    # Ban the request from old-version docker
-    if(\$http_user_agent ~ "^(docker\/1\.(3|4|5(?!\.[0-9]-dev))|Go ).*\$") {
-      return 404;
-    }
-
     # Pass the request
-    proxy_pass http://docker-registry;
+    proxy_pass https://docker-registry;
   }
 }
 ```
 
-#### Dockerfile
+Now create symlink and reload configuration and restart Nginx
 
-You can updated the previous Dockerfile as following,
+```
+$ ln -s /etc/nginx/sites-available/docker-registry.conf  /etc/nginx/sites-enabled/docker-registry.conf
+$ service nginx restart 
+```
+
+
+#### Update Dockerfile (Optional)
+
+We can update the previous Dockerfile as following to make a Docker Client with Nginx:
 
 - Dockerfile
 ```
@@ -391,8 +394,10 @@ RUN add-apt-repository \
    stable"
 RUN apt-get update
 RUN apt-get -y install docker-ce
-
-RUN mkdir -p /etc/docker/certs.d/jb.com:443/
+RUN apt-get update
+RUN apt-get -y install nginx
+RUN mkdir -p /etc/docker/certs.d/jb.com:443/ \
+    mkdir -p /etc/docker/certs.d/jb.com:443/keys/
 
 COPY /certs/jb.crt /etc/docker/certs.d/jb.com:443/
 COPY /certs/jb.key /etc/docker/certs.d/jb.com:443/keys/
@@ -405,18 +410,22 @@ WORKDIR /etc/docker/certs.d/jb.com:443/
 
 
 
-### Reload configuration and restart Nginx
-
-```
-$ ln -s /etc/nginx/sites-available/docker-registry.conf  /etc/nginx/sites-enabled/docker-registry.conf
-$ service nginx restart 
-```
-
 ### Push/Pull images
 
+Now we can use jb.com:15000 to push/pull images from the Private Registry.
+
 ```
-$ docker push jb.com:15000/ubuntu:latest
+$ docker login jb.com:15000
+$ docker push jb.com:15000/ubuntu:16.04
 ```
+
+![](assets/009.png)
+
+![](assets/010.png)
+
+
+
+
 
 ### User authentication
 
