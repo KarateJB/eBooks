@@ -463,19 +463,26 @@ Notice that the password must be encrypted by `crypt`.
 We can encrypt the password by `htpasswd` toolk,
 
 ```
-$ aptitude install apache2-utils -y
+$ aptget install -y apache2-utils
 ```
 
 and set the username/password like this,
 
 ```
-$ hypasswd -c /etc/nginx/docker-registry-htpasswd <username> 
+$ htpasswd -c /etc/nginx/docker-registry-htpasswd <username> 
 New password: *******
 Re-type password: ********
 Adding password for <username>
 ```
-
 > Ignore `-c` parameter when the file exists
+
+
+For example, add the usernamse as `nginxuser` and password as `nginxpwd` by the above commands will generate the contect as following in `docker-registry-htpasswd` file,
+
+```
+nginxuser:$apr1$4Rs.Agqo$f47XK136RKi4psZDvPWwg.
+
+```
 
 
 Restart Nginx
@@ -485,10 +492,10 @@ $ service nginx restart
 ```
 
 
-Now we can test it thru browser, open `hyyps://jb.com:15000/v2/`, it will shows dialog to enter the username and password.
+Now we can test it thru browser, open `https://jb.com:15000/v2/`, it will shows dialog to enter the username and password.
 However, test it with curl:
 ```
-$ curl <username>:<password>@jb.com:433/v2/
+$ curl <username>:<password>@jb.com:15000/v2/
 ```
 
 
