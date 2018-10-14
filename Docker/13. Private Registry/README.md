@@ -301,6 +301,18 @@ $ docker push jb.com:443/ubuntu:14.04
 $ docker pull jb.com:443/ubuntu:14.04 
 ```
 
+### See images catalog
+
+```
+$ curl -u <username>:<password> https://<registry hostname>:<port>/v2/_catalog
+```
+
+For example,
+```
+$ curl -u <username>:<password> https://jb.com:443/v2/_catalog
+{"repositories":["redis","ubuntu"]}
+```
+
 
 ## Nginx proxy
 
@@ -427,9 +439,9 @@ $ docker push jb.com:15000/ubuntu:16.04
 
 
 
-### User authentication
+### User authentication by Nginx
 
-Modify the `location` settings in  `/etc/nginx/sites-available/docker-registry.conf` 
+Add the `location` settings in  `/etc/nginx/sites-available/docker-registry.conf` 
 
 - docker-registry.conf
 
@@ -485,17 +497,21 @@ nginxuser:$apr1$4Rs.Agqo$f47XK136RKi4psZDvPWwg.
 ```
 
 
-Restart Nginx
+Reload Nginx configuration,
 
 ```
-$ service nginx restart
+$ nginx -s reload
 ```
 
 
-Now we can test it thru browser, open `https://jb.com:15000/v2/`, it will shows dialog to enter the username and password.
-However, test it with curl:
+Now we can test it thru browser, open `https://jb.com:15000/v2/_catalog`, it will shows dialog to enter the username and password.
+
+![](assets/011.png)
+
+Or test it with curl:
 ```
-$ curl <username>:<password>@jb.com:15000/v2/
+$ curl -u nginxuser:nginxpwd https://jb.com:15000/v2/_catalog
+{"repositories":["redis","ubuntu"]}
 ```
 
 
@@ -521,9 +537,6 @@ registry:
 ```
 
  
-
-
-
 
 
 ## Reference
