@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script src="https://unpkg.com/vue-async-computed"></script>
+</head>
+
+<body>
+    <br />
+    <div class="container" id='app'>
+        <div class="row">
+            <div class="col-4">
+            </div>
+            <div class="col-md-4">
+                <div>
+                    <select class="form-control">
+                        <option v-for="item in movies" :value="item.value">
+                            {{ item.text }}
+                        </option>
+                    </select>
+                 
+                    <div>
+                        <input type="button" class="form-control" @click="recalculate()" :value="isReload?'Loading...':'Recalculate'">
+                    </div>
+                    <div>
+                        Click times: {{ clickTimes }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="./demo.js"></script>
+
+</html>
