@@ -1,8 +1,10 @@
 # Vue-form
 
-> [Github](https://github.com/fergaldoyle/vue-form)
-> 
 > 表單驗證套件，支援Vue.js2.2以上的版本。
+
+## Github
+
+[fergaldoyle/vue-form](https://github.com/fergaldoyle/vue-form)
 
 
 ## 範例
