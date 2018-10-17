@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script src="https://unpkg.com/vuejs-paginate@1.6.0"></script>
+</head>
+
+<body>
+    <br />
+    <div class="container" id='app'>
+        <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-10">
+                <div>
+                    <paginate :page-count="pageCount" 
+                              :page-range=1
+                              :init-page=0 
+                              :margin-pages=2 
+                              :page-class="'page-item'" 
+                              :page-link-class="'page-link-item'"
+                              :container-class="'pagination pagination-sm'" 
+                              :prev-class="'prev-item'" 
+                              :prev-link-class="'prev-link-item'" 
+                              :next-class="'next-item'"
+                              :next-link-class="'next-link-item'" 
+                              :click-handler="pageCallback">
+                    </paginate>
+                </div>
+                <div>
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Name</th>
+                                <th>Gender</th>
+                                <th>Img</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="ppl in pagedListdata">
+                                <td>{{ ppl.name }}</td>
+                                <td>{{ ppl.gender }}</td>
+                                <td><img :src="ppl.img" style="width:50px;height:50px;" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-1">
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="./demo.js"></script>
+
+</html>

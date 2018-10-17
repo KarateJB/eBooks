@@ -181,4 +181,3 @@ var app = new Vue({
 
 ![](assets/demo.gif)
 
-
