@@ -123,7 +123,7 @@ this.$t('text.search')
 
 ### Demo
 
-[Source code](sample code/const)
+[Source code](https://github.com/KarateJB/eBooks/tree/master/Vue.js/04.%20vue-i18n%20(1)/sample%20code/const)
 
 繁中
 
@@ -175,4 +175,4 @@ var app = new Vue({
 })
 ```
 
-[Source code](sample code/jsonfile)
+[Source code](https://github.com/KarateJB/eBooks/tree/master/Vue.js/04.%20vue-i18n%20(1)/sample%20code/jsonfile)
