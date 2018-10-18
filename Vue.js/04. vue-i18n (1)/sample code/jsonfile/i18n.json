@@ -1,0 +1,28 @@
+{
+    "en-US": {
+        "column": {
+            "key": "Book title",
+            "description": "Price",
+            "createBy": "Create by",
+            "createOn": "Create On",
+            "updateBy": "Update by",
+            "updateOn": "Update On"
+        },
+        "text": {
+            "search": "Search"
+        }
+    },
+    "zh-TW": {
+        "column": {
+            "key": "書名",
+            "description": "價格",
+            "createBy": "建立者",
+            "createOn": "建立日期",
+            "updateBy": "更新者",
+            "updateOn": "更新日期"
+        },
+        "text": {
+            "search": "搜尋"
+        }
+    }
+}

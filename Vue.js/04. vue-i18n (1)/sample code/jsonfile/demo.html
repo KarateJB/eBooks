@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-i18n/8.2.0/vue-i18n.min.js"></script>
+</head>
+
+<body>
+    <br />
+    <div class="container" id='app'>
+        <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-10">
+                <div id="app" class="container-fluid">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <input type="text"  class="form-control" />
+                            </div>
+                            <div class="col-md-2">
+                                <input type="button" class="btn btn-warning" :value="$t('text.search')" />
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width:100%">
+                        <div class="col-centered">   </div>
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>{{ $t("column.key") }}</th>
+                                    <th class="col-xs-2">{{ $t("column.description") }}</th>
+                                    <th>{{ $t("column.createBy") }}</th>
+                                    <th>{{ $t("column.createOn") }}</th>
+                                    <th>{{ $t("column.updateBy") }}</th>
+                                    <th>{{ $t("column.updateOn") }}</th>
+                                </tr>
+                            </thead>
+                        </table>
+                </div>
+            </div>
+            <div class="col-md-1">
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="./demo.js"></script>
+
+</html>
