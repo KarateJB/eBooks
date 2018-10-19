@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-i18n/8.2.0/vue-i18n.min.js"></script>
+</head>
+
+<body>
+    <br />
+    <div class="container" id='app'>
+        <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-10">
+                <!-- Datetime -->
+                <p>Datetime(en-US, short): {{ $d(new Date(), 'short', 'en-US') }}</p>
+                <p>Datetime(en-US, long): {{ $d(new Date(), 'long', 'en-US') }}</p>
+                <p>Datetime(zh-CN, short): {{ $d(new Date(), 'short') }}</p>
+                <p>Datetime(zh-CN, long): {{ $d(new Date(), 'long') }}</p>
+                <p>Datetime(ja-JP, short): {{ $d(new Date(), 'short', 'ja-JP') }}</p>
+                <p>Datetime(ja-JP, long): {{ $d(new Date(), 'long', 'ja-JP') }}</p>
+                 <!-- Decimal -->
+                 <p>Decimal(en-US): {{ $n(10000.12345, 'decimal', 'en-US') }}</p>
+                 <p>Decimal(zh-CN): {{ $n(10000.12345, 'decimal') }}</p>
+                 <p>Decimal(ja-JP): {{ $n(10000.12345, 'decimal', 'ja-JP') }}</p>
+                <!-- Currency -->
+                <p>Currency(en-US): {{ $n(10000.12345, 'currency', 'en-US') }}</p>
+                <p>Currency(zh-CN): {{ $n(10000.12345, 'currency') }}</p>
+                <p>Currency(ja-JP): {{ $n(10000.12345, 'currency', 'ja-JP') }}</p>
+                <!-- Percentage -->
+                <p>Percentage(en-US): {{ $n(0.881, 'percent', 'en-US') }}</p>
+                <p>Percentage(en-US): {{ $n(0.8812345, 'percent', 'en-US') }}</p>
+                <p>Percentage(en-US): {{ $n(0.881, 'percent') }}</p>
+                <p>Percentage(zh-CN): {{ $n(0.8812345, 'percent') }}</p>
+                <p>Percentage(ja-JP): {{ $n(0.881, 'percent', 'ja-JP') }}</p>
+                <p>Percentage(ja-JP): {{ $n(0.8812345, 'percent', 'ja-JP') }}</p>
+            </div>
+            <div class="col-md-1">
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="./demo.js"></script>
+
+</html>
