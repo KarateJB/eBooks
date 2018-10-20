@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-i18n/8.2.0/vue-i18n.min.js"></script>
+</head>
+
+<body>
+    <br />
+    <div class="container" id='app'>
+        <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-10">
+                <!-- <div class="alert alert-info" role="alert">
+                    <strong>{{ $t('name') }} : <a :href="starwars.url"">{{ starwars.book }}({{ starwars.year
+                            }})</a></strong>
+                    {{ $t('price') }} = {{ $n(starwars.price, 'currency') }}
+                </div> -->
+                <div class="alert alert-info" role="alert">
+                    <i18n path="bookInfo" tag="strong">
+                        <any place="title">{{ $t('name') }}</any>
+                        <a place="link" :href="starwars.url">{{ starwars.book }}({{ starwars.year }})</a>
+                    </i18n>
+                    <i18n path="priceInfo" tag="any" :places="{title: $t('price'), howmuch: $n(starwars.price, 'currency')}">
+                    </i18n>
+                </div>
+            </div>
+        </div>
+
+</body>
+<script src="./demo.js"></script>
+
+</html>
