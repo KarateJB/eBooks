@@ -97,11 +97,16 @@ this.$t('text.search')
 ```
 {{ $t("column.key") }}
 ```
+
 或使用directive，如[v-html](https://vuejs.org/v2/api/#v-html), [v-text](https://vuejs.org/v2/api/#v-text)
 ```
 <div v-text="$t('column.key')"></div>
 ```
 
+也可以直接指定要顯示的語系：
+```
+{{ $t("column.key", "zh-TW") }}
+```
 
 ### HTML
 

@@ -39,6 +39,7 @@ const messages = {
 ```
 
 結果：
+
 ![](assets/001.png)
 
 
@@ -83,6 +84,7 @@ starwars: {
 ```
 
 結果：
+
 ![](assets/002.png)
 
 
@@ -126,11 +128,12 @@ $t('column.name', [starwars.book, starwars.year])
 ```
 
 顯示結果：
+
 ![](assets/003.png)
 
 
 
-以上程式碼可參考這邊的[Source code]()
+以上程式碼可參考這邊的[Source code](https://github.com/KarateJB/eBooks/tree/master/Vue.js/06.%20vue-i18n%20(3)/sample%20code/formatting)
 
 
 
@@ -149,7 +152,7 @@ $t('column.name', [starwars.book, starwars.year])
 
 以下是使用`v-t`加上Named formatting的範例。
 
-[Source code]()
+[Source code](https://github.com/KarateJB/eBooks/tree/master/Vue.js/06.%20vue-i18n%20(3)/sample%20code/v-t)
 
 ```
 const messages = {
@@ -176,6 +179,7 @@ const messages = {
 ```
 
 結果：
+
 ![](assets/004.png)
 
 
