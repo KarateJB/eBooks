@@ -16,7 +16,7 @@
 Vue.use(VueI18n);
 
 const messages = {
-  enUS: {
+  'en-US': {
     "column": {
       "key": "Book title",
       "description": "Price",
@@ -29,7 +29,7 @@ const messages = {
       "search": "Search"
     }
   },
-  zhTW: {
+  'zh-TW': {
     "column": {
       "key": "書名",
       "description": "價格",
@@ -47,7 +47,7 @@ const messages = {
 // Create VueI18n instance with options
 const i18n = new VueI18n({
   locale: '', // set locale
-  fallbackLocale: 'enUS',
+  fallbackLocale: 'en-US',
   messages, // set locale dictionary
 });
 
@@ -57,31 +57,31 @@ var app = new Vue({
   i18n, //In IE, you have to write like this... i18n: i18n
   created: function () {
     var vm = this;
-    vm.$i18n.locale = 'zhTW'; //Set the locale here
+    vm.$i18n.locale = 'zh-TW'; //Set the locale here
   }
 })
 ```
 
 > 1. 注意語系字典必須指定給名稱為`messages`的常數變數
-> 2. `fallbackLocale: 'enUS'`表示當未設定對應的語系字典時，以`enUS`為預設顯示
+> 2. `fallbackLocale: 'en-US'`表示當未設定對應的語系字典時，以`en-US`為預設顯示
 
-也可以不在建立`VueI18n`時設定語系字典(messages)，而改由`$i18n.setLocaleMessage('zhTW', messages.zhTW)`的方式來設定。
+也可以不在建立`VueI18n`時設定語系字典(messages)，而改由`$i18n.setLocaleMessage('zh-TW', messages.zh-TW)`的方式來設定。
 
 ```
 // Create VueI18n instance with options
 const i18n = new VueI18n({
   locale: '', // set locale
-  fallbackLocale: 'enUS'
+  fallbackLocale: 'en-US'
 });
 
 var app = new Vue({
   // Skip...
   created: function () {
     var vm = this;
-    vm.$i18n.setLocaleMessage('zhTW', messages.zhTW); 
-    vm.$i18n.setLocaleMessage('enUS', messages.enUS);
+    vm.$i18n.setLocaleMessage('zh-TW', messages.zh-TW); 
+    vm.$i18n.setLocaleMessage('en-US', messages.en-US);
     
-    vm.$i18n.locale = 'zhTW';
+    vm.$i18n.locale = 'zh-TW';
   }
 })
 ```
@@ -146,7 +146,7 @@ Vue.use(VueI18n);
 // Create VueI18n instance with options
 const i18n = new VueI18n({
   locale: '', // set locale
-  fallbackLocale: 'enUS'
+  fallbackLocale: 'en-US'
 });
 
 
@@ -154,21 +154,21 @@ var app = new Vue({
   el: '#app',
   i18n, //In IE, you have to write like this... i18n: i18n
   methods: {
-    i18nGetEnUS() {
+    i18nGeten-US() {
       return axios.get('http://localhost:3000/en-US');
     },
-    i18nGetZhTW() {
+    i18nGetzh-TW() {
       return axios.get('http://localhost:3000/zh-TW');
     }
   },
   created: function () {
     var vm = this;
 
-    axios.all([vm.i18nGetEnUS(), vm.i18nGetZhTW()])
+    axios.all([vm.i18nGeten-US(), vm.i18nGetzh-TW()])
     .then(axios.spread(function (response1, response2) {
-      vm.$i18n.setLocaleMessage('enUS', response1.data);
-      vm.$i18n.setLocaleMessage('zhTW', response2.data);
-      vm.$i18n.locale = 'zhTW';
+      vm.$i18n.setLocaleMessage('en-US', response1.data);
+      vm.$i18n.setLocaleMessage('zh-TW', response2.data);
+      vm.$i18n.locale = 'zh-TW';
     }));
 
   }

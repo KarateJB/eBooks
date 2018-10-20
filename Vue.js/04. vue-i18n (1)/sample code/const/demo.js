@@ -1,7 +1,7 @@
 Vue.use(VueI18n);
 
 const messages = {
-  enUS: {
+  'en-US': {
     "column": {
       "key": "Book title",
       "description": "Price",
@@ -14,7 +14,7 @@ const messages = {
       "search": "Search"
     }
   },
-  zhTW: {
+  'zh-TW': {
     "column": {
       "key": "書名",
       "description": "價格",
@@ -32,7 +32,7 @@ const messages = {
 // Create VueI18n instance with options
 const i18n = new VueI18n({
   locale: '', // set locale
-  fallbackLocale: 'enUS',
+  fallbackLocale: 'en-US',
   messages, // set locale dictionary
 });
 
@@ -44,9 +44,9 @@ var app = new Vue({
     var vm = this;
 
     //You can also set messages here
-    //vm.$i18n.setLocaleMessage('zhTW', messages.zhTW); 
-    //vm.$i18n.setLocaleMessage('enUS', messages.enUS);
+    //vm.$i18n.setLocaleMessage('zh-TW', messages.zhTW); 
+    //vm.$i18n.setLocaleMessage('en-US', messages.enUS);
 
-    vm.$i18n.locale = 'zhTW';
+    vm.$i18n.locale = 'zh-TW';
   }
 })

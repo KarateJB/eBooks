@@ -4,7 +4,7 @@ Vue.use(VueI18n);
 // Create VueI18n instance with options
 const i18n = new VueI18n({
   locale: '', // set locale
-  fallbackLocale: 'enUS'
+  fallbackLocale: 'en-US'
 });
 
 
@@ -24,9 +24,9 @@ var app = new Vue({
 
     axios.all([vm.i18nGetEnUS(), vm.i18nGetZhTW()])
     .then(axios.spread(function (response1, response2) {
-      vm.$i18n.setLocaleMessage('enUS', response1.data);
-      vm.$i18n.setLocaleMessage('zhTW', response2.data);
-      vm.$i18n.locale = 'zhTW';
+      vm.$i18n.setLocaleMessage('en-US', response1.data);
+      vm.$i18n.setLocaleMessage('zh-TW', response2.data);
+      vm.$i18n.locale = 'zh-TW';
     }));
 
   }

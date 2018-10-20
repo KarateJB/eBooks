@@ -30,6 +30,7 @@
 | timeZoneName | "short", "long" |
 	
 ### JS
+
 ```
 Vue.use(VueI18n);
 
@@ -78,7 +79,7 @@ var app = new Vue({
     vm.$i18n.locale = 'zh-CN';
   }
 })
-```	
+```
 
 使用的方式為：`$d(new Date(), 'short')`
 
@@ -87,6 +88,7 @@ var app = new Vue({
 
 
 ### HTML
+
 ```
 <p>Datetime(zh-CN, short): {{ $d(new Date(), 'short') }}</p>
 <p>Datetime(zh-CN, long): {{ $d(new Date(), 'long') }}</p>
@@ -153,6 +155,7 @@ const i18n = new VueI18n({
 或指定使用哪個語系的格式：`$n(10000.12345, 'currency', 'en-US')`
 
 例如以下的HTML，
+
 ```
 <p>Currency(en-US): {{ $n(10000.12345, 'currency', 'en-US') }}</p>
 <p>Currency(zh-CN): {{ $n(10000.12345, 'currency') }}</p>
@@ -160,6 +163,7 @@ const i18n = new VueI18n({
 ```
 
 將顯示：
+
 ```
 Currency(en-US): $10,000.12
 Currency(zh-CN): 10,000.12 人民币
@@ -202,6 +206,7 @@ const i18n = new VueI18n({
 或指定使用哪個語系的格式：`$n(0.1, 'percent', 'en-US')`
 
 例如以下的HTML，
+
 ```
 <p>Percentage(en-US): {{ $n(0.881, 'percent', 'en-US') }}</p>
 <p>Percentage(en-US): {{ $n(0.8812345, 'percent', 'en-US') }}</p>
@@ -212,6 +217,7 @@ const i18n = new VueI18n({
 ```
 
 將顯示：
+
 ```
 Percentage(en-US): 88%
 Percentage(en-US): 88%
@@ -255,6 +261,7 @@ const i18n = new VueI18n({
 或指定使用哪個語系的格式：`$n(10000.12345, 'decimal', 'en-US')`
 
 例如以下的HTML，
+
 ```
 <p>Decimal(en-US): {{ $n(10000.12345, 'decimal', 'en-US') }}</p>
 <p>Decimal(zh-CN): {{ $n(10000.12345, 'decimal') }}</p>
@@ -262,6 +269,7 @@ const i18n = new VueI18n({
 ```
 
 將顯示：
+
 ```
 Decimal(en-US): 10,000.123
 Decimal(zh-CN): 10,000.12
