@@ -43,22 +43,6 @@ const messages = {
   }
 }
 
-//Named formatting
-// const messages = {
-//   'en-US': {
-//     "column": {
-//       "name": "Book title : {book}",
-//       "price": "Price : {price}",
-//     }
-//   },
-//   'zh-TW': {
-//     "column": {
-//       "name": "書名 : {book}",
-//       "price": "價格 : {price}",
-//     }
-//   }
-// }
-
 const i18n = new VueI18n({
   locale: '', // set locale
   fallbackLocale: 'en-US',
