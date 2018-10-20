@@ -1,4 +1,4 @@
-# vue-i18n (1)
+# vue-i18n (1) - Getting started
 
 > 多國語系套件
 

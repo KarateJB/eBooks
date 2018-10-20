@@ -1,4 +1,4 @@
-# vue-i18n (1)
+# vue-i18n (4) - Component interpolation
 
 > 多國語系套件
 

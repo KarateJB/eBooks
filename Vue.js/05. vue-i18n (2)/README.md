@@ -1,4 +1,4 @@
-# vue-i18n (2)
+# vue-i18n (2) - DateTime & Number
 
 > 多國語系套件
 

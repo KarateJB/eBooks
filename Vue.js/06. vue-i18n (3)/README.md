@@ -1,4 +1,4 @@
-# vue-i18n (3)
+# vue-i18n (3) - Formatting
 
 > 多國語系套件
 
