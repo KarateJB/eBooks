@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-markdown@2.2.4/dist/vue-markdown.js"></script>
+</head>
+
+<body>
+    <br />
+    <div class="container" id='app'>
+        <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-10">
+                    <vue-markdown>## Demo</vue-markdown>
+                    <vue-markdown>[A link to Google](https://googl.com)</vue-markdown>
+
+                <vue-markdown>
+## Demo
+[A link to Google](https://googl.com)
+                </vue-markdown>
+                <vue-markdown :source="now"></vue-markdown>
+                <vue-markdown :anchor-attributes="linkAttrs">[A link to Google](https://google.com)</vue-markdown>
+                <vue-markdown>
+```
+var me = {
+    name : 'JB',
+    from : 'Taiwan'
+}
+```
+                            </vue-markdown>
+                        
+            </div>
+            <div class="col-md-1">
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="./demo.js"></script>
+
+</html>
