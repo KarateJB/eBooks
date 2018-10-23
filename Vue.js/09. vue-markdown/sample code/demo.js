@@ -10,7 +10,9 @@ var app = new Vue({
             id: 'mylink'
           } 
     },
-    created() {
-        var vm =this;
+    mounted() {
+        setInterval(() => {
+            this.now = new Date().toLocaleTimeString();
+          }, 1000);
     },
 })
