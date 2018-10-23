@@ -38,7 +38,7 @@ var app = new Vue({
 
 結果如下圖：
 
-![](001.png)
+![](assets/001.png)
 
 
 也支援各種[Props](https://github.com/miaolz123/vue-markdown#props)，例如較常用的`source`和`anchor-attributes`：
