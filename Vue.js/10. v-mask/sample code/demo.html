@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/v-mask/1.3.2/v-mask.min.js"></script>
+</head>
+
+<body>
+    <br />
+    <div class="container" id='app'>
+        <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-10">
+                <div class="form-group">
+                    <label for="name">Chinese Name</label>
+                    <input type="text" class="form-control" id="name" v-model="me.nameZh" v-mask="'XX?X?X?X?X'">
+                </div>
+                <div class="form-group">
+                        <label for="name">English Name</label>
+                        <input type="text" class="form-control" id="name" v-model="me.nameEn" v-mask="'A?A?A?A?A?A?A?A?A'">
+                    </div>
+                <div class="form-group">
+                    <label for="birthday">Birthday</label>
+                    <input type="text" class="form-control" id="birthday" v-model="me.birthday" placeholder="yyyy/MM/dd" v-mask="'####/##/##'">
+                </div>
+                <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="text" class="form-control" id="age" v-model="me.age" placeholder="0-999" v-mask="'#?#?#'">
+                    </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="text" class="form-control" id="phone" v-model="me.phone" placeholder="ex. 0922123456" v-mask="'####-###-###'">
+                </div>
+                <div v-show="me.name && me.birthday && me.phone">
+                    You are {{me.name}} and born on {{me.birthday}}. Contact cell-phone number is {{me.phone}}.
+                </div>
+
+            </div>
+            <div class="col-md-1">
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="./demo.js"></script>
+
+</html>
