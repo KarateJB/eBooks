@@ -110,5 +110,5 @@ const messages = {
 
 
 
-完整範例程式碼，可參考這邊的[Source code](https://github.com/KarateJB/eBooks/tree/master/Vue.js/07.%20vue-i18n%20(4)/sample%20code)
+完整範例程式碼，可參考這邊的[Sample code](https://github.com/KarateJB/eBooks/tree/master/Vue.js/07.%20vue-i18n%20(4)/sample%20code)
 

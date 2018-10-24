@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/v-mask/1.3.2/v-mask.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-the-mask@0.11.1/dist/vue-the-mask.min.js"></script>
 </head>
 
 <body>
@@ -20,26 +20,25 @@
             <div class="col-md-10" @keydown="keymonitor">
                 <div class="form-group">
                     <label for="nameZh">Chinese Name</label>
-                    <input type="text" class="form-control" id="nameZh" v-model="me.nameZh" v-mask="'X?X?X?X?X'">
+                    <input type class="form-control" id="nameZh" v-model="me.nameZh" />
                 </div>
                 <div class="form-group">
-                        <label for="nameEn">English Name</label>
-                        <input type="text" class="form-control" id="nameEn" v-model="me.nameEn" v-mask="'A?A?A?A?A?A?A?A?A'">
-                    </div>
+                    <label for="nameEn">English Name</label>
+                    <the-mask class="form-control" id="nameEn" v-model="me.nameEn" :mask="'SSSSSSSS'" />
+                </div>
                 <div class="form-group">
                     <label for="birthday">Birthday</label>
-                    <!-- <input type="text" class="form-control" id="birthday" v-model="me.birthday" placeholder="yyyy/MM/dd" v-mask="'####/##/##'"> -->
-                    <input type="text" class="form-control" id="birthday" v-model="me.birthday" 
-                           :placeholder="birthdayPlaceholder" 
-                           v-mask="birthdayFormat">
+                    <the-mask class="form-control" id="birthday" v-model="me.birthday" placeholder="yyyy/MM/dd"
+                              :mask="['##/##/##', '####/##/##']" />
                 </div>
                 <div class="form-group">
-                        <label for="age">Age</label>
-                        <input type="text" class="form-control" id="age" v-model="me.age" placeholder="0-999" v-mask="'#?#?#'">
-                    </div>
+                    <label for="age">Age</label>
+                    <the-mask class="form-control" id="age" v-model="me.age" placeholder="0-999" :mask="'###'" />
+                </div>
                 <div class="form-group">
                     <label for="phone">Phone</label>
-                    <input type="text" class="form-control" id="phone" v-model="me.phone" placeholder="ex. 0922123456" v-mask="'####-###-###'">
+                    <the-mask class="form-control" id="phone" v-model="me.phone" placeholder="ex. 0922123456"
+                        :mask="'####-###-###'" />
                 </div>
                 <div>{{ keys }}</div>
                 <div v-show="me.nameEn && me.birthday && me.phone">

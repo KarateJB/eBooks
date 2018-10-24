@@ -1,4 +1,4 @@
-Vue.use(VueMask.VueMaskPlugin);
+Vue.use(VueTheMask)
 
 var app = new Vue({
     el: "#app",

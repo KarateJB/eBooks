@@ -133,7 +133,7 @@ $t('column.name', [starwars.book, starwars.year])
 
 
 
-以上程式碼可參考這邊的[Source code](https://github.com/KarateJB/eBooks/tree/master/Vue.js/06.%20vue-i18n%20(3)/sample%20code/formatting)
+以上程式碼可參考這邊的[Sample code](https://github.com/KarateJB/eBooks/tree/master/Vue.js/06.%20vue-i18n%20(3)/sample%20code/formatting)
 
 
 

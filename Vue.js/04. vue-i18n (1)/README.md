@@ -128,7 +128,7 @@ this.$t('text.search')
 
 ### Demo
 
-[Source code](https://github.com/KarateJB/eBooks/tree/master/Vue.js/04.%20vue-i18n%20(1)/sample%20code/const)
+[Sample code](https://github.com/KarateJB/eBooks/tree/master/Vue.js/04.%20vue-i18n%20(1)/sample%20code/const)
 
 繁中
 
