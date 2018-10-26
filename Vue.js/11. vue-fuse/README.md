@@ -103,3 +103,5 @@ runSearch(keyword) {
     })
 }
 ```
+
+[Sample code](https://github.com/KarateJB/vue-fuse/tree/master/demo)
