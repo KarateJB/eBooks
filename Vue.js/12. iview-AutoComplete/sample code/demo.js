@@ -1,20 +1,67 @@
-
-const FOO_DATA = [
-    'Luke Skywalker',
-    'Leia Skywalker',
-    'Anakin Skywalker',
-    'Padme (Amidala)',
-    'Rey',
-    'Obi Wan Kenobi',
-    'Mace Windu',
-    'Yoda',
-    'Darth Vader',
-    'Darth Sidious',
-    'Count Dooku',
-    'Darth Maul',
+const FOO_DATA = [{
+    name: 'Luke Skywalker',
+    gender: 'male',
+    img: 'https://goo.gl/KEUxHN'
+},
+{
+    name: 'Leia Skywalker',
+    gender: 'female',
+    img: 'https://goo.gl/rNJhLU'
+},
+{
+    name: 'Anakin Skywalker',
+    gender: 'male',
+    img: 'https://goo.gl/rvcqJN'
+},
+{
+    name: 'Padme (Amidala)',
+    gender: 'female',
+    img: 'https://goo.gl/CNr4WK'
+},
+{
+    name: 'Rey',
+    gender: 'female',
+    img: 'https://goo.gl/NEfjfi'
+},
+{
+    name: 'Obi Wan Kenobi',
+    gender: 'male',
+    img: 'https://goo.gl/7c5NkR'
+},
+{
+    name: 'Mace Windu',
+    gender: 'male',
+    img: 'https://goo.gl/VZsqrH'
+},
+{
+    name: 'Yoda',
+    gender: 'male',
+    img: 'https://goo.gl/uJQRGX'
+},
+{
+    name: 'Darth Vader',
+    gender: 'male',
+    img: 'https://goo.gl/xcMHqj'
+},
+{
+    name: 'Darth Sidious',
+    gender: 'male',
+    img: 'https://goo.gl/QJiJWx'
+},
+{
+    name: 'Count Dooku',
+    gender: 'male',
+    img: 'https://goo.gl/sm76q7'
+},
+{
+    name: 'Darth Maul',
+    gender: 'male',
+    img: 'https://goo.gl/ikbM7n'
+}
 ];
 
-// Vue.use(iView);
+
+
 
 var app = new Vue({
     el: "#app",
@@ -25,7 +72,7 @@ var app = new Vue({
     },
     methods: {
         search(value){
-            this.matches = this.starwars.filter(x=>x.startsWith(value));
+            this.matches = this.starwars.filter(x=>x.name.startsWith(value));
         }
     },
     created() {

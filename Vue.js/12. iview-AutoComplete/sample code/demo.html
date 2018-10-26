@@ -19,9 +19,17 @@
             <div class="col-md-1">
             </div>
             <div class="col-md-10">
-                <auto-complete v-model="keyword" 
-                              :data="matches" @on-search="search" placeholder="Select your favorite role">
-                            </auto-complete>
+                <auto-complete v-model="keyword" :data="matches" @on-search="search" placeholder="Select your favorite role">
+                    <div class="demo-auto-complete-item" v-for="item in matches">
+                        <div class="demo-auto-complete-group">
+                            <span>{{ item.name }}</span>
+                            <img :src="item.img" style="width:30px;height:30px" />
+                        </div>
+                        <Option>
+                            <span class="demo-auto-complete-title">{{ item.gender }}</span>
+                        </Option>
+                    </div>
+                </auto-complete>
             </div>
             <div class="col-md-1">
             </div>
