@@ -6,13 +6,20 @@ var app = new Vue({
             name: "",
             birthday: "",
             age: null,
-            gender: ""
-        }
+            description: ""
+        },
+        value: "",
+        msg: "",
+        myUrl: null,
+        myUrlPre: null,
+        myUrlSuf: null
     },
     methods: {
-
-        giveAge(birthday){
-            if(birthday)
+        search() {
+            this.msg = `Searching ${this.value}`;
+        },
+        giveAge(birthday) {
+            if (birthday)
                 this.me.age = this.calAge(birthday);
         },
         calAge(targetDate) {
