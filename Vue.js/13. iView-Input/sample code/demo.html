@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/iview/3.0.1/styles/iview.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/iview/3.0.1/iview.min.js"></script>
+</head>
+
+<body>
+    <br />
+    <div class="container" id='app'>
+        <div class="row">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Name</label>
+                    <!-- Clearable icon -->
+                    <!-- <i-input v-model="me.name" clearable /> -->
+                    
+                    <!-- Icon by prop -->
+                    <!-- <i-input v-model="me.name" prefix="ios-contact"  /> -->
+                    <!-- <i-input v-model="me.name" suffix="ios-contact"  /> -->
+                    
+                    <!-- Icon by slot -->
+                    <!-- <i-input v-model="me.name">
+                        <icon type="ios-contact" slot="prefix" />
+                    </i-input> -->
+                    <i-input v-model="me.name">
+                        <icon type="ios-contact" slot="suffix" />
+                    </i-input>                    
+                </div>
+                <div class="form-group">
+                    <label>Birthday</label>
+                    <i-input v-model="me.birthday" 
+                             icon="ios-arrow-dropright-circle" 
+                             @on-click="giveAge(me.birthday)" />
+                </div>
+                <div class="form-group">
+                    <label>Age</label>
+                    <i-input v-model="me.age" type="number" />
+                </div>
+            </div>
+            <div class="col-md-4">
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="./demo.js"></script>
+
+</html>
