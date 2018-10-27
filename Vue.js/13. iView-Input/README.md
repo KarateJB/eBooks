@@ -1,4 +1,4 @@
-# iView - AutoComplete
+# iView - Input
 
 > 一套基於 Vue.js 的高質量UI 組件庫，此篇介紹Input輸入框
 
