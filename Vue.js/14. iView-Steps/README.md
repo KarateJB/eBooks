@@ -81,7 +81,14 @@ const STEPS = {
 ![](assets/003.png)
 
 
-請參考其API:[Steps Props](https://www.iviewui.com/components/steps#Steps_props)及[Step Props](https://www.iviewui.com/components/steps#Step_props)。
+### Demo
+
+[Sample Code](https://github.com/KarateJB/eBooks/tree/master/Vue.js/14.%20iView-Steps/sample%20code)
+
+![](assets/demo.gif)
 
 
-[Source Code]()
+
+> 請參考其API:[Steps Props](https://www.iviewui.com/components/steps#Steps_props)及[Step Props](https://www.iviewui.com/components/steps#Step_props)。
+
+

@@ -4,7 +4,7 @@ const STEPS = {
         description: "Please Confirm your shopcart"    
     },
     login: {
-        title: "Shopcart",
+        title: "Login",
         description: "Login or register for our full service"    
     },
     payment: {
@@ -20,10 +20,13 @@ const STEPS = {
 var app = new Vue({
     el: "#app",
     data: {
-        steps: null,
-        currentStep: 1
+        currentStep: 0,
+        steps: null
     },
     methods: {
+        updateCurrentStep(num){
+            this.currentStep +=num;
+        }
     },
     created() {
         this.steps = STEPS;

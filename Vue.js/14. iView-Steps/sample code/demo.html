@@ -21,10 +21,10 @@
                 </div>
                 <div class="col-md-8" v-if="steps">
                     <steps :current="currentStep">
-                        <step :title="steps.shopcart.title" :content="steps.shopcart.description" status='wait'></step>
-                        <step :title="steps.login.title" :content="steps.login.description" status='process'></step>
-                        <step :title="steps.payment.title" :content="steps.payment.description" status='finish'></step>
-                        <step :title="steps.invoice.title" :content="steps.invoice.description" status='error'></step>
+                        <step :title="steps.shopcart.title" :content="steps.shopcart.description"></step>
+                        <step :title="steps.login.title" :content="steps.login.description"></step>
+                        <step :title="steps.payment.title" :content="steps.payment.description"></step>
+                        <step :title="steps.invoice.title" :content="steps.invoice.description"></step>
                     </steps>
                 </div>
                 <div class="col-md-2">
@@ -44,6 +44,8 @@
                     <my-step v-if="currentStep==3" :data="steps.invoice"></my-step>
                 </div>
                 <div class="col-md-2">
+                    <button class="btn btn-default" :disabled="currentStep==3" @click="updateCurrentStep(1)">Next</button>
+                    <button class="btn btn-default" :disabled="currentStep==0" @click="updateCurrentStep(-1)">Previous</button>
                 </div>
             </div>
         </div>
