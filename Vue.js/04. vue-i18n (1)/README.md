@@ -12,7 +12,7 @@
 
 ### JS
 
-```
+```javascript
 Vue.use(VueI18n);
 
 const messages = {
@@ -67,7 +67,7 @@ var app = new Vue({
 
 也可以不在建立`VueI18n`時設定語系字典(messages)，而改由`$i18n.setLocaleMessage('zh-TW', messages.zh-TW)`的方式來設定。
 
-```
+```javascript
 // Create VueI18n instance with options
 const i18n = new VueI18n({
   locale: '', // set locale
@@ -89,12 +89,14 @@ var app = new Vue({
 #### 取值
 
 若要在JS中取用i18n的字典，其語法：
-```
+
+```javascript
 this.$t('text.search')
 ```
 
 而在HTML中取用i18n的字典方式：
-```
+
+```html
 {{ $t("column.key") }}
 ```
 
@@ -104,13 +106,14 @@ this.$t('text.search')
 ```
 
 也可以直接指定要顯示的語系：
-```
+
+```html
 {{ $t("column.key", "zh-TW") }}
 ```
 
 ### HTML
 
-```
+```html
 <table class="table">
     <thead class="thead-dark">
         <tr>
@@ -144,7 +147,7 @@ this.$t('text.search')
 
 當然我們的多國語系字典通常是後端來提供，以下是透過[axios](https://github.com/axios/axios)取得字典的範例。
 
-```
+```javascript
 Vue.use(VueI18n);
 
 

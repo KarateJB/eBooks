@@ -17,7 +17,8 @@
 
 
 ### JS
-```
+
+```javascript
 Vue.use(AsyncComputed);
 
 var app = new Vue({
@@ -62,7 +63,8 @@ var app = new Vue({
 
 
 ### HTML
-```
+
+```html
 <select class="form-control">
     <option v-for="item in movies" :value="item.value">
         {{ item.text }}
@@ -83,7 +85,7 @@ var app = new Vue({
 
 `<input type="button"  @click="recalculate()" value="Recalculate">`
 
-```
+```javascript
 var app = new Vue({
     el: "#app",
     data:{
@@ -121,7 +123,7 @@ var app = new Vue({
 在`shouldUpdate`加上判斷邏輯並回傳boolean以在符合特定條件下再重新進行非同步計算(查詢)。
 例如以下是每點選兩次按鈕再重新取值。
 
-```
+```javascript
 var app = new Vue({
     el: "#app",
     data:{

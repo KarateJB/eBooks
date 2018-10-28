@@ -16,7 +16,7 @@
 
 ### JS
 
-```
+```javascript
 Vue.use(VueForm);
 
 var app = new Vue({
@@ -44,7 +44,7 @@ var app = new Vue({
 
 ### HTML
 
-```
+```html
 <div id="app">
     <vue-form :state="formstate" v-on:submit.prevent="submit">
        <label>Name*</label>
@@ -109,7 +109,7 @@ $pending
 
 接下來我們要建立一個驗證使用者是否輸入已經重複的資料的Validator: `notDuplicateKey`，及其背後驗證的函式：`checkDuplicateKey`。
 
-```
+```javascript
 Vue.use(VueForm);
 
 var app = new Vue({
@@ -136,7 +136,7 @@ var app = new Vue({
 
 使用方式： 
 
-```
+```html
 <div id="app">
     <vue-form :state="formstate" v-on:submit.prevent="submit">
        <label>Name*</label>

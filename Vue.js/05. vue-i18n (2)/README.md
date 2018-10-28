@@ -31,7 +31,7 @@
 	
 ### JS
 
-```
+```javascript
 Vue.use(VueI18n);
 
 const dateTimeFormats = {
@@ -89,7 +89,7 @@ var app = new Vue({
 
 ### HTML
 
-```
+```html
 <p>Datetime(zh-CN, short): {{ $d(new Date(), 'short') }}</p>
 <p>Datetime(zh-CN, long): {{ $d(new Date(), 'long') }}</p>
 <p>Datetime(ja-JP, short): {{ $d(new Date(), 'short', 'ja-JP') }}</p>
@@ -124,7 +124,7 @@ Datetime(en-US, long): Fri, Oct 19, 2018, 12:02 PM
 使用`currency`指定使用哪一種國際貨幣，使用`currencyDisplay`決定貨幣別顯示`name`(貨幣名稱)或`symbol`(貨幣符號)。
 而`useGrouping`若為`true`(預設值)則表示使用分隔符號。
 
-```
+```javascript
 const numberFormats = {
   'en-US': {
     currency: {
@@ -156,7 +156,7 @@ const i18n = new VueI18n({
 
 例如以下的HTML，
 
-```
+```html
 <p>Currency(en-US): {{ $n(10000.12345, 'currency', 'en-US') }}</p>
 <p>Currency(zh-CN): {{ $n(10000.12345, 'currency') }}</p>
 <p>Currency(ja-JP): {{ $n(10000.12345, 'currency', 'ja-JP') }}</p>
@@ -175,7 +175,7 @@ Currency(ja-JP): ￥10000
 
 其實三種Style的用法大同小異，在這邊我們額外使用`minimumFractionDigits`和`maximumFractionDigits`來指定顯示的小數位數。
 
-```
+```javascript
 const numberFormats = {
   'en-US': {
     percent: {
@@ -207,7 +207,7 @@ const i18n = new VueI18n({
 
 例如以下的HTML，
 
-```
+```html
 <p>Percentage(en-US): {{ $n(0.881, 'percent', 'en-US') }}</p>
 <p>Percentage(en-US): {{ $n(0.8812345, 'percent', 'en-US') }}</p>
 <p>Percentage(en-US): {{ $n(0.881, 'percent') }}</p>
@@ -230,7 +230,7 @@ Percentage(ja-JP): 88.1235%
 
 ### Decimal
 
-```
+```javascript
 const numberFormats = {
   'en-US': {
     decimal: {
@@ -262,7 +262,7 @@ const i18n = new VueI18n({
 
 例如以下的HTML，
 
-```
+```html
 <p>Decimal(en-US): {{ $n(10000.12345, 'decimal', 'en-US') }}</p>
 <p>Decimal(zh-CN): {{ $n(10000.12345, 'decimal') }}</p>
 <p>Decimal(ja-JP): {{ $n(10000.12345, 'decimal', 'ja-JP') }}</p>

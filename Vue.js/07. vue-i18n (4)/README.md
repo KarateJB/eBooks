@@ -13,7 +13,7 @@
 ![](assets/002.png)
 
 最直覺的寫法如下：
-```
+```html
 <strong>{{ $t('column.name') }} : <a :href="starwars.url"">{{ starwars.book }}({{ starwars.year
         }})</a></strong>
 {{ $t('column.price') }} = {{ $n(starwars.price, 'currency') }}
@@ -46,7 +46,7 @@
 
 ### JS
 
-```
+```javascript
 const messages = {
   'en-US': {
     "name": "Book title",

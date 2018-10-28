@@ -14,7 +14,7 @@
 
 ### JS
 
-```
+```javascript
 Vue.use(VueMarkdown);
 
 var app = new Vue({
@@ -24,7 +24,7 @@ var app = new Vue({
 
 ### HTML 
 
-```
+```html
 <vue-markdown>## Demo</vue-markdown>
 <vue-markdown>[A link to Google](https://googl.com)</vue-markdown>
 ```
@@ -44,12 +44,12 @@ var app = new Vue({
 也支援各種[Props](https://github.com/miaolz123/vue-markdown#props)，例如較常用的`source`和`anchor-attributes`：
 
 
-```
+```html
 <vue-markdown :source="now"></vue-markdown>
 <vue-markdown :anchor-attributes="linkAttrs">[A link to Google](https://google.com)</vue-markdown>
 ```
 
-```
+```javascript
 Vue.use(VueMarkdown);
 
 var app = new Vue({

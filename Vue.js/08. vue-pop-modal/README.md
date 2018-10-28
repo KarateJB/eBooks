@@ -31,7 +31,7 @@
 
 ![](assets/001.png)
 
-```
+```html
 <pop-modal v-if="showModal" v-on:close="closeModal" v-on:cancel="showModal=false">
     <p slot="header">
         {{ myHeader }}
@@ -54,7 +54,7 @@
 
 ![](assets/002.png)
 
-```
+```html
 <pop-modal v-if="showModal" is-fix="true" v-on:close="closeModal" v-on:cancel="showModal=false">
     <p slot="header">
         {{ myHeader }}

@@ -19,12 +19,14 @@
 先看一下標準使用範例...
 
 ### JS
-```
+
+```javascript
 Vue.component('paginate', VuejsPaginate)
 ```
 
 ### HTML
-```
+
+```html
 <paginate :page-count="pageCount" 
             :page-range=1
             :init-page=0 
@@ -52,7 +54,8 @@ Vue.component('paginate', VuejsPaginate)
 
 
 ### HTML
-```
+
+```html
 <div>
     <paginate :page-count="pageCount" 
                 :page-range=1
@@ -90,7 +93,7 @@ Vue.component('paginate', VuejsPaginate)
 
 ### JS
 
-```
+```javascript
 Vue.component('paginate', VuejsPaginate)
 
 const PAGE_SIZE = 2; //Show how many records in a single page
@@ -146,7 +149,7 @@ var app = new Vue({
     created() {
         var vm =this;
         vm.listdata = FOO_DATA;
-    },
+    }
 })
 ```
 

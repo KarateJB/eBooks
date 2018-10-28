@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/iview/3.0.1/styles/iview.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/iview/3.0.1/iview.min.js"></script>
+</head>
+
+<body>
+    <br />
+    <div id='app'>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-8" v-if="steps">
+                    <steps :current="currentStep">
+                        <step :title="steps.shopcart.title" :content="steps.shopcart.description" status='wait'></step>
+                        <step :title="steps.login.title" :content="steps.login.description" status='process'></step>
+                        <step :title="steps.payment.title" :content="steps.payment.description" status='finish'></step>
+                        <step :title="steps.invoice.title" :content="steps.invoice.description" status='error'></step>
+                    </steps>
+                </div>
+                <div class="col-md-2">
+
+                </div>
+            </div>
+        </div>
+        <div><br><br></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-8">
+                    <my-step v-if="currentStep==0" :data="steps.shopcart"></my-step>
+                    <my-step v-if="currentStep==1" :data="steps.login"></my-step>
+                    <my-step v-if="currentStep==2" :data="steps.payment"></my-step>
+                    <my-step v-if="currentStep==3" :data="steps.invoice"></my-step>
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="./myStep.component.js"></script>
+<script src="./demo.js"></script>
+
+</html>

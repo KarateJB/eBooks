@@ -16,7 +16,7 @@
 
 ### HTML formatting
 
-```
+```javascript
 const messages = {
   'en-US': {
     "column": {
@@ -33,7 +33,7 @@ const messages = {
 }
 ```
 
-```
+```html
 <h3 v-html="$t('column.name')"></h3>
 <h3 v-html="$t('column.price')"></h3>
 ```
@@ -46,7 +46,7 @@ const messages = {
 
 ### Named formatting
 
-```
+```javascript
 const messages = {
   'en-US': {
     "column": {
@@ -65,7 +65,7 @@ const messages = {
 
 另外我們額外定義一組data在vue instance，
 
-```
+```javascript
 data:{
 starwars: { 
     book: 'Star Wars: Episode VI - Return of the Jedi',
@@ -76,7 +76,8 @@ starwars: {
 ```
 
 使用方式：
-```
+
+```html
 <h3>{{ $t('column.name', 'en-US', {book: starwars.book}) }}</h3>
 <h3>{{ $t('column.price','en-US', {price: starwars.price}) }}</h3>
 <h3>{{ $t('column.name', 'zh-TW', {book: starwars.book}) }}</h3>
@@ -91,7 +92,7 @@ starwars: {
 
 ### List formatting
 
-```
+```javascript
 const messages = {
   'en-US': {
     "column": {
@@ -115,12 +116,13 @@ $t('column.price', {'0': starwars.price})
 ```
 
 或用Array指定參數值：
+
 ```
 $t('column.name', [starwars.book, starwars.year])
 ```
 
 例如以下HTML
-```
+```html
 <h3>{{ $t('column.name', 'en-US', [starwars.book, starwars.year]) }}</h3>
 <h3>{{ $t('column.price','en-US', {'0': starwars.price}) }}</h3>
 <h3>{{ $t('column.name', 'zh-TW', [starwars.book, starwars.year]) }}</h3>
@@ -154,7 +156,7 @@ $t('column.name', [starwars.book, starwars.year])
 
 [Source code](https://github.com/KarateJB/eBooks/tree/master/Vue.js/06.%20vue-i18n%20(3)/sample%20code/v-t)
 
-```
+```javascript
 const messages = {
   'en-US': {
     "column": {
@@ -171,7 +173,7 @@ const messages = {
 }
 ```
 
-```
+```html
 <h3 v-t="{ path: 'column.name', locale: 'en-US', args: { book: starwars.book } }"></h3>
 <h3 v-t="{ path: 'column.price', locale: 'en-US', args: { price: starwars.price } }"></h3>
 <h3 v-t="{ path: 'column.name', locale: 'zh-TW', args: { book: starwars.book } }"></h3>
