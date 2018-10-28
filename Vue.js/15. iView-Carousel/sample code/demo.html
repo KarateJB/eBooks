@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/iview/3.0.1/styles/iview.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/iview/3.0.1/iview.min.js"></script>
+</head>
+
+<body>
+    <br />
+    <div class="container" id='app'>
+        <div class="row">
+            <div class="col-md-4">
+                <div>
+                    <i-input v-model="value" search @on-search="search()" />
+                </div>
+                <br />
+                <div>
+                    <i-input v-model="value" search enter-button @on-search="search()" />
+                </div>
+                <br />
+                <div>
+                    <i-input v-model="value" search enter-button="Go" @on-search="search()" />
+                </div>
+                <br />
+                <div>
+                    {{ msg }}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Name</label>
+                    <!-- Clearable icon -->
+                    <i-input v-model="me.name" clearable />
+
+                    <!-- Icon by prop -->
+                    <!-- <i-input v-model="me.name" prefix="ios-contact"  /> -->
+                    <!-- <i-input v-model="me.name" suffix="ios-contact"  /> -->
+
+                    <!-- Icon by slot -->
+                    <!-- <i-input v-model="me.name">
+                        <icon type="ios-contact" slot="prefix" />
+                    </i-input>
+                    <i-input v-model="me.name">
+                        <icon type="ios-contact" slot="suffix" />
+                    </i-input> -->
+                </div>
+                <div class="form-group">
+                    <label>Birthday</label>
+                    <i-input v-model="me.birthday" icon="ios-arrow-dropright-circle" @on-click="giveAge(me.birthday)" />
+                </div>
+                <div class="form-group">
+                    <label>Age</label>
+                    <i-input v-model="me.age" type="number" />
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <!-- <i-input type="textarea" v-model="me.description" :rows="4" /> -->
+                    <!-- <i-input type="textarea" v-model="me.description" :autosize="true"  /> -->
+                    <i-input type="textarea" v-model="me.description" :autosize="{minRows: 4,maxRows: 6}"  />
+                </div>
+
+            </div>
+            <div class="col-md-4">
+                <div>
+                    <i-input v-model="myUrl">
+                        <Select v-model="myUrlPre" slot="prepend" style="width: 80px">
+                            <Option value="http">http://</Option>
+                            <Option value="https">https://</Option>
+                        </Select>
+                        <Select v-model="myUrlSuf" slot="append" style="width: 70px">
+                            <Option value="com">.com</Option>
+                            <Option value="org">.org</Option>
+                            <Option value="io">.io</Option>
+                        </Select>
+                    </i-input>
+                </div>
+                <br />
+                <div v-if="myUrlPre && myUrl && myUrlSuf">
+                    {{ myUrlPre }}://{{ myUrl }}.{{ myUrlSuf }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="./demo.js"></script>
+
+</html>
