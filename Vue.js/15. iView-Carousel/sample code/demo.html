@@ -17,74 +17,28 @@
     <div class="container" id='app'>
         <div class="row">
             <div class="col-md-4">
-                <div>
-                    <i-input v-model="value" search @on-search="search()" />
-                </div>
-                <br />
-                <div>
-                    <i-input v-model="value" search enter-button @on-search="search()" />
-                </div>
-                <br />
-                <div>
-                    <i-input v-model="value" search enter-button="Go" @on-search="search()" />
-                </div>
-                <br />
-                <div>
-                    {{ msg }}
-                </div>
+                
             </div>
             <div class="col-md-4">
-                <div class="form-group">
-                    <label>Name</label>
-                    <!-- Clearable icon -->
-                    <i-input v-model="me.name" clearable />
-
-                    <!-- Icon by prop -->
-                    <!-- <i-input v-model="me.name" prefix="ios-contact"  /> -->
-                    <!-- <i-input v-model="me.name" suffix="ios-contact"  /> -->
-
-                    <!-- Icon by slot -->
-                    <!-- <i-input v-model="me.name">
-                        <icon type="ios-contact" slot="prefix" />
-                    </i-input>
-                    <i-input v-model="me.name">
-                        <icon type="ios-contact" slot="suffix" />
-                    </i-input> -->
-                </div>
-                <div class="form-group">
-                    <label>Birthday</label>
-                    <i-input v-model="me.birthday" icon="ios-arrow-dropright-circle" @on-click="giveAge(me.birthday)" />
-                </div>
-                <div class="form-group">
-                    <label>Age</label>
-                    <i-input v-model="me.age" type="number" />
-                </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <!-- <i-input type="textarea" v-model="me.description" :rows="4" /> -->
-                    <!-- <i-input type="textarea" v-model="me.description" :autosize="true"  /> -->
-                    <i-input type="textarea" v-model="me.description" :autosize="{minRows: 4,maxRows: 6}"  />
-                </div>
-
+                <!-- <carousel autoplay loop autoplay-speed="2000" v-model="current" >
+                    <carousel-item v-for="item in starwars">
+                        <div class="card" >
+                            <div class="card-body"><h3>{{ item.name }}</h3></div>
+                            <img class="card-img-bottom" :src="item.img" style="width:100%;height:100%">
+                        </div>
+                    </carousel-item>
+                </carousel> -->
+                <carousel loop dots="outside" trigger="hover" arrow="always" easing="ease" v-model="current" >
+                        <carousel-item v-for="item in starwars">
+                            <div class="card" >
+                                <div class="card-body"><h3>{{ item.name }}</h3></div>
+                                <img class="card-img-bottom" :src="item.img" style="width:100%;height:100%">
+                            </div>
+                        </carousel-item>
+                    </carousel>
             </div>
             <div class="col-md-4">
-                <div>
-                    <i-input v-model="myUrl">
-                        <Select v-model="myUrlPre" slot="prepend" style="width: 80px">
-                            <Option value="http">http://</Option>
-                            <Option value="https">https://</Option>
-                        </Select>
-                        <Select v-model="myUrlSuf" slot="append" style="width: 70px">
-                            <Option value="com">.com</Option>
-                            <Option value="org">.org</Option>
-                            <Option value="io">.io</Option>
-                        </Select>
-                    </i-input>
-                </div>
-                <br />
-                <div v-if="myUrlPre && myUrl && myUrlSuf">
-                    {{ myUrlPre }}://{{ myUrl }}.{{ myUrlSuf }}
-                </div>
+                
             </div>
         </div>
     </div>
