@@ -260,6 +260,8 @@ var app = new Vue({
 
 Demo:
 
+[Sample code](https://github.com/KarateJB/eBooks/tree/master/Vue.js/17.%20iView-Tree/sample%20code)
+
 ![](assets/demo2.gif)
 
 
