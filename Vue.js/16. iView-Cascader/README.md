@@ -187,7 +187,7 @@ var app = new Vue({
 ![](assets/demo3.gif)
 
 
-[Sample code]()
+[Sample code](https://github.com/KarateJB/eBooks/tree/master/Vue.js/16.%20iView-Cascader/sample%20code)
 
 相關API可參考[官方文件](https://www.iviewui.com/components/cascader#API)
 
