@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/iview/3.0.1/styles/iview.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/iview/3.0.1/iview.min.js"></script>
+</head>
+
+<body>
+    <br />
+    <div class="container" id='app'>
+        <div class="row">
+            <div class="col-md-4">
+                
+            </div>
+            <div class="col-md-4">
+                <cascader :data="starwars" v-model="selected"  trigger='hover' change-on-select></cascader>
+
+                <!-- <cascader :data="starwars" v-model="selected" :render-format="format" trigger='hover' change-on-select></cascader> -->
+
+                <!-- <cascader :data="starwars" v-model="selected" @on-change="handleChange" trigger='hover' change-on-select>
+                    <button class="btn btn-default" v-html="text"></button>
+                </cascader> -->
+
+            </div>
+            <div class="col-md-4">
+                <label class="form-control" v-if="selected.length>0">Selected={{ selected }}</label>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="./demo.js"></script>
+
+</html>
