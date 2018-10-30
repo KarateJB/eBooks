@@ -17,18 +17,28 @@
     <div class="container" id='app'>
         <div class="row">
             <div class="col-md-4">
-                
-            </div>
-            <div class="col-md-4">
-                <tree :data="starwars" @on-select-change="selected"></tree>
-            </div>
-            <div class="col-md-4">
                 <p v-if="selected">Selected={{ this.selectedNode }}</p>
+            </div>
+            <div class="col-md-4">
+                <tree :data="starwars" show-checkbox 
+                      @on-check-change="checked" 
+                      @on-select-change="selected"
+                      :render="renderContent"
+                      ></tree>
+            </div>
+            <div class="col-md-4">
+                <div>
+                    <p>Checked</p>
+                    <ul class="list-group">
+                        <li class="list-group-item" v-for="item in checkedNodes">{{ item.title }}</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
 
 </body>
-<script src="./demo.js"></script>
+<script src="
+                        ./demo.js"> </script>
 
 </html>
