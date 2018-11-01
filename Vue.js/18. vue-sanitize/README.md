@@ -91,6 +91,15 @@ allowedSchemesAppliedToAttributes: [ 'href', 'src', 'cite' ],
 allowProtocolRelative: true
 ```
 
+| Prop | Type | Description |
+|:-----|:----:|:------------|
+| allowedTags | Array | Allowed HTML tags |
+| allowedAttributes | Object | Allowed HTML attributes |
+| selfClosing | Array | Allowed self-closing tags |
+| allowedSchemes | Array | Allowed URL schemes, like 'http', 'https' |
+| allowedSchemesByTag | Object | Allowed URL schemes by certain tag |
+| allowedSchemesAppliedToAttributes | Array | |
+| allowProtocolRelative | Boolean | true: Allowed the Url starting with `//...` |
 
 
 
@@ -115,4 +124,47 @@ this.$sanitize.defaults.allowedTags =
 this.$sanitize.defaults.allowedAttributes.img = 
         this.$sanitize.defaults.allowedAttributes.img.concat(['src','style']);
 ```
+
+
+### 允許Data Uri
+
+可透過**allowedSchemes**參數設定允許Data Uri：
+
+```javascript
+this.$sanitizeHtml(
+  '<img src="data:image/png;base64,XXXXXX" />',
+  {
+    allowedSchemes: [ 'data' ]
+  }
+);
+```
+
+若僅允許`img`的`src`可為Base64的資料，可利用**allowedSchemesByTag**：
+
+```javascript
+this.$sanitizeHtml(
+  '<img src="data:image/png;base64,XXXXXX" />',
+  {
+    allowedSchemesByTag: {
+        img: [ 'data' ]
+    }
+  }
+);
+
+```
+
+若要再針對可允許的`URL schemas`套用到哪些Html attribute，可同時設定**allowedSchemes**及**allowedSchemesAppliedToAttributes**
+
+```
+ cleanedHtml = vm.$sanitize(vm.dirtyHtml, {
+        allowedSchemes: [ 'https' ],
+        allowedSchemesAppliedToAttributes: ["src"]
+      });
+```
+
+以上設定將使`<img src="http://vuejs.org/images/logo.png" />`的`src`被清除；
+但`<img src="https://vuejs.org/images/logo.png" />`則可正常顯示圖片。
+
+
+
 
