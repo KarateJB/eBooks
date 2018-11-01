@@ -98,7 +98,7 @@ allowProtocolRelative: true
 | selfClosing | Array | Allowed self-closing tags |
 | allowedSchemes | Array | Allowed URL schemes, like 'http', 'https' |
 | allowedSchemesByTag | Object | Allowed URL schemes by certain tag |
-| allowedSchemesAppliedToAttributes | Array | |
+| allowedSchemesAppliedToAttributes | Array | Allow allowedSchemes applyed to certain attributes |
 | allowProtocolRelative | Boolean | true: Allowed the Url starting with `//...` |
 
 
@@ -167,4 +167,4 @@ this.$sanitizeHtml(
 
 
 
-
+[Sample code](https://github.com/KarateJB/eBooks/tree/master/Vue.js/18.%20vue-sanitize/sample%20code/app)
