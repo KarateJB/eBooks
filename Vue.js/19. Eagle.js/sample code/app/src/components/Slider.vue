@@ -1,6 +1,6 @@
 <template>
   <div  class="main">
-  <slide :steps="3">
+  <slide steps="3">
     <h3>{{ step }}</h3>
     <div v-if="step==1">
       <h1 class="title text-center"><b>2018年台北地區福委會 第四季慶生會</b></h1>
@@ -15,14 +15,14 @@
       </table>
     </div>
     <div v-if="step==3">
-    <div class="title text-center"><h1>壽星名單</h1></div>
-      <table class="table emptable center-block" style="max-width:80%">
-        <tr v-for="emp in bdayCrew">
-          <td class="col-md-2"><label class="content">{{emp.name}}</label></td>
-          <td class="col-md-4"><label class="content">{{emp.department}}</label></td>
-        </tr>
-      </table>
-    </div>
+      <div class="title text-center"><h1>壽星名單</h1></div>
+        <table class="table emptable center-block" style="max-width:80%">
+          <tr v-for="emp in bdayCrew">
+            <td class="col-md-2"><label class="content">{{emp.name}}</label></td>
+            <td class="col-md-4"><label class="content">{{emp.department}}</label></td>
+          </tr>
+        </table>
+      </div>
   </slide>
   </div>
 </template>
@@ -56,15 +56,26 @@ export default {
       bdayCrew: []
     };
   },
+  methods:{
+    onStartExit(){
+      console.log("Exit first slide!");
+      this.step = this.lastslide;
+    },
+    onEndExit(){
+      console.log("Exit last slide!");
+      this.step = this.firstslide;
+    }
+  },
   created() {
     this.onBoards = ON_BOARDS;
     this.bdayCrew = BDAY_CREW;
-  },
-  mounted() {
+    this.firstslide = 1;
+    this.lastslide = 3;
     this.zoom = true;
     this.mouseNavigation = true;
     this.keyboardNavigation = true;
-    this.repeat = true;
+  },
+  mounted() {
   }
 };
 </script>
