@@ -1,35 +1,46 @@
 <template>
-  <div  class="main">
-  <slide steps="3">
-    <h3>{{ step }}</h3>
+  <div class="main">
+  <slide :steps="lastslide">
     <div v-if="step==1">
-      <h1 class="title text-center"><b>2018年台北地區福委會 第四季慶生會</b></h1>
+      <eg-transition enter="fadeInRight" leave="fadeOutUpBig">
+      <h1 class="title text-center">
+        <b>2018年台北地區福委會 第四季慶生會</b>
+        </h1>
+      </eg-transition>
     </div>
     <div v-if="step==2">
-      <div class="title text-center"><h1>新進同仁名單</h1></div>
-      <table class="table emptable center-block" style="max-width:80%">
-        <tr v-for="emp in onBoards">
-          <td class="col-md-2"><label class="content">{{emp.name}}</label></td>
-          <td class="col-md-4"><label class="content">{{emp.department}}</label></td>
-        </tr>
-      </table>
-    </div>
-    <div v-if="step==3">
-      <div class="title text-center"><h1>壽星名單</h1></div>
+        <eg-transition enter='rotateIn' leave="fadeOutUpBig">
+        <div class="title text-center">
+          <h1>新進同仁名單</h1>
+        </div>
+      </eg-transition>
         <table class="table emptable center-block" style="max-width:80%">
-          <tr v-for="emp in bdayCrew">
+          <tr v-for="emp in onBoards">
             <td class="col-md-2"><label class="content">{{emp.name}}</label></td>
             <td class="col-md-4"><label class="content">{{emp.department}}</label></td>
           </tr>
         </table>
-      </div>
+    </div>
+    <div v-if="step==3">
+        <div class="title text-center">
+      <eg-transition enter='flipInY' leave="fadeOutUpBig">
+          <h1>壽星名單</h1>
+      </eg-transition>
+        </div>
+          <table class="table emptable center-block" style="max-width:80%">
+            <tr v-for="emp in bdayCrew">
+              <td class="col-md-2"><label class="content">{{emp.name}}</label></td>
+              <td class="col-md-4"><label class="content">{{emp.department}}</label></td>
+            </tr>
+          </table>
+    </div>
   </slide>
   </div>
 </template>
 
 <script>
-// import { Slideshow } from "eagle.js";
-import eagle from "eagle.js";
+import { Slideshow } from "eagle.js";
+// import eagle from "eagle.js";
 
 const ON_BOARDS = [
   { empNo: "1001", name: "Luke Skywalker", department: "Backend team" },
@@ -47,22 +58,19 @@ const BDAY_CREW = [
 
 export default {
   name: "slider",
-  // mixins: [Slideshow],
-  mixins: [eagle.slideshow],
+  mixins: [Slideshow],
+  // mixins: [eagle.slideshow],
   data() {
     return {
-      step: 1,
       onBoards: [],
       bdayCrew: []
     };
   },
-  methods:{
-    onStartExit(){
-      console.log("Exit first slide!");
+  methods: {
+    onStartExit() {
       this.step = this.lastslide;
     },
-    onEndExit(){
-      console.log("Exit last slide!");
+    onEndExit() {
       this.step = this.firstslide;
     }
   },
@@ -71,12 +79,13 @@ export default {
     this.bdayCrew = BDAY_CREW;
     this.firstslide = 1;
     this.lastslide = 3;
+    this.startStep = 1;
     this.zoom = true;
     this.mouseNavigation = true;
     this.keyboardNavigation = true;
+    // this.backBySlide = true;
   },
-  mounted() {
-  }
+  mounted() {}
 };
 </script>
 
@@ -103,10 +112,6 @@ export default {
   font-family: "標楷體";
   font: bold;
   font-size: 15px;
-}
-
-.text-center {
-  text-align: center;
 }
 
 .emptable {
