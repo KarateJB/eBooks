@@ -7,8 +7,8 @@
             <!-- Client table -->
             <!-- <v-client-table ref="myTable" :data="tableData" :columns="columns" :options="options"></v-client-table> -->
             <!-- Server table -->
-             <!-- <v-server-table url="http://localhost:3000/starwars" :columns="columns" :options="options"></v-server-table> -->
-             <v-server-table :columns="columns" :options="options"></v-server-table>
+             <v-server-table url="http://localhost:3000/starwars" :columns="columns" :options="options"></v-server-table>
+             <!-- <v-server-table :columns="columns" :options="options"></v-server-table> -->
         </div>
         <div class="col-md-1">
             <button class="btn btn-alert" @click="showFilteredData">Show filtered data</button>
@@ -40,11 +40,12 @@ export default {
       columns: ["id", "name", "gender"],
       tableData: [],
       options: {
-        requestFunction: function () {
-            return axios.get("http://localhost:3000/starwars");
-            // .catch(function (e) {
-            //     this.dispatch('error', e);
-            // }.bind(this));
+        // filterByColumn:true,
+        // filterable: ['name', 'gender'],
+        requestFunction: function (params) {
+            return axios.get("http://localhost:3000/starwars", {
+              params: params
+            });
         }
       }
     };
