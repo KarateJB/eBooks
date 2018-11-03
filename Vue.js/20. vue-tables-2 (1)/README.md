@@ -1,6 +1,6 @@
-# vue-tables-2
+# vue-tables-2 (1)
 
-> 表格套件
+> 表格套件，本篇主要介紹使用Client及Server table的基礎
 
 ## Github
 
