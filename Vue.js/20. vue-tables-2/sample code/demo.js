@@ -14,7 +14,9 @@ const FOO_DATA = [
     {id: 12,name:'Darth Maul',gender:'male',img:'https://goo.gl/ikbM7n'}
 ];
 
-Vue.use(VueTables.ClientTable);
+//Vue.use(VueTables.ClientTable);
+Vue.use(VueTables.ClientTable, {}, false, 'bootstrap3', 'default');
+
 // Vue.use(VueTables.Event);
 
 
@@ -28,6 +30,14 @@ var app = new Vue({
         }
     },
     methods: {
+        showFilteredCurrentPageData(){
+            //Get the filtered table data on current page
+            console.log(this.$refs.myTable.filteredData);
+        },
+        showFilteredData(){
+            //Get the filtered table data on all pages
+            console.log(this.$refs.myTable.allFilteredData);
+        }
     },
     created() {
         this.tableData = FOO_DATA;

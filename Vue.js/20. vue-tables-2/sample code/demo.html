@@ -20,10 +20,10 @@
                 
             </div>
             <div class="col-md-10">
-                <v-client-table :data="tableData" :columns="columns" :options="options"></v-client-table>
+                <v-client-table ref="myTable":data="tableData" :columns="columns" :options="options"></v-client-table>
             </div>
             <div class="col-md-1">
-                
+                <button class="btn btn-alert" @click="showFilteredData">Show filtered data</button>
             </div>
         </div>
     </div>
