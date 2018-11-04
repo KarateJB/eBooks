@@ -164,14 +164,13 @@ methods: {
 | data | object | 當前節點的資料 | 
 
 
-而回傳的內容即在組合節點的HTML，其方式如下：
+而回傳的內容即在組合節點的HTML，其方式為回傳[Virtual DOM](https://github.com/snabbdom/snabbdom)，方式如下
 
-```
-h('<current html's tag>', {<current html's props/style/event>}, [<inner html's h(...)>])
+```javascript
+return h('<current html's tag>', {<current html's props/style/event>}, [<inner html's h(...)> or value])
 ```
 
 如果是最內層的方法記得放上`data.title`
-
 
 先看個說明的例子：
 

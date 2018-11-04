@@ -40,7 +40,7 @@ data: {
 
 
 
-若要客製顯示欄位，例如在**Photo**欄位上加上超連結，可透過在`headings`回傳[virtual DOM](https://github.com/snabbdom/snabbdom)，方式如下
+若要客製顯示欄位，例如在**Photo**欄位上加上超連結，可透過在`headings`回傳[Virtual DOM](https://github.com/snabbdom/snabbdom)，方式如下
 
 ```javascript
 return h('<current html's tag>', {<current html's props/style/event>}, [<inner html's h(...)> or value])
