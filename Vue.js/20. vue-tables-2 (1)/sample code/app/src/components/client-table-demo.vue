@@ -4,14 +4,11 @@
         <div class="col-md-1">
         </div>
         <div class="col-md-10">
-             <p>
-              <router-link to="/client-table-demo">Client Table Demo</router-link> / 
-              <router-link to="/server-table-demo">Server Table Demo</router-link>
-            </p>
-            <!-- route outlet -->
-            <router-view></router-view>
+            <!-- Client table -->
+            <v-client-table ref="myTable" :data="tableData" :columns="columns" :options="options"></v-client-table>
         </div>
         <div class="col-md-1">
+            <button class="btn btn-alert" @click="showFilteredData">Show filtered data</button>
         </div>
     </div>
   </div>
@@ -34,7 +31,7 @@ const FOO_DATA = [
 ];
 
 export default {
-  name: "app",
+  name: "clientTableDemo",
   data() {
     return {
       columns: ["id", "name", "gender"],
@@ -42,11 +39,6 @@ export default {
       options: {
         // filterByColumn:true,
         // filterable: ['name', 'gender'],
-        requestFunction: function (params) {
-            return axios.get("http://localhost:3000/starwars", {
-              params: params
-            });
-        }
       }
     };
   },
