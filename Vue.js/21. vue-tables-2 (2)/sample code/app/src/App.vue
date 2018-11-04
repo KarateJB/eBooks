@@ -11,10 +11,12 @@
                   <input v-model="props.row.selected" type="checkbox">
                 </div>
               </template> -->
-              <a slot="name" slot-scope="props" @click="edit(props.row.id)">
-                {{ props.row.name }}
-              </a>
-              <img slot="img" slot-scope="props" style="width:50px;height:50px;" :src="props.row.img" :alt="props.row.name" />
+              <template slot="name" slot-scope="props">
+                <a @click="edit(props.row.id)">{{ props.row.name }}</a>
+              </template>
+              <template slot="img" slot-scope="props">
+                <img style="width:50px;height:50px;" :src="props.row.img" :alt="props.row.name" />
+              </template>              
             </v-client-table>
         </div>
         <div class="col-md-1">
@@ -56,8 +58,7 @@ export default {
                 name: "Name",
                 gender: "Gender",
                 img: function (h) {
-                  let tmp =
-                    h('a', {
+                  return h('a', {
                     attrs: {
                       href: "https://www.starwars.com",
                       target: "_blank"
@@ -68,10 +69,7 @@ export default {
                       }
                     },
                     ref: 'starwarslink',
-                  }, "Photo");
-                  console.log(tmp);
-                  return tmp;
-                },
+                  }, "Photo")},
             }
  
       }
