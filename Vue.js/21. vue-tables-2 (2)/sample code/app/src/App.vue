@@ -5,7 +5,17 @@
         </div>
         <div class="col-md-10">
             <!-- Client table -->
-            <v-client-table ref="myTable" :data="tableData" :columns="columns" :options="options"></v-client-table>
+            <v-client-table ref="myTable" :data="tableData" :columns="columns" :options="options">
+               <!-- <template slot="selected" scope="props">
+                <div>
+                  <input v-model="props.row.selected" type="checkbox">
+                </div>
+              </template> -->
+              <a slot="name" slot-scope="props" @click="edit(props.row.id)">
+                {{ props.row.name }}
+              </a>
+              <img slot="img" slot-scope="props" style="width:50px;height:50px;" :src="props.row.img" :alt="props.row.name" />
+            </v-client-table>
         </div>
         <div class="col-md-1">
             <button class="btn btn-alert" @click="showFilteredData">Show filtered data</button>
@@ -15,6 +25,8 @@
 </template>
 
 <script>
+import Vue from 'vue'
+
 const FOO_DATA = [
     {id: 1, name:'Luke Skywalker',gender:'male', img:'https://goo.gl/KEUxHN'},
     {id: 2,name:'Leia Skywalker',gender:'female',img:'https://goo.gl/rNJhLU'},
@@ -34,15 +46,41 @@ export default {
   name: "clientTableDemo",
   data() {
     return {
-      columns: ["id", "name", "gender"],
+      columns: ["id", "name", "gender","img"],
       tableData: [],
       options: {
         // filterByColumn:true,
         // filterable: ['name', 'gender'],
+        headings: {
+                id: "ID",
+                name: "Name",
+                gender: "Gender",
+                img: function (h) {
+                  let tmp =
+                    h('a', {
+                    attrs: {
+                      href: "https://www.starwars.com",
+                      target: "_blank"
+                    },
+                    on: {
+                      click: (e) => {
+                        console.log("Will open starwars.com")
+                      }
+                    },
+                    ref: 'starwarslink',
+                  }, "Photo");
+                  console.log(tmp);
+                  return tmp;
+                },
+            }
+ 
       }
     };
   },
   methods: {
+    edit(id){
+      console.log("Go to edit page with id : " + id);
+    },
     showFilteredCurrentPageData() {
       //Get the filtered table data on current page
       console.log(this.$refs.myTable.filteredData);
