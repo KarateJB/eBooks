@@ -6,11 +6,9 @@
         <div class="col-md-10">
             <!-- Client table -->
             <v-client-table ref="myTable" :data="tableData" :columns="columns" :options="options">
-               <!-- <template slot="selected" scope="props">
-                <div>
-                  <input v-model="props.row.selected" type="checkbox">
-                </div>
-              </template> -->
+              <template slot="selected" slot-scope="props">
+                  <input v-model="props.row.selected" type="checkbox" />
+              </template>
               <template slot="name" slot-scope="props">
                 <a @click="edit(props.row.id)">{{ props.row.name }}</a>
               </template>
@@ -27,7 +25,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
+import Vue from "vue";
 
 const FOO_DATA = [
     {id: 1, name:'Luke Skywalker',gender:'male', img:'https://goo.gl/KEUxHN'},
@@ -45,39 +43,63 @@ const FOO_DATA = [
 ];
 
 export default {
-  name: "clientTableDemo",
+  name: "app",
   data() {
     return {
-      columns: ["id", "name", "gender","img"],
+      columns: ["selected", "id", "name", "gender", "img"],
       tableData: [],
       options: {
         // filterByColumn:true,
         // filterable: ['name', 'gender'],
+        sortable: ['id', 'name', 'gender'],
         headings: {
-                id: "ID",
-                name: "Name",
-                gender: "Gender",
-                img: function (h) {
-                  return h('a', {
-                    attrs: {
-                      href: "https://www.starwars.com",
-                      target: "_blank"
-                    },
-                    on: {
-                      click: (e) => {
-                        console.log("Will open starwars.com")
-                      }
-                    },
-                    ref: 'starwarslink',
-                  }, "Photo")},
-            }
- 
+          id: "ID",
+          name: "Name",
+          gender: "Gender",
+          img: function(h) {
+            return h(
+              "a",
+              {
+                attrs: {
+                  href: "https://www.starwars.com",
+                  target: "_blank"
+                },
+                ref: "starwarslink"
+              },
+              "Photo"
+            );
+          },
+          selected: function(h) {
+            return h("input", {
+              attrs: {
+                type: "checkbox",
+                id: "selectAllCheckbox"
+              },
+              on: {
+                click: e => {
+                  this.selectAll(e.srcElement.checked);
+                }
+              },
+              ref: "selectAllCheckbox"
+            });
+          }
+        }
       }
     };
   },
   methods: {
-    edit(id){
+    edit(id) {
       console.log("Go to edit page with id : " + id);
+    },
+    selectAll(checked) {
+      var vm = this;
+      for (let i = 0; i < vm.tableData.length; i++) {
+        if (checked) {
+          vm.tableData[i].selected = true;
+        } else {
+          vm.tableData[i].selected = false;
+        }
+      }
     },
     showFilteredCurrentPageData() {
       //Get the filtered table data on current page
@@ -86,10 +108,18 @@ export default {
     showFilteredData() {
       //Get the filtered table data on all pages
       console.log(this.$refs.myTable.allFilteredData);
+    },
+    initTableData(){
+      let data = FOO_DATA.map(x=> { 
+        x.selected=false;
+        return x;
+      } );
+      return data;
     }
   },
   created() {
-    this.tableData = FOO_DATA;
+    var vm = this;
+    vm.tableData = vm.initTableData();
   }
 };
 </script>
