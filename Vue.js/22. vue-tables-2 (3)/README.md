@@ -207,7 +207,6 @@ export default {
 ```
 
 
-
 ```javascript
 new Vue({
     el: "#app",
@@ -223,6 +222,23 @@ new Vue({
 });
 ```
 
+
+> 若頁面上有多個vue-tables，這時候可設定`name`屬性，並指定Event綁定哪一個表格觸發和接收，例如以下範例。
+
+```html
+<v-client-table name="starwars"  :data="tableData" :columns="columns" :options="options" 
+                @checked></v-client-table>
+```
+
+```javascript
+//Emit
+Event.$emit("vue-tables.starwars.checked", this.data);
+
+//On
+Event.$on('vue-tables.starwars.checked', function (data) {
+    //Do something
+});
+```
 
 #### 更新Options: templates
 
