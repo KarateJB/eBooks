@@ -1,6 +1,6 @@
 # vue-tables-2 (2)
 
-> 表格套件，本篇主要介紹如何客製表格顯示的欄位和資料
+> 表格套件，本篇主要介紹如何利用[Templates](https://github.com/matfish2/vue-tables-2#templates)的[Scoped Slots](https://github.com/matfish2/vue-tables-2#scoped-slots)和[Virtual DOM](https://github.com/matfish2/vue-tables-2#virtual-dom-functions)客製表格顯示的欄位和資料
 
 ## Github
 
