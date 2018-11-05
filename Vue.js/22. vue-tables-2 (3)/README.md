@@ -1,6 +1,6 @@
 # vue-tables-2 (3)
 
-> 表格套件，本篇主要說明如何在Template裡面使用自訂元件(Custom component)取代表格的顯示資料
+> 表格套件，本篇主要說明如何在Template裡面使用[自訂元件(Custom component)](https://github.com/matfish2/vue-tables-2#vue-components)取代表格的顯示資料
 
 ## Github
 
