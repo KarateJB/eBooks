@@ -5,7 +5,6 @@
 </template>
 
 <script>
-// import {Event} from 'vue-tables-2';
 
 export default {
   name: "VtCheckbox",

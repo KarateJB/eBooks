@@ -15,9 +15,9 @@ export default {
     };
   },
   created() {
-    console.info(this.data);
-    console.info(this.index);
-    console.info(this.column);
+    // console.info(this.data);
+    // console.info(this.index);
+    // console.info(this.column);
     this.src = this.data.img;
     this.alt = this.data.name;
   }

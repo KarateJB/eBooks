@@ -4,14 +4,12 @@
         <div class="col-md-1">
         </div>
         <div class="col-md-10">
-            
             <!-- Client table -->
             <v-client-table ref="myTable" :data="tableData" :columns="columns" :options="options" 
-                            @checked="null">
+                            @checked>
             </v-client-table>
         </div>
         <div class="col-md-1">
-            <button class="btn btn-alert" @click="showFilteredData">Show filtered data</button>
         </div>
     </div>
   </div>
@@ -40,14 +38,12 @@ const FOO_DATA = [
 
 export default {
   name: "app",
-  components: { VtImg },
+  components: { VtImg, VtEdit, VtCheckbox },
   data() {
     return {
       columns: ["selected", "id", "name", "gender", "img"],
       tableData: [],
       options: {
-        // filterByColumn:true,
-        // filterable: ['name', 'gender'],
         sortable: ['id', 'name', 'gender'],
         headings: {
           id: "ID",
@@ -94,6 +90,8 @@ export default {
       var vm = this;
       for (let i = 0; i < vm.tableData.length; i++) {
         let row = vm.tableData[i];
+
+        //Only update the data in the filtered table data (all pages)
         if(vm.$refs.myTable.allFilteredData.some(x=>x.id === row.id) )
         {
           if (checked) {
@@ -103,14 +101,6 @@ export default {
           }
         }
       }
-    },
-    showFilteredCurrentPageData() {
-      //Get the filtered table data on current page
-      console.log(this.$refs.myTable.filteredData);
-    },
-    showFilteredData() {
-      //Get the filtered table data on all pages
-      console.log(this.$refs.myTable.allFilteredData);
     },
     initTableData(){
       let data = FOO_DATA.map(x=> { 
