@@ -48,7 +48,6 @@
 ```javascript
 new Vue({
     el: "#app",
-    components: { MyCustomA, MyCustomB },
     data: {
       columns: ["selected", "id", "name", "gender", "img", "showOn"],
       tableData: [],
