@@ -15,15 +15,7 @@
               <template slot="img" slot-scope="props">
                 <img style="width:50px;height:50px;" :src="props.row.img" :alt="props.row.name" />
               </template>
-              <template slot="showOn" slot-scope="props">
-                <button v-show="!props.row.expanded" class="btn btn-link" 
-                        @click="(tableData.find(x=>x.id===props.row.id)).expanded=true">
-                  {{ props.row.showOn[0].title + "..." }}
-                </button>
-                <ul class="list-group" v-show="props.row.expanded">
-                  <li class="list-group-item"  v-for="ep in props.row.showOn" :key="ep.id">{{ep.title}}</li>
-                </ul>
-              </template>
+              
             </v-client-table>
         </div>
         <div class="col-md-1">
@@ -34,7 +26,7 @@
 </template>
 
 <script>
-import Vue from "vue";
+import ShowOn from "./show-on"; 
 
 const FOO_DATA = [
         {id: 1, name:'Luke Skywalker',gender:'male', img:'https://goo.gl/KEUxHN', 
@@ -106,19 +98,38 @@ const FOO_DATA = [
 
 export default {
   name: "component-demo",
+  components: { ShowOn },
   data() {
     return {
-      columns: ["selected", "id", "name", "gender", "img", "showOn"],
+      columns: ["selected", "id", "name", "gender", "img"],
       tableData: [],
       options: {
         uniqueKey: "id",
         sortable: ['id', 'name', 'gender'],
+        childRow: function(h, row) {
+            return h(
+              "ul",
+              {
+                attrs: {
+                  class: "list-group"
+                }
+              }, row.showOn.map(s => {
+                  return h(
+                      "li", 
+                      {
+                          attrs:{
+                              class:"list-group-item", 
+                              vFor:"ep in row.showOn"
+                            }
+                        }, s.title)
+              })
+            );
+        },
         headings: {
           id: "ID",
           name: "Name",
           gender: "Gender",
           img: "Photo",
-          showOn: "Show on",
           selected: function(h) {
             return h("input", {
               attrs: {
@@ -183,3 +194,22 @@ export default {
   }
 };
 </script>
+
+<style>
+.VueTables__child-row-toggler {
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    display: block;
+    margin: auto;
+    text-align: center;
+}
+
+.VueTables__child-row-toggler--closed::before {
+    content: "+";
+}
+
+.VueTables__child-row-toggler--open::before {
+    content: "-";
+}
+</style>

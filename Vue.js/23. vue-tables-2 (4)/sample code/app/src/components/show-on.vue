@@ -1,22 +1,18 @@
 <template>
   <div>
-      
-    <a @click="edit(data.id)">{{ data.name }}</a>
+    <a href="#">{{ data.name }}</a>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Child",
+  name: "ShowOn",
   props: ["data", "index", "column"],
   data() {
     return {
     };
   },
   methods: {
-      edit(id){
-          alert("Redirect to edit page with id :" + id);
-      }
   }
 };
 </script>
