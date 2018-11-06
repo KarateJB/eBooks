@@ -108,6 +108,7 @@ export default {
       columns: ["selected", "id", "name", "gender", "img", "showOn"],
       tableData: [],
       options: {
+        uniqueKey: "id", //Used to track the child rows, and return the original row in row click event
         sortable: ['id', 'name', 'gender'],
         headings: {
           id: "ID",

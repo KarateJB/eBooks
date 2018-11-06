@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <a href="#">{{ data.name }}</a>
-  </div>
+    <ul class="list-group">
+        <li class="list-group-item"  v-for="ep in data.showOn" :key="ep.id">{{ep.title}}</li>
+    </ul>
 </template>
 
 <script>

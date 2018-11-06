@@ -74,11 +74,14 @@ new Vue({
 
 使用Options:`childRow`的設定搭配[Virtual DOM function](https://github.com/matfish2/vue-tables-2#virtual-dom-functions)可將Child row顯示在每筆主資料下面。
 
-而當設定了Options:`childRow`時，vue-tables-2將自動於最前方新增一個欄位(`<td>`)如下，可利用底下的CSS class顯示Toggle圖示(例如"+"及"-")。
+當設定了Options:`childRow`時，需注意：
 
-```html
-<td><span class="VueTables__child-row-toggler VueTables__child-row-toggler--closed"></span></td>
-```
+* 每筆資料必須要有一個Unqiue id的欄位值(預設為使用`id`)以追蹤狀態及供事件判斷用。可在Options裡面額外設定`uniqueKey="OtherColName"另行指定
+* vue-tables-2將自動於最前方新增一個欄位(`<td>`)如下，可利用底下的CSS class顯示Toggle圖示(例如"+"及"-")。
+
+    ```html
+    <td><span class="VueTables__child-row-toggler VueTables__child-row-toggler--closed"></span></td>
+    ```
 
 範例程式碼：
 
@@ -94,7 +97,7 @@ new Vue({
       columns: ["selected", "id", "name", "gender", "img"],
       tableData: [],
       options: {
-        uniqueKey: "id",
+        uniqueKey: "id", //Used to track the child rows, and return the original row in row click event
         childRow: function(h, row) {
             return h(
               "ul",
@@ -118,6 +121,7 @@ new Vue({
 });
 ```
 
+
 並直接使用[vue-tables-2](https://github.com/matfish2/vue-tables-2#child-rows)預設的CSS：
 
 ```css
@@ -139,10 +143,62 @@ new Vue({
 }
 ```
 
+[Sample code](https://github.com/KarateJB/eBooks/blob/master/Vue.js/23.%20vue-tables-2%20(4)/sample%20code/app/src/components/vdom-demo.vue)
+
 #### Demo
 
 ![](assets/demo2.gif)
 
 
-[Sample code](https://github.com/KarateJB/eBooks/blob/master/Vue.js/23.%20vue-tables-2%20(4)/sample%20code/app/src/components/vdom-demo.vue)
 
+
+### Component
+
+我們也可以在Options:`childRow`指定使用[Component](https://github.com/matfish2/vue-tables-2#vue-components)的方式來顯示。
+
+例如我們先建立一個`ShowOn` component (以Single page component為例): 
+
+```html
+<template>
+    <ul class="list-group">
+        <li class="list-group-item"  v-for="ep in data.showOn" :key="ep.id">{{ep.title}}</li>
+    </ul>
+</template>
+
+<script>
+export default {
+  name: "ShowOn",
+  props: ["data", "index", "column"],
+  data() {
+    return {
+    };
+  }
+};
+</script>
+```
+
+並指定給vue-tables-2的Options:`childRow`：
+
+```javascript
+import ShowOn from "./show-on"
+
+new Vue({
+    el: "#app",
+    components: { ShowOn },
+    data: {
+        options: {
+                childRow: ShowOn,
+                //Skip..
+        }
+    },
+}
+```
+
+> 若註冊一般的Component，則設定為: `childRow: "show-on",`
+
+
+[Sample code](https://github.com/KarateJB/eBooks/blob/master/Vue.js/23.%20vue-tables-2%20(4)/sample%20code/app/src/components/component-demo.vue)
+
+#### Demo
+
+![](assets/demo3.gif)
