@@ -113,8 +113,7 @@ export default {
                       "li", 
                       {
                           attrs:{
-                              class:"list-group-item", 
-                              vFor:"ep in row.showOn"
+                              class:"list-group-item"
                             }
                         }, s.title)
               })
