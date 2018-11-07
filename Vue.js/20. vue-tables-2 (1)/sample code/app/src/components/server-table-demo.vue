@@ -26,6 +26,10 @@ export default {
       options: {
         // filterByColumn:true,
         // filterable: ['name', 'gender'],
+        texts: {
+            filter:"Search : ",
+            filterPlaceholder:"Search your favorite Star Wars character",
+        },
         requestFunction: function (params) {
             return axios.get("http://localhost:3000/starwars", {
               params: params

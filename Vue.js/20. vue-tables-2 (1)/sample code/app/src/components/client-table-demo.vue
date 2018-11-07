@@ -39,6 +39,10 @@ export default {
       options: {
         // filterByColumn:true,
         // filterable: ['name', 'gender'],
+        texts: {
+            filter:"Search : ",
+            filterPlaceholder:"Search your favorite Star Wars character",
+        },
       }
     };
   },
