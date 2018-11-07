@@ -1,6 +1,6 @@
 # vue-tables-2 (5)
 
-> 表格套件，本篇主要介紹如何使用Filters
+> 表格套件，本篇主要介紹如何使用及客製Filters
 
 ## Github
 
@@ -69,7 +69,7 @@ new Vue({
 });
 ```
 
-[Source code]()
+[Source code](https://github.com/KarateJB/eBooks/blob/master/Vue.js/24.%20vue-tables-2%20(5)/sample%20code/app/src/components/custom-filter-demo.vue)
 
 #### Demo
 
@@ -128,9 +128,9 @@ new Vue({
 * `id`需與實際資料中的欄位值相同
 * 若要隱藏該選項，則額外指定`hide: true`
 
-[Source code]()
+[Source code](https://github.com/KarateJB/eBooks/blob/master/Vue.js/24.%20vue-tables-2%20(5)/sample%20code/app/src/components/col-listfilter-demo.vue)
 
-![assets/demo2.gif]
+!()[assets/demo2.gif]
 
 
 ### 客製欄位的Filter: daterangepicker
@@ -201,7 +201,7 @@ new Vue({
 });
 ```
 
-[Source code]()
+[Source code](https://github.com/KarateJB/eBooks/blob/master/Vue.js/24.%20vue-tables-2%20(5)/sample%20code/app/src/components/col-datefilter-demo.vue)
 
 #### Demo
 
@@ -287,10 +287,11 @@ methods: {
 });
 ```
 
-[Source code]()
+[Source code](https://github.com/KarateJB/eBooks/blob/master/Vue.js/24.%20vue-tables-2%20(5)/sample%20code/app/src/components/col-filter-demo.vue)
+
 
 #### Demo
 
-![](assets/demo3.gif)
+![](assets/demo4.gif)
 
 
