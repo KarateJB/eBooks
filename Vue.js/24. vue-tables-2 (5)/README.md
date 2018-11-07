@@ -14,7 +14,7 @@
 | filterByColumn | 是否開啟BY欄位做篩選的功能 | Boolean | false |
 | filterable | 可供篩選的欄位清單，或設定`true`允許所有欄位，`false`表示不啟用Filter功能 | Array/Boolean | |
 | customFilters | 客製的Filter方法 | Array | |
-| | | | |
+| listColumns | 當開啟BY欄位做篩選，可設定此選項以使用Checkbox以選擇式篩選取代輸入式篩選 | Object | |
 
 ## 範例
 
