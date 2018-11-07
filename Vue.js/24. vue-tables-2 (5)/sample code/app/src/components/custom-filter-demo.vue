@@ -23,7 +23,6 @@
             </v-client-table>
         </div>
         <div class="col-md-1">
-            <button class="btn btn-alert" @click="showFilteredData">Show filtered data</button>
         </div>
     </div>
   </div>
@@ -56,7 +55,6 @@ export default {
       options: {
         filterByColumn:false,
         filterable: false,
-        // filterable: ['name', 'gender'],
         customFilters: [{
             name: 'filterBySide',
             callback: function (row, query) {
@@ -73,19 +71,7 @@ export default {
           id: "ID",
           name: "Name",
           gender: "Gender",
-          img: function(h) {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: "https://www.starwars.com",
-                  target: "_blank"
-                },
-                ref: "starwarslink"
-              },
-              "Photo"
-            );
-          }
+          img: "Photo"
         }
       }
     };
@@ -96,26 +82,11 @@ export default {
     },
     edit(id) {
       console.log("Go to edit page with id : " + id);
-    },
-    showFilteredCurrentPageData() {
-      //Get the filtered table data on current page
-      console.log(this.$refs.myTable.filteredData);
-    },
-    showFilteredData() {
-      //Get the filtered table data on all pages
-      console.log(this.$refs.myTable.allFilteredData);
-    },
-    initTableData(){
-      let data = FOO_DATA.map(x=> { 
-        // x.selected=false;
-        return x;
-      } );
-      return data;
     }
   },
   created() {
     var vm = this;
-    vm.tableData = vm.initTableData();
+    vm.tableData = FOO_DATA;
   }
 };
 </script>

@@ -4,16 +4,23 @@
         <div class="col-md-1">
         </div>
         <div class="col-md-10">
-            <div class="row">
-              <div class="col-md-3">
-                <input type="text" ref="keyword" class="form-control" placeholder="Search by name or sith/jedi"/>
-              </div>
-              <div class="col-md-3">
-                <input type="button" class="form-control" value="Search" @click="search($refs.keyword.value)">
-              </div>
-            </div>
-            <br />
             <v-client-table ref="myTable" :data="tableData" :columns="columns" :options="options">
+              <template slot="filter__name">
+                <input type="text" class="form-control" placeholder="Search by name or sith/jedi" 
+                       v-model="keywordName" @keyup="searchByName">
+              </template>
+              <template slot="filter__gender">
+                  <div class="row">
+                      <div class="col-md-6">
+                          <input type="radio" value="male" v-model="keywordGender" @change="searchByGender">
+                          <label for="one">Male</label>
+                      </div>
+                      <div class="col-md-6">
+                          <input type="radio" value="female" v-model="keywordGender" @change="searchByGender">
+                          <label for="one">Female</label>
+                      </div>
+                  </div>
+              </template>
               <template slot="name" slot-scope="props">
                 <a @click="edit(props.row.id)">{{ props.row.name }}</a>
               </template>
@@ -47,28 +54,37 @@ const FOO_DATA = [
     {id: 12,name:'Darth Maul',gender:'male',img:'https://goo.gl/ikbM7n'}
 ];
 
+
 export default {
   name: "col-filter-demo",
   data() {
     return {
       columns: ["id", "name", "gender", "img"],
       tableData: [],
+      keywordName: null,
+      keywordGender: null,
       options: {
-        filterByColumn:false,
-        filterable: false,
-        // filterable: ['name', 'gender'],
-        customFilters: [{
-            name: 'filterBySide',
-            callback: function (row, query) {
-                if(query.toLowerCase()==="sith")
-                  return row.name.startsWith("Darth");
-                else if(query.toLowerCase()==="jedi")
-                  return row.name.endsWith("Skywalker");
-                else
-                  return row.name.toLowerCase().includes(query.toLowerCase());  
+        filterByColumn: true,
+        filterable: [],
+        customFilters: [
+          {
+            name: "filterBySide",
+            callback: function(row, query) {
+              if (query.toLowerCase() === "sith")
+                return row.name.startsWith("Darth");
+              else if (query.toLowerCase() === "jedi")
+                return row.name.endsWith("Skywalker");
+              else return row.name.toLowerCase().includes(query.toLowerCase());
             }
-        }],
-        sortable: ['id', 'name', 'gender'],
+          },
+          {
+            name: "filterByGender",
+            callback: function(row, query) {
+                return row.gender === query;
+            }
+          }
+        ],
+        sortable: ["id", "name", "gender"],
         headings: {
           id: "ID",
           name: "Name",
@@ -91,8 +107,15 @@ export default {
     };
   },
   methods: {
-    search(keyword){
-      Event.$emit('vue-tables.filter::filterBySide', keyword);
+    searchByName(event) {
+      if (event.keyCode === 13) {
+        Event.$emit("vue-tables.filter::filterBySide", this.keywordName);
+      }
+    },
+    searchByGender() {
+      if(this.keywordGender){
+        Event.$emit("vue-tables.filter::filterByGender", this.keywordGender);
+      }
     },
     edit(id) {
       console.log("Go to edit page with id : " + id);
@@ -105,11 +128,11 @@ export default {
       //Get the filtered table data on all pages
       console.log(this.$refs.myTable.allFilteredData);
     },
-    initTableData(){
-      let data = FOO_DATA.map(x=> { 
+    initTableData() {
+      let data = FOO_DATA.map(x => {
         // x.selected=false;
         return x;
-      } );
+      });
       return data;
     }
   },
