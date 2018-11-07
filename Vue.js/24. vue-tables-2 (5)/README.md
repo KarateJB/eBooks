@@ -15,8 +15,14 @@
 | filterable | 可供篩選的欄位清單，或設定`true`允許所有欄位，`false`表示不啟用Filter功能 | Array/Boolean | true |
 | customFilters | 客製的Filter方法 | Array | [] |
 | listColumns | 當開啟BY欄位做篩選，可設定此選項以使用Checkbox以選擇式篩選取代輸入式篩選 | Object | {} |
+| dateColumns | 指定那些欄位為日期格式 | Array | [] |
+| dateFormat | 以[moment.js](https://momentjs.com/)定義的格式顯示日期欄位值 | String | "DD/MM/YYYY" |
+| datepickerOptions | daterangepicker的[設定選項](http://www.daterangepicker.com/#options) | Object | `locale: { cancelLabel:'Clear'}` |
+
 
 > Reference: [vue-tables-2/lib/config/defaults.js](https://github.com/matfish2/vue-tables-2/blob/master/lib/config/defaults.js)
+
+
 
 ## 範例
 
@@ -62,6 +68,10 @@ new Vue({
     }
 });
 ```
+
+[Source code]()
+
+#### Demo
 
 ![](assets/demo1.gif)
 
@@ -118,7 +128,84 @@ new Vue({
 * `id`需與實際資料中的欄位值相同
 * 若要隱藏該選項，則額外指定`hide: true`
 
+[Source code]()
+
 ![assets/demo2.gif]
+
+
+### 客製欄位的Filter: daterangepicker
+
+如果表格資料中含有日期格式的欄位，我們可以透過設定vue-tables-2使用[daterangepicker](http://www.daterangepicker.com)以日期區間的方式篩選該欄位值。
+
+必須安裝套件：[jquery](https://github.com/jquery/jquery),[daterangepicker](https://github.com/dangrossman/daterangepicker),[moment](https://github.com/moment/moment)
+
+```
+npm install jquery
+npm install daterangepicker
+npm install moment
+```
+
+Import並定義全域物件：
+
+```javascript
+import daterangepicker from 'daterangepicker';
+
+//jquery
+window.$ = window.jQuery = require('jquery');
+//moment.js
+window.moment = require('moment');
+```
+
+設定vue-tables-2的Options:
+
+- `dateColumns: ['<欄位>']`
+- `dateFormat: 'YYYY-MM-DD'` : [moment.js](https://momentjs.com/)定義的格式
+- `datepickerOptions: { showDropdowns: true, ... }` : See [daterangepicker options](http://www.daterangepicker.com/#options)
+
+```javascript
+const FOO_DATA = [
+    {id: 1, name:'Luke Skywalker',gender:'male', img:'https://goo.gl/KEUxHN', birth: '2018-01-01'},
+    //...
+];
+
+new Vue({
+    el: "#app",
+    data: {
+      columns: ["id", "name","birth","gender", "img"],
+      tableData: [],
+      options: {
+        filterByColumn: true,
+        filterable: ['birth'],
+        dateColumns:['birth'],
+        dateFormat: 'YYYY-MM-DD',
+        datepickerOptions: { //See http://www.daterangepicker.com/#options
+            showDropdowns: true,
+            autoUpdateInput: true,
+        }
+      }
+    };
+  },
+  methods: {
+    initTableData() {
+      let data = FOO_DATA.map(x => {
+        x.birth = moment(x.birth);
+        return x;
+      });
+      return data;
+    }
+  },
+  created() {
+    var vm = this;
+    vm.tableData = vm.initTableData();
+  }
+});
+```
+
+[Source code]()
+
+#### Demo
+
+![](assets/demo3.gif)
 
 
 ### 客製欄位的Filter: 自行打造
@@ -200,6 +287,7 @@ methods: {
 });
 ```
 
+[Source code]()
 
 #### Demo
 

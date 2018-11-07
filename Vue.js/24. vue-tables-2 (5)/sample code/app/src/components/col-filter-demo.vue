@@ -37,7 +37,6 @@
 </template>
 
 <script>
-import Vue from "vue";
 
 const FOO_DATA = [
     {id: 1, name:'Luke Skywalker',gender:'male', img:'https://goo.gl/KEUxHN'},
