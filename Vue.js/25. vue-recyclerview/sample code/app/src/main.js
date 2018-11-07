@@ -1,0 +1,10 @@
+import Vue from 'vue'
+import App from './App.vue'
+import VueRecyclerviewNew from 'vue-recyclerview'
+
+Vue.use(VueRecyclerviewNew)
+
+new Vue({
+  el: '#app',
+  render: h => h(App)
+})
