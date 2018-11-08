@@ -5,12 +5,7 @@
                 <img class="lazy" :src="data.img">
             </div>
             <div class="version-item-intro">
-                <div class="version-item-name">
-                    <p>{{data.name}}</p>
-                </div>
-                <div class="version-item-brief">
-                    <p>{{ data.gender }}</p>
-                </div>
+                <h3>{{data.name}}({{ data.gender }})</h3>
             </div>
         </a> 
   </li>
@@ -21,11 +16,10 @@
 export default {
   name: "ListRow",
   props: {
-      data: Object
-    //   data: {
-    //         type: Object,
-    //         required: true
-    //     }
+      data: {
+            type: Object,
+            required: true
+        }
   },
   data() {
     return {
@@ -53,7 +47,7 @@ export default {
   bottom: 1.5px;
   left: 150px;
   right: 0;
-  border-bottom: 1px solid #e4e4e4;
+  /* border-bottom: 1px solid #e4e4e4; */
 }
 .version-item {
   display: flex;
@@ -76,32 +70,5 @@ export default {
   display: block;
   padding: 0 15px 5px;
 }
-.version-item .version-item-intro .version-item-name {
-  font-size: 14px;
-  color: rgba(0,0,0,.87);
-  margin-bottom: 8px;
-}
-.version-item .version-item-intro .version-item-brief {
-  font-size: 12px;
-  color: rgba(0,0,0,.54);
-  margin-bottom: 8px;
-  line-height: 15px;
-  overflow: hidden;
-}
-.version-item-brief p {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    word-break: break-all;
-}
-.version-item .version-item-intro .version-item-intro-price {
-  font-size: 15px;
-  position: relative;
-  margin-left: 10px;
-}
-.version-item .version-item-intro span {
-    color: #ff6000;
-}
+
 </style>

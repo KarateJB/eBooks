@@ -1,4 +1,6 @@
-/* eslint-disable*/
+
+const MAX_LIMIT=10;
+
 const baseData = [
     {id: 1, name:'Luke Skywalker',gender:'male', img:'https://goo.gl/KEUxHN'},
     {id: 2,name:'Leia Skywalker',gender:'female',img:'https://goo.gl/rNJhLU'},
@@ -49,7 +51,7 @@ function query (limit, skip) {
 }
 
 export default function fetch (limit, skip) {
-  limit = Math.max(10, limit)
+  limit = Math.max(MAX_LIMIT, limit)
   return query(limit, skip)
   .then(list => {
     return {
