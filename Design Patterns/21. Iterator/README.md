@@ -83,7 +83,7 @@ JB:<br>
 目的在於尋覽內部元素時，跳過不屬於該商品種類的元素。
 
 * C#
-```
+```csharp
 public abstract class Iterator
 {
     public abstract IElement Current();
@@ -159,7 +159,7 @@ public class ConcreteIterator : Iterator
 ```
 
 * Python
-```
+```python
 from abc import ABC, abstractmethod
 from Elements import Element, ProductTypeEnum
 import Aggregate
@@ -231,7 +231,7 @@ class ConcreteIterator(Iterator):
 ### Aggregate
 
 * C#
-```
+```csharp
 public abstract class Aggregate
 {
     public abstract Iterator GetIterator();
@@ -274,7 +274,7 @@ public class ConcreteAggregate : Aggregate
 ```
 
 * Python
-```
+```python
 import Iterator
 from abc import ABC, abstractmethod
 from Elements import Element, ProductTypeEnum
@@ -324,7 +324,7 @@ class ConcreteAggregate(Aggregate):
 透過以上實作的迭代器，我們可以將[Day20.Visitor 訪問者模式](https://ithelp.ithome.com.tw/articles/10196407)的主程式改寫如下(執行結果不變)：
 
 * C#
-```
+```csharp
 private List<IElement> Shopcart = null;
 this.Shopcart = new List<IElement>(){
     //Some products..
@@ -340,7 +340,7 @@ checkout.Accept(new VisitorDiscount4Count());
 
 
 * Python
-```
+```python
 _shopcart = [
     #Some products..
 ]

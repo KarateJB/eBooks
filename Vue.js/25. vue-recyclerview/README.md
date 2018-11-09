@@ -188,7 +188,7 @@ new Vue({
 this.$refs.RecyclerView.scrollToIndex(100)
 ```
 
-[Sample code]()
+[Sample code](https://github.com/KarateJB/eBooks/tree/master/Vue.js/25.%20vue-recyclerview/sample%20code/app)
 
 #### Demo
 
