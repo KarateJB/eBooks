@@ -2,10 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from 'vue-router'
 import VueFire from 'vuefire'
-
 /* Components */
 import Login from './components/login'
 import ProdList from './components/prod-list'
+
 
 /* firebase */
 import firebaseConfig from './modules/firebase.config.prod'
@@ -13,6 +13,13 @@ import firebaseConfig from './modules/firebase.config.prod'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
+
+//firebase
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+window.firebase = firebase;
+window.firebaseDb = firebaseApp.database();
+window.firebaseAuth = firebaseApp.auth();
+
 
 
 //Routing
@@ -29,12 +36,6 @@ const router = new VueRouter({
 
 Vue.use(VueRouter);
 
-
-//firebase
-const firebaseApp = firebase.initializeApp(firebaseConfig);
-window.firebase = firebase;
-window.firebaseDb = firebaseApp.database();
-window.firebaseAuth = firebaseApp.auth();
 
 
 //VueFire

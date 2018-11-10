@@ -55,7 +55,7 @@
                         </tr>
                     <tr>
                         <td class="text-center">
-                            Email: <label class="control-label">{{ user.email || '(no email)'}}</label>
+                            Email: <label class="control-label">{{ "user.email" || '(no email)'}}</label>
                         </td>
                     </tr>                 
                 </table>
@@ -89,8 +89,8 @@ export default {
 
       firebaseAuth.signInWithPopup(provider)
         .then(result => {
-            console.log(result);
           this.user = result.user;
+
         }).catch(err => console.error(err));
     },
 
@@ -98,17 +98,18 @@ export default {
       firebaseAuth.signOut()
         .then(() => {
           this.user = null;
-          this.$router.replace("/login");
+          this.isAuth = false;
         }).catch(err => console.log(error));
     }
   },
   beforeCreate(){
       firebaseAuth.onAuthStateChanged((user) => {
         if (user) {
-          this.user = user
+          this.user = user;
+          this.isAuth = true;
         }
       })
-},
+  },
   created() {
       console.log(firebaseDb);
       console.log(firebaseAuth);

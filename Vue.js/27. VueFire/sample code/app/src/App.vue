@@ -56,6 +56,14 @@ export default {
         }).catch(err => console.log(error));
     }
   },
+  beforeCreate(){
+      firebaseAuth.onAuthStateChanged((user) => {
+        if (user) {
+          this.user = user;
+          this.isAuth = true;
+        }
+      })
+  },
   mounted(){
     this.user = firebaseAuth.currentUser;
     this.isAuth = this.user ? true : false;

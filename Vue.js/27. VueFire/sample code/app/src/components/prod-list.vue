@@ -32,36 +32,32 @@
 
 <script>
 
-
 export default {
   name: 'prod-list',
   data () {
     return {
     }
   },
-//   firebase: {
-//       fbArray: firebaseDb.ref('Demo').limitToLast(10), //bind as an array
-//       fbObject: {
-//         source: firebaseDb.ref('Demo/products/800afd3c-1615-49ba-b33d-497842af6c82'),
-//         asObject: true, //Bind as object
-//         cancelCallback: function () {
-//           console.log("Not ready for the object!");
-//         },
-//         readyCallback: function () { 
-//           console.log("Get ready for the object!");
-//       }
-//     }
-//   },
-//   mounted(){
-//     // let products = db.ref('/Demo/products/');
-//     console.log(this.fbArray);
-//     console.log(this.fbObject);
-//     console.log(this.demo);
-//     // this.afDb.object<Product>('/Demo/products/' + key).valueChanges().take(1).map(x => <Product>x);
-//   },
+  firebase: {
+      fbArray: firebaseDb.ref('Demo/products').limitToLast(10), //bind as an array
+      fbObject: {
+        source: firebaseDb.ref('Demo/products/800afd3c-1615-49ba-b33d-497842af6c82'),
+        asObject: true, //Bind as object
+        cancelCallback: function () {
+          console.log("Not ready for the object!");
+        },
+        readyCallback: function () { 
+          console.log("Get ready for the object!");
+      }
+    }
+  },
+  mounted(){
+    // let products = db.ref('/Demo/products/');
+    // this.afDb.object<Product>('/Demo/products/' + key).valueChanges().take(1).map(x => <Product>x);
+  },
   created(){
-      console.log(firebaseDb);
-      console.log(firebaseAuth);
+    // console.log(this.fbArray);
+    // console.log(this.fbObject);
   }
 }
 </script>
