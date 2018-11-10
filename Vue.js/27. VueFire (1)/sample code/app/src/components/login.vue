@@ -55,7 +55,7 @@
                         </tr>
                     <tr>
                         <td class="text-center">
-                            Email: <label class="control-label">{{ "user.email" || '(no email)'}}</label>
+                            Email: <label class="control-label">{{ user.email || '(no email)'}}</label>
                         </td>
                     </tr>                 
                 </table>

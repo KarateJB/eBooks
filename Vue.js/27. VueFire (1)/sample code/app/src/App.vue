@@ -19,10 +19,10 @@
             </router-link>
           </li>
           <li v-if="isAuth===true">
-            <button class="btn btn-danger" @click="logout()">
+            <router-link to="/login" tag="button" class="btn btn-success">            
               <!-- <i class="fa fa-google-plus"></i> -->
-              <any v-if="isAuth">Logout as {{user.displayName}}</any>
-            </button>
+              {{user.displayName}}
+            </router-link>
           </li>
         </ul>
       </div>
@@ -52,6 +52,7 @@ export default {
       firebaseAuth.signOut()
         .then(() => {
           this.user = null;
+          this.isAuth = false;
           this.$router.replace("/login");
         }).catch(err => console.log(error));
     }
