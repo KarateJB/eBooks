@@ -1,6 +1,6 @@
 # vue-fontawesome
 
-> [Font Awesome 5](https://fontawesome.com/)的Vue.js Component
+> [Font Awesome 5](https://fontawesome.com/)的官方Vue.js Component
 
 
 ## Github
@@ -42,7 +42,7 @@ library.add(faCoffee, faGooglePlus);
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 ```
 
-其中我們加入了Free icons的[fa-coffee](https://fontawesome.com/icons/coffee?style=solid)及Brands icons的[fa-google-plus](https://fontawesome.com/icons/google-plus?style=brands)到`fontawesome-svg-core`的倉庫(libarary)裡； 藉由此概念可降低打包後檔案的大小。
+其中我們加入了Free icons的[fa-coffee](https://fontawesome.com/icons/coffee?style=solid)及Brands icons的[fa-google-plus](https://fontawesome.com/icons/google-plus?style=brands)到`fontawesome-svg-core`的倉庫(library)裡； 藉由此概念可降低打包後檔案的大小。
 
 您也可以直接加入整個Style(樣式種類)下的所有Icons(但不建議)：
 

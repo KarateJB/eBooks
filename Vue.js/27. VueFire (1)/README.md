@@ -250,7 +250,7 @@ new Vue({
 
 結果：
 
-![](assets/001.png.gif)
+![](assets/001.png)
 
 
 [Sample code](https://github.com/KarateJB/Vue.Firebase.Sample)
