@@ -54,7 +54,14 @@ let ref = this.$firebaseRefs.fbObject
 
 #### Demo
 
+Realtime database snapshot
 ![](assets/001.png)
+
+![](assets/002.png)
+
+
+
+
 
 
 ### Remove
