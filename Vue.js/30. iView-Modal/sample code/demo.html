@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/iview/3.0.1/styles/iview.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/iview/3.0.1/iview.min.js"></script>
+</head>
+
+<body>
+    <br />
+    <div id="app" class="app">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <button class="btn btn-warning" @click="isShowModal = true">Show Modal</button>
+                    <modal v-model="isShowModal" title="Warning" @on-ok="ok" @on-cancel="cancel">
+                        <p>Hello, this is iView Modal!</p>
+                    </modal>
+                </div>
+                <div class="col-md-3">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="./demo.js"></script>
+
+</html>
