@@ -19,14 +19,16 @@
             </div>
             <div class="col-md-10">
                     <vue-markdown>## Demo</vue-markdown>
-                    <vue-markdown>[A link to Google](https://googl.com)</vue-markdown>
-                    <vue-markdown linkify>https://google.com</vue-markdown> 
+                    <vue-markdown>[A link to Google](https://google.com)</vue-markdown>
+                    <vue-markdown :linkify="false">www.google.com</vue-markdown> 
                 <vue-markdown>
 ## Demo
 [A link to Google](https://googl.com)
                 </vue-markdown>
                 <vue-markdown :source="now"></vue-markdown>
+                <vue-markdown :source="now" :watches="['toc']"></vue-markdown>
                 <vue-markdown :anchor-attributes="linkAttrs">[A link to Google](https://google.com)</vue-markdown>
+                <vue-markdown :emoji="true">:smiley::raising_hand::skull::heart_eyes_cat:</vue-markdown>
                 <vue-markdown>
 ```
 var me = {
@@ -34,8 +36,14 @@ var me = {
     from : 'Taiwan'
 }
 ```
-                            </vue-markdown>
-                        
+                </vue-markdown>
+                <vue-markdown table-class="table table-striped">
+| Name | Lightsaber |
+|:----:|:-------:|
+| Anakin Skywalker | Blue |
+| Darth Vader | Red |
+| Mace Windu | Purple |
+                </vue-markdown>        
             </div>
             <div class="col-md-1">
             </div>
