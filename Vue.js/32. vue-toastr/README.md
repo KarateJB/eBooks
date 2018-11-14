@@ -1,4 +1,4 @@
-# iView - Modal
+# vue-toastr
 
 > 參考[toastr.js](https://github.com/CodeSeven/toastr) 的Vue.js提示/通知框(Toast notification)
 
