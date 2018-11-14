@@ -17,15 +17,70 @@
     <div id="app" class="app">
         <div class="container">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-2">
                 </div>
-                <div class="col-md-6">
-                    <button class="btn btn-warning" @click="isShowModal = true">Show Modal</button>
-                    <modal v-model="isShowModal" title="Warning" @on-ok="ok" @on-cancel="cancel">
-                        <p>Hello, this is iView Modal!</p>
-                    </modal>
+                <div class="col-md-8">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <!-- 1.Standard Modal -->
+                            <button class="btn btn-warning" @click="isShowModal1 = true">Show Modal</button>
+                            <modal v-model="isShowModal1" title="Standard" @on-ok="ok" @on-cancel="cancel" ok-text="Ok"
+                                cancel-text="Cancel">
+                                <p>Hello, this is iView Modal!</p>
+                            </modal>
+                        </li>
+                        <li class="list-group-item">
+                            <!-- 2.Custom Modal -->
+                            <button class="btn btn-warning" @click="isShowModal2 = true">Custom Modal</button>
+                            <modal v-model="isShowModal2">
+                                <p slot="header" style="background-color:lightyellow;text-align:center">
+                                    <icon type="ios-information-circle"></icon>
+                                    <span>Custom Modal</span>
+                                </p>
+                                <div style="text-align:center">
+                                    <h3>Hello, this is iView Modal!</h3>
+                                </div>
+                                <div slot="footer">
+                                    <button class="btn btn-default" @click="isShowModal2=false">Close</button>
+                                </div>
+                            </modal>
+                        </li>
+                        <li class="list-group-item">
+                            <!-- 3.Modal with loading -->
+                            <button class="btn btn-warning" @click="isShowModal3 = true">Modal with loading</button>
+                            <modal v-model="isShowModal3" loading title="Ok with loading" @on-ok="asyncOk" @on-cancel="cancel">
+                                <p>Hello, this is iView Modal!</p>
+                            </modal>
+                        </li>
+                        <li class="list-group-item">
+                            <!-- 4.Disable Close button and Mask-closable -->
+                            <button class="btn btn-warning" @click="isShowModal4 = true">Disable Closing</button>
+                            <modal v-model="isShowModal4" title="Disable Closing" :closable="false" :mask-closable="false">
+                                <p>Hello, this is iView Modal!</p>
+                            </modal>
+                        </li>
+                        <li class="list-group-item">
+                            <!-- 5.Draggable -->
+                            <button class="btn btn-warning" @click="isShowModal5 = true">Draggable Modal</button>
+                            <modal v-model="isShowModal5" title="Draggable" draggable>
+                                <p>Hello, this is iView Modal!</p>
+                            </modal>
+                        </li>
+                        <li class="list-group-item">
+                            <!-- 6.Default Modal instance -->
+                            <button class="btn" @click="openModal('info')">Info</button>
+                            <button class="btn" @click="openModal('success')">Success</button>
+                            <button class="btn" @click="openModal('warning')">Warning</button>
+                            <button class="btn" @click="openModal('error')">Error</button>
+                            <button class="btn" @click="openModal('confirm')">Confirm</button>
+                        </li>
+                        <li class="list-group-item">
+                            <!-- 7.Custom Modal instance -->
+                            <button class="btn btn-success" @click="customContent()">Custom content</button>
+                        </li>
+                    </ul>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
 
                 </div>
             </div>
