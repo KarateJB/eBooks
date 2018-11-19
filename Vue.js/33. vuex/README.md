@@ -106,3 +106,35 @@ var app = new Vue({
 //Reset
  this.$store.state.count=0;
 ```
+
+
+## 搭配Computed取得狀態值
+
+一般使用方式如下：
+
+```javascript
+computed: {
+    count () {
+      return this.$store.state.count;
+      
+      //Or by importing the singleton vuex store
+      //return store.state.count
+    }
+}
+```
+
+可透過[mapState](https://vuex.vuejs.org/guide/state.html#the-mapstate-helper) helper來取代以上寫法；
+
+```javascript
+computed: mapState({
+    count: state => state.count, //Assign the computed variable: count, as state.count
+    countAlias: 'count', //Assign another computed variable: countAlias, which equals to count
+    nextCount(state) {
+        return state.count + STEP;
+    },
+    previousCount(state){
+        return state.count - STEP;
+    }
+})
+```
+
