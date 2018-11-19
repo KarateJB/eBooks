@@ -29,7 +29,7 @@ Vue.use(Vuex);
 * Reset 數量歸零
 
 
-- vuex store (myStore.js)
+#### vuex store (myStore.js)
 
 ```javascript
 import Vue from 'vue';
@@ -60,7 +60,7 @@ export const store = new Vuex.Store({
 })
 ```
 
-- Usage 
+#### Usage 
 
 ```javascript
 import {store, INCREMENT, DECREMENT, RESET} from "myStore";
@@ -108,9 +108,9 @@ var app = new Vue({
 ```
 
 
-## 搭配Computed取得狀態值
+## 搭配Computed property取得狀態值
 
-一般使用方式如下：
+一般會將狀態值以Computed property的方式來取用：
 
 ```javascript
 computed: {
@@ -127,9 +127,11 @@ computed: {
 
 ```javascript
 computed: mapState({
-    count: state => state.count, //Assign the computed variable: count, as state.count
-    countAlias: 'count', //Assign another computed variable: countAlias, which equals to count
-    nextCount(state) {
+    count: state => state.count, //Assign the computed prop: count, as state.count
+    countAlias: 'count', //Optional: assign the other computed prop: countAlias, which is as same as "count"
+    
+    //Also can declare the computed variable as function
+    nextCount(state) { 
         return state.count + STEP;
     },
     previousCount(state){
@@ -138,3 +140,38 @@ computed: mapState({
 })
 ```
 
+注意`mapState(...)`回傳的是object； 如果要配合使用Local computed properties，可透過[object rest/spread operator](https://tc39.github.io/proposal-object-rest-spread/)以下列簡潔的方式來宣告;
+
+> Reference:
+> - [tc39/proposal-object-rest-spread](https://github.com/tc39/proposal-object-rest-spread
+> - [Spread syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
+> - [展開運算子(Spread Operator)與其餘參數(Rest parameters)](http://eddychang.me/blog/16-javascript/45-spread-operator-rest-parameters.html)
+
+
+```javascript
+computed: {
+    currentDatetime() { //This is a local computed prop for sample
+      return new Date();
+    },
+    // mix mapState by object spread operator
+    ...mapState({
+      count: state => state.count,
+      countAlias: "count",
+      nextCount(state) {
+        return state.count + STEP;
+      },
+      previousCount(state) {
+        return state.count - STEP;
+      }
+    })
+  },
+```
+
+
+#### Usage 
+
+```javascript
+console.log('current: ' + this.count);
+console.log('next: ' + this.nextCount);
+console.log('previous: ' + this.previousCount);
+```
