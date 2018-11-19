@@ -1,4 +1,4 @@
-# vuex
+# vuex (1)
 
 > Vue.js官方的狀態管理套件
 
@@ -143,7 +143,7 @@ computed: mapState({
 注意`mapState(...)`回傳的是object； 如果要配合使用Local computed properties，可透過[object rest/spread operator](https://tc39.github.io/proposal-object-rest-spread/)以下列簡潔的方式來宣告;
 
 > Reference:
-> - [tc39/proposal-object-rest-spread](https://github.com/tc39/proposal-object-rest-spread
+> - [tc39/proposal-object-rest-spread](https://github.com/tc39/proposal-object-rest-spread)
 > - [Spread syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
 > - [展開運算子(Spread Operator)與其餘參數(Rest parameters)](http://eddychang.me/blog/16-javascript/45-spread-operator-rest-parameters.html)
 
