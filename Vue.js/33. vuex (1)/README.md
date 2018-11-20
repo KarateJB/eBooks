@@ -1,6 +1,6 @@
 # vuex (1)
 
-> Vue.js官方的狀態管理套件
+> Vue.js官方的狀態管理套件，本篇利用簡單範例來介紹入門用法
 
 ## Github
 
@@ -23,7 +23,17 @@ Vue.use(Vuex);
 
 ## 開始第一個vuex範例
 
-我們開始撰寫一個簡單的範例，利用vuex來對一個數量變數(`count`)做狀態管理，包含：
+再往下之前，我們先透過底下官網提供的vuex概念圖(Pattern)來理解各角色的職責：
+
+* State
+* Actions
+* Mutations
+
+![](https://vuex.vuejs.org/vuex.png)
+來源：[Vuex - What is Vuex?](https://vuex.vuejs.org/#what-is-vuex)
+
+我們開始撰寫一個簡單的範例，利用vuex來對一個數量變數(`count`)先忽略Actions而直接透過Mutations做狀態管理，
+包含：
 * Increment 數量加一 
 * Decrement 數量減一
 * Reset 數量歸零
