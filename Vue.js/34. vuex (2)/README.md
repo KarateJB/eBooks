@@ -59,7 +59,7 @@ var app = new Vue({
     ...mapMutations({
       add: "increment", // Map `this.add()` to `this.$store.commit('increment')`
       minus: "decrement", // Map `this.add()` to `this.$store.commit('decrement')`
-      clear: "reset" // Map `this.add()` to `this.$store.commit('decrement')`
+      clear: "reset" // Map `this.add()` to `this.$store.commit('reset')`
     })
   },
 })
@@ -80,7 +80,7 @@ methods: {
     ...mapMutations({
       "increment", // Map `this.increment()` to `this.$store.commit('increment')`
       "decrement", // Map `this.decrement()` to `this.$store.commit('decrement')`
-      "reset" // Map `this.reset()` to `this.$store.commit('decrement')`
+      "reset" // Map `this.reset()` to `this.$store.commit('reset')`
     })
 }
 ```
@@ -148,6 +148,49 @@ this.$store.dispatch('increment',10); //10 is the payload
 this.$store.dispatch('decrement');
 ```
 
+
+### When Payload is object
+
+若Payload為物件，例如`myPayload={amt:10}`，則可以使用下列任一寫法：
+
+```javascript
+//1.
+store.dispatch('increment', myPayload)
+//2.
+store.dispatch('increment', {amt:10})
+//3.
+store.dispatch({
+    type: "increment",
+    amt: 10
+});
+```
+
+
+## Use mapActions to dispatch actions
+
+
+我們亦可在[注入vuex store到所有子元件](https://github.com/KarateJB/eBooks/tree/master/Vue.js/33.%20vuex%20(1)#%E6%B3%A8%E5%85%A5vuex-store%E5%88%B0%E6%89%80%E6%9C%89%E5%AD%90%E5%85%83%E4%BB%B6)後，使用[mapActions](https://vuex.vuejs.org/guide/actions.html#dispatching-actions-in-components)來對應自訂的方法名稱至Actions:
+
+```javascript
+import { mapActions } from "vuex";
+
+var app = new Vue({
+  el: '#app',
+  methods: {
+    ...mapActions({
+      add: "increment", // Map `this.add()` to `this.$store.dispatch('increment')`
+      minus: "decrement", // Map `this.add()` to `this.$store.dispatch('decrement')`
+      clear: "reset" // Map `this.add()` to `this.$store.dispatch('reset')`
+    })
+  },
+})
+```
+
+如此可直接使用自訂方法Dispatch Actions:
+```javascript
+this.add(10) //10 is Payload
+this.minus()
+```
 
 
 
