@@ -85,6 +85,70 @@ methods: {
 }
 ```
 
+## Actions
+
+[Actions](https://vuex.vuejs.org/guide/actions.html)用於Commit Mutations，可為asynchronous(非同步)操作。
+
+### Get started
+
+#### vuex store (myStore.js)
+
+```javascript
+import Vue from 'vue';
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+
+export const INCREMENT = 'increment';
+export const DECREMENT = 'decrement';
+export const RESET = 'reset';
+
+export const store = new Vuex.Store({
+    state: {
+      count: 0
+    },
+    mutations: {
+      increment (state, payload) {
+        if(payload) state.count += payload;
+        else state.count++;
+      },
+      decrement(state){
+          if(state.count > 0)
+            state.count--;
+      },
+      reset(state){
+          state.count= 0;
+      }
+    },
+    actions: {
+      increment (context, payload) {
+        context.commit('increment', payload);
+      },
+      decrement(context){
+        context.commit('decrement');
+      },
+      reset(context){
+        context.commit('reset');
+      }
+    }
+})
+```
+
+#### Usage
+
+可以在Component透過import singleton store或注入的store來disptach Actions； 
+
+```javascript
+//import singleton store
+store.dispatch('increment',10); //10 is the payload
+store.dispatch('decrement');
+
+//Injected store
+this.$store.dispatch('increment',10); //10 is the payload
+this.$store.dispatch('decrement');
+```
+
+
 
 
 

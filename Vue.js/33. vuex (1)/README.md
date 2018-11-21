@@ -26,8 +26,8 @@ Vue.use(Vuex);
 再往下之前，我們先透過底下官網提供的vuex概念圖(Pattern)來理解各角色的職責：
 
 * State
-* Actions
 * Mutations : 必須是Synchronous(同步)，以避免狀態無法被追蹤
+* Actions : 用於Commit Mutations，可為asynchronous(非同步)操作 
 
 ![](https://vuex.vuejs.org/vuex.png)
 來源：[Vuex - What is Vuex?](https://vuex.vuejs.org/#what-is-vuex)
