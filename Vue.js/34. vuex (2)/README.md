@@ -91,7 +91,7 @@ methods: {
 
 ### Get started
 
-#### vuex store (myStore.js)
+#### vuex store
 
 ```javascript
 import Vue from 'vue';
@@ -164,6 +164,60 @@ store.dispatch({
     amt: 10
 });
 ```
+
+### Asynchronous Actions
+
+#### 使用promise
+
+```javascript
+actions: {
+      increment (context, payload) {
+
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            context.commit('increment', payload);
+            resolve();
+          }, 3000)
+        })
+      },
+      //...
+}
+```
+
+
+#### 使用async/await
+
+
+```javascript
+actions: {
+  async increment (context) {
+    context.commit('increment', await getPayload());
+  }
+  //...
+}
+```
+
+其中我們假設`getPayload`回傳promise如下範例：
+
+```javascript
+//Assume that getPayload() return promise as following
+const getPayload = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(10);
+    }, 3000)
+  })
+}
+```
+
+#### Dispatch async Actions
+
+```javascript
+store.dispatch("increment", amt).then(function(){
+  alert("Async increment is done!");
+});
+```
+
 
 
 ## Use mapActions to dispatch actions
