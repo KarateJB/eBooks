@@ -27,7 +27,7 @@ Vue.use(Vuex);
 
 * State
 * Actions
-* Mutations
+* Mutations : 必須是Synchronous(同步)，以避免狀態無法被追蹤
 
 ![](https://vuex.vuejs.org/vuex.png)
 來源：[Vuex - What is Vuex?](https://vuex.vuejs.org/#what-is-vuex)
