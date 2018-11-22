@@ -247,5 +247,94 @@ this.minus()
 ```
 
 
+## Getters
 
+雖然我們可以在Component裡面針對Vuex的狀態(State)利用Computed property來做進一步的取值或其他篩選動作，但缺點是如果是其他Component也需要用到的話就無法共用。 這時候就可以在Vuex instance裡面建立[Getters](https://vuex.vuejs.org/guide/getters.html)，把共用的Computed property邏輯放在Getters已讓所有Components共用。
+
+
+#### Vuex store
+
+範例程式碼：
+
+```javascript
+class ShopCart {
+    constructor() {
+        this.items = [];
+        this.totalCnt = 0; //Total count for all items in shopcart
+        this.totalPrice = 0; //Total pricing for all items in shopcart
+    }
+}
+
+const store = new Vuex.Store({
+  state: new ShopCart(),
+  mutations: {
+    //...skip
+  },
+  getters: {
+    totalCnt(state) {
+      return state.totalCnt;
+    },
+    totalPrice(state) {
+      return state.totalPrice;
+    },
+    item: (state) => (id) => {
+      return state.items.find(x => x.id === id);
+    }
+    //The above code equals to 
+    // item(state) {
+    //   return (id) => {
+    //     return state.items.find(x => x.id === id);
+    //   }
+    // }
+  }
+})
+```
+
+注意'item'這個Getter指定需要傳入了參數：`id`。
+當建立好Getters後，我們即可在Components使用：
+
+```javascript
+let total = {
+  cnt: store.getters.totalCnt,
+  price: store.getters.totalPrice
+};
+
+let item = store.getters.item(this.targetId);
+```
+
+
+### mapGetters
+
+另外我們也可以使用透過[mapGetters](https://vuex.vuejs.org/guide/getters.html#the-mapgetters-helper)，以[object rest/spread operator](https://tc39.github.io/proposal-object-rest-spread/)宣告在Computed properties:
+
+```javascript
+computed: {
+    // Other computed props    
+    ...mapGetters({
+      totalCnt: "totalCnt",
+      totalPrice: "totalPrice",
+      targetItem: "item"
+    })
+  }
+```
+
+即可在以一般的Computed prop方式取值，
+
+```javascript
+console.info(this.totalCnt);
+console.info(this.totalPrice);
+let item = this.targetItem(this.targetId));
+```
+
+
+也可使用預設的Getters名稱：
+
+```javascript
+computed: {
+    // Other computed props    
+    ...mapGetters([
+      "totalCnt","totalPrice","item"
+    ])
+  }
+```
 
