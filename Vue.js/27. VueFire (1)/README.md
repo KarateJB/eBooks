@@ -73,8 +73,6 @@ $ npm install vuefire
 ```javascript
 import VueFire from 'vuefire'
 
-/* firebase */
-import firebaseConfig from './modules/firebase.config.prod'
 // import * as firebase from 'firebase' //Dev mode
 import firebase from 'firebase/app'
 import 'firebase/auth'

@@ -23,7 +23,7 @@ Vue.use(Vuex);
 
 ## 開始第一個vuex範例
 
-再往下之前，我們先透過底下官網提供的vuex概念圖(Pattern)來理解各角色的職責：
+在往下之前，我們先透過底下官網提供的vuex概念圖(Pattern)來理解各角色的職責：
 
 * State
 * Mutations : 必須是Synchronous(同步)，以避免狀態無法被追蹤
@@ -83,7 +83,7 @@ store.commit(DECREMENT);
 store.commit(RESET);
 ```
 
-底下透過[vue-devtools](https://github.com/vuejs/vue-devtools)觀察vuex store的變化；
+底下透過[vue-devtools](https://github.com/vuejs/vue-devtools)觀察在vuex store的狀態變化；
 
 
 ![](assets/demo1.gif)
