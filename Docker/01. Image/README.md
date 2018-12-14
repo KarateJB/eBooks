@@ -45,6 +45,7 @@ ex.
 ```
 $ docker inspect -f {{".Architecture"}} ubuntu:14.04
 $ docker inspect -f {{".ContainerConfig.Hostname"}} ubuntu:14.04
+$ docker inspect -f '{{ .Created }}' ubuntu:14.04
 ```
 
 

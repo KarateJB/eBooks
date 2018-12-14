@@ -17,10 +17,15 @@ $ docker run --restart=always -d -p 5000:5000 [--name my-registry] registry[:tag
 
 See what ip docker use
 ```
-$ echo $(docker-machine ip default)
+$ docker-machine ip <Docker host's server name>
 ```
 
-Output (for example): `192.123.45.678`
+For example, `docker-machine ip default`,
+or list all by 
+
+```
+docker-machine ls
+```
 
 
 ### Insecure registry setting
