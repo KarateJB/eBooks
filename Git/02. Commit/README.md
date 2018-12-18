@@ -19,12 +19,23 @@ $ git add .
 $ git rm xxx.file
 ```
   
-  Which equals to 
+Which equals to 
 
 ```
 $ del xxx.file
 $ git add xxx.file
 ```
+
+## Remove the file and untrack it 
+
+
+Stage a file for removal, but it won't be removed from the working dir. The file will be shown as **untracked**.
+
+```
+$ git rm --cached xxx.file
+```
+  
+
 
 ## Rename the file and track it
 
