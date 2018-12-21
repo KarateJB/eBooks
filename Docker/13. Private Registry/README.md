@@ -112,7 +112,8 @@ Current working directries is as following,
 
 
 - Dockerfile
-```
+
+```Dockerfile
 FROM ubuntu:16.04
 
 RUN apt-get update
@@ -342,7 +343,7 @@ $ touch docker-registry.conf
 > Reference: [convox/registry/nginx.conf](https://github.com/convox/registry/blob/master/nginx.conf)
 
 
-```
+```Nginx
 # Internal docker registry port
 upstream docker-registry {
   server jb.com:443;
@@ -392,7 +393,8 @@ $ service nginx restart
 We can update the previous Dockerfile as following to make a Docker Client with Nginx:
 
 - Dockerfile
-```
+
+```Dockerfile
 FROM ubuntu:16.04
 
 RUN apt-get update
@@ -523,7 +525,7 @@ $ curl -u nginxuser:nginxpwd https://jb.com:15000/v2/_catalog
 
 Here is an docker compose sample file for creating Private Registry with Native basic authentication,
 
-```
+```Dockerfile
 registry:
   restart: always
   image: registry:2.6.2
