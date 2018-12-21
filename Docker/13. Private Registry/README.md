@@ -210,7 +210,7 @@ And the image is shown in local host's mapping data volume direcory: `/registry/
 
 ## Add Native basic auth
 
-Now we are going to add [Native basic auth]() on the Private Registry to enable access restriction by username/password.
+Now we are going to add [Native basic auth](https://docs.docker.com/registry/deploying/#restricting-access) on the Private Registry to enable access restriction by username/password.
 
 
 ### Create password file 
@@ -312,6 +312,9 @@ For example,
 $ curl -u <username>:<password> https://jb.com:443/v2/_catalog
 {"repositories":["redis","ubuntu"]}
 ```
+
+> To enable search engine, see [Search-engine options](https://github.com/docker/docker-registry#search-engine-options)
+
 
 
 ## Nginx proxy
@@ -515,25 +518,36 @@ $ curl -u nginxuser:nginxpwd https://jb.com:15000/v2/_catalog
 ```
 
 
-### Compose file
+
+## Appendix: Compose file
+
+Here is an docker compose sample file for creating Private Registry with Native basic authentication,
 
 ```
 registry:
   restart: always
   image: registry:2.6.2
+  container_name: <Your_container_name>
   ports:
     - 443:443
   environment:
-    REGISTRY_HTTP_ADDR=0.0.0.0:443
-    REGISTRY_HTTP_TLS_CERTIFICATE=/var/lib/registry/certs/jb.crt
-    REGISTRY_HTTP_TLS_KEY=/var/lib/registry/certs/jb.key
-    REGISTRY_AUTH_HTPASSWD_PATH=/auth/docker-registry-htpasswd
-    REGISTRY_AUTH_HTPASSWD_REALM=basic
+    REGISTRY_HTTP_ADDR: 0.0.0.0:443
+    REGISTRY_HTTP_TLS_CERTIFICATE: /var/lib/registry/certs/<domain>.crt
+    REGISTRY_HTTP_TLS_KEY: /var/lib/registry/certs/<domain>.key
+    REGISTRY_AUTH_HTPASSWD_PATH: /auth/docker-registry-htpasswd
+    REGISTRY_AUTH_HTPASSWD_PATH: /var/lib/registry/auth/htpasswd 
+    REGISTRY_AUTH_HTPASSWD_REALM: "Registry Realm"
+    REGISTRY_AUTH: htpasswd
   volumes:
     - /registry:/var/lib/registry
     - /registry/certs:/var/lib/registry/certs
-    - /registry/auth:/var/lib/registry/auth                
+    - /registry/auth:/var/lib/registry/auth 
+```
 
+Use the following command to start the container:
+
+```
+$ docker-compose up -d
 ```
 
  
