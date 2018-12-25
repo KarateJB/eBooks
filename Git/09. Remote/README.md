@@ -5,7 +5,7 @@
 $ git remote add origin https://github.com/KarateJB/Test.git
 ```
 
--- Clone
+- Clone
 ```
 git clone 
 ```
@@ -24,7 +24,15 @@ $ git push -u origin {brach_name_for_remote}
 1. `git fetch`
 2. `git merger`
 
-## pull by rebase (Which will not create a new commit for merging)
+
+## Pull remote branch
+
+```
+$ git checkout --track origin/<branch>
+$ git pull
+```
+
+## Pull by rebase (Which will not create a new commit for merging)
 
 ```
 $ git pull --rebase
