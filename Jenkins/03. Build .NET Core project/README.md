@@ -30,6 +30,7 @@ Then in your can add it as a Post-build action in a FreeStyle Project.
 ![](assets/003.png)
 
 
+Or use it in the Jenkinsfile.
 
 
 ## Install .NET Core SDK on build server
@@ -138,8 +139,10 @@ def notifyBuild(String buildStatus, String commitId) {
 The build messages are as following,
 
 (Failed on Unit test)
+
 ![](assets/004.png)
 
 (Success)
+
 ![](assets/005.png)
 
