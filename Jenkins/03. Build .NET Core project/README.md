@@ -4,8 +4,11 @@
 
 We will need these plugins in this go thru:
 
-1. [MSTest](https://plugins.jenkins.io/mstest)
-2. [Slack Notification](https://plugins.jenkins.io/slack)
+1. [Script Security Plugin](https://wiki.jenkins.io/display/JENKINS/Script+Security+Plugin)
+2. [MSTest](https://plugins.jenkins.io/mstest)
+3. [Slack Notification](https://plugins.jenkins.io/slack)
+4. [Publish over CIFS](https://plugins.jenkins.io/publish-over-cifs)
+5. [Workspace Cleanup Plugin](http://wiki.jenkins-ci.org/display/JENKINS/Workspace+Cleanup+Plugin)
 
 > This MSTest plugin converts MSTest TRX test reports into JUnit XML reports so it can be integrated with Jenkin's JUnit features, such as visualized **Test Result**.
 
@@ -33,6 +36,7 @@ Then in your can add it as a Post-build action in a FreeStyle Project.
 Or use it in the Jenkinsfile.
 
 
+
 ## Install .NET Core SDK on build server
 
 > [.NET Core download page](https://dotnet.microsoft.com/download)
@@ -58,6 +62,15 @@ $ sudo apt-get update
 $ sudo apt-get install dotnet-sdk-2.2
 ```
 
+
+
+
+## (Optional)Publish over CIFS
+
+To copy the publish artifacts to remote Windows Server, 
+Go to **[Manage Jenkins]**->**[Configure System]** and find the **Publish over CIFS** section, complete the share folder's information.
+
+![](assets/006.png)
 
 ## Jenkins file
 
