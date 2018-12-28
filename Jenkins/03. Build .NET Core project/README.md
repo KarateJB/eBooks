@@ -33,7 +33,7 @@ Then in your can add it as a Post-build action in a FreeStyle Project.
 ![](assets/003.png)
 
 
-Or use it in the Jenkinsfile.
+Or use it in the Jenkinsfile as the later sample.
 
 
 
@@ -64,89 +64,24 @@ $ sudo apt-get install dotnet-sdk-2.2
 
 
 
-
 ## (Optional)Publish over CIFS
 
-To copy the publish artifacts to remote Windows Server, 
-Go to **[Manage Jenkins]**->**[Configure System]** and find the **Publish over CIFS** section, complete the share folder's information.
+To copy the publish artifacts to remote Windows Server's share folder, 
+go to **[Manage Jenkins]**->**[Configure System]** and find the **Publish over CIFS** section, complete the share folder's information.
 
 ![](assets/006.png)
 
-## Jenkins file
 
-```
-pipeline {
-    agent {
-        label 'master'
-    }
-    triggers {
-        pollSCM 'H/1 * * * *'
-    }
-    environment {
-		BASE_DIR = 'Src'
-	}
-    stages {
-        stage('Build') {
-            steps {
-                sh """
-                   echo "BASE_DIR=${env.BASE_DIR}"
-                   cd ${env.BASE_DIR}
-                   dotnet build
-                   """
-            }
-            post {
-				always {
-					script {
-                        buildStatus = currentBuild.currentResult
-                        commitId = sh(returnStdout: true, script: 'git rev-parse --short HEAD')
-                        notifyBuild(buildStatus, commitId)
-					}
-				}
-			}
-        }
-        stage('UnitTest') {
-			steps {
-                sh  """
-                    cd ${env.BASE_DIR}/Welfare.Test
-				    dotnet test -r Results --logger "trx;LogFileName=report.trx"
-                    """
-				step([$class: 'MSTestPublisher', testResultsFile:"${env.BASE_DIR}/Welfare.Test/Results/*.trx", failOnError: true, keepLongStdio: true])
-			}
-            post {
-				always {
-					script {
-                        buildStatus = currentBuild.currentResult
-                        commitId = sh(returnStdout: true, script: 'git rev-parse --short HEAD')
-                        notifyBuild(buildStatus, commitId)
-					}
-				}
-			}
-		}
-    }
-}
 
-def notifyBuild(String buildStatus, String commitId) {
-  // build status of null means successful
-  buildStatus = buildStatus ?: 'SUCCESS'
 
-  // Default values
-  def colorCode = '#FF0000'
-  def msg = "${buildStatus} on #${env.BUILD_NUMBER} - ${STAGE_NAME} \n[${env.JOB_NAME}] - ${commitId} \n${env.BUILD_URL}"
+## Jenkins file sample
 
-  if (buildStatus == 'SUCCESS') {
-    colorCode = '#00FF00'
-  }
-  else if(buildStatus == 'ABORTED') {
-    colorCode = '#FF0000'
-  }
-   else {
-    colorCode = '#FF0000'
-  }
+[KarateJB/Jenkinsfiles/.NET Core](https://github.com/KarateJB/Jenkinsfiles/blob/master/.NET%20Core/Jenkinsfile)
 
-  // Send notifications
-  slackSend (color: colorCode, message: msg)
-}
-```
+
+Build results:
+
+![](assets/008.png)
 
 
 The build messages are as following,
@@ -158,4 +93,9 @@ The build messages are as following,
 (Success)
 
 ![](assets/005.png)
+
+
+And if you enable **Publish over CIFS**, the artifacts will be on the share folder like below,
+
+![](assets/007.png)
 
