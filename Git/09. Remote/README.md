@@ -27,9 +27,29 @@ $ git push -u origin {brach_name_for_remote}
 
 ## Pull remote branch
 
+
+First do a sync from remote to local,
+
 ```
-$ git checkout --track origin/<branch>
-$ git pull
+$ git fetch origin
+```
+
+List all remote branches,
+
+```
+$ git branch -r
+```
+
+Then CHECKOUT the remote branch and sync to local,
+
+```
+$ git checkout -b <my_branch> origin/<my_branch>
+```
+
+or in git1.6.2+, use `--track` to simplify the above commands,
+
+```
+$ git checkout --track origin/<my_branch>
 ```
 
 ## Pull by rebase (Which will not create a new commit for merging)
