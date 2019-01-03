@@ -39,6 +39,8 @@ Add `KarateJB/GitPracticeSub` as sub-module into `KarateJB/GitPractice`.
 Modify and create PR at `KarateJB/GitPracticeSub`.
 
 
+> Notice that PUSHing the updates of sub-module in `KarateJB/GitPractice` will push to `KarateJB/GitPracticeSub`
+
 ## Clone a repository with Submodule
 
 ```
@@ -83,6 +85,16 @@ $ git commit -m "Removed submodule"
 ```
 $ rm -rf <path_to_submodule>
 ```
+
+
+## Update the Submodule's remote repository
+
+The steps for updating the remote repository of sub-module:
+1. Update the url in `.gitmodules`
+2. Synchronizes submodules' remote URL configuration setting to the value specified in `.gitmodules` by 
+   ```
+   $ git submodule sync
+   ```
 
 
 ### Reference
