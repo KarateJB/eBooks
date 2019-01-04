@@ -59,6 +59,44 @@ $ git pull --rebase
 ```
 
 
+# Prune/Cleanup the local references to remote branch
+
+### To see what references will be removed
+
+```
+$ git remote prune origin --dry-run
+ * [would prune] origin/no_use_branch1
+ * [would prune] origin/no_use_branch2
+```
+
+> `--dry-on`: Do not remove anything; just report what will be removed.
+
+
+### Do the real removing
+
+```bash
+$ git remote prune origin
+ * [pruned] origin/no_use_branch1
+ * [pruned] origin/no_use_branch2
+```
+
+We can also do the same thing in fetching,
+
+```
+$ git fetch --prune
+- [deleted]         (none)     -> origin/no_user_branch1
+- [deleted]         (none)     -> origin/no_user_branch2
+```
+
+
+### (Optional) Remove the local useless branches
+
+```bash
+$ git branch -d no_use_branch1
+```
+
+
+
 # Syncing a fork
 
 ```
