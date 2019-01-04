@@ -12,10 +12,17 @@ git clone
 
 # Push
 
-- Push with setting remote upstream branch
+- Push with setting remote upstream branch (To track)
 ```
 $ git push -u origin {brach_name_for_remote}
 ```
+
+which equals to 
+
+```
+$ git push --set-upstream origin {brach_name_for_remote}
+```
+
 
 
 # Pull
