@@ -3,13 +3,13 @@
 
 ## Create a Redis container
 
-```
+```bash
 $ docker run --name my-redis -d redis
 ```
 
 Now we can add a key-value into Redis.
 
-```
+```bash
 $ docker exec -it my-redis bash
 
 root@bbdd2299f1e0:/data# redis-cli
@@ -19,6 +19,14 @@ root@bbdd2299f1e0:/data# redis-cli
 OK
 127.0.0.1:6379> mget myname
 "jb.lin"
+```
+
+## Dockerfile with custom redis.conf
+
+```dockerfile
+FROM redis:<tag>
+COPY ./redis.conf /usr/local/etc/redis/redis.conf
+CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
 ```
 
 
@@ -50,4 +58,7 @@ cachedb:6379>
 ```
 
 
+## Reference
+
+- [Redis Persistence](https://redis.io/topics/persistence)
 
