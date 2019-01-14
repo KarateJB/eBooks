@@ -32,6 +32,15 @@ ex.
 $ docker run -d --name my-dev -v /jb/volume:/app:ro nginx:latest
 ```
 
+
+### List volumes in the container
+
+```bash
+$ docker inspect -f '{{ .Mounts }}' <container_name>
+```
+
+
+
 ## Create a sharing data volumn between containers
 
 1. Create a sharing data-volume container

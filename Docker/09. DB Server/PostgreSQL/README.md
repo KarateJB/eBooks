@@ -52,7 +52,7 @@ $ docker pull dpage/pgadmin4:<tag>
 $ docker -d run -p <port>:80 --name <container_name> \
         -e "PGADMIN_DEFAULT_EMAIL=<your_email_address>" \
         -e "PGADMIN_DEFAULT_PASSWORD=<your_password>" \
-        -d dpage/pgadmin4
+        -d dpage/pgadmin4:<tag>
 ```
 
 Environment variables ([Reference](https://hub.docker.com/r/dpage/pgadmin4/)):
@@ -93,10 +93,10 @@ docker run -p 443:443 \
         -v "/path/to/certificate.cert:/certs/server.cert" \
         -v "/path/to/certificate.key:/certs/server.key" \
         -v "/tmp/servers.json:/servers.json" \
-        -e "PGADMIN_DEFAULT_EMAIL=user@domain.com" \
-        -e "PGADMIN_DEFAULT_PASSWORD=SuperSecret" \
+        -e "PGADMIN_DEFAULT_EMAIL=xxx@domain.com" \
+        -e "PGADMIN_DEFAULT_PASSWORD=xxxxxxx" \
         -e "PGADMIN_ENABLE_TLS=True" \
-        -d dpage/pgadmin4
+        -d dpage/pgadmin4:4
 ```
 
 
