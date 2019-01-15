@@ -103,6 +103,11 @@ docker run -p 443:443 \
 ![](assets/001.png)
 
 
+### Docker compose
+
+![](https://github.com/KarateJB/Dockerfiles/blob/master/PostgreSQL/docker-compose.yml)
+
+
 
 
 
