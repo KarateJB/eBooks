@@ -35,8 +35,20 @@ $ docker run -d --name=demo-sqlserver
 ```
 
 
+
+To set the volume,
+
 ```
-$ docker run -d --name tis-sqlserver  -p 1433:1433  -v /mssql:/var/opt/mssql -v /mssql/log:/var/opt/mssql/log -v /var/opt/mssql/data -e ACCEPT_EULA=Y -e SA_PASSWORD=1qaz2wsx! -e MSSQL_PID=Express microsoft/mssql-server-linux:2017-CU12
+$ docker volume create demo_sqlserver --driver local
+$ docker run -d --name demo-sqlserver \
+             -p 1433:1433 \
+            -v /mssql:/var/opt/mssql \
+            -v /mssql/log:/var/opt/mssql/log \
+            -v demo_sqlserver:/var/opt/mssql/data \ 
+            -e ACCEPT_EULA=Y \
+            -e SA_PASSWORD=1qaz@WSX \ 
+            -e MSSQL_PID=Express \
+            microsoft/mssql-server-linux:2017-CU12
 ```
 
 
