@@ -105,7 +105,7 @@ docker run -p 443:443 \
 
 ### Docker compose
 
-![](https://github.com/KarateJB/Dockerfiles/blob/master/PostgreSQL/docker-compose.yml)
+![docker-compose.yml](https://github.com/KarateJB/Dockerfiles/blob/master/PostgreSQL/docker-compose.yml)
 
 
 
