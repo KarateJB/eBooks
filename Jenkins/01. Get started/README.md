@@ -8,8 +8,7 @@ $ mkdir jenkins_home
 ```
 
 > You need to ensure that the directory `<path>/jenkins` is own by UID 1000.
-> The UID is defined in the [dockerfile]
-(https://github.com/jenkinsci/docker/blob/master/Dockerfile)
+> The UID is defined in the [dockerfile](https://github.com/jenkinsci/docker/blob/master/Dockerfile)
 > Reference: [谈谈 Docker Volume 之权限管理（一）](https://yq.aliyun.com/articles/53990)
 
 
