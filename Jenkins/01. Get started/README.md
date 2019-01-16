@@ -25,6 +25,13 @@ touch: cannot touch '/var/jenkins_home/copy_reference_file.log': Permission deni
 Can not write to /var/jenkins_home/copy_reference_file.log. Wrong volume permissions?
 ```
 
+
+For the Docker-for-Windows users, this is the successful work around:
+
+```
+$ docker run -u 0 -d -v /jenkins_home:/var/jenkins_home -p 8080:8080 -p 50000:50000 --name jb-jenkins jenkins/jenkins:lts-slim
+```
+
 ## Unlock Jenkins
 
 To unlock Jenkins, get the following password and paste it to Jenkins (http://localhost:8080)
