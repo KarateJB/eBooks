@@ -88,8 +88,7 @@ $ docker port demo-pgadmin
 Enable TLS connection:
 
 ```
-docker run -p 443:443 \
-        
+docker run -p 443:443 \   
         -v "/path/to/certificate.cert:/certs/server.cert" \
         -v "/path/to/certificate.key:/certs/server.key" \
         -v "/tmp/servers.json:/servers.json" \

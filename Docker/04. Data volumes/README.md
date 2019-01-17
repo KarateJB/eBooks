@@ -1,9 +1,63 @@
 # Data volumes
 ---
 
-> There are `--mount` and `--volume (-v)` flags can be used in standalone containers since Docker 17.06 , check the [document](https://docs.docker.com/storage/volumes) for details.
+
+## Create Docker Volume
+
+```
+$ docker volume create <volume_name> [Options]
+```
+
+> Referenc: [docker volume create](https://docs.docker.com/engine/reference/commandline/volume_create/)
+
+
+
+In [docker compose file](https://docs.docker.com/compose/compose-file/#volume-configuration-reference), 
+
+```
+volumes:
+    <your-volume-name>:
+```
+
+Notice that the volume name will be with prefix of the directory name. 
+
+For example, 
+
+- my-project
+  |- docker-compose.yml
+
+So the volume name will be `my-project_your-volume-name`
+
+
+## Remove volume
+
+```
+$ docker volume rm [-f] <volume-name>
+```
+
+
+#### Remove dangling volumes
+
+```
+$ docker volume ls -qf dangling=true | xargs -r docker volume rm
+```
+
+
+
+## List volumes in the container
+
+```bash
+$ docker inspect -f '{{ .Mounts }}' <container_name>
+```
+
+
+
 
 ## Mount a container's data volume
+
+
+> There are `--mount` and `--volume (-v)` flags can be used in standalone containers since Docker 17.06 , check the [document](https://docs.docker.com/storage/volumes) for details.
+
 
 ````
 $ docker run -d --name xxx -v </directory path> <image>[:tag]
@@ -30,13 +84,6 @@ $ docker run -d --name xxx -v <local directory path>:</container directory path>
 ex.
 ```
 $ docker run -d --name my-dev -v /jb/volume:/app:ro nginx:latest
-```
-
-
-### List volumes in the container
-
-```bash
-$ docker inspect -f '{{ .Mounts }}' <container_name>
 ```
 
 

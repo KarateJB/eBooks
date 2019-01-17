@@ -100,6 +100,21 @@ $ docker rmi {image name}[:tag] [-f]
 > And delete the container of the image first by `docker rm <container id>`
 
 
+#### Remove dangling images
+
+```
+$ docker images -f dangling=true
+$ docker rmi $(docker images -f dangling=true -q)
+```
+
+
+#### Remove both unused and dangling images
+
+```
+$ docker system prune -a
+```
+
+
 
 
 ## Create image
