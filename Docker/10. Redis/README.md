@@ -30,6 +30,13 @@ CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
 ```
 
 
+
+> We can set extra IPs for Redis service in *.conf like thism,
+>
+> `bind 127.0.0.1 192.xxx.xxx.xx`
+>
+
+
 ## Connect to it
 
 
