@@ -9,13 +9,13 @@ $ git checkout xxx.file
 ## Reset to relative commit (^: previous commit)
 
 ```
-$ git reset {sha1-code}^
+$ git reset <sha1-code>^
 ``` 
 
 or
 
 ```
-$ git reset {sha1-code}~1
+$ git reset <sha1-code>~1
 ```
 
 > *Git reset modes*

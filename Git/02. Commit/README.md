@@ -73,7 +73,7 @@ $ git commit --amend --no-edit
 
 ## Update the commit history
 ```
-$ git rebase -i {begin_sha-1_code}
+$ git rebase -i <begin_sha-1_code>
 ```
 
   which will open the default git editor

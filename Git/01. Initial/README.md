@@ -20,8 +20,8 @@ $ git config --local -e
 ### Config user name and email
 
 ```
-$ git config --local user.name {your_name}
-$ git config --local user.email {your_email}
+$ git config --local user.name <your_name>
+$ git config --local user.email <your_email>
 ```
 
 ### Use VSCODE for default git editor
