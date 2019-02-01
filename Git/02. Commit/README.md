@@ -63,6 +63,12 @@ $ git rm xxx.file --cached
 $ git commit --amend -m "Refine message"
 ```
 
+if you don't want to change the original message,
+
+```
+$ git commit --amend -m --no-edit
+```
+
 
 ## Add tracked file to the last commit
 
