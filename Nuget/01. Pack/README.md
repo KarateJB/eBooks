@@ -1,5 +1,5 @@
 # Create Nuget Spec file
---
+
 
 ## Decide what will be packed 
 
@@ -9,7 +9,7 @@ Follow the suggestions from [Microsoft Document](https://docs.microsoft.com/en-u
 2. For those independent libraries, pack them to separate Nuget Packages
 
 
-## Creare .nuspec file
+## Create .nuspec file
 
 Go the the root path of target project,  
 
@@ -51,24 +51,43 @@ We can update the right information on the .nuspec file or
 
 ### Replacement tokens
 
-The supported Replacement tokens are as follwoing,
+
+#### dotnet framework
+
+The supported Replacement tokens are as following,
 
 | Token | Value source | Value |
 |:------|:------------:|:------|
 | $id$ | Project file | AssemblyName (title) from the project file |
 | $version$ | AssemblyInfo	| AssemblyInformationalVersion if defined, otherwise AssemblyVersion |
-| $authors$ | AssemblyInfo | AssemblyCompany |
+| $author$ | AssemblyInfo | AssemblyCompany |
 | $title$ | AssemblyInfo | AssemblyTitle |
 | $description$ | AssemblyInfo | AssemblyDescription |
 | $copyright$ | AssemblyInfo | AssemblyCopyright |
 
-
-In dotnet core project, we can write/find the above informations in .csporj file or in Visual Studio **[Project properties]**->**[Package]** as following,  
+We can set the AssemblyInfo in Visual Studio,
 
 ![](assets/001.png)
 
 
-This is an example for using [Replacement tokens](https://docs.microsoft.com/en-us/nuget/reference/nuspec#replacement-tokens) in .nuspec file,
+#### dotnet core
+
+Same as the ones of dotnet framework except `$authors$`
+
+| Token | Value source | Value |
+|:------|:------------:|:------|
+| $authors$ | AssemblyInfo | AssemblyCompany |
+
+
+
+In dotnet core project, we can write/find the above informations in project file or in Visual Studio **[Project properties]**->**[Package]** as following,  
+
+![](assets/002.png)
+
+
+---
+
+This is an example for using [Replacement tokens](https://docs.microsoft.com/en-us/nuget/reference/nuspec#replacement-tokens) in .nuspec file for dotnet core class library project,
 
 ```xml
 <?xml version="1.0"?>
@@ -151,6 +170,6 @@ $ nuget pack JB.Infra.Util.csproj -Properties Configuration=Release -Version 0.0
 
 Result:
 
-![](assets/002.png)
+![](assets/003.png)
 
 
