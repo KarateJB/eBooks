@@ -173,3 +173,112 @@ Result:
 ![](assets/003.png)
 
 
+
+## Set Dependencies information
+
+```xml
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <!-- skip -->
+    <dependencies>
+      <dependency id="Microsoft.Extensions.Caching.Memory" version="2.2.0" />
+      <dependency id="Newtonsoft.Json" version="11.0.2" />
+    </dependencies>
+  </metadata>
+</package>
+```
+
+
+## Including License file
+
+As mentioned above, we can use the file type as `<license type="file">` in .nuspec file.
+But we have to define the file in the file list like following.
+
+```xml
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <!-- skip -->
+    <license type="file">LICENSE.txt</license>
+  </metadata>
+  <files>
+    <file src="LICENSE.txt" target="" />
+  </files>
+</package>
+```
+
+Which will results in the following information on Nuget package,
+
+![](assets/004.png)
+
+
+## Including assembly files
+
+Specify the file list in **.nuspec** to include other `.dll`/`.pdb`/... files into the package.
+
+```xml
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <!-- skip -->
+  </metadata>
+  <files>
+    <file src="LICENSE.txt" target="" />
+    <file src="..\JB.Infra.Util.EF\bin\$configuration$\netstandard2.0\JB.Infra.Util.EF.dll" target="lib\netstandard2.0\JB.Infra.Util.EF.dll" />
+    <file src="..\JB.Infra.Util.EF\bin\$configuration$\netstandard2.0\JB.Infra.Util.EF.xml" target="lib\netstandard2.0\JB.Infra.Util.EF.xml" />
+    <file src="..\JB.Infra.Util.Logging\bin\$configuration$\netstandard2.0\JB.Infra.Util.Logging.dll" target="lib\netstandard2.0\JB.Infra.Util.Logging.dll" />
+    <file src="..\JB.Infra.Util.Logging\bin\$configuration$\netstandard2.0\JB.Infra.Util.Logging.xml" target="lib\netstandard2.0\JB.Infra.Util.Logging.xml" />
+  </files>
+</package>
+
+```
+
+## Including content files
+
+Sometimes we would like a content file to be installed into the project which has installed our Nuget package.
+For example, a `NLog.config` shall be installed as a content file when the Logging package is installed.
+
+Specify the key target path: `contentFiles\any\any\<ContentFile>` like following, (DO NOT remove or modify `contentFiles\any\any\`!)
+
+```xml
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <!-- skip -->
+  </metadata>
+  <files>
+    <file src="..\JB.Infra.Util.Logging\NLog.config" target="contentFiles\any\any\NLog.config"/>
+  </files>
+</package>
+```
+
+and the content file will be placed under the root directory of project:
+
+![](assets/005.png)
+
+
+
+
+---
+
+```
+dotnet list package --source MyNugetServer
+dotnet add package JB.Infra.Util --version 0.0.0.50 --source MyNugetServer
+nuget sources remove -name MyNugetServer
+
+nuget sources add -name "MyNugetServer" -source http://xxxxxxxx2:8080/nuget -username xxxx -password xxxx
+
+
+
+nuget sources add -name "MyNugetServer" -source http://xxxxx:8080/nuget -username xxxx -password xxx -configfile %AppData%\NuGet\Nuget.config
+//C:\Users\jb\AppData\Roaming\NuGet
+
+nuget list -Source MyNugetServer
+nuget source list
+nuget delete JB.Infra.Util 0.0.0.30 -Source MyNugetServer -apikey xxxxxxx
+```
+
+
+
+
