@@ -17,7 +17,7 @@ Go the the root path of target project,
 $ nuget spec
 ```
 
-This command will create a `<>.nuspec` file into the project. The file contains the following metadata:
+This command will create a `<project_name>.nuspec` file into the project. The file contains the following metadata:
 
 ```xml
 <?xml version="1.0"?>
@@ -208,7 +208,7 @@ But we have to define the file in the file list like following.
 </package>
 ```
 
-Which will results in the following information on Nuget package,
+Which will result in the following information on Nuget package,
 
 ![](assets/004.png)
 
@@ -236,7 +236,7 @@ Specify the file list in **.nuspec** to include other `.dll`/`.pdb`/... files in
 
 ## Including content files
 
-Sometimes we would like a content file to be installed into the project which has installed our Nuget package.
+Sometimes we would like to have a content file to be installed into the project which has installed our Nuget package.
 For example, a `NLog.config` shall be installed as a content file when the Logging package is installed.
 
 Specify the key target path: `contentFiles\any\any\<ContentFile>` like following, (DO NOT remove or modify `contentFiles\any\any\`!)
@@ -256,6 +256,17 @@ Specify the key target path: `contentFiles\any\any\<ContentFile>` like following
 and the content file will be placed under the root directory of project:
 
 ![](assets/005.png)
+
+
+### Demo
+
+My final .nuspec file and the package generated are as following, 
+
+[gist: [Nuget] nuspec sample](https://gist.github.com/KarateJB/20b3a3d7f595c4c64bb002f7c37f9001)
+
+![](assets/006.png)
+
+
 
 
 
