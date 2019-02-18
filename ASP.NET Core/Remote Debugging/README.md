@@ -9,11 +9,6 @@
 ## Requirement
 
 
-### Install IIS Management Scripts and Tools
-
-![](assets/001.png)
-
-
 ### Install remote tools (For Visual Studio 2017)
 
 [Download](https://visualstudio.microsoft.com/downloads/?q=remote+tools#remote-tools-for-visual-studio-2017)
@@ -46,7 +41,7 @@ Or leave it unchecked to run the Remote Debugger as APP.
 
 Finally, select the target network(s) for firewall.
 
-![](assets/008.png)
+![](assets/007.png)
 
 
 > Remote Debugger uses port 4022 in default.
@@ -74,7 +69,7 @@ Search `Remote Debugger` and run it as administrator.
 
 ![](assets/008.png)
 
-Notice that it use `4022` as the default port.
+> Notice that it use `4022` as the default port.
 
 
 ## Publish notes for supporting Remore debugging
@@ -113,11 +108,11 @@ Open **[Debug]** -> **[Attach to Process...]** (Ctrl+Alt+P)
 
 > Reattach to the same process you previously attached to by using **[Debug]** -> **[Reattach to Process...]** (Shift+Alt+P)
 
-![]()
+![](assets/010.png)
 
-- Connection type: `<remote_server>:4022`
-- Enable **[Show processes from all users]**
-- Select the target process (Reference: [Find the name of the ASP.NET process](https://docs.microsoft.com/en-us/visualstudio/debugger/how-to-find-the-name-of-the-aspnet-process))
+- (1) Connection type: `<remote_server>:4022`
+- (2) Enable **[Show processes from all users]**
+- (3) Search the target process (Reference: [Find the name of the ASP.NET process](https://docs.microsoft.com/en-us/visualstudio/debugger/how-to-find-the-name-of-the-aspnet-process))
 
 
 | Title | Description |
@@ -131,13 +126,42 @@ Open **[Debug]** -> **[Attach to Process...]** (Ctrl+Alt+P)
 
 If there are multiple processes running, to distinguish them from each other,
 
-1. If the sites were assigned different IIS Application Pool, we can tell them by the User Name column as following.
-2. On the Web server, open the Task Manager and check the value of the Command line as below. Then we can get the PID of the target process.
+
+1. On the Web server, open the Task Manager and check the value of the **[Command line]** as below
+2. If the sites were assigned different IIS Application Pool, we can tell them by the **[User Name]** column.
+
+Then we can get the **[PID]** of the target process.
+
+![](assets/011.png)
+
+![](assets/012.png)
 
 
 
+## Load information of Symbol file
+
+In Visual Studio, go to **[Debug]** -> **[Windows]** -> **[Modules]** (Ctrl+D+M)
+If the target module is not loaded, right click on it and select **[Load Symbols]**.
+
+![](assets/013.png)
 
 
+The successful message should be looked like this on [Symbol Load Information…]
+
+```
+C:\inetpub\wwwroot\Welfare2\Welfare.WebApi.pdb: Symbols loaded.
+```
+
+## Start debugging!
+
+Everything is ready, we can start remote-debugging with Visual Studio.
+ 
+
+## Reference
+
+- [Remote Debug ASP.NET Core on a Remote IIS Computer in Visual Studio 2017](https://docs.microsoft.com/en-us/visualstudio/debugger/remote-debugging-aspnet-on-a-remote-iis-computer?view=vs-2017)
+- [Advanced Build Settings Dialog Box (C#)](https://docs.microsoft.com/en-us/visualstudio/ide/reference/advanced-build-settings-dialog-box-csharp?view=vs-2017#output)
+- [Symbol Stores and Symbol Servers](https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/symbol-stores-and-symbol-servers)
 
 
 
