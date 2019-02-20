@@ -56,6 +56,12 @@ git add --all
 $ git rm xxx.file --cached
 ```
 
+Ex. Untrack all files under `myfolder`
+
+```
+$ git rm -r --cached path\myfolder
+```
+
 
 ## Amend the last commit’s message 
 
