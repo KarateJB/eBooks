@@ -17,7 +17,7 @@ $ git cherry-pick [--no-commit|-n] [--edit|-e] <sha1_code_1> [<sha1_code_2> ...]
 | --quit | Forget about the current operation in progress.<br />Can be used to clear the sequencer state after a failed cherry-pick or revert. |
 | --abort | Cancel the operation and return to the pre-sequence state. |
 
-
+[Reference: Git document](https://git-scm.com/docs/git-cherry-pick#Documentation/git-cherry-pick.txt)
 
 # Example
 
@@ -65,7 +65,7 @@ First conflict on merging 7a92ba3:
 
 ### Abort
 
-Before committing the merge, we can abort the Cherry-pick sequence by 
+Before committing the merge, we can abort the Cherry-pick sequence by [--abort](https://git-scm.com/docs/git-cherry-pick#Documentation/git-cherry-pick.txt---abort),
 
 ```
 $ git cherry-pick --abort
@@ -93,7 +93,7 @@ $ git cherry-pick --continue
 
 ### Quit
 
-Or leave and forget the commits which have not been completed Cherry-pick.
+Or leave and forget the commits which have not been completed Cherry-pick by option, [--quit](https://git-scm.com/docs/git-cherry-pick#Documentation/git-cherry-pick.txt---quit).
 
 ```
 $ git cherry-pick --quit
