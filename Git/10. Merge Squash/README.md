@@ -1,7 +1,5 @@
 
-
-
-Merge Squash allows us to squash(壓縮) all commits of a branch into one while merging into the current branch.
+**Merge Squash** allows us to squash(壓縮) all commits of a branch into one while merging into the current branch.
 
 
 ```
@@ -39,11 +37,4 @@ $ git commit -m "Merge commits from SourceBranch"
 ```
 
 ![](assets/002.png)
-
-
-
-
-
-
-
 
