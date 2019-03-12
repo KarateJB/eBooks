@@ -13,7 +13,7 @@ For example,
 $ git submodule add https://github.com/TheForceJB/GitPracticeSub.git GitPracticeSub
 ```
 
-![](../assets/012.png)
+![](assets/001.png)
 
 
 In `.gitmodules`, we will find the following content,

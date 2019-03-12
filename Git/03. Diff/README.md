@@ -1,6 +1,6 @@
 # Diff
 
-![](../assets/010.png)
+![](assets/001.png)
 
 ## Compare working tree to index
 

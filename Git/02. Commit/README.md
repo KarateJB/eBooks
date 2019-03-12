@@ -90,4 +90,4 @@ $ git rebase -i <begin_sha-1_code>
 
   which will open the default git editor
 
-  ![](../assets/011.png)
+  ![](assets/001.png)
