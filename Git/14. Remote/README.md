@@ -66,6 +66,13 @@ $ git pull --rebase
 ```
 
 
+## Delete remote branch
+
+```
+$ git push origin --delete <branch_name>
+```
+
+
 # Prune/Cleanup the local references to remote branch
 
 ### To see what references will be removed

@@ -30,7 +30,13 @@ $ git branch <new_branch_name> <from_branch_name>
 
 ```
 $ git checkout -b <branch_name> [<from_branch_name>]
-``` 
+```
+
+## Push and set the upstream to remote
+
+```
+$ git push --set-upstream origin <new_branch_name>
+```
 
 ## Rename branch
 
@@ -49,6 +55,13 @@ $ git branch -d <branch_name>
 ```
 $ git branch -D <branch_name>
 ```
+
+## Delete remote branch
+
+```
+$ git push origin --delete <branch_name>
+```
+
 
 ## Checkout certain commit and create branch from it
 
