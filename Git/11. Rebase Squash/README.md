@@ -16,8 +16,12 @@ We will focus on **Squash** here.
 ## Start Rebase interactive mode
 
 ```
-$ git rebase --interactive|-i <the_oldest_excluded_commit>
+$ git rebase --interactive|-i [--preserve-merges] <the_oldest_excluded_commit>
 ```
+
+> *Rebase doesn't normally preserve merge commits without `--preserve-merges`*
+
+
 
 For example, we have five commits,
 A1->A2->A3->A4->A5(HEAD) 
