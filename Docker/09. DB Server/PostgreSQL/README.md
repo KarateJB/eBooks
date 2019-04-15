@@ -52,7 +52,7 @@ $ docker pull dpage/pgadmin4:<tag>
 $ docker -d run -p <port>:80 --name <container_name> \
         -e "PGADMIN_DEFAULT_EMAIL=<your_email_address>" \
         -e "PGADMIN_DEFAULT_PASSWORD=<your_password>" \
-        -d dpage/pgadmin4:<tag>
+        dpage/pgadmin4:<tag>
 ```
 
 Environment variables ([Reference](https://hub.docker.com/r/dpage/pgadmin4/)):
@@ -80,7 +80,7 @@ $ docker run -d -p 5431:80 --name demo-pgadmin \
         -v "/postgres/pgadmin/servers.json:/servers.json" \
         -e "PGADMIN_DEFAULT_EMAIL=xxx@gmail.com" \
         -e "PGADMIN_DEFAULT_PASSWORD=12qwaszx" \
-        -d dpage/pgadmin4:4
+        dpage/pgadmin4:4
 $ docker start demo-pgadmin
 $ docker port demo-pgadmin 
 ```
