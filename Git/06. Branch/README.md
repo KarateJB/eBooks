@@ -44,6 +44,18 @@ $ git push --set-upstream origin <new_branch_name>
 $ git branch -m <old_branch_name> <new_branch_name>
 ```
 
+When encounter the following message on `git status`
+
+> Your branch is based on 'origin/your_old_branch_name', but the upstream is gone.
+
+Fix up with
+
+```
+git branch --unset-upstream
+```
+
+
+
 ## Delete branch
 
 ```
