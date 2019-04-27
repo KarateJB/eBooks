@@ -108,6 +108,45 @@ $ npm install --only=prod[uction]
 ```
 
 
+#### Install from Cache
+
+To install from cache:
+
+```
+$ npm install --cache [<module>]
+```
+
+Which can be replaced with `--cache-min` (will be deprecated from npm 5),
+
+```
+$ npm install --cache-min Infinity [<module>]
+```
+
+Or only install from cache when the package installation time exceeds 10 minutes:
+
+```
+$ npm install --cache-min 10 [<module>]
+```
+
+
+> The cache location is `~/.npm` on Posix, or `%AppData%/npm-cache` on Windows in default.
+
+Get the cache location by, 
+
+```
+$ npm config get cache
+```
+
+
+#### Install offline
+
+```
+$ npm install --offline [<module>]
+```
+
+
+
+
 
 ### Uninstall packages 
 np
