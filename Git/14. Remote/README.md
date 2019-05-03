@@ -24,6 +24,12 @@ $ git push --set-upstream origin <brach_name_for_remote>
 ```
 
 
+## See remote push logs
+
+```
+$ git reflog --date=local origin/<branch_name>
+```
+
 
 # Pull
 
