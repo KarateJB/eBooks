@@ -29,3 +29,22 @@ echo "nameserver 8.8.8.8" >> /etc/resolv.conf
 
 > Reference: 
 > - [How to resolve "Temporary failure in name resolution" issue](https://www.digitalocean.com/community/questions/how-to-resolve-temporary-failure-in-name-resolution-issue)
+
+
+## docker startup crash on Windows 10 but ok after restart machine
+
+
+### Solution
+
+Change the power plan as following,
+
+1. Go to [Power Options] -> [ Choose what the power buttons do]
+2. Find **Shutdown settings** and uncheck the option: **[Turn on fast startup (recommended)]**
+
+![](assets/001.png)
+
+
+> Reference:
+> - [Docker crash on windows 10 Startup #953](https://github.com/docker/for-win/issues/953?fbclid=IwAR0gxu7w5OI172Snh64oj-9FajBXt0mdlZuRBZKZ1XYPD_FpOjv57NK0OEQ#issuecomment-342498223)
+
+
