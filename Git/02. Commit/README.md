@@ -12,8 +12,14 @@ $ git add --all
 $ git add .
 ```
 
+## Rename a file
 
-## Remove the file and track it 
+```
+$ git mv <old_file_name> <new_file_name>
+```
+
+
+## Remove the file and track it
 
 ```
 $ git rm xxx.file
@@ -26,7 +32,7 @@ $ del xxx.file
 $ git add xxx.file
 ```
 
-## Remove the file and untrack it 
+## Remove the file and untrack it
 
 
 Stage a file for removal, but it won't be removed from the working dir. The file will be shown as **untracked**.
@@ -63,7 +69,7 @@ $ git rm -r --cached path\myfolder
 ```
 
 
-## Amend the last commit’s message 
+## Amend the last commit’s message
 
 ```
 $ git commit --amend -m "Refine message"
@@ -84,6 +90,7 @@ $ git commit --amend --no-edit
 ```
 
 ## Update the commit history
+
 ```
 $ git rebase -i <begin_sha-1_code>
 ```
