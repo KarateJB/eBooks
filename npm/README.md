@@ -14,9 +14,10 @@ $ npm -v
 ```   
 
 
-# Steps
 
-### Initialize package.json
+# Initialize
+
+To initialize a package.json
 
 ```
 $ npm init
@@ -25,14 +26,14 @@ $ npm init
 > Reference: [package.json](https://docs.npmjs.com/files/package.json)  
 
 
-### Search package
+# Search package
 
 ```
 $ npm search {package_name}
 ```  
 
 
-### Find package versions
+# Find package versions
 
 ```
 $ npm view {package_name}
@@ -49,48 +50,56 @@ $ npm show {package_name} versions
 > Go to [npm](https://www.npmjs.com) to find the packages.  
 
 
-### Install packages  
+# Install packages  
 
-1. Install globally
+## Install globally
 
-   ```
-   $ npm install {package_name} -g
-   ```  
+```
+$ npm install {package_name} -g
+```  
 
-2. The latest release version for production (Default)
+## The latest release version for production (Default)
 
-   ```
-   $ npm install {package_name} --save
-   ```
+```
+$ npm install {package_name} --save
+```
 
-   > or use [--no-save] option.  
-
-
-3. The latest release version for **devDependencies**
-
-   ```
-   $ npm install {package_name} --save-dev
-   ```  
-
-4. Specific version
-
-   `$ npm install {package_name}@latest`
-
-   `$ npm install {package_name}@">=0.1.0 <0.2.0"`  
+> or use [--no-save] option.  
 
 
-5. Latest version of 3.X.X
+## The latest release version for **devDependencies**
+
+```
+$ npm install {package_name} --save-dev
+```  
+
+## Specific version
+
+```
+$ npm install {package_name}@latest
+```
+
+```
+$ npm install {package_name}@">=0.1.0 <0.2.0"
+```
+
+
+## Latest version of 3.X.X
    
-   `$ npm install {package_name}@"^3.0.0"`  
+```
+$ npm install {package_name}@"^3.0.0"
+```
 
-6. Latest version of 3.2.X
+## Latest version of 3.2.X
 
-   `$ npm install {package_name}@"~3.2.0"`  
+```
+$ npm install {package_name}@"~3.2.0"
+```
 
-   > Reference: [npm-install](https://docs.npmjs.com/cli/install)  
+> Reference: [npm-install](https://docs.npmjs.com/cli/install)  
 
 
-### Install packages from package.json
+## Install packages from package.json
 
 ```
 $ npm install
@@ -101,6 +110,8 @@ To install only those in `devDependencies`:
 ```
 $ npm install --only=dev[elopment]
 ```
+
+
 To install without those in `devDependencies`:
 
 ```
@@ -108,7 +119,7 @@ $ npm install --only=prod[uction]
 ```
 
 
-#### Install from Cache
+## Install from Cache
 
 To install from cache:
 
@@ -138,7 +149,7 @@ $ npm config get cache
 ```
 
 
-#### Install offline
+## Install offline
 
 ```
 $ npm install --offline [<module>]
@@ -147,32 +158,41 @@ $ npm install --offline [<module>]
 
 
 
+# Uninstall packages
 
-### Uninstall packages 
-np
-1. Uninstall global package
+## Uninstall global package
 
-   ```
-   $ npm uninstall {package_name} -g
-   ```  
+```
+$ npm uninstall {package_name} -g
+```  
 
-2. Uninstall local package
+## Uninstall local package
 
-   ```
-   $ npm uninstall {package_name} --save
-   ```  
+```
+$ npm uninstall {package_name} --save
+```  
 
-   ```
-   $ npm uninstall {package_name} --save-dev
-   ```  
-
+```
+$ npm uninstall {package_name} --save-dev
+```  
 
 
-## List packages installed
+
+# List packages installed
 
 ```
 $ npm list [package_name] [-g] [--depth=0]
 ```  
+
+
+# npm link
+
+Use the global package at local:
+
+```
+$ npm install -g xxx
+$ npm link xxx
+```
 
 
 # More 
