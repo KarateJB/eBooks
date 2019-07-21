@@ -29,7 +29,7 @@ $ docker run -e -d  -p 389:389 -p 636:636 --name <container_name> osixia/openlda
 ### Specify the password for admin
 
 ```
-$ docker run -e LDAP_ADMIN_PASSWORD="<new_password>" -d  -p 389:389 -p 636:636 --name tis-openldap osixia/openldap:1.2.4
+$ docker run -e LDAP_ADMIN_PASSWORD="<new_password>" -d  -p 389:389 -p 636:636 --name <container_name> osixia/openldap:1.2.4
 ```
 
 ### Specify the domain
@@ -37,5 +37,12 @@ $ docker run -e LDAP_ADMIN_PASSWORD="<new_password>" -d  -p 389:389 -p 636:636 -
 For example, use `jb.org` instead of `example.org`,
 
 ```
-$ docker run -e LDAP_ORGANISATION="jb" --env LDAP_DOMAIN="jb.org" --env LDAP_ADMIN_PASSWORD="12qwaszx" -d  -p 389:389 -p 636:636 --name tis-openldap osixia/openldap:1.2.4
+$ docker run -e LDAP_ORGANISATION="jb" --env LDAP_DOMAIN="jb.org" --env LDAP_ADMIN_PASSWORD="12qwaszx" -d  -p 389:389 -p 636:636 --name <container_name> osixia/openldap:1.2.4
 ```
+
+### Search an OU
+
+```
+$ docker exec <container_name> ldapsearch -x -H ldap://localhost -b dc=example,dc=org -D "cn=admin,dc=example,dc=org" -w admin
+```
+
