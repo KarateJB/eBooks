@@ -24,21 +24,55 @@ $ git stash
 ```
 
 > If you want to stash the untracked files as well
+
 ``` 
 $ git stash -u
 ```
 
-- List stash
+## List stash
+
+### List stash
+
 ```
 $ git stash list
 ```
 
-- POP the stash (Which will remove the stash after apply it on the same branch)
+
+## Show stash
+
+### Show the file list of latest stash
+
+```
+$ git stash show
+```
+
+
+### Show the file contents of the latest stash
+
+```
+$ git stash show -p
+```
+
+
+### Show the file contents of certain stash
+
+```
+$ git stash show -p stash@{1}
+```
+
+
+
+## Pop/Apply stash
+
+POP the stash (Which will remove the stash after apply it on the same branch)
+
 ```
 $ git stash pop stash@{1}
 ```
 
-- Apply the stash(Which will not remove the stash after apply it)
+
+Apply the stash(Which will not remove the stash after apply it)
+
 ```
 $ git stash apply stash@{1}
 ```
@@ -46,7 +80,8 @@ $ git stash apply stash@{1}
 > If the specified name of stash is not given, the latest stash will be applied
 
 
-- Remove stash
+## Remove stash
+
 ```
 $ git stash drop stash@{1}
 ```
