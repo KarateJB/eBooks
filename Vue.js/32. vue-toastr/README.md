@@ -78,6 +78,20 @@ const toastrConfig = {
 Vue.use(Toastr, toastrConfig);
 ```
 
+### 設定toastr instance
+
+也可以建立一個export module直接設定屬性如下：
+
+```javascript
+import toastr from 'toastr';
+
+toastr.options.closeOnHover = true;
+toastr.options.timeOut = 5000; // 5 sec
+toastr.options.positionClass = 'toast-top-center';
+
+export const toastrCustom = toastr;
+```
+
 ![](assets/demo1.gif)
 
 以下是vue-toastr提供的選項，若要使用在全域設定，則加上前綴詞`default`。
