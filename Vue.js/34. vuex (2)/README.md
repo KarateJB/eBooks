@@ -352,3 +352,26 @@ computed: {
   }
 ```
 
+
+
+## 監聽狀態的改變
+
+
+```javascript
+import { store, PUSH, PULL, CLEAR } from "../vuex/shopcart.store.js";+
+import { mapGetters } from "vuex";
+
+computed: {
+  ...mapGetters({
+    currentUser: 'user',
+  }),
+}
+mounted() {
+ // Watch the user store
+    store.watch( ()=> this.totalPrice, (newVal, oldVal) => {
+
+      // Do something
+      console.info(`${oldVal}->${newVal}`);
+ });
+}
+```
