@@ -79,6 +79,13 @@ $ git push origin --delete <branch_name>
 ```
 
 
+# Show remote information
+
+```
+$ git remote show origin
+```
+
+
 # Prune/Cleanup the local references to remote branch
 
 ### To see what references will be removed
