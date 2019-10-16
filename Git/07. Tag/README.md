@@ -12,10 +12,24 @@ $ git tag <tag_name> <sha-1_code>
 $ git tag <tag_name> <sha-1_code> -a -m "some comments for annotated tag..."
 ```
 
+## Push tag to remote
+
+```
+$ git push origin <tag_name>
+```
+
 ## List tags
+
+- Local
 
 ```
 $ git tag -l
+```
+
+- Remote
+
+```
+$ git ls-remote --tags origin
 ```
 
 ## Delete tag
