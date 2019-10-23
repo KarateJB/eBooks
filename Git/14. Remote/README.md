@@ -1,5 +1,7 @@
 # Clone
 
+## Add remote end-point then clone
+
 - Add remote end-point
 ```
 $ git remote add origin https://github.com/KarateJB/Test.git
@@ -7,8 +9,18 @@ $ git remote add origin https://github.com/KarateJB/Test.git
 
 - Clone
 ```
-git clone 
+$ git clone 
 ```
+
+## Clone
+
+We can simply the above steps by
+
+```
+$ git clone https://github.com/KarateJB/Test.git [<Local Directory Name>]
+```
+
+
 
 # Push
 
