@@ -34,6 +34,15 @@ $ git log --grep="Fix bugs"
 $ git blame xxx.file
 ```
 
+
+> We can also use [gitk](https://git-scm.com/docs/gitk) to see the change logs on GUI.
+> 
+> For example, 
+> ```
+> gitk xxx.file`
+> ```
+> <br />
+
 ## See commit logs for certain lines in a file
 
 ```
