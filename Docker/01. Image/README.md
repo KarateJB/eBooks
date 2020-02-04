@@ -36,7 +36,7 @@ $ docker images
 ## Inspect image to see more details
 
 ```
-$ docker inspect {image name}[:tag]
+$ docker inspect <image_name>[:tag]
 ```
 
 If you want to only see the spefic information, give the hierarchy by `-f`.
@@ -52,7 +52,7 @@ $ docker inspect -f '{{ .Created }}' ubuntu:14.04
 ## Tag the local images
 
 ```
-$ docker tag {image name}:{tag} {TAG's image name}:{TAG's tag}
+$ docker tag <image_name>:<tag> <TAG's image name>:<TAG's tag>
 ```
 
 > Notice the TAG will point to the same image.
@@ -90,7 +90,7 @@ $ docker search <image name> --filter is-automated
 ## Delete local image
 
 ```
-$ docker rmi {image name}[:tag] [-f]
+$ docker rmi <image_name></image>[:tag] [-f]
 ```
 
 > Do not use `-f` to force delete the image.
