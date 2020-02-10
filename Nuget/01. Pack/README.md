@@ -270,26 +270,3 @@ My final .nuspec file and the package generated are as following,
 
 
 
-
----
-
-```
-dotnet list package --source MyNugetServer
-dotnet add package JB.Infra.Util --version 0.0.0.50 --source MyNugetServer
-nuget sources remove -name MyNugetServer
-
-nuget sources add -name "MyNugetServer" -source http://xxxxxxxx2:8080/nuget -username xxxx -password xxxx
-
-
-
-nuget sources add -name "MyNugetServer" -source http://xxxxx:8080/nuget -username xxxx -password xxx -configfile %AppData%\NuGet\Nuget.config
-//C:\Users\jb\AppData\Roaming\NuGet
-
-nuget list -Source MyNugetServer
-nuget source list
-nuget delete JB.Infra.Util 0.0.0.30 -Source MyNugetServer -apikey xxxxxxx
-```
-
-
-
-
