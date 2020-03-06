@@ -7,6 +7,18 @@
 $ dotnet add package JB.Infra.Util --version 0.0.0.50 --source MyNugetServer
 ```
 
+## Show local package directories
+
+```
+$ nuget locals all -list
+```
+
+or 
+
+```
+$ dotnet nuget locals all --list
+```
+
 
 ## Nuget Server
 
