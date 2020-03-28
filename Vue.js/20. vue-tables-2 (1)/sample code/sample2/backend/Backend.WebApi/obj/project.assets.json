@@ -1,0 +1,74 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {}
+  },
+  "libraries": {},
+  "projectFileDependencyGroups": {
+    ".NETCoreApp,Version=v3.1": []
+  },
+  "packageFolders": {
+    "C:\\Users\\ppipp\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\ppipp\\Documents\\Source Control\\Github\\KarateJB\\JB-eBooks\\Vue.js\\20. vue-tables-2 (1)\\sample code\\sample2\\backend\\Backend.WebApi\\Backend.WebApi.csproj",
+      "projectName": "Backend.WebApi",
+      "projectPath": "C:\\Users\\ppipp\\Documents\\Source Control\\Github\\KarateJB\\JB-eBooks\\Vue.js\\20. vue-tables-2 (1)\\sample code\\sample2\\backend\\Backend.WebApi\\Backend.WebApi.csproj",
+      "packagesPath": "C:\\Users\\ppipp\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ppipp\\Documents\\Source Control\\Github\\KarateJB\\JB-eBooks\\Vue.js\\20. vue-tables-2 (1)\\sample code\\sample2\\backend\\Backend.WebApi\\obj\\",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\ppipp\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "netcoreapp3.1"
+      ],
+      "sources": {
+        "C:\\Users\\ppipp\\Documents\\JB\\Dev\\NugetPackages\\JB": {},
+        "C:\\Users\\ppipp\\Documents\\JB\\Dev\\NugetPackages\\Wahlee": {},
+        "http://192.168.96.32:8088/nuget": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "netcoreapp3.1": {
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.AspNetCore.App": {
+            "privateAssets": "none"
+          },
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
