@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
-using Backend.WebApi.Models;
+using Backend.WebApi.Models.ApiModel;
+using Backend.WebApi.Models.Enum;
 using Backend.WebApi.Utils.Factory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -16,7 +16,7 @@ namespace Backend.WebApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
-    public class DemoController : ControllerBase
+    public class DemoController : BaseController
     {
         private readonly ILogger _logger;
 
@@ -39,6 +39,17 @@ namespace Backend.WebApi.Controllers
             string orderBy,
             SortTypeEnum ascending)
         {
+
+            // 1. Use Request.Query
+            var pagingUriParam = await this.GetPagingUriParamsAsync();
+            query = pagingUriParam.Query;
+            page = pagingUriParam.Page;
+            limit = pagingUriParam.Limit;
+            orderBy = pagingUriParam.OrderBy;
+            ascending = pagingUriParam.SortType;
+
+            // 2. Use Model Binding as declared inside Action
+
             if (page <= 0)
             {
                 this.Response.StatusCode = StatusCodes.Status400BadRequest;

@@ -1,4 +1,4 @@
-﻿namespace Backend.WebApi.Models
+﻿namespace Backend.WebApi.Models.ApiModel
 {
     public class StarWars
     {
