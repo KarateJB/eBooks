@@ -5,6 +5,7 @@ using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using Backend.WebApi.Models.ApiModel;
 using Backend.WebApi.Models.Enum;
+using Backend.WebApi.Utils.Extensions;
 using Backend.WebApi.Utils.Factory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -40,59 +41,32 @@ namespace Backend.WebApi.Controllers
             SortTypeEnum ascending)
         {
 
-            // 1. Use Request.Query
-            var pagingUriParam = await this.GetPagingUriParamsAsync();
-            query = pagingUriParam.Query;
-            page = pagingUriParam.Page;
-            limit = pagingUriParam.Limit;
-            orderBy = pagingUriParam.OrderBy;
-            ascending = pagingUriParam.SortType;
+            // Use Request.Query or Model Binding as declared inside Action
+            (var isNeedPaging, var pagingUriParam) = await this.TryGetPagingUriParamsAsync();
 
-            // 2. Use Model Binding as declared inside Action
-
-            if (page <= 0)
+            if (pagingUriParam.ValidationErrors !=null && pagingUriParam.ValidationErrors.Count > 0)
             {
+                this._logger.LogError(pagingUriParam.ValidationErrors.Aggregate(string.Empty, (x, y) => x + ";" + y));
                 this.Response.StatusCode = StatusCodes.Status400BadRequest;
                 return null;
             }
 
-            IQueryable<StarWars> sortedTableData = null;
+            IQueryable<StarWars> pagedTableData = null;
+            var queryedData = this._tableDatas.AsQueryable().Where(x => x.Name.Contains(query, StringComparison.InvariantCultureIgnoreCase));
 
-            if (!string.IsNullOrEmpty(orderBy))
+            if (isNeedPaging)
             {
-                // Convert the orderBy column from Lower-case-camel to Upper-case-camel
-                orderBy = orderBy.Length > 1 ?
-                    Char.ToUpperInvariant(orderBy[0]).ToString() + orderBy.Substring(1) :
-                    Char.ToUpperInvariant(orderBy[0]).ToString();
-
-                // Query and Sort 
-                switch (ascending)
-                {
-                    case SortTypeEnum.Descending:
-                        sortedTableData = this._tableDatas.AsQueryable()
-                            .Where(x => x.Name.Contains(query, StringComparison.InvariantCultureIgnoreCase))
-                            .OrderBy($"{orderBy} DESC");
-                        break;
-                    case SortTypeEnum.Ascending:
-                    default:
-                        sortedTableData = this._tableDatas.AsQueryable()
-                            .Where(x => x.Name.Contains(query, StringComparison.InvariantCultureIgnoreCase))
-                            .OrderBy(orderBy);
-                        break;
-                }
+                pagedTableData = queryedData.Paging(pagingUriParam.OrderBy, pagingUriParam.SortType, pagingUriParam.Page.Value, pagingUriParam.Limit.Value);
             }
             else
             {
-                sortedTableData = this._tableDatas.AsQueryable().Where(x => x.Name.Contains(query)).OrderBy(x => x.Name);
+                pagedTableData = this._tableDatas.AsQueryable().OrderBy(x => x.Name);
             }
 
             // Set X-Total-Count
-            this.Response.Headers.Add(CustomHttpHeaderFactory.TotalCount, sortedTableData.Count().ToString());
+            this.Response.Headers.Add(CustomHttpHeaderFactory.TotalCount, queryedData.Count().ToString());
 
-            // Get final paging data
-            var pagingTableData = sortedTableData.Skip(limit * (page - 1)).Take(limit);
-
-            return pagingTableData;
+            return pagedTableData;
         }
 
         private IEnumerable<StarWars> createFakeTableDatas()
