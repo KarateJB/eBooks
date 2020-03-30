@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
+using Backend.WebApi.Models;
 using Backend.WebApi.Models.ApiModel;
 using Backend.WebApi.Models.Enum;
 using Backend.WebApi.Utils.Extensions;
@@ -42,7 +43,12 @@ namespace Backend.WebApi.Controllers
         {
 
             // Use Request.Query or Model Binding as declared inside Action
-            (var isNeedPaging, var pagingUriParam) = await this.TryGetPagingUriParamsAsync();
+
+            // Method 1. Use BaseControllerr
+            // (var isNeedPaging, var pagingUriParam) = await this.TryGetPagingUriParamsAsync();
+
+            // Method 2. Use ControllerBaseExtensions
+            var isNeedPaging = this.TryGetPagingUriParams(this.Request, out PagingUriParam pagingUriParam);
 
             if (pagingUriParam.ValidationErrors !=null && pagingUriParam.ValidationErrors.Count > 0)
             {
@@ -66,7 +72,7 @@ namespace Backend.WebApi.Controllers
             // Set X-Total-Count
             this.Response.Headers.Add(CustomHttpHeaderFactory.TotalCount, queryedData.Count().ToString());
 
-            return pagedTableData;
+            return await Task.FromResult(pagedTableData);
         }
 
         private IEnumerable<StarWars> createFakeTableDatas()

@@ -1,29 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
 using Backend.WebApi.Models;
 using Backend.WebApi.Models.Enum;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 
-namespace Backend.WebApi.Controllers
+namespace Backend.WebApi.Utils.Extensions
 {
-    public class BaseController : ControllerBase
+    /// <summary>
+    /// ControllerBase extensions
+    /// </summary>
+    public static class ControllerBaseExtensions
     {
-        protected async Task<Tuple<bool, PagingUriParam>> TryGetPagingUriParamsAsync()
+        public static bool TryGetPagingUriParams(this ControllerBase controller, Microsoft.AspNetCore.Http.HttpRequest request, out PagingUriParam pagingUriParam)
         {
-            ////NameValueCollection nvc = System.Web.HttpUtility.ParseQueryString(this.Request.QueryString);
-            ////var encryptedUserId = nvc["user"] ?? String.Empty; // User Id
             const bool PAGING_PARAM_IS_READY = true;
 
-            var pQuery = this.Request.Query["query"];
-            var pPage = this.Request.Query["page"];
-            var pLimit = this.Request.Query["limit"];
-            var pOrderBy = this.Request.Query["orderBy"];
-            var pAscending = this.Request.Query["ascending"];
+            var pQuery = request.Query["query"];
+            var pPage = request.Query["page"];
+            var pLimit = request.Query["limit"];
+            var pOrderBy = request.Query["orderBy"];
+            var pAscending = request.Query["ascending"];
 
-            var pagingUriParam = new PagingUriParam();
+            pagingUriParam = new PagingUriParam();
 
             try
             {
@@ -36,17 +36,19 @@ namespace Backend.WebApi.Controllers
                 // Validate model
                 var context = new ValidationContext(pagingUriParam, null, null);
                 var validateErrs = new List<ValidationResult>();
+                IList<string> errs = new List<string>();
                 if (!Validator.TryValidateObject(pagingUriParam, context, validateErrs, true))
                 {
-                    validateErrs.ForEach(err => pagingUriParam.ValidationErrors.Add($"{err.ErrorMessage}"));
+                    validateErrs.ForEach(err => errs.Add($"{err.ErrorMessage}"));
                 }
+                pagingUriParam.ValidationErrors = errs;
 
-                return await Task.FromResult(new Tuple<bool, PagingUriParam>(PAGING_PARAM_IS_READY, pagingUriParam));
+                return PAGING_PARAM_IS_READY;
             }
             catch (Exception ex)
             {
                 pagingUriParam.ValidationErrors.Add($"{ex.Message}");
-                return await Task.FromResult(new Tuple<bool, PagingUriParam>(!PAGING_PARAM_IS_READY, pagingUriParam));
+                return !PAGING_PARAM_IS_READY;
             }
         }
     }
