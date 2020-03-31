@@ -25,12 +25,7 @@ namespace Backend.WebApi.Utils.Extensions
             IQueryable<T> pagingData = null;
 
             // Convert orderBy column name from Lowercase-camel to Uppercase-camel
-            if (!string.IsNullOrEmpty(orderBy) && Char.IsLower(orderBy[0]))
-            { 
-                orderBy = orderBy.Length > 1 ?
-                        Char.ToUpperInvariant(orderBy[0]).ToString() + orderBy.Substring(1) :
-                        Char.ToUpperInvariant(orderBy[0]).ToString();
-            }
+            orderBy = orderBy.ToFirstCharUpper();
 
             // Sort and take paged data
             switch (sortType)
