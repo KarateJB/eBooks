@@ -1,9 +1,10 @@
-# Commands
+# Redis CLI Commands
 
 
-| Cmd |     Usage   | Return value | tags | Description |
+| Cmd |    Usage    | Return value | tags | Description |
 |:----|:------------|:-------------|:----:|:------------|
 | [EXISTS](https://redis.io/commands/exists) | `EXISTS <key>` | `1` : exist, or `0` : not exist) | `Key` | Check if the key exists. |
+| [MEMORY USAGE](https://redis.io/commands/memory-usage) | `MEMORY USAGE <key>` | Size in bytes | `integer` | Get the size of a key |
 | [DEL](https://redis.io/commands/del) | `DEL <key1> [<key2> ...]` | The number of keys that were removed. | `Key` | Delete one or multiple key(s) |
 | [RENAME](https://redis.io/commands/rename) | `RENAME <key> <newKey>`  | `OK` or `(error) Err no such key` when the key doesn't exist | `Key` | When the newKey exists, it will do an implicit DEL operation. | 
 | [GET](https://redis.io/commands/get) | `GET <key>` | The value | `Strings` |Get single key's value. |
@@ -53,11 +54,17 @@
 | [PSUBSCRIBE](https://redis.io/commands/psubscribe) | `PSUBSCRIBE <pattern> [<pattern> ...]` | | | Subscribes chennel(s) of given patterns. |
 | [UNSUBSCRIBE](https://redis.io/commands/unsubscribe) | `UNSUBSCRIBE` or `UNSUBSCRIBE <channel1> [<channel2> ...]` | | | Unsubscribe channel(s) |
 | [PUNSUBSCRIBE](https://redis.io/commands/punsubscribe) | `PUNSUBSCRIBE` or `PUNSUBSCRIBE <pattern> [<pattern> ...]` | | | Unsubscribe channel(s) of given patterns |
-| | | | | |
+| [DEBUG OBJECT](https://redis.io/commands/debug-object) | `DEBUG OBJECT <key>` | e.q. Value at:0x7fd1362666e0 refcount:1 encoding:hashtable serializedlength:4073 lru:10294174 lru_seconds_idle:410 | | Show the detail of a key |
 | | | | | |
 | | | | | |
 | | | | | |
 
 
 
+
+# REDIS CLI arguments
+
+| Argument |    Usage   | Return value | Description |
+|:---------|:-----------|:-------------|:------------|
+| bigkeys | redis-cli --bigkeys |  | Show the bigest keys |
 
