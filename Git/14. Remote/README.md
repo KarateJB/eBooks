@@ -138,8 +138,45 @@ $ git branch -d no_use_branch1
 
 # Syncing a fork
 
+
+## Add new remote repository
+
+
+```s
+$ git remote add <name> <repository_url>
 ```
-$ git fetch upstream
+
+E.q.
+
+```s
+$ git remote add karatejb https://github.com/KarateJB/GitPractice.git
+```
+
+To see the remote repositories' information:
+
+```s
+$ git remote -v
+karatejb        https://github.com/KarateJB/GitPractice.git (fetch)
+karatejb        https://github.com/KarateJB/GitPractice.git (push)
+origin  https://github.com/TheForceJB/GitPractice.git (fetch)
+origin  https://github.com/TheForceJB/GitPractice.git (push)
+```
+
+
+
+## Fetch and merge original repository
+
+```s
+$ git fetch <name>
+$ git checkout <branch_name>
+$ git merge <name>/<branch_name>
+```
+
+
+E.q.
+
+```s
+$ git fetch karatejb
 $ git checkout master
-$ git merge upstream/master
+$ git merge karatejb/master // or rebase
 ```
