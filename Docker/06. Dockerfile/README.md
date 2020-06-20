@@ -60,7 +60,7 @@ Create `.dockerignore` to ignore files or folders.
 
 ## Build image
 
-```
+```s
 $ docker build [--no-cache] -t <repository>/<image name> [-f] <docker file's directory>
 ```
 
@@ -72,6 +72,12 @@ $ docker build [--no-cache] -t <repository>/<image name> [-f] <docker file's dir
 
 > See more on [docs.docker.com](https://docs.docker.com/engine/reference/commandline/build/)
 
+
+E.q. Use the Dockerfile in current directory to build the image,
+
+```s
+$ docker build -t karatejb/ansible:latest .
+```
 
 ## Reverse image to get Dockerfile
 
