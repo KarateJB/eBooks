@@ -19,7 +19,7 @@ $ wsl --distribution[-d] <distro_name>
 ## Export and Import
 
 ```s
-$ wsl --list[-l] --all[-a]
+$ wsl --list[-l] --all [-v]
 Windows Subsystem for Linux Distributions:
 docker-desktop-data (Default)
 docker-desktop
@@ -30,7 +30,7 @@ Ubuntu-18.04
 ## Export
 
 ```s
-$ wsl --export Ubuntu-18.04 D:\Works\Docker\My\WSL2\Backup\wsl2-ubuntu-18.04.tar
+$ wsl --export <distro_name> D:\Works\Docker\My\WSL2\Backup\wsl2-ubuntu-18.04.tar
 ```
 
 
@@ -44,7 +44,7 @@ E.q. My Ubuntu 18.04 is at `C:\Users\<user>\AppData\Local\Packages\CanonicalGrou
 When you import the tar file, it will create the new Distro at the specified path, 
 
 ```s
-$ wsl --import Ubuntu-18.04 "C:\Users\<user>\AppData\Local\Packages\Ubuntu" "D:\Backup\wsl2-ubuntu-18.04.tar"
+$ wsl --import <distro_name> "C:\Users\<user>\AppData\Local\Packages\Ubuntu" "D:\Backup\wsl2-ubuntu-18.04.tar"
 ```
 
 You can see current running WSL distros at `\\wsl$` like followig,
@@ -52,3 +52,8 @@ You can see current running WSL distros at `\\wsl$` like followig,
 ![](assets/001.jpg)
 
 
+## Remove a distro
+
+```s
+$ wsl --unregister <distro_name>
+```
