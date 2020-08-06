@@ -1,5 +1,12 @@
 
 
+## Set the default WSL version to the distro like this:
+
+```s
+$ wsl --set-version Ubuntu-18.04 2
+```
+
+
 ## Enter the distro
 
 You can enter the default distro by,
@@ -12,6 +19,22 @@ Or specify the distro,
 
 ```s
 $ wsl --distribution[-d] <distro_name> 
+```
+
+
+Or ssh into it, but first we have to know the IP of the distro by
+
+```s
+$ ifconfig
+```
+
+And set the SSH server, see [[WSL2] ssh into Ubuntu
+](https://karatejb.blogspot.com/2020/06/wsl2-ssh-into-ubuntu.html).
+
+Then ssh into it,
+
+```s
+$ ssh <user>@<ip> -p <port>
 ```
 
 
@@ -57,3 +80,4 @@ You can see current running WSL distros at `\\wsl$` like followig,
 ```s
 $ wsl --unregister <distro_name>
 ```
+
