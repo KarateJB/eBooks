@@ -39,6 +39,14 @@ $ ssh <user>@<ip> -p <port>
 
 
 
+## Stop the distro
+
+```s
+$ wsl --terminate[-t] <distro_name>
+```
+
+
+
 ## Export and Import
 
 ```s
