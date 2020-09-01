@@ -1,4 +1,4 @@
-
+# WSL2
 
 ## Set the default WSL version to the distro like this:
 
@@ -46,6 +46,18 @@ $ wsl --terminate[-t] <distro_name>
 ```
 
 
+## Set the default user
+
+Reference: https://github.com/microsoft/WSL/issues/4276
+
+```s
+$ ubuntu1804.exe config --default-user root
+```
+
+> The ubuntu1804.exe is located at `C:\Users\<user>\AppData\Local\Microsoft\WindowsApps`
+
+
+
 
 ## Export and Import
 
@@ -89,3 +101,17 @@ You can see current running WSL distros at `\\wsl$` like followig,
 $ wsl --unregister <distro_name>
 ```
 
+
+
+# VSCODE
+
+You can connect to WSL2 with VSCODE by [Remote - WSL](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl).
+
+
+## Edit file
+
+```s
+$ sudo chown <wsl_default_user> /path/file
+$ code /path/file
+$ sudo chown <the_original_user> /path/file
+```
