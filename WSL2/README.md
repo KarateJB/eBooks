@@ -25,7 +25,7 @@ $ wsl --distribution[-d] <distro_name>
 Or ssh into it, but first we have to know the IP of the distro by
 
 ```s
-$ ifconfig
+$ ip addr show eth0
 ```
 
 And set the SSH server, see [[WSL2] ssh into Ubuntu
