@@ -50,7 +50,7 @@
 ## To Delete
 
 - `diw` or `daw` Delete word 
-
+- `dd` Delete row and move up the next row
 
 
 
