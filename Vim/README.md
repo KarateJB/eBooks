@@ -11,13 +11,18 @@
 - `<number>L` Go right
 - `<number>G` Go with line number
 
+- `zz` 將目前選取行置中顯示
+- `zt` 將目前選取行顯示到最上面
+- `zb` 將目前選取行顯示到最下面
 
 - `S` Delete line, equals to `cc`
+- `dd` Delete line
 
 
-- `"+y` 複製yanked到系統剪貼簿  
-- `<CTRL+R>"` 在Command mode貼上yanked  
 - `"0p` 貼上前一個複製的內容 
+- `"+y` 複製vim yanked到系統剪貼簿
+- `"+p` 從系統剪貼簿貼上複製的內容到vim
+- `<CTRL+R>"` 在Command mode貼上yanked  
 
 
 
