@@ -1,6 +1,6 @@
 ## Setup
 
-- `:set rnu` 設定相對行號
+- `:set rnu` 設定相對行號, or `:set relativenumber`
 - `:history`
 
 ## Moving
@@ -15,14 +15,23 @@
 - `zt` 將目前選取行顯示到最上面
 - `zb` 將目前選取行顯示到最下面
 
+
+
+## Delete, Copy, Paste
+
 - `S` Delete line, equals to `cc`
 - `dd` Delete line
+- `yy` Copy line
 
+- `diw` or `daw` Delete word 
+- `dd` Delete row and move up the next row
 
 - `"0p` 貼上前一個複製的內容 
 - `"+y` 複製vim yanked到系統剪貼簿
 - `"+p` 從系統剪貼簿貼上複製的內容到vim
 - `<CTRL+R>"` 在Command mode貼上yanked  
+
+- `"_` Prefix for black hole, such as `"_d`, `"_c`
 
 
 
@@ -52,10 +61,18 @@
 -  `o`/`O` 往下/上插一行 
 
 
-## To Delete
+## To Replace
 
-- `diw` or `daw` Delete word 
-- `dd` Delete row and move up the next row
+Replace in command mode,
+
+- `:%s/<search_word>/<replace_as_word>/g` Replace all
+- `:%s/<search_word>/<replace_as_word>/gc` Replace all with confirmation
+- `:%s/<search_word>/<replace_as_word>/gi` Replace all without case sensitive
+- `%s/<search_word>/<replace_as_word>/g` Replace only at current line
+
+
+
+
 
 
 
