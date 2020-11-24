@@ -13,7 +13,7 @@ CREATE TABLE [dbo].[OnlineTxs]
 )
 
 
-/* Create partition function and schema */
+/* Create partition function and scheme */
 
 CREATE PARTITION FUNCTION pf_date_range (datetime)
 AS RANGE RIGHT
