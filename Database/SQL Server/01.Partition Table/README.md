@@ -1,4 +1,3 @@
-
 > This is a simple tutorial for creating partitions on an exist table.
 
 ## Create a demo table
@@ -19,9 +18,7 @@ CREATE TABLE [dbo].[OnlineTxs]
 )
 ```
 
-
 ## Create Partition Function and Scheme
-
 
 Use **Date** as the partition boundary of the Partition Function.
 
@@ -37,7 +34,6 @@ CREATE PARTITION SCHEME ps_date_range
 GO
 ```
 
-
 Verify the partitions we just made by the following SQL.
 
 ```sql
@@ -49,16 +45,13 @@ INNER JOIN sys.partition_range_values prf ON pf.function_id=prf.function_id
 
 ![](assets/partition_info.jpg)
 
-
-
 The records will be stored like this,
 
-| Partition number | Range |
-|:----------------:|:------|
-| 1 | < 2020-11-23 00:00:00  |
-| 2 | >= 2020-11-23 00:00:00 & < 2020-11-24 00:00:00  |
-| 3 | >= 2020-11-24 00:00:00 |
-
+| Partition number | Range                                          |
+| :--------------: | :--------------------------------------------- |
+|        1         | < 2020-11-23 00:00:00                          |
+|        2         | >= 2020-11-23 00:00:00 & < 2020-11-24 00:00:00 |
+|        3         | >= 2020-11-24 00:00:00                         |
 
 ## Create the none-clustered constraint and create clustered index
 
@@ -66,8 +59,7 @@ Furthermore, we have to recreate the constraint, the primary key must
 
 - Includes the Partition Boundary column: `[CreateOn]`
 - None-clustered
-- Be added on the Partition Function  
-
+- Be added on the Partition Function
 
 And create a clustered index for the Partition Boundary column: `[CreateOn]`.
 
@@ -86,7 +78,6 @@ WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, 
 ON ps_date_range([CreateOn])
 GO
 ```
-
 
 ## Test the partition table with data
 
@@ -113,7 +104,6 @@ BEGIN
 END
 ```
 
-
 Check the data by summarizing by **Partition Number**,
 
 ```sql
@@ -127,16 +117,40 @@ ORDER BY [IndexName], [PartitionNumber]
 
 ![](assets/check_partition_data_1.jpg)
 
-
-
-
 Or list/count the records by **Partition Number**,
 
 ```sql
-DECLARE @PARTITION_NUMBER INT = 1;
+DECLARE @partition_number INT = 1;
 SELECT COUNT(*) AS Cnt FROM [dbo].[OnlineTxs]
-WHERE $PARTITION.pf_date_range([CreateOn]) = @PARTITION_NUMBER;
+WHERE $PARTITION.pf_date_range([CreateOn]) = @partition_number;
 ```
 
 ![](assets/check_partition_data_2.jpg)
+
+## How to truncate by Partition
+
+Truncating by Partition is much faster then doing deletion.
+Here is how to truncate rows in millionseconds by Partition Number.
+
+```sql
+DECLARE @partition_numer INT = 1;
+TRUNCATE TABLE [dbo].[OnlineTxs] WITH (PARTITIONS(@partition_number));
+```
+
+## Create new Partition
+
+Alter the Partition Function to have more Partitions,
+
+```sql
+ALTER PARTITION SCHEME ps_date_range NEXT USED [PRIMARY];
+ALTER PARTITION FUNCTION pf_date_range() SPLIT RANGE ('2020/11/25');
+```
+
+## Remove the Partition
+
+```sql
+ALTER PARTITION FUNCTION pf_date_range() MERGE RANGE(CONVERT(DATETIME, '2020-11-23'));
+```
+
+Notice that the paramter for `RANGE()` must be **DATETIME**.
 
