@@ -1,4 +1,4 @@
-> This is a simple tutorial for creating partitions on an exist table.
+> This is a simple tutorial for creating partitions on an existing table.
 
 ## Create a demo table
 
@@ -53,6 +53,8 @@ The records will be stored like this,
 |        2         | >= 2020-11-23 00:00:00 & < 2020-11-24 00:00:00 |
 |        3         | >= 2020-11-24 00:00:00                         |
 
+
+
 ## Create the none-clustered constraint and create clustered index
 
 Furthermore, we have to recreate the constraint, the primary key must
@@ -81,7 +83,7 @@ GO
 
 ## Test the partition table with data
 
-We can use the following SQL to generate the data into the table.
+We can use the following SQL to generate some data into the table.
 
 ```sql
 CREATE FUNCTION fn_get_random (@GUID uniqueidentifier, @CEILING_VALUE INT)
@@ -104,7 +106,7 @@ BEGIN
 END
 ```
 
-Check the data by summarizing by **Partition Number**,
+Check the records by summarizing by **Partition Number**,
 
 ```sql
 SELECT o.name AS [ObjectName],i.name AS [IndexName], partition_id AS [PartitionId], partition_number AS [PartitionNumber], [rows]
@@ -127,7 +129,11 @@ WHERE $PARTITION.pf_date_range([CreateOn]) = @partition_number;
 
 ![](assets/check_partition_data_2.jpg)
 
-## How to truncate by Partition
+
+
+## Move on more actions
+
+### How to truncate by Partition
 
 Truncating by Partition is much faster then doing deletion.
 Here is how to truncate rows in millionseconds by Partition Number.
@@ -137,7 +143,8 @@ DECLARE @partition_numer INT = 1;
 TRUNCATE TABLE [dbo].[OnlineTxs] WITH (PARTITIONS(@partition_number));
 ```
 
-## Create new Partition
+
+### How to create new Partition
 
 Alter the Partition Function to have more Partitions,
 
@@ -146,7 +153,8 @@ ALTER PARTITION SCHEME ps_date_range NEXT USED [PRIMARY];
 ALTER PARTITION FUNCTION pf_date_range() SPLIT RANGE ('2020/11/25');
 ```
 
-## Remove the Partition
+
+### How to remove the Partition
 
 ```sql
 ALTER PARTITION FUNCTION pf_date_range() MERGE RANGE(CONVERT(DATETIME, '2020-11-23'));
