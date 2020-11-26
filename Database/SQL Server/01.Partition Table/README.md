@@ -162,3 +162,10 @@ ALTER PARTITION FUNCTION pf_date_range() MERGE RANGE(CONVERT(DATETIME, '2020-11-
 
 Notice that the paramter for `RANGE()` must be **DATETIME**.
 
+
+### Remove Partition Scheme and Function
+
+```sql
+DROP PARTITION SCHEME ps_date_range;
+DROP PARTITION FUNCTION pf_date_range;
+```

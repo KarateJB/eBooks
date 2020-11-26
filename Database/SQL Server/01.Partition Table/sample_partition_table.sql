@@ -32,8 +32,8 @@ INNER JOIN sys.partition_functions pf ON pf.function_id=ps.function_id
 INNER JOIN sys.partition_range_values prf ON pf.function_id=prf.function_id
 
 -- To remove partition scheme and function
--- DROP PARTITION SCHEME PS_DATE_RANGE;
--- DROP PARTITION FUNCTION PF_DATE_RANGE;
+-- DROP PARTITION SCHEME ps_date_range;
+-- DROP PARTITION FUNCTION pf_date_range;
 
 /* Recreate constraints */
 ALTER TABLE [dbo].[OnlineTxs] DROP CONSTRAINT [PK_OnlineTxs]
