@@ -34,3 +34,18 @@ BEGIN
    RETURN floor(random()* (high-low + 1) + low);
 END;
 $$ language 'plpgsql' STRICT;
+
+-- Create mock data
+do $loop$
+declare r INT;
+begin
+for r in 1..1000 loop
+    INSERT INTO public."OnlineTxs"("CardNo","Amt","CreateOn")
+    SELECT
+    '123456****789' AS "CardNo",
+    fn_random_int(100,9999) AS "Amt",
+    NOW() + fn_random_int(0,4) * interval '-1' day as "CreateOn";
+end loop;
+end;
+$loop$;
+
