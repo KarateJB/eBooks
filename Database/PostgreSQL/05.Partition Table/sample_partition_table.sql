@@ -14,6 +14,21 @@ CREATE TABLE "OnlineTxs_20201127" PARTITION OF "OnlineTxs"
 CREATE TABLE "OnlineTxs_20201128" PARTITION OF "OnlineTxs"
     FOR VALUES FROM ('2020-11-27') TO ('2020-11-28');
 
+-- Check the Partitions
+SELECT
+    nmsp_parent.nspname AS parent_schema,
+    parent.relname      AS parent,
+    nmsp_child.nspname  AS child_schema,
+    child.relname       AS child_name,
+    pg_get_expr(child.relpartbound, child.oid, true) as partition_expression
+FROM pg_inherits
+    JOIN pg_class AS parent            ON pg_inherits.inhparent = parent.oid
+    JOIN pg_class AS child             ON pg_inherits.inhrelid   = child.oid
+    JOIN pg_namespace AS nmsp_parent   ON nmsp_parent.oid  = parent.relnamespace
+    JOIN pg_namespace AS nmsp_child    ON nmsp_child.oid   = child.relnamespace
+WHERE parent.relname='OnlineTxs';
+
+
 /* Add constraints */
 -- Add Primary key
 ALTER TABLE public."OnlineTxs" ADD PRIMARY KEY ("Id", "CreateOn");
@@ -49,3 +64,7 @@ end loop;
 end;
 $loop$;
 
+/* Move on more actions */
+
+-- Remove a Partition
+ALTER TABLE public."OnlineTxs" DROP PARTITION "OnlineTxs_2020";
