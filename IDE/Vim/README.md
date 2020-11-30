@@ -68,7 +68,7 @@ Replace in command mode,
 - `:%s/<search_word>/<replace_as_word>/g` Replace all
 - `:%s/<search_word>/<replace_as_word>/gc` Replace all with confirmation
 - `:%s/<search_word>/<replace_as_word>/gi` Replace all without case sensitive
-- `%s/<search_word>/<replace_as_word>/g` Replace only at current line
+- `:s/<search_word>/<replace_as_word>/g` Replace only at current line
 
 
 
