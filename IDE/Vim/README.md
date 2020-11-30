@@ -40,12 +40,14 @@
 - `i` insert
 - `a` append
 - `J` Join lines
+- `A` Go to the end of a line and start edit
 
 - `cs"'` 換成對符號
 
 
 ## To Select
 
+- `V` select a line
 - `viB` select block
 - `gv` Select back
 
