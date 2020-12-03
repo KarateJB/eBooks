@@ -19,7 +19,7 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA system GRANT ALL ON functions to postgres;
 
 ```sql
 SELECT
-  'DROP TABLE IF EXISTS "' || tablename || '" CASCADE;' 
-from
-  pg_tables WHERE schemaname = 'public';
+    'DROP TABLE IF EXISTS ' || schemaname || '."' || tablename || '" CASCADE;'
+FROM pg_tables
+WHERE schemaname IN ('public');
 ```
