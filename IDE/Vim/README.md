@@ -19,7 +19,8 @@
 
 ## Delete, Copy, Paste
 
-- `S` Delete line, equals to `cc`
+- `s` Delete current char, equals to `cl`
+- `S` Delete line, equals to `cc`, `^C`
 - `dd` Delete line
 - `yy` Copy line
 
@@ -40,6 +41,7 @@
 - `i` insert
 - `a` append
 - `J` Join lines
+- `I` Go to the start of a line and start edit
 - `A` Go to the end of a line and start edit
 
 - `cs"'` 換成對符號
