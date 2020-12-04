@@ -24,7 +24,9 @@
 - `dd` Delete line
 - `yy` Copy line
 
-- `diw` or `daw` Delete word 
+- `dw` Delete any chars from current cursor and stops at next word.
+- `diw` Delete a word (exclude blank), often used on removing a word.
+-  `daw` Delete a word (include blank), ofter used on removing and insert a new word.
 - `dd` Delete row and move up the next row
 
 - `"0p` 貼上前一個複製的內容 
@@ -59,11 +61,12 @@
 
 ## To Search
 
-
 - 單行搜尋字元  `f`/`F` 字元，再按 `;` 或 `,` 重複往後/前找
 - 單行搜尋字元到前一個字元  `t`/`T`字元，再按 `;` 或 `,` 重複往後/前找
 -  `o`/`O` 往下/上插一行 
 
+- `/` Search next in document, `?` Search previous in document.
+- `*` Search current word.
 
 ## To Replace
 
