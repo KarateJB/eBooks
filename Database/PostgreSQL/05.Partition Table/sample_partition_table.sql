@@ -57,9 +57,10 @@ CREATE INDEX IX_OnlineTxs_CreateOn ON public."OnlineTxs"
 
 /* Manage Partitions */
 
--- Remove a Partition
-ALTER TABLE public."OnlineTxs" DROP PARTITION "OnlineTxs_20201127";
--- Or
+-- Truncate a Partition
+TRUNCATE "OnlineTxs_20201126"; 
+
+-- Remove a Partition and its data
 DROP TABLE "OnlineTxs_20201126";
 
 
@@ -93,7 +94,8 @@ for r in 1..1000 loop
     SELECT
     '123456****789' AS "CardNo",
     fn_random_int(100,9999) AS "Amt",
-    NOW() + fn_random_int(0,4) * interval '-1' day as "CreateOn";
+    '2020-11-29'::timestamp + fn_random_int(0,4) * interval '-1' day as "CreateOn";
+    -- NOW() + fn_random_int(0,4) * interval '-1' day as "CreateOn";
 end loop;
 end;
 $loop$;
