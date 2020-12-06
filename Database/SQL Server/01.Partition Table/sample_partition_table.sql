@@ -110,14 +110,14 @@ ALTER PARTITION FUNCTION pf_date_range() SPLIT RANGE ('2020/11/21');
 
 /* For testing */
 
--- Create a function to get the random number
-CREATE FUNCTION fn_get_random (@GUID uniqueidentifier, @CEILING_VALUE INT)
+-- Get a random integer between low and high (low <= the random interger <= high)
+CREATE FUNCTION fn_random_int (@guid uniqueidentifier, @low INT, @high INT)
 RETURNS INT
 AS
 BEGIN
-  DECLARE @RAND INT;
-  SELECT @RAND = ABS(CHECKSUM(@GUID)) % @CEILING_VALUE;
-  RETURN @RAND;
+  DECLARE @rand INT;
+  SELECT @rand = ABS(CHECKSUM(@guid) % (@high - @low - 1)) + @low
+  RETURN @rand;
 END
 
 
@@ -127,8 +127,11 @@ WHILE @seq < 1000
 BEGIN
     SET @seq = @seq + 1
 
-    INSERT INTO [dbo].[OnlineTxs]([Cardno],[Amt],[CreateOn])
-    SELECT '123456****789' AS [CardNo], dbo.fn_get_random(NEWID(), 9999) AS [Amt], DATEADD(day, -1 * dbo.fn_get_random(NEWID(),4), GETDATE()) AS [CreateOn]
+    INSERT INTO [dbo].[OnlineTxs]([CardNo],[Amt],[CreateOn])
+    SELECT
+    '123456****789' AS [CardNo],
+    dbo.fn_random_int(NEWID(),100,9999) AS [Amt],
+    DATEADD(day, -1 * dbo.fn_random_int(NEWID(),0,4), GETDATE()) AS [CreateOn]
 END
 
 
