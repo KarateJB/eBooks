@@ -1,36 +1,36 @@
 
-## List
+## Articals
 
-├── [Cloud](https://github.com/KarateJB/JB-eBooks/tree/master/Cloud)<br />
-|  ├── [Azure](https://github.com/KarateJB/JB-eBooks/tree/master/Cloud/Azure)<br />
-|  └── [GCP](https://github.com/KarateJB/JB-eBooks/tree/master/Cloud/GCP)<br />
-├── [Database](https://github.com/KarateJB/JB-eBooks/tree/master/Date)<br />
-|  ├── [PostgreSQL](https://github.com/KarateJB/JB-eBooks/tree/master/Database/PostgreSQL)<br />
-|  └── [SQL Server](https://github.com/KarateJB/JB-eBooks/tree/master/Database/SQL%20Server)<br />
-├── [DevOps](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps)<br />
-|  ├── [Ansible](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/Ansible)
-|  ├── [Docker](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/Docker)
-|  ├── [Git](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/Git)
-|  ├── [Gulp](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/Gulp)
-|  ├── [Jenkins](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/Jenkins)
-|  ├── [Kubernetes](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/Kubernetes)
-|  ├── [npm](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/npm)
-|  ├── [Nuget](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/Nuget)
-|  ├── [Redis](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/Redis)
-|  └── [WSL2](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/WSL2)
-├── [IDE](https://github.com/KarateJB/JB-eBooks/tree/master/IDE)
-|  └── [Vim](https://github.com/KarateJB/JB-eBooks/tree/master/IDE/Vim)
-├── [OS](https://github.com/KarateJB/JB-eBooks/tree/master/OS)
-|  └── [Unix](https://github.com/KarateJB/JB-eBooks/tree/master/OS/Unix)
-├── [Programming](https://github.com/KarateJB/JB-eBooks/tree/master/Programming)
-|  ├── [Angular](https://github.com/KarateJB/JB-eBooks/tree/master/Programming/Angular)
-|  ├── [AngularJS](https://github.com/KarateJB/JB-eBooks/tree/master/Programming/AngularJS)
-|  ├── [ASP.NET Core](https://github.com/KarateJB/JB-eBooks/tree/master/Programming/ASP.NET%20Core)
-|  ├── [ASP.NET core X Angular2 (2016-2017, Deprecated)](https://github.com/KarateJB/JB-eBooks/tree/master/Programming/ASP.NET%20core%20X%20Angular2)
-|  ├── [Design Patterns](https://github.com/KarateJB/JB-eBooks/tree/master/Programming/Design%20Patterns)
-|  └── [Vue.js](https://github.com/KarateJB/JB-eBooks/tree/master/Programming/Vue.js)
-├── [Project Management](https://github.com/KarateJB/JB-eBooks/tree/master/Project%20Management)
-|  └── [PMI-ACP Notes](https://github.com/KarateJB/JB-eBooks/tree/master/Project%20Management/PMI-ACP%20Notes)
+[Cloud](https://github.com/KarateJB/JB-eBooks/tree/master/Cloud)<br />
+  ├── [Azure](https://github.com/KarateJB/JB-eBooks/tree/master/Cloud/Azure)<br />
+  └── [GCP](https://github.com/KarateJB/JB-eBooks/tree/master/Cloud/GCP)<br />
+[Database](https://github.com/KarateJB/JB-eBooks/tree/master/Date)<br />
+  ├── [PostgreSQL](https://github.com/KarateJB/JB-eBooks/tree/master/Database/PostgreSQL)<br />
+  └── [SQL Server](https://github.com/KarateJB/JB-eBooks/tree/master/Database/SQL%20Server)<br />
+[DevOps](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps)<br />
+   ├── [Ansible](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/Ansible)<br />
+   ├── [Docker](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/Docker)<br />
+   ├── [Git](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/Git)<br />
+   ├── [Gulp](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/Gulp)<br />
+   ├── [Jenkins](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/Jenkins)<br />
+   ├── [Kubernetes](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/Kubernetes)<br />
+   ├── [npm](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/npm)<br />
+   ├── [Nuget](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/Nuget)<br />
+   ├── [Redis](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/Redis)<br />
+   └── [WSL2](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/WSL2)<br />
+[IDE](https://github.com/KarateJB/JB-eBooks/tree/master/IDE)<br />
+   └── [Vim](https://github.com/KarateJB/JB-eBooks/tree/master/IDE/Vim)<br />
+[OS](https://github.com/KarateJB/JB-eBooks/tree/master/OS)<br />
+   └── [Unix](https://github.com/KarateJB/JB-eBooks/tree/master/OS/Unix)<br />
+[Programming](https://github.com/KarateJB/JB-eBooks/tree/master/Programming)<br />
+   ├── [Angular](https://github.com/KarateJB/JB-eBooks/tree/master/Programming/Angular)<br />
+   ├── [AngularJS](https://github.com/KarateJB/JB-eBooks/tree/master/Programming/AngularJS)<br />
+   ├── [ASP.NET Core](https://github.com/KarateJB/JB-eBooks/tree/master/Programming/ASP.NET%20Core)<br />
+   ├── [ASP.NET core X Angular2 (2016-2017, Deprecated)](https://github.com/KarateJB/JB-eBooks/tree/master/Programming/ASP.NET%20core%20X%20Angular2)<br />
+   ├── [Design Patterns](https://github.com/KarateJB/JB-eBooks/tree/master/Programming/Design%20Patterns)<br />
+   └── [Vue.js](https://github.com/KarateJB/JB-eBooks/tree/master/Programming/Vue.js)<br />
+[Project Management](https://github.com/KarateJB/JB-eBooks/tree/master/Project%20Management)<br />
+   └── [PMI-ACP Notes](https://github.com/KarateJB/JB-eBooks/tree/master/Project%20Management/PMI-ACP%20Notes)<br />
 
 
 
