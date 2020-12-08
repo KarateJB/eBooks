@@ -1,5 +1,5 @@
 
-## Articals
+## Articles
 
 [Cloud](https://github.com/KarateJB/JB-eBooks/tree/master/Cloud)<br />
   ├── [Azure](https://github.com/KarateJB/JB-eBooks/tree/master/Cloud/Azure)<br />
