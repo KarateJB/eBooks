@@ -26,7 +26,7 @@
 
 - `dw` Delete any chars from current cursor and stops at next word.
 - `diw` Delete a word (exclude blank), often used on removing a word.
--  `daw` Delete a word (include blank), ofter used on removing and insert a new word.
+- `daw` Delete a word (include blank), ofter used on removing and insert a new word.
 - `dd` Delete row and move up the next row
 
 - `"0p` 貼上前一個複製的內容 
@@ -78,7 +78,10 @@ Replace in command mode,
 - `:s/<search_word>/<replace_as_word>/g` Replace only at current line
 
 
+## Repeat
 
+- `.` Repeat the last change.
+- `@:` Repeat the last command(which comes from command mode).
 
 
 
