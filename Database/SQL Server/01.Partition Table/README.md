@@ -2,7 +2,7 @@
 
 ## Create a demo table
 
-Lets create a table first. We will use `[CreateOn]` as the the value for partitions.
+Lets create a table first. We will use `[CreateOn]` as the value for partitions.
 
 ```sql
 CREATE TABLE [dbo].[OnlineTxs]
@@ -140,7 +140,7 @@ WHERE $PARTITION.pf_date_range([CreateOn]) = @partition_number;
 
 ### How to truncate by Partition
 
-Truncating by Partition is much faster then doing deletion.
+Truncating by Partition is much faster than doing deletion.
 Here is how to truncate rows in millionseconds by Partition Number.
 
 ```sql
