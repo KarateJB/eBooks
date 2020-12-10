@@ -2,7 +2,7 @@
 
 ## Create a demo table
 
-Lets create a table first. We will use `[CreateOn]` as the the value for partitioning.
+Lets create a table first. We will use `[CreateOn]` as the value for partitioning.
 
 ```sql
 CREATE TABLE "OnlineTxs"
@@ -15,6 +15,8 @@ CREATE TABLE "OnlineTxs"
 ```
 
 ## Create Partitions
+
+We will create the following partition tables with different boundaries.
 
 ```sql
 CREATE TABLE "OnlineTxs_20201126" PARTITION OF "OnlineTxs"
@@ -30,9 +32,23 @@ CREATE TABLE "OnlineTxs_20201129" PARTITION OF "OnlineTxs"
     FOR VALUES FROM ('2020-11-28') TO ('2020-11-29');
 
  CREATE TABLE "OnlineTxs_20201130" PARTITION OF "OnlineTxs"
-    FOR VALUES FROM ('2020-11-29') TO ('2020-11-30');
-   
+    FOR VALUES FROM ('2020-11-29') TO ('2020-11-30');   
 ```
+
+
+
+The records will be stored in this way by the boundaries,
+
+| Partition table name | Range |
+|:-----------------:|:------|
+| OnlineTxs_20201126 | >= 2020-11-25 00:00:00 &  < 2020-11-26 00:00:00  |
+| OnlineTxs_20201127 | >= 2020-11-26 00:00:00 &  < 2020-11-27 00:00:00  |
+| OnlineTxs_20201128 | >= 2020-11-27 00:00:00 &  < 2020-11-28 00:00:00  |
+| OnlineTxs_20201129 | >= 2020-11-28 00:00:00 &  < 2020-11-29 00:00:00  |
+| OnlineTxs_20201130 | >= 2020-11-29 00:00:00 &  < 2020-11-30 00:00:00  |
+
+
+
 
 Verify the partitions we just made by the following SQL.
 
@@ -138,6 +154,8 @@ GROUP BY parent_schema, parent, child_schema, child_name, partition_expression
 ## Move on more actions
 
 ### Truncate a Partition
+
+Truncating by Partition is much faster than doing deletion. Here is how to truncate a Partition table.
 
 ```sql
 TRUNCATE "OnlineTxs_20201126"; 
