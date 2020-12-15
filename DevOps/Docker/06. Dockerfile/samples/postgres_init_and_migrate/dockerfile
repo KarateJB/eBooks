@@ -1,0 +1,33 @@
+FROM postgres:12
+
+RUN unlink /docker-entrypoint.sh
+
+ENV POSTGRES_DB=postgres
+ENV POSTGRES_PORT=5432
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=postgres
+
+COPY postgres/create_extensions.sql /docker-entrypoint-initdb.d/create_extensions.sql
+COPY postgres/migrate_script.sql /docker-entrypoint-initdb.d/migrate_script.sql
+COPY postgres/docker-entrypoint.sh /usr/local/bin/
+COPY postgres/run_psql.sh /usr/local/bin/
+COPY postgres/run_services.sh /usr/local/bin/
+COPY postgres/migrate_db.sh /usr/local/bin/
+
+RUN apt-get update \
+    && apt-get install -y sudo \
+    && apt-get install -y pgagent \
+    && apt-get install -y dos2unix
+
+# Convert windows file to Unix text file format
+RUN dos2unix /usr/local/bin/docker-entrypoint.sh \
+    && dos2unix /usr/local/bin/run_psql.sh \
+    && dos2unix /usr/local/bin/run_services.sh \
+    && dos2unix /usr/local/bin/migrate_db.sh 
+    
+RUN sudo adduser postgres sudo
+RUN ln -s usr/local/bin/docker-entrypoint.sh / # backwards compat
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+EXPOSE 5432
+CMD ["postgres", "-p", "5432", "-c", "logging_collector=on", "-c", "log_filename=postgresql.log", "-c", "log_statement=none", "-c", "log_min_error_statement=ERROR"]
