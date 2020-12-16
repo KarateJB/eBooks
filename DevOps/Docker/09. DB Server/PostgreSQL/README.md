@@ -102,9 +102,34 @@ docker run -p 443:443 \
 ![](assets/001.png)
 
 
+
+
+
+### Customize Dockerfile sample
+
+The following sample dockefile will install some extensions(e.q. pgagent), run pgagent and do DB migration.
+
+[Sample Dockerfile](
+https://github.com/KarateJB/JB-eBooks/blob/master/DevOps/Docker/09. DB Server/PostgreSQL/samples/postgres_init_and_migrate/dockerfile)
+
+The way to build the image and run it.
+
+```s
+$ docker build --no-cache -t karatejb/demo-postgres:12 .
+$ docker run --name my-demo-postgres -v ./data:/var/lib/postgresql/data -p 5432:5432  -e POSTGRES_PASSWORD=XXX -d karatejb/demo-postgres:12
+```
+
+Result:
+
+![](assets/002.png)
+
+
+
+
+
 ### Docker compose
 
-![docker-compose.yml](https://github.com/KarateJB/Dockerfiles/blob/master/PostgreSQL/docker-compose.yml)
+[docker-compose.yml](https://github.com/KarateJB/Dockerfiles/blob/master/PostgreSQL/docker-compose.yml)
 
 
 

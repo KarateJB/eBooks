@@ -47,7 +47,7 @@ $ docker volume ls -qf dangling=true | xargs -r docker volume rm
 ## List volumes in the container
 
 ```bash
-$ docker inspect -f '{{ .Mounts }}' <container_name>
+$ docker inspect -f '{{ .Mounts }}' <container_name_or_id>
 ```
 
 

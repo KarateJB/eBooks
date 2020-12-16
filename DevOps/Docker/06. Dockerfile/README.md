@@ -28,7 +28,7 @@ The major parts in a Dockerfile are:
 | VOLUME | Create data volume, such as database file or static files | `VOLUME ["/data"]` | |
 | USER | The user name or UID for running container | `USER <user name>` | `RUN groupadd -r redis && useradd -r -g redis redis`<br />`USER redis`<br />`RUN ...` |
 | WORKDIR | The work directory for build | `WORKDIR /path/..` | `WORKDIR /x`<br />`WORKDIR /y`<br />`RUN pwd`<br /> pwd will be /x/y. |
-| ARG | The arguments for the image, which can be set when exec `docker build -arg <arg_name>=<value>` | `ARG <name>[=default value]` | |
+| ARG | The arguments for the image, which can be set when exec `docker build --build-arg <arg_name>=<value>` | `ARG <name>[=default value]` | |
 | ONBUILD | The commands executed when the image is used as a base image | `ONBUILD <other commands>` | `ONBUILD ADD ./app/src` |
 | STOPSIGNAL | Signal for stopping the container | `STOPSIGNAL <message>` | |
 | SHELL | Default shell, which is `SHELL ["/bin/sh","-c"]` in default | `SHELL ["execuable", "parameters"]` | `SHELL ["/bin/sh","-c"]` |
@@ -93,6 +93,19 @@ $ docker build -t karatejb/ansible:latest .
   $ docker run -v /var/run/docker.sock:/var/run/docker.sock centurylink/dockerfile-from-image <Image tag/id> Dockerfile.txt
   ```
 
+  For example,
 
-  docker run -v /var/run/docker.sock:/var/run/docker.sock centurylink/dockerfile-from-image mysql Dockerfile.txt
+  ```s
+  $ docker run -v /var/run/docker.sock:/var/run/docker.sock centurylink/dockerfile-from-image mysql Dockerfile.
+  txt
+  ```
+
+
+
+
+## Other samples
+
+### [ASP.NET Core] Build and run kestrel
+
+See sample [dockerfile](https://github.com/KarateJB/JB-eBooks/blob/master/DevOps/Docker/06. Dockefile/samples/aspnetcore_build_and_run/dockerfile)
 
