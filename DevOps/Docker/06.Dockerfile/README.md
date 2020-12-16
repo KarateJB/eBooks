@@ -107,5 +107,5 @@ $ docker build -t karatejb/ansible:latest .
 
 ### [ASP.NET Core] Build and run kestrel
 
-See sample [dockerfile](https://github.com/KarateJB/JB-eBooks/blob/master/DevOps/Docker/06. Dockefile/samples/aspnetcore_build_and_run/dockerfile)
+See sample [dockerfile](https://github.com/KarateJB/JB-eBooks/blob/master/DevOps/Docker/06.Dockefile/samples/aspnetcore_build_and_run/dockerfile)
 
