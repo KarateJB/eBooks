@@ -1,5 +1,5 @@
 
-## apt-get: Temporary failure in name resolution
+# apt-get: Temporary failure in name resolution
 
 ### Error
 
@@ -31,7 +31,13 @@ echo "nameserver 8.8.8.8" >> /etc/resolv.conf
 > - [How to resolve "Temporary failure in name resolution" issue](https://www.digitalocean.com/community/questions/how-to-resolve-temporary-failure-in-name-resolution-issue)
 
 
-## docker startup crash on Windows 10 but ok after restart machine
+
+
+
+
+
+
+# docker startup crash on Windows 10 but ok after restart machine
 
 
 ### Solution

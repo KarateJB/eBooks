@@ -102,6 +102,49 @@ $ docker build -t karatejb/ansible:latest .
 
 
 
+## Use certain user to execute script on EntryPoint/CMD
+
+
+For example,
+
+```dockerfile
+FROM postgres:11
+
+ENV POSTGRES_USER postgres
+ENV POSTGRES_PASSWORD xxxxx
+
+# Add user: postgres
+RUN sudo adduser postgres sudo
+
+EXPOSE 5432
+ENTRYPOINT ["/bin/sh", "-c", "sudo -E -u postgres sh -c 'echo ~/ $POSTGRES $POSTGRES_PASSWORD'"]
+
+# Or use this
+# ENTRYPOINT ["/bin/sh", "-c", "su --preserve-environment - postgres -c 'echo ~/ $POSTGRES $POSTGRES_PASSWORD'"]
+```
+
+Notice that we have to preserve the existing environment variables by adding the argument `-U` when sudo.
+> From [sudo manual](https://www.sudo.ws/man/1.8.13/sudo.man.html#E)<br />
+> `-E, --preserve-env`: Indicates to the security policy that the user wishes to preserve their existing environment variables. The security policy may return an error if the user does not have permission to preserve the environment.
+
+
+The output will be
+
+```s
+/root/ postgres xxxxx
+```
+
+but if we execute without preserving environment variables, we cannot get the `$POSTGRES_USER` and `$POSTGRES_PASSWORD` and the output will be
+
+```s
+/var/lib/postgresql/   
+```
+
+So be careful to use `~/` on this scenario, cus the user `postgres` won't have the permission on `/root/`.
+
+
+
+
 
 ## Other samples
 
