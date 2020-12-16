@@ -109,8 +109,7 @@ docker run -p 443:443 \
 
 The following sample dockefile will install some extensions(e.q. pgagent), run pgagent and do DB migration.
 
-[Sample Dockerfile](
-https://github.com/KarateJB/JB-eBooks/blob/master/DevOps/Docker/09.DB Server/PostgreSQL/samples/postgres_init_and_migrate/dockerfile)
+[Sample Dockerfile](https://github.com/KarateJB/JB-eBooks/blob/master/DevOps/Docker/09.DB%20Server/PostgreSQL/samples/postgres_init_and_migrate/dockerfile)
 
 The way to build the image and run it.
 
