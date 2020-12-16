@@ -5,7 +5,7 @@ RUN unlink /docker-entrypoint.sh
 ENV POSTGRES_DB=postgres
 ENV POSTGRES_PORT=5432
 ENV POSTGRES_USER=postgres
-ENV POSTGRES_PASSWORD=postgres
+# ENV POSTGRES_PASSWORD=postgres
 
 COPY postgres/create_extensions.sql /docker-entrypoint-initdb.d/create_extensions.sql
 COPY postgres/migrate_script.sql /docker-entrypoint-initdb.d/migrate_script.sql

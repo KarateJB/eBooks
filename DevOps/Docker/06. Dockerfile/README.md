@@ -93,13 +93,19 @@ $ docker build -t karatejb/ansible:latest .
   $ docker run -v /var/run/docker.sock:/var/run/docker.sock centurylink/dockerfile-from-image <Image tag/id> Dockerfile.txt
   ```
 
+  For example,
 
-  docker run -v /var/run/docker.sock:/var/run/docker.sock centurylink/dockerfile-from-image mysql Dockerfile.txt
+  ```s
+  $ docker run -v /var/run/docker.sock:/var/run/docker.sock centurylink/dockerfile-from-image mysql Dockerfile.
+  txt
+  ```
 
 
-## Samples
 
-```s
-$ docker build --no-cache -t karatejb/demo-postgres:12 .
-$ docker run --name my-postgres -v ./data:/var/lib/postgresql/data -p 5432:5432  -e POSTGRES_PASSWORD=XXX -d karatejb/demo-postgres:12
-```
+
+## Other samples
+
+### [ASP.NET Core] Build and run kestrel
+
+See sample [dockerfile](https://github.com/KarateJB/JB-eBooks/blob/master/DevOps/Docker/06. Dockefile/samples/aspnetcore_build_and_run/dockerfile)
+
