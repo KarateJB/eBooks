@@ -58,6 +58,8 @@ $wrapper$
 We have to use the features of [Dynamic SQL]( https://www.postgresql.org/docs/current/ecpg-dynamic.html) and use [current_setting(get current value of setting)]( https://www.postgresql.org/docs/9.6/functions-admin.html#FUNCTIONS-ADMIN-SET-TABLE) to make the SQL can read the value of arguments.
 
 
+- create_dblink_wrapper.sql
+
 ```sql
 /* Create dblink wrapper to postgres */
 
@@ -88,7 +90,7 @@ $wrapper$
 Now we can execute the SQL as following,
 
 ```s
-psql -h localhost -p 5432 -U postgres -d Demo -v postgres_user=$POSTGRES_USER -v postgres_password=$POSTGRES_PASSWORD -f create_dblink_wrapper.sql
+$ psql -h localhost -p 5432 -U postgres -d Demo -v postgres_user=$POSTGRES_USER -v postgres_password=$POSTGRES_PASSWORD -f create_dblink_wrapper.sql
 ```
 
 Output:
