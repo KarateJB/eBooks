@@ -1,4 +1,5 @@
-> This is a sample of using EXECUTE to execute the dynamic SQL, which its parameters are come from psql arguments.
+> This is a sample of using [EXECUTE](https://www.postgresql.org/docs/current/ecpg-dynamic.html) to execute the dynamic SQL, which its parameters come from psql arguments.
+
 
 ## The origin SQL
 
@@ -27,13 +28,13 @@ $wrapper$;
 
 ## Goals
 
-**The problem is that we put the user/pwd when creating the USER MAPPING and when we want to execute the SQL on CI, it is insecure and cannot be modified depends on different environments.**
+**Since we put the user/pwd when creating the USER MAPPING and while executing the SQL on CI, it is insecure and cannot be modified depends on different environments.**
 
-We would like to decide the values of user/pwd by environment variables, for example,
+We would like to decide the values of user/pwd by the environment variables, for example,
 
 
 ```s
-$ psql -h localhost -p 5432 -U postgres -d Demo -v postgres_user=$POSTGRESS_USER -v postgres_password=$POSTGRES_PASSWORD -f create_dblink_wrapper.sql */
+$ psql -h localhost -p 5432 -U postgres -d Demo -v postgres_user=$POSTGRESS_USER -v postgres_password=$POSTGRES_PASSWORD -f create_dblink_wrapper.sql
 ```
 
 
@@ -41,7 +42,7 @@ $ psql -h localhost -p 5432 -U postgres -d Demo -v postgres_user=$POSTGRESS_USER
 
 ## This wiil NOT WORK!
 
-Since we can get the argument values of psql command by `:postgres_user`. However, we cannot use the variable(s) inside the `DO` statement.
+Since we can get the argument values from psql command by `:postgres_user`. However, we cannot use the variable(s) inside the `DO` statement.
 
 ```sql
 \echo USER/PWD=:postgres_user/:postgres_password -- This wiil successfully show USER/PWD=my_user/my_pwd
@@ -55,7 +56,7 @@ $wrapper$
 
 ## Solution
 
-We have to use the features of [Dynamic SQL]( https://www.postgresql.org/docs/current/ecpg-dynamic.html) and use [current_setting(get current value of setting)]( https://www.postgresql.org/docs/9.6/functions-admin.html#FUNCTIONS-ADMIN-SET-TABLE) to make the SQL can read the value of arguments.
+We have to use the features of [Dynamic SQL]( https://www.postgresql.org/docs/current/ecpg-dynamic.html) and use [current_setting(get current value of setting)]( https://www.postgresql.org/docs/9.6/functions-admin.html#FUNCTIONS-ADMIN-SET-TABLE) to make the SQL can read the value of arguments in `DO` statement.
 
 
 - create_dblink_wrapper.sql
@@ -95,7 +96,7 @@ $ psql -h localhost -p 5432 -U postgres -d Demo -v postgres_user=$POSTGRES_USER 
 
 Output:
 
-```
+```s
 POSTGRES_USER='postgres',POSTGRES_PASSWORD='xxxxx'
 SET
 SET
