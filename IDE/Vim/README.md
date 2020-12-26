@@ -48,6 +48,16 @@
 
 - `cs"'` 換成對符號
 
+- `gu` Convert to lowercase. For example...
+   - `gul` Convert current selected char to lowercase.
+   - `guaw` Convert current word to lowercase.
+   - `guu` convert current line to lowercase.
+- `gU` Convert to uppercase, it's usage is the same as above.
+
+- `gc` Comment out.
+   - `gcc` Comment out current line.
+   - `gcap` Comment out current block.
+
 
 ## To Select
 
