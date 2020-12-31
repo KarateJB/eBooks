@@ -1,6 +1,7 @@
-# Create
+> The sample shows how to create a `AuditLogs` table and set triggers on tables that need to keep insert/update/delete logs on them.
 
-## Create shema and table
+
+# Create shema and table
 
 ```sql
 DO $table$
@@ -107,14 +108,14 @@ $trigger_function$;
 
 
 
-## Create_triggers
+# Create Triggers
 
 
 ```sql
 DO $triggers$
 BEGIN
 
-CREATE TRIGGER t_audit_mysecrets
+CREATE OR REPLACE TRIGGER t_audit_mysecrets
 AFTER INSERT OR UPDATE OR DELETE ON public."MySecrets"
 FOR EACH ROW EXECUTE PROCEDURE system.tf_modified_audit();
 
@@ -123,6 +124,23 @@ FOR EACH ROW EXECUTE PROCEDURE system.tf_modified_audit();
 END    
 $triggers$;
 
+```
+
+
+# Show all triggers
+
+```sql
+SELECT
+event_object_schema                 as table_schema,
+event_object_table                  as table_name,
+trigger_schema,
+trigger_name,
+string_agg(event_manipulation, ',') as event,
+action_timing                       as activation,
+action_condition                    as condition,
+action_statement                    as definition
+FROM information_schema.triggers
+GROUP BY 1, 2, 3, 4, 6, 7, 8
 ```
 
 
