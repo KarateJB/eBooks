@@ -175,7 +175,7 @@ public void ConfigureServices(IServiceCollection services)
 
 Now we can set feature toggle on API (Controller or Action) with [FeatureGateAttribute](https://github.com/microsoft/FeatureManagement-Dotnet/blob/main/src/Microsoft.FeatureManagement.AspNetCore/FeatureGateAttribute.cs).
 
-For example,
+For example, the API will return 404 if we set `false` on the mapping feature flag on `appsettings.json`.
 
 ```csharp
 [FeatureGate(FeatureFlags.Demo)]
@@ -184,4 +184,99 @@ For example,
 public class DemoController : ControllerBase
 { }
 ```
+
+We can also use the injected `Microsoft.FeatureManagement.IFeatureManager` instance to get the value of feature flag.
+
+```csharp
+[ApiController]
+public class DemoController : ControllerBase
+{
+    private readonly IFeatureManager featureManager = null;
+
+    public DemoController( IFeatureManager featureManager)
+    {
+        this.featureManager = featureManager;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> TestDisableApiFilter()
+    {
+        if (await featureManager.IsEnabledAsync(nameof(FeatureFlags.Tests)))
+        {
+            return this.Ok();
+        }
+        else 
+        {
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
+    }
+
+}
+```
+
+This is useful when we can control enabling certain features on startup of application.
+For example, we can toggle API Document, like [Swagger](https://docs.microsoft.com/en-us/aspnet/core/tutorials/web-api-help-pages-using-swagger) with an extension method,
+
+
+-  IApplicationBuilderExtensions.cs
+
+```csharp
+public static IApplicationBuilder UseToggleFeatures(this IApplicationBuilder app)
+{
+    var featureManager = app.ApplicationServices.GetService<Microsoft.FeatureManagement.IFeatureManager>();
+    bool isEnableApiDoc = featureManager.IsEnabledAsync(nameof(FeatureFlags.ApiDoc)).Result;
+
+    if (isEnableApiDoc)
+    {
+        // Enable something like Swagger, etc...
+    }
+
+    return app;
+}
+```
+
+And apply it in `Startup.cs`,
+
+- Startup.cs
+
+```csharp
+public class Startup
+{
+    public void Configure(IApplicationBuilder app)
+    {
+        // Use toggle features
+        app.UseToggleFeatures();
+    }
+}
+```
+
+
+### Feature Management Configuration from other service
+
+We can implement [IFeatureDefinitionProvider](https://github.com/microsoft/FeatureManagement-Dotnet/blob/main/src/Microsoft.FeatureManagement/IFeatureDefinitionProvider.cs) to get the Feature Management Configuration from other service's API.
+
+We will use [json-server](https://github.com/typicode/json-server) to have an API running on `http://localhost:3000/feature-configuration`, which will returns the json configuration as below,
+
+![](assets/remote-feature-management-config.jpg)
+
+
+Now lets see how to load the configuration by implementing the custom `IFeatureDefinitionProvider`.
+
+
+#### Implement IFeatureDefinitionProvider
+
+We can take a look at [ConfigurationFeatureDefinitionProvider.cs](https://github.com/microsoft/FeatureManagement-Dotnet/blob/main/src/Microsoft.FeatureManagement/ConfigurationFeatureDefinitionProvider.cs) and try to create our custom one.
+
+> The sample code also refer to the following article:
+> [[料理佳餚] 實作 IFeatureDefinitionProvider 從外部的服務載入 ASP.NET Core Feature Flags（Feature Toggle）的設定](https://dotblogs.com.tw/supershowwei/2020/11/23/180548)
+
+
+
+- RemoteFeatureDefinitionProvider.cs
+
+```csharp
+
+```
+
+
 
