@@ -14,6 +14,17 @@ The vault password can be set thru:
 
 A vault ID is the identifier for one or more vault secrets.
 
+By default the vault-id label is only a hint, we can decrypt the encrypted content if the password is correct and no matter the vault-id is matched or not.
+
+Set the [DEFAULT_VAULT_ID_MATCH (`vault_id_match`)](https://docs.ansible.com/ansible/2.8/reference_appendices/config.html#default-vault-id-match) to verify the vault-id before decrypting.
+
+> You will get *fatal: [my-host]: FAILED! => {"changed": false, "msg": "AnsibleVaultError: Decryption failed (no vault secrets were found that could decrypt)"}* when the vault-id does not match.
+
+
+
+
+
+
 Use vault ID as following,
 
 #### Prompt
@@ -43,6 +54,19 @@ To set a label,
 ```s
 --vault-id <label>@~/dev-av-secret
 ```
+
+If we use certain password file frequently, we can set [DEFAULT_VAULT_PASSWORD_FILE (`vault_password_file`)](https://docs.ansible.com/ansible/2.8/reference_appendices/config.html#default-vault-password-file) or [DEFAULT_VAULT_IDENTITY (`vault_identity`)] for either` -vault-password-file` or `--vault-id`.
+
+
+For example, set the variables in `ansible.cfg`
+
+```
+vault_identity = dev
+vault_password_file = ~/dev-av-secret
+```
+
+is equal to `--vault-id dev@~/dev-av-secret`.
+
 
 
 
@@ -77,7 +101,11 @@ $ ansile-vault create --vault-id staging@prompt demo2.yml
 ![](assets/create_file_by_prompt_vault_id.jpg)
 
 
+which is equal to 
 
+```s
+$ ansible-vault create --ask-vault-pass demo2.yml
+```
 
 
 
@@ -184,7 +212,29 @@ $ ansible-vault encrypt_string --vault-id dev@a_password_file --stdin-name 'my_s
 
 
 
+## Decrypt the variable in ansible-playbook
+
+The usage is as same as `ansible-vault`, we can use `--vault-id`, `vault-password-file`, `--ask-vault-pass`.
+
+For example,
+
+```s
+$ ansible-playbook --vault-id dev@~/dev-av-secret -i ./inventories/demo/ demo.yml
+```
 
 
 
 
+## Ansible Configuration Settings
+
+- [DEFAULT_VAULT_ENCRYPT_IDENTITY](https://docs.ansible.com/ansible/2.8/reference_appendices/config.html#default-vault-encrypt-identity)
+- [DEFAULT_VAULT_ID_MATCH](https://docs.ansible.com/ansible/2.8/reference_appendices/config.html#default-vault-id-match)
+- [DEFAULT_VAULT_IDENTITY](https://docs.ansible.com/ansible/2.8/reference_appendices/config.html#default-vault-identity)
+- [DEFAULT_VAULT_IDENTITY_LIST](https://docs.ansible.com/ansible/2.8/reference_appendices/config.html#default-vault-identity-list)
+- [DEFAULT_VAULT_PASSWORD_FILE](https://docs.ansible.com/ansible/2.8/reference_appendices/config.html#default-vault-password-file)
+
+
+
+## Reference
+
+- [Ansible Vault](https://docs.ansible.com/ansible/2.8/user_guide/vault.html)
