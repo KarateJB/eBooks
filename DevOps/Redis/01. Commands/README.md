@@ -55,6 +55,9 @@
 | [UNSUBSCRIBE](https://redis.io/commands/unsubscribe) | `UNSUBSCRIBE` or `UNSUBSCRIBE <channel1> [<channel2> ...]` | | | Unsubscribe channel(s) |
 | [PUNSUBSCRIBE](https://redis.io/commands/punsubscribe) | `PUNSUBSCRIBE` or `PUNSUBSCRIBE <pattern> [<pattern> ...]` | | | Unsubscribe channel(s) of given patterns |
 | [DEBUG OBJECT](https://redis.io/commands/debug-object) | `DEBUG OBJECT <key>` | e.q. Value at:0x7fd1362666e0 refcount:1 encoding:hashtable serializedlength:4073 lru:10294174 lru_seconds_idle:410 | | Show the detail of a key |
+| [FLUSHDB](https://redis.io/commands/flushdb) | `FLUSHDB`  |  | | Delete all the keys of the currently selected DB. |
+| [FLUSHALL](https://redis.io/commands/flushall) | `FLUSHALL` | | | Delete all the keys of all the existing databases, not just the currently selected one. |
+| | | | | |
 | | | | | |
 | | | | | |
 | | | | | |
