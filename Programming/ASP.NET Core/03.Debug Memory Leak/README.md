@@ -27,4 +27,16 @@ To execute the tool, use like this,
 
 ```s
 $ ~/.dotnet/tools/dotnet-trace ps
+1 dotnet     /usr/share/dotnet/dotnet
+
+$ ~/.dotnet/tools/dotnet-counters monitor --refresh-interval 1 -p 1
 ```
+
+It will show...
+
+![](assets\gc_heap_size.jpg)
+
+
+
+
+
