@@ -1,3 +1,6 @@
+# Vim
+
+
 ## Setup
 
 - `:set rnu` 設定相對行號, or `:set relativenumber`
