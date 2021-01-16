@@ -14,14 +14,20 @@
    ├── [Gulp](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/Gulp)<br />
    ├── [Jenkins](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/Jenkins)<br />
    ├── [Kubernetes](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/Kubernetes)<br />
+   ├── [Nginx](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/Nginx)<br />
    ├── [npm](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/npm)<br />
    ├── [Nuget](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/Nuget)<br />
    ├── [Redis](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/Redis)<br />
    └── [WSL2](https://github.com/KarateJB/JB-eBooks/tree/master/DevOps/WSL2)<br />
 [IDE](https://github.com/KarateJB/JB-eBooks/tree/master/IDE)<br />
-   └── [Vim](https://github.com/KarateJB/JB-eBooks/tree/master/IDE/Vim)<br />
+   ├── [Chrome](https://github.com/KarateJB/JB-eBooks/tree/master/IDE/Chrome)<br />
+   ├── [JetBrains](https://github.com/KarateJB/JB-eBooks/tree/master/IDE/JetBrains)<br />
+   ├── [Vim](https://github.com/KarateJB/JB-eBooks/tree/master/IDE/Vim)<br />
+   ├── [Visual Studio](https://github.com/KarateJB/JB-eBooks/tree/master/IDE/Visual%20Studio)<br />
+   └── [Visual Studio Code](https://github.com/KarateJB/JB-eBooks/tree/master/IDE/Visual%20Studio%20Code)<br />
 [OS](https://github.com/KarateJB/JB-eBooks/tree/master/OS)<br />
-   └── [Unix](https://github.com/KarateJB/JB-eBooks/tree/master/OS/Unix)<br />
+   ├── [Unix](https://github.com/KarateJB/JB-eBooks/tree/master/OS/Unix)<br />
+   └── [Windows](https://github.com/KarateJB/JB-eBooks/tree/master/IDE/Visual%20Studio)<br />
 [Programming](https://github.com/KarateJB/JB-eBooks/tree/master/Programming)<br />
    ├── [Angular](https://github.com/KarateJB/JB-eBooks/tree/master/Programming/Angular)<br />
    ├── [AngularJS](https://github.com/KarateJB/JB-eBooks/tree/master/Programming/AngularJS)<br />
