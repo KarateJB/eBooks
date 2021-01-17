@@ -122,6 +122,13 @@ Replace in command mode,
 - `<CTRL-w>` Delete from the cursor to the beginning of the previous word.
 - `<CTRL-u>` Delete everything to the left of the cursor on that line.
 
+## Paste Register
+
+`<CTRL-r>{register}`  Paste a register.
+`<CTRL-r><CTRL-p>{register}` Paster a register without format.
+`<CTRL-r>=` Insert the computed result, e.q. `<CTRL-r>=11*2` will insert 22.
+
+
 
 
 
