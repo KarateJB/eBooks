@@ -1,10 +1,18 @@
 # Vim
 
+> <CTRL-r> means press `CTRL` and `r` keys in the same time. 
+
+
 
 ## Setup
 
 - `:set rnu` 設定相對行號, or `:set relativenumber`
 - `:history`
+
+
+***
+# Normal Mode
+
 
 ## Moving
 
@@ -35,10 +43,9 @@
 - `"0p` 貼上前一個複製的內容 
 - `"+y` 複製vim yanked到系統剪貼簿
 - `"+p` 從系統剪貼簿貼上複製的內容到vim
-- `<CTRL+R>"` 在Command mode貼上yanked  
+- `<CTRL-r>"` 在Command mode貼上yanked  
 
 - `"_` Prefix for black hole, such as `"_d`, `"_c`
-
 
 
 ## To Edit
@@ -97,6 +104,23 @@ Replace in command mode,
 - `@:` Repeat the last command(which comes from command mode).
 
 
+
+
+***
+# Insert Mode
+
+## Back to Normal Mode
+
+- `<CTRL-[>`   or `<ESC>`. 
+- `<CTRL-o>`: Switch to Insert-Normal mode. When you back to Normal mode by this way, it will be back to Insert Mode after you execute an action on Normal Mode. This will reduce the times of switching modes. 
+
+   E.q. When inserting something and you want to centerize the current line, use `<CTRL-o>zz`. 
+
+## Delete
+
+- `<CTRL-h>` Delete previous character, equals to backspace.
+- `<CTRL-w>` Delete from the cursor to the beginning of the previous word.
+- `<CTRL-u>` Delete everything to the left of the cursor on that line.
 
 
 
