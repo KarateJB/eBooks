@@ -18,6 +18,12 @@ $ choco upgrade golang
 ```
 
 
+Notice that Go will be installed in `C:\Go` in default.
+And the packages imported will be put into `C:\Users\<user_name>\go\pkg\mod`.
+
+
+
+
 ### Ubuntu
 
 ```s
