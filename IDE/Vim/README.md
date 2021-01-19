@@ -111,6 +111,7 @@
 
 
 
+
 ***
 # Insert Mode
 
@@ -144,9 +145,6 @@
 
   - Use command: `:h digraph-table` or `:digraphs` to see the list of digraph.
 
-
-
-   
 
 
 ## Paste Register
