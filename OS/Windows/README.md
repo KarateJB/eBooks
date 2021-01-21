@@ -23,6 +23,9 @@
 - Kill process by PID : `taskkill /F /PIC <pid>`
 - Kill process by name : `taskkill /F /IM "<name>"`
 
+## netstat
+
+- Find what process uses the port: `netstat -ano -p tcp |find "<port>"`
 
 
 
