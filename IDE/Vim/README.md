@@ -184,7 +184,35 @@
 > We can combine the last command, such as `vawaw`, `vebbbb`...
 
 
+## Tips
 
+### To indent(縮排) 2 times for 3 lines
+
+- `v3j` -> `>` -> `.` for 2 times, or
+- `v3j` -> `3>`
+
+
+### Visual Model blockwist sample 
+
+Assume cursor is on line 1, to make
+
+```
+Key  ▍ Value
+xxx       111
+yyy       222
+```
+
+To
+
+```
+Key   Value
+-----------
+xxx     111
+yyy     222
+``
+```
+
+Use `<CTRL-v>2j` -> `x..` -> `yyP` -> `Vr-`.
 
 
 
