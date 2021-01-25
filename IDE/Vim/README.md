@@ -122,7 +122,7 @@
 
    E.q. When inserting something and you want to centerize the current line, use `<CTRL-o>zz`. 
 
-## Delete
+
 
 - `<CTRL-h>` Delete previous character, equals to backspace.
 - `<CTRL-w>` Delete from the cursor to the beginning of the previous word.
@@ -151,6 +151,37 @@
 
 - `<CTRL-r>{register}`  Paste a register.
 - `<CTRL-r><CTRL-p>{register}` Paster a register without shift-block format.
+
+
+***
+# Visual Mode
+
+## Selection Mode
+
+> In Selection Mode, any input key will immediatly overwrite current selected block.
+
+- `<CTRL-g>` Switch between Visual Mode and Selection Mode.
+
+
+
+## Basic
+
+- `v` Start Visual Mode (by character).
+- `V` Start Visual line (by line).
+- `<CTRL-v>` Start Visual Mode blockwise.
+- `o` The selection cursor will be put to other end of highlighted text. It is useful to change the beginning position. 
+- `gv` In Normal Mode, highlight exactly the same area of the last time in Visual Mode.
+
+
+
+## Select
+
+`vaw` Select a word, including blank.
+`viw` Select a word, excluding blank.
+`ve` Select from current position to end of a word.
+`vb` Select back.
+
+> We can combine the last command, such as `vawaw`, `vebbbb`...
 
 
 

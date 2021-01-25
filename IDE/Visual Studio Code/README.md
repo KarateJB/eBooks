@@ -5,6 +5,7 @@
 
 - Select mutiple matched: `CTRL + Shift + L`
 - Collapse: `CTRL + Shift + ]`
+- Select blockwise: `CTRL + SHIFT + up/down`
 - Uncolllapse: `CTRL + Shift + [`
 - Select one line: `CTRL + L`
 - Search method in file: `CTRL + Shift + O`
