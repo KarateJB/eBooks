@@ -118,7 +118,37 @@ go 1.15
 
 ## Module: hello
 
-Open `hello/hello.go`, we will the the method(s) from `greetings` module.
+Open `hello/hello.go`, we will call the method(s) from `greetings` module.
+
+First, lets create the `go.mod` file, and replace the `greetings` module path.
+
+```s
+$ cd hello
+$ go mod init hello
+go: creating new go.mod: module hello
+$ go mod edit -replace "example.com/greetings = ../greetings"
+```
+
+Here, the [replace directive](https://golang.org/ref/mod#tmp_15) tells Go to replace the module path with a path we specify. In this case, that's a `greetings` directory next to the `hello` directory.
+
+
+Then add the `greetings` module as a dependency with following command,
+
+```s
+$ mod edit -require example.com/greetings@1.1.0
+```
+
+The `hello/go.mod` will be with these content,
+
+```s
+module hello
+
+go 1.15
+
+replace example.com/greetings => ../greetings
+
+require example.com/greetings v1.1.0
+```
 
 
 - hello.go
@@ -155,4 +185,26 @@ Great to see you, JB!
 Hi, Rabbit. Welcome!
 Hi, Dog. Welcome!
 Hi, Cat. Welcome!
+```
+
+### (Optional) Build The Package
+
+We can compile the packages to the resulting executable to an output file.
+
+```s
+$ go build
+```
+
+And now we can we can execute the `hello.exe` by `./hello.exe`.
+
+The final files structure is as following,
+
+```s
+├── greetings
+|  ├── go.mod
+|  └── greetings.go
+└── hello
+   ├── go.mod
+   ├── hello.exe
+   └── hello.go
 ```
