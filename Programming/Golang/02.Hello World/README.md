@@ -24,7 +24,8 @@ Create the folder and files like following,
 In `greetings.go`, first create a method that can return random greeting message,
 
 
-- greetings.go
+---
+`greetings.go`
 
 ```go
 package greetings
@@ -120,7 +121,7 @@ go 1.15
 
 Open `hello/hello.go`, we will call the method(s) from `greetings` module.
 
-First, lets create the `go.mod` file, and replace the `greetings` module path.
+First, lets create the `go.mod` file, and import `greetings` module by replacing the `greetings` module path.
 
 ```s
 $ cd hello
@@ -135,7 +136,7 @@ Here, the [replace directive](https://golang.org/ref/mod#tmp_15) tells Go to rep
 Then add the `greetings` module as a dependency with following command,
 
 ```s
-$ mod edit -require example.com/greetings@1.1.0
+$ go mod edit -require example.com/greetings@1.1.0
 ```
 
 The `hello/go.mod` will be with these content,
@@ -151,7 +152,8 @@ require example.com/greetings v1.1.0
 ```
 
 
-- hello.go
+---
+`hello.go`
 
 ```go
 package main
