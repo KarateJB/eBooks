@@ -34,6 +34,7 @@
    ├── [ASP.NET Core](https://github.com/KarateJB/JB-eBooks/tree/master/Programming/ASP.NET%20Core)<br />
    ├── [ASP.NET core X Angular2 (2016-2017, Deprecated)](https://github.com/KarateJB/JB-eBooks/tree/master/Programming/ASP.NET%20core%20X%20Angular2)<br />
    ├── [Design Patterns](https://github.com/KarateJB/JB-eBooks/tree/master/Programming/Design%20Patterns)<br />
+   ├── [Golang](https://github.com/KarateJB/JB-eBooks/tree/master/Programming/Golang)<br />
    └── [Vue.js](https://github.com/KarateJB/JB-eBooks/tree/master/Programming/Vue.js)<br />
 [Project Management](https://github.com/KarateJB/JB-eBooks/tree/master/Project%20Management)<br />
    └── [PMI-ACP Notes](https://github.com/KarateJB/JB-eBooks/tree/master/Project%20Management/PMI-ACP%20Notes)<br />
