@@ -1,4 +1,4 @@
-# Hellow World
+# Hello World
 
 This is the tutorial from official [golang.org](https://golang.org/doc/tutorial/create-module).
 I will short it up in this article.
