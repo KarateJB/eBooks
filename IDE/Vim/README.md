@@ -168,7 +168,7 @@
 
 - `v` Start Visual Mode (by character).
 - `V` Start Visual line (by line).
-- `<CTRL-v>` Start Visual Mode blockwise.
+- `<CTRL-v>` Start Visual Mode blockwise. (Use `A` to append and `I` to insert)
 - `o` The selection cursor will be put to other end of highlighted text. It is useful to change the beginning position. 
 - `gv` In Normal Mode, highlight exactly the same area of the last time in Visual Mode.
 
