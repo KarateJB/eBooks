@@ -3,11 +3,17 @@
 > <CTRL-r> means press `CTRL` and `r` keys in the same time. 
 
 
-
 ## Setup
 
-- `:set rnu` 設定相對行號, or `:set relativenumber`
+- `:set rnu` or `:set relativenumber`: Set relative number
 - `:history`
+
+
+*** Help
+
+- `:help text-object` Text object selection
+
+
 
 
 ***
@@ -69,11 +75,7 @@
    - `gcap` Comment out current block.
 
 
-## To Select
-
-- `V` select a line
-- `viB` select block
-- `gv` Select back
+## To Indent
 
 - `>>` or `<<` 縮排
 - `>` or `<` 選取縮排
@@ -174,12 +176,17 @@
 
 
 
+
 ## Select
 
-`vaw` Select a word, including blank.
-`viw` Select a word, excluding blank.
-`ve` Select from current position to end of a word.
-`vb` Select back.
+- `vaw` Select a word, including blank.
+- `viw` Select a word, excluding blank.
+- `ve` Select from current position to end of a word.
+- `vb` Select back.
+- `viB` Select block.
+- `vat` Select tag block.
+- `vit` Select inner tag block.
+
 
 > We can combine the last command, such as `vawaw`, `vebbbb`...
 
@@ -190,6 +197,31 @@
 
 - `v3j` -> `>` -> `.` for 2 times, or
 - `v3j` -> `3>`
+
+
+
+### Use blockwist to append chars to the last position of multiple lines
+
+We wanna to put "!" at the last postion of the three sentences.
+
+```
+▍
+Hello world
+Hi, kid
+Vim is awesome
+```
+
+To become
+
+```
+
+Hello world!
+Hi, kid!
+Vim is awesome!
+```
+
+Use `j` -> `<CTRL-v>jj$` -> `A` -> `!`.
+
 
 
 ### Visual Model blockwist sample 
@@ -213,6 +245,7 @@ yyy     222
 ```
 
 Use `<CTRL-v>2j` -> `x..` -> `yyP` -> `Vr-`.
+
 
 
 
