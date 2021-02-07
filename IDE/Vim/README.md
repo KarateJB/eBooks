@@ -250,4 +250,22 @@ Use `<CTRL-v>2j` -> `x..` -> `yyP` -> `Vr-`.
 
 
 
+***
+# Command Mode
 
+## Common Ex command
+
+- `:edit` or `:e` Open file to edit.
+- `:write` or `:w` Save file.
+- `:tabnew` Create a new tab.
+- `:split` Split current file to another window.
+- `:bprev`/`bnext` Go to previous/next buffer in the buffer list.
+
+For more Ex cmd, see `:h ex-cmd-index`.
+
+
+## Range/Line Ex command
+
+- `:[range]d` Delete range.
+- `:[range]y` Yank range.
+- `:[line #]put` Put yanked at the next line of line #.
