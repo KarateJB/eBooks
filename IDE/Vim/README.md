@@ -269,3 +269,11 @@ For more Ex cmd, see `:h ex-cmd-index`.
 - `:[range]d` Delete range.
 - `:[range]y` Yank range.
 - `:[line #]put` Put yanked at the next line of line #.
+- `:[range]copy {address}` Copy the range to the next line of {address}.
+- `:[range]move {address}` Move the range to the next line of {address}.
+- `:[range]join` Join all the lines in the range.
+- `:[range]normal {commands}` Execute normal-mode command on every line in the range.
+  - e.q. `2,3normal A,` will append , to the end of lines on line 2 ~ 3.
+- `:[range]s/{pattern}/{string}/{flags}` Substitute what matchs {pattern} to {string} in the range.
+- `:[range]global/{pattern}/{cmd}` Execute Ex command on each line that matchs {pattern}.
+  - e.q. `:%g/AAA/move $` will move all the lines that contain AAA to the end of the file.
