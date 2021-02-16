@@ -269,11 +269,45 @@ For more Ex cmd, see `:h ex-cmd-index`.
 - `:[range]d` Delete range.
 - `:[range]y` Yank range.
 - `:[line #]put` Put yanked at the next line of line #.
-- `:[range]copy {address}` Copy the range to the next line of {address}.
-- `:[range]move {address}` Move the range to the next line of {address}.
+- `:[range]copy {address}` Copy the range to the next line of {address}. Short as `t` (copy **T**o).
+- `:[range]move {address}` Move the range to the next line of {address}. Short as `m`.
 - `:[range]join` Join all the lines in the range.
 - `:[range]normal {commands}` Execute normal-mode command on every line in the range.
   - e.q. `2,3normal A,` will append , to the end of lines on line 2 ~ 3.
+  - e.q. `'<,'>normal .` will repeat the last edit on highlighted lines.
 - `:[range]s/{pattern}/{string}/{flags}` Substitute what matchs {pattern} to {string} in the range.
 - `:[range]global/{pattern}/{cmd}` Execute Ex command on each line that matchs {pattern}.
   - e.q. `:%g/AAA/move $` will move all the lines that contain AAA to the end of the file.
+
+
+## Special Symbols
+
+| Symbol | Address |
+|:------:|:--------|
+| 1 | The 1st line. |
+| 0 | Virtual line number, which is located above the 1st line. e.q. When we want to move one line to the beginning of a document. |
+| $ | The last line. |
+| . | The line of current cursor. |
+| % | The whole document (All lines). |
+| 'm | The line with bookmark name: `m`. |
+| '< | The beginning line of highlighted selected text. |  
+| '> | The end line of highlighted selected text. |
+
+
+## AutoCompleted in Command Mode
+
+- `:<CTRL+d>` shows all autocompleted words list. e.q. `:cop<CTRL+d>` shows `copen copy`.
+- Options (see `:h 'wildmode'`)
+  - For bash user
+
+    ```
+    set wildmode=longest,list
+    ```
+
+  - For zsh
+    
+    ```
+    set wildmenu
+    set wildmode=list:full
+    ```
+
