@@ -9,6 +9,7 @@ DROP DATABASE [ IF EXISTS ] {dbname}
 ### By command
 
 ```s
+$ su postgres # optional 
 $ dropdb {dbname}
 ```
 
