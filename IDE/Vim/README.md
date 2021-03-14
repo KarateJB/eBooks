@@ -311,3 +311,25 @@ For more Ex cmd, see `:h ex-cmd-index`.
     set wildmode=list:full
     ```
 
+## Copy current word to command
+
+- `<CTRL-r><CTRL-w>` will copy current word to command.
+
+For example, we would like to replace `Test` with `TestCase`, while the cursor is located at `Test1`.
+
+```
+My Test1
+My Test2
+My Test3
+```
+
+Use `*` to highlight all `Test` words, then `cwTestCase<ESC>`.
+
+```
+My Test1
+My TestCase2
+My Test3
+```
+
+Now we can use substitute like this: `:%s//<CTRL-r><CTRL-w>/g` (which will be `:%s//TestCase/g`) to replace other `Test` to `TestCase`.
+
