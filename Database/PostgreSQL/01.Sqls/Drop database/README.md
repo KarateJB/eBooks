@@ -6,18 +6,6 @@
 DROP DATABASE [ IF EXISTS ] {dbname}
 ```
 
-### By command
-
-```s
-$ su postgres # optional 
-$ dropdb {dbname}
-```
-
-See help by `dropdb -?` or `dropdb --help`.
-Reference: [Official document](https://www.postgresql.org/docs/9.3/app-dropdb.html).
-
-
-
 
 # Force Drop Database
 
