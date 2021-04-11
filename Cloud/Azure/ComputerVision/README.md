@@ -67,6 +67,34 @@ xxxxxxxxxxxxxxxxxxxxx
 ```
 
 
+# Computer Vision API
+
+> Reference
+>
+> - [API Document](https://westcentralus.dev.cognitive.microsoft.com/docs/services/computer-vision-v3-1-ga)
+
+
+The endpoint is 
+```
+https//{region}.api.cognitive.microsoft.com/
+```
+
+You can find it on Azure Portal as well.
+
+![](assets/keys_n_endpoint.jpg)
 
 
 
+For example, the **Analyze Image** API (v3.1):
+
+```s
+https://{endpoint}/vision/v3.1/analyze[?visualFeatures][&details][&language]
+```
+
+
+
+
+```
+https://japaneast.api.cognitive.microsoft.com/
+
+```
