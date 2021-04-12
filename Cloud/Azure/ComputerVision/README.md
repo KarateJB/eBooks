@@ -157,11 +157,11 @@ We can test the APU thru [Testing Console](https://westcentralus.dev.cognitive.m
 
 Or use curl:
 
-```
-curl "https://japaneast.api.cognitive.microsoft.com/vision/v3.0/ocr?language=zh-Hant&detectOrientation=true" \
+```s
+curl -X POST "https://japaneast.api.cognitive.microsoft.com/vision/v3.0/ocr?language=zh-Hant&detectOrientation=true" \
 -H "Ocp-Apim-Subscription-Key: $key" \
 -H "Content-Type: application/json" \
--d "{'url' : 'https://raw.githubusercontent.com/KarateJB/JB-eBooks/az-computer-vision/Cloud/Azure/ComputerVision/assets/ocr_demo.jpg'}" 
+-d "{'url' : 'https://raw.githubusercontent.com/KarateJB/JB-eBooks/master/Cloud/Azure/ComputerVision/assets/ocr_demo.jpg'}" 
 ```
 
 
@@ -191,3 +191,152 @@ The response will be JSON, e.q.
 > `words`: An array of objects, where each object represents a recognized word.<br />
 > 
 > For more details of each keys, see [Cognitive Service APIs Reference](https://westcentralus.dev.cognitive.microsoft.com/docs/services/computer-vision-v3-ga/operations/56f91f2e778daf14a499f20d)
+
+
+
+## Read/Get Read Result API
+
+The [READ](https://westcentralus.dev.cognitive.microsoft.com/docs/services/computer-vision-v3-ga/operations/5d986960601faab4bf452005) and [Get Read Result](https://westcentralus.dev.cognitive.microsoft.com/docs/services/computer-vision-v3-ga/operations/5d9869604be85dee480c8750) are for asynchronous calls.
+
+
+
+### Read
+
+The HttpPost API (v3.0) of **Read**:
+
+```s
+https://{endpoint}/vision/v3.0/read/analyze[?language]
+```
+
+#### Request headers
+
+| Parameter | Type | Description |
+|:----------|:----:|:------------|
+| Content-Type | string | The value can be `application/json` or `application/octet-stream` |
+| Ocp-Apim-Subscription-Key | Subscription key to access the API |
+
+### Request parameters
+
+| Parameter | Type | Is Required | Description |
+|:----------|:----:|:------------|:------------|
+| language | string | Optional | The BCP-47 language code of the text to be detected in the image. Only English (`en`), Dutch (`nl`), French (`fr`), German (`de`), Italian (`it`), Portuguese (`pt`), and Spanish (`es`) are supported. |
+
+
+### Request body
+
+I list some of the requirements from [document](https://westcentralus.dev.cognitive.microsoft.com/docs/services/computer-vision-v3-ga/operations/5d986960601faab4bf452005).
+
+| Requirment | Description |
+|:-----------|:------------|
+| Formats | JPEG, PNG, BMP, PDF and TIFF|
+| File size | Image file size must be less than 50 MB (4 MB for the free tier) |
+| Image/File dimentsions | The image/document page dimensions must be at least 50 x 50 pixels and at most 10000 x 10000 pixels |
+
+
+| Content Type | Http Body sample |
+|:------------:|:-----------------|
+| `appplication/json` | `{"url":"http://example.com/image.jpg"}` |
+| `application/octet-stream` | `[Binary image data]` |
+
+
+
+
+### Get Read Result
+
+The HttpGet API (v3.0) of **Get Read Result**:
+
+```s
+https://{endpoint}/vision/v3.0/read/analyzeResults/{operationId}
+```
+
+#### Request headers
+
+| Parameter | Type | Description |
+|:----------|:----:|:------------|
+| Ocp-Apim-Subscription-Key | Subscription key to access the API |
+
+
+### Request parameters
+
+| Parameter | Type | Is Required | Description |
+|:----------|:----:|:------------|:------------|
+| operationId | string | Required | Id of the Read operation, contained in the Read operation's 'Operation-Location' response header. |
+
+
+### Request body
+
+N/A
+
+
+
+### Test the APIs
+
+We can test the APU thru Testing Console, or use curl.
+
+
+Firsr **Read** the image,
+
+```s
+curl -i -X POST "https://japaneast.api.cognitive.microsoft.com/vision/v3.0/read/analyze?language=en" \
+-H "Ocp-Apim-Subscription-Key: $key" \
+-H "Content-Type: application/json" \
+-d "{'url' : 'https://github.com/KarateJB/JB-eBooks/blob/master/Cloud/Azure/ComputerVision/assets/read_demo.png?raw=true'}" 
+```
+
+The response's header has the **Operation-Location** that contains the **Operation Id**: ``
+
+```
+Operation-Location: https://japaneast.api.cognitive.microsoft.com/vision/v3.0/read/analyzeResults/6ef19bec-99a0-4dc5-b5c2-xxxxxxxxxxxx
+x-envoy-upstream-service-time: 813
+CSP-Billing-Usage: CognitiveServices.ComputerVision.Transaction=1
+Date: Mon, 12 Apr 2021 06:46:32 GMT
+Content-Length: 0
+```
+
+
+Now we can get the result by calling the **Get Read Result** API:
+
+
+```s 
+curl -X GET "https://japaneast.api.cognitive.microsoft.com/vision/v3.0/read/analyzeResults/6ef19bec-99a0-4dc5-b5c2-xxxxxxxxxxxx" \
+-H "Ocp-Apim-Subscription-Key: $key"
+```
+
+Which will response the result, e.q.
+
+```json
+  "status": "succeeded",
+  "createdDateTime": "2021-04-12T06:46:33Z",
+  "lastUpdatedDateTime": "2021-04-12T06:46:34Z",
+  "analyzeResult": {
+    "version": "3.0.0",
+    "readResults": [{
+      "page": 1,
+      "angle": 0,
+      "width": 717,
+      "height": 361,
+      "unit": "pixel",
+      "language": "en",
+      "lines": [{
+        "boundingBox": [14, 8, 107, 8, 107, 26, 14, 26],
+        "text": "2021-04-01",
+        "words": [{
+          "boundingBox": [15, 9, 107, 9, 107, 26, 14, 27],
+          "text": "2021-04-01",
+          "confidence": 0.981
+        }]
+      }]
+    }]
+  }
+}
+```
+
+
+# Reference
+
+- [Azure Cognitive Services](https://azure.microsoft.com/en-us/services/cognitive-services/)
+- [Cognitive Services - API Document](https://japaneast.dev.cognitive.microsoft.com/docs/services/computer-vision-v3-ga)
+- [Computer vision service](https://chrisnoring.gitbooks.io/road-to-azure/content/computer-vision-service.html)
+
+
+
