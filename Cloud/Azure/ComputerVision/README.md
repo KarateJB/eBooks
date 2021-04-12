@@ -85,12 +85,59 @@ You can find it on Azure Portal as well.
 
 
 
+## Analyze Image
+
 For example, the **Analyze Image** API (v3.1):
 
 ```s
 https://{endpoint}/vision/v3.1/analyze[?visualFeatures][&details][&language]
 ```
 
+
+
+## OCR (Optical Character Recognition)
+
+The HttpPost API (v3.1) of **OCR**:
+
+```s
+https://{endpoint}/vision/v3.0/ocr[?language][&detectOrientation]
+```
+
+
+### Request headers
+
+| Parameter | Type | Description |
+|:----------|:----:|:------------|
+| Content-Type | string | The value can be `application/json` or `application/octet-stream` |
+| Ocp-Apim-Subscription-Key | Subscription key to access the API |
+
+### Request parameters
+
+| Parameter | Type | Is Required | Description |
+|:----------|:----:|:------------|:------------|
+| language | string | Optional | The BCP-47 language code of the text to be detected in the image. Default: `unk` |
+| detectOrientation | boolean | Optional | Whether detect the text orientation and correct it in the image.  |
+
+
+### Request body
+
+The API supports
+- raw image binary
+- image URL
+
+
+| Requirment | Description |
+|:-----------|:------------|
+| Formats | `JPEG`/`PNG`/`GIF`/`BMP` |
+| File size | Must be less than 4MB |
+| Image dimentsions | Must be between 50 x 50 and 4200 x 4200 px. The image cannot be larger than 10 megapixels. |
+
+
+
+| Content Type | Http Body sample |
+|:------------:|:-----------------|
+| `appplication/json` | `{"url":"http://example.com/image.jpg"}` |
+| `application/octet-stream` | `[Binary image data]` |
 
 
 
