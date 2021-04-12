@@ -85,17 +85,23 @@ You can find it on Azure Portal as well.
 
 
 
-## Analyze Image
-
-For example, the **Analyze Image** API (v3.1):
-
-```s
-https://{endpoint}/vision/v3.1/analyze[?visualFeatures][&details][&language]
-```
 
 
+# API: OCR, READ
 
-## OCR (Optical Character Recognition)
+In this tutorial, I will focus on how to use OCR (Optical Character Recognition) by Computer Vision API.
+There are two kinds of OCR APIs:
+
+- [OCR](https://japaneast.dev.cognitive.microsoft.com/docs/services/computer-vision-v3-ga/operations/56f91f2e778daf14a499f20d)
+- [READ/Get READ Result](https://westcentralus.dev.cognitive.microsoft.com/docs/services/5d98695995feb7853f67d6a6/operations/5d986960601faab4bf452005)
+
+> The OCR API uses an older recognition model, supports only images, and executes synchronously, returning immediately with the detected text. But supports way more languages.
+> The Read API uses an updated recognition model, takes an image or PDF document as the input and extracts text asynchronously. But supports less languages.
+> See [What is the difference between OCR API and Read API](https://docs.microsoft.com/en-us/answers/questions/128958/what-is-the-difference-between-ocr-api-and-read-ap.html)
+
+
+
+## OCR API
 
 The HttpPost API (v3.0) of **OCR**:
 
@@ -155,7 +161,33 @@ Or use curl:
 curl "https://japaneast.api.cognitive.microsoft.com/vision/v3.0/ocr?language=zh-Hant&detectOrientation=true" \
 -H "Ocp-Apim-Subscription-Key: $key" \
 -H "Content-Type: application/json" \
--d "{'url' : ''}" \
+-d "{'url' : 'https://raw.githubusercontent.com/KarateJB/JB-eBooks/az-computer-vision/Cloud/Azure/ComputerVision/assets/ocr_demo.jpg'}" 
 ```
 
 
+The response will be JSON, e.q.
+
+
+```json
+{
+  "language": "zh-Hant",
+  "textAngle": 0.0,
+  "orientation": "Up",
+  "regions": [{
+    "boundingBox": "30,25,90,229",
+    "lines": [{
+      "boundingBox": "30,25,90,13",
+      "words": [{
+        "boundingBox": "30,25,90,13",
+        "text": "2021-04-01"
+      }]
+    }]
+  }]
+}
+```
+
+> `regions`: An array of objects, where each object represents a region of recognized text.<br />
+> `lines`: An array of objects, where each object represents a line of recognized text.<br />
+> `words`: An array of objects, where each object represents a recognized word.<br />
+> 
+> For more details of each keys, see [Cognitive Service APIs Reference](https://westcentralus.dev.cognitive.microsoft.com/docs/services/computer-vision-v3-ga/operations/56f91f2e778daf14a499f20d)
