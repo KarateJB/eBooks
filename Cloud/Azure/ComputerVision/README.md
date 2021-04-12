@@ -97,7 +97,7 @@ https://{endpoint}/vision/v3.1/analyze[?visualFeatures][&details][&language]
 
 ## OCR (Optical Character Recognition)
 
-The HttpPost API (v3.1) of **OCR**:
+The HttpPost API (v3.0) of **OCR**:
 
 ```s
 https://{endpoint}/vision/v3.0/ocr[?language][&detectOrientation]
@@ -140,8 +140,22 @@ The API supports
 | `application/octet-stream` | `[Binary image data]` |
 
 
+### Test the API
+
+We can test the APU thru [Testing Console](https://westcentralus.dev.cognitive.microsoft.com/docs/services/computer-vision-v3-ga/operations/56f91f2e778daf14a499f20d) by clicking the **region** that you resource located. 
+
+![](assets/ocr_region_on_doc.jpg)
+
+![](assets/ocr_test_on_doc.jpg)
+
+
+Or use curl:
 
 ```
-https://japaneast.api.cognitive.microsoft.com/
-
+curl "https://japaneast.api.cognitive.microsoft.com/vision/v3.0/ocr?language=zh-Hant&detectOrientation=true" \
+-H "Ocp-Apim-Subscription-Key: $key" \
+-H "Content-Type: application/json" \
+-d "{'url' : ''}" \
 ```
+
+
