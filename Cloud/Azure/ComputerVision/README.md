@@ -42,7 +42,7 @@ $ az cognitiveservices account show \
 To get the list of keys that we can use to do RESTful API calls,
 
 ```s
-$ az coginitiveservices account keys list \
+$ az cognitiveservices account keys list \
 --name ComputerVisionService \
 --resource-group EventHub
 
@@ -56,7 +56,7 @@ $ az coginitiveservices account keys list \
 Now we save the value of `key1` to a variable like this (in bash),
 
 ```s
-$ export key=$(az coginitiveservices account keys list \
+$ export key=$(az cognitiveservices account keys list \
 --name ComputerVisionService \
 --resource-group EventHub \
 --query key1 -o tsv)
