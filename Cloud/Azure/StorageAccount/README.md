@@ -21,7 +21,7 @@ $ az storage account create \
      --resource-group {resource group} \
      --location japaneast \
      --sku Premium_LRS \
-     --kind StorageV2
+     --kind FileStorage
 ```
 
 
@@ -35,11 +35,10 @@ $ az storage account delete \
 ## Add a File Share
 
 ```s
-$ az storage share-rn create \
+$ az storage share-rm create \
      --resource-group {resource_group}
      --storage-account {storage_account_name}
      --name {file_share_name}
-     --access-tier "TransactionOptimized" \
      --quota 1024 \
      --output none
 ```
@@ -55,4 +54,24 @@ $ az storage share-rm update \
      --storage-account {storage_account} \
      --name {file_share_name} \
      --access-tier "Cool"
+```
+
+
+## Get Access Key
+
+
+```s
+$ az storage account keys list \
+     --resource-group {resource_group} \
+     --account-name {storage_account}
+```
+
+
+Save the key to variable,
+
+```s
+export storageAccountKey=$(az storage account keys list \
+    --resource-group $resourceGroupName \
+    --account-name $storageAccountName \
+    --query "[0].value" | tr -d '"')
 ```
