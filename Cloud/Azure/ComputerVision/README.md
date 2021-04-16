@@ -46,10 +46,10 @@ $ az cognitiveservices account keys list \
 --name ComputerVisionService \
 --resource-group EventHub
 
-{                                            
+<                                            
   "key1": "xxxxxxxxxxxxxxxxxx",
   "key2": "yyyyyyyyyyyyyyyyyy" 
-}                                            
+>                                            
 ```
 
 
@@ -76,7 +76,7 @@ xxxxxxxxxxxxxxxxxxxxx
 
 The endpoint is 
 ```
-https//{region}.api.cognitive.microsoft.com/
+https//<region>.api.cognitive.microsoft.com/
 ```
 
 You can find it on Azure Portal as well.
@@ -106,7 +106,7 @@ There are two kinds of OCR APIs:
 The HttpPost API (v3.0) of **OCR**:
 
 ```s
-https://{endpoint}/vision/v3.0/ocr[?language][&detectOrientation]
+https://<endpoint>/vision/v3.0/ocr[?language][&detectOrientation]
 ```
 
 
@@ -142,7 +142,7 @@ The API supports
 
 | Content Type | Http Body sample |
 |:------------:|:-----------------|
-| `appplication/json` | `{"url":"http://example.com/image.jpg"}` |
+| `appplication/json` | `<"url":"http://example.com/image.jpg">` |
 | `application/octet-stream` | `[Binary image data]` |
 
 
@@ -161,7 +161,7 @@ Or use curl:
 curl -X POST "https://japaneast.api.cognitive.microsoft.com/vision/v3.0/ocr?language=zh-Hant&detectOrientation=true" \
 -H "Ocp-Apim-Subscription-Key: $key" \
 -H "Content-Type: application/json" \
--d "{'url' : 'https://raw.githubusercontent.com/KarateJB/JB-eBooks/master/Cloud/Azure/ComputerVision/assets/ocr_demo.jpg'}" 
+-d "<'url' : 'https://eventhubstorage298858.file.core.windows.net/orders/ATOMS.jpg?sv=2020-02-10&ss=f&srt=o&sp=r&se=2021-04-15T09:31:57Z&st=2021-04-15T01:31:57Z&spr=https&sig=seMXqhiewKsrUcMi3ZJ%2BKJCwbZy14pjTl7QhtNmrrYU%3D'>" 
 ```
 
 
@@ -169,21 +169,21 @@ The response will be JSON, e.q.
 
 
 ```json
-{
+<
   "language": "zh-Hant",
   "textAngle": 0.0,
   "orientation": "Up",
-  "regions": [{
+  "regions": [<
     "boundingBox": "30,25,90,229",
-    "lines": [{
+    "lines": [<
       "boundingBox": "30,25,90,13",
-      "words": [{
+      "words": [<
         "boundingBox": "30,25,90,13",
         "text": "2021-04-01"
-      }]
-    }]
-  }]
-}
+      >]
+    >]
+  >]
+>
 ```
 
 > `regions`: An array of objects, where each object represents a region of recognized text.<br />
@@ -205,7 +205,7 @@ The [READ](https://westcentralus.dev.cognitive.microsoft.com/docs/services/compu
 The HttpPost API (v3.0) of **Read**:
 
 ```s
-https://{endpoint}/vision/v3.0/read/analyze[?language]
+https://<endpoint>/vision/v3.0/read/analyze[?language]
 ```
 
 #### Request headers
@@ -235,7 +235,7 @@ I list some of the requirements from [document](https://westcentralus.dev.cognit
 
 | Content Type | Http Body sample |
 |:------------:|:-----------------|
-| `appplication/json` | `{"url":"http://example.com/image.jpg"}` |
+| `appplication/json` | `<"url":"http://example.com/image.jpg">` |
 | `application/octet-stream` | `[Binary image data]` |
 
 
@@ -246,7 +246,7 @@ I list some of the requirements from [document](https://westcentralus.dev.cognit
 The HttpGet API (v3.0) of **Get Read Result**:
 
 ```s
-https://{endpoint}/vision/v3.0/read/analyzeResults/{operationId}
+https://<endpoint>/vision/v3.0/read/analyzeResults/<operationId>
 ```
 
 #### Request headers
@@ -280,7 +280,7 @@ Firsr **Read** the image,
 curl -i -X POST "https://japaneast.api.cognitive.microsoft.com/vision/v3.0/read/analyze?language=en" \
 -H "Ocp-Apim-Subscription-Key: $key" \
 -H "Content-Type: application/json" \
--d "{'url' : 'https://github.com/KarateJB/JB-eBooks/blob/master/Cloud/Azure/ComputerVision/assets/read_demo.png?raw=true'}" 
+-d "<'url' : 'https://github.com/KarateJB/JB-eBooks/blob/master/Cloud/Azure/ComputerVision/assets/read_demo.png?raw=true'>" 
 ```
 
 The response's header has the **Operation-Location** that contains the **Operation Id**: ``
@@ -308,27 +308,27 @@ Which will response the result, e.q.
   "status": "succeeded",
   "createdDateTime": "2021-04-12T06:46:33Z",
   "lastUpdatedDateTime": "2021-04-12T06:46:34Z",
-  "analyzeResult": {
+  "analyzeResult": <
     "version": "3.0.0",
-    "readResults": [{
+    "readResults": [<
       "page": 1,
       "angle": 0,
       "width": 717,
       "height": 361,
       "unit": "pixel",
       "language": "en",
-      "lines": [{
+      "lines": [<
         "boundingBox": [14, 8, 107, 8, 107, 26, 14, 26],
         "text": "2021-04-01",
-        "words": [{
+        "words": [<
           "boundingBox": [15, 9, 107, 9, 107, 26, 14, 27],
           "text": "2021-04-01",
           "confidence": 0.981
-        }]
-      }]
-    }]
-  }
-}
+        >]
+      >]
+    >]
+  >
+>
 ```
 
 
