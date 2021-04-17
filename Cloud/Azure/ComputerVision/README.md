@@ -46,10 +46,10 @@ $ az cognitiveservices account keys list \
 --name ComputerVisionService \
 --resource-group EventHub
 
-<                                            
+{                                            
   "key1": "xxxxxxxxxxxxxxxxxx",
   "key2": "yyyyyyyyyyyyyyyyyy" 
->                                            
+}                                            
 ```
 
 
