@@ -76,7 +76,7 @@ xxxxxxxxxxxxxxxxxxxxx
 
 The endpoint is 
 ```
-https//{region}.api.cognitive.microsoft.com/
+https//<region>.api.cognitive.microsoft.com/
 ```
 
 You can find it on Azure Portal as well.
@@ -106,7 +106,7 @@ There are two kinds of OCR APIs:
 The HttpPost API (v3.0) of **OCR**:
 
 ```s
-https://{endpoint}/vision/v3.0/ocr[?language][&detectOrientation]
+https://<endpoint>/vision/v3.0/ocr[?language][&detectOrientation]
 ```
 
 
@@ -173,8 +173,7 @@ The response will be JSON, e.q.
   "language": "zh-Hant",
   "textAngle": 0.0,
   "orientation": "Up",
-  "regions": [{
-    "boundingBox": "30,25,90,229",
+  "regions": [{"boundingBox": "30,25,90,229",
     "lines": [{
       "boundingBox": "30,25,90,13",
       "words": [{
@@ -205,7 +204,7 @@ The [READ](https://westcentralus.dev.cognitive.microsoft.com/docs/services/compu
 The HttpPost API (v3.0) of **Read**:
 
 ```s
-https://{endpoint}/vision/v3.0/read/analyze[?language]
+https://<endpoint>/vision/v3.0/read/analyze[?language]
 ```
 
 #### Request headers
@@ -246,7 +245,7 @@ I list some of the requirements from [document](https://westcentralus.dev.cognit
 The HttpGet API (v3.0) of **Get Read Result**:
 
 ```s
-https://{endpoint}/vision/v3.0/read/analyzeResults/{operationId}
+https://<endpoint>/vision/v3.0/read/analyzeResults/<operationId>
 ```
 
 #### Request headers
