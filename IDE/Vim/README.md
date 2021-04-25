@@ -255,8 +255,10 @@ Use `<CTRL-v>2j` -> `x..` -> `yyP` -> `Vr-`.
 
 ## Common Ex command
 
-- `:edit` or `:e` Open file to edit.
-- `:write` or `:w` Save file.
+- `:e[dit] {file_path}` Open file to edit.
+- `:w[rite]` Save file, the command will change the timestamp of the file even if the buffer was not be modified.
+- `:update` or `up` Save file, the command will only change the timestamp of the file if the buffer was modified. 
+- `:sav[eas] {file_path}`
 - `:tabnew` Create a new tab.
 - `:split` Split current file to another window.
 - `:bprev`/`bnext` Go to previous/next buffer in the buffer list.
@@ -332,4 +334,19 @@ My Test3
 ```
 
 Now we can use substitute like this: `:%s//<CTRL-r><CTRL-w>/g` (which will be `:%s//TestCase/g`) to replace other `Test` to `TestCase`.
+
+
+
+***
+# Mutiple documents
+
+- `:ls` list all buffers from files.
+- Sitch buffer
+  - `bn[ext]` Switch to next buffer.
+  - `bp[revious]` Switch to previous buffer.
+  - `b[uffer] {buffer_sn}` Quick switch to certain buffer.
+  - `bf[irst]` Switch to the first buffer.
+  - `bl[ast]` Switch to the last buffer.
+
+
 
