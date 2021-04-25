@@ -413,3 +413,18 @@ Now we can use substitute like this: `:%s//<CTRL-r><CTRL-w>/g` (which will be `:
   - `tabm` Move current Tab to the last position.
   
 
+# Working Directory
+
+- `:pwd` Show working directory.
+- `:cd %:p:h` Change the working directory to current file (for all windows).
+- `:lcd %:p:h` Change the working directory to current file (for active window).
+
+To automatically change current directory:
+
+```s
+set autochdir
+```
+
+
+> Reference: [Set working directory to the current file](https://vim.fandom.com/wiki/Set_working_directory_to_the_current_file)
+
