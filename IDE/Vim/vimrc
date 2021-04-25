@@ -1,7 +1,6 @@
 " Custom settings
 set number
 set relativenumber
-set im
 set history=200
 set guifont=Consolas:h14
 colors slate
