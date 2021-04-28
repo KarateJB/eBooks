@@ -110,7 +110,9 @@
 - `.` Repeat the last change.
 - `@:` Repeat the last command(which comes from command mode).
 
+## Show file information
 
+- `<CTRL+g>`: file information.
 
 
 
@@ -415,12 +417,36 @@ Now we can use substitute like this: `:%s//<CTRL-r><CTRL-w>/g` (which will be `:
 
 # Working Directory
 
+## Document browser - netrw
+
+```s
+$ vim .
+```
+
+Now we can use `j`, `k` to move the cursor, `-` will go to up direcory.
+
+![](assets/netrw.jpg)
+
+
+We can open netrw in vim in these ways:
+
+- `:e[dit] .`
+- `E[xplore]
+
+
+> netrw can read/write remote file, see `:h netrw-ref`.
+
+
+
 
 ## Set working directory
 
 - `:pwd` Show working directory.
 - `:cd %:p:h` Change the working directory to current file (for all windows).
 - `:lcd %:p:h` Change the working directory to current file (for active window).
+
+> `%`: The full path of current file.
+> `:h`: Prune the file name. So `%:h` indicates the full path of current directory.
 
 To automatically change current directory:
 
@@ -436,14 +462,14 @@ After setting the working directory, we can open file by relative path.
 For example, my files structure is as following,
 
 ```
-¢u¢w¢w Demo
-|  ¢u¢w¢w Demo1
-|  |  ¢|¢w¢w test.txt
-|  ¢u¢w¢w Demo2
-|  |  ¢|¢w¢w test.txt
-|  ¢u¢w¢w test1.txt
-|  ¢u¢w¢w test2.txt
-|  ¢|¢w¢w test3.txt
+â”œâ”€â”€ Demo                    
+|  â”œâ”€â”€ Demo1                
+|  |  â””â”€â”€ test.txt         
+|  â”œâ”€â”€ Demo2                
+|  |  â””â”€â”€ test.txt          
+|  â”œâ”€â”€ test1.txt            
+|  â”œâ”€â”€ test2.txt            
+|  â””â”€â”€ test3.txt            
 ```
 
 To open `/Demo/test1.txt` from working directory: `/Demo/Demo1`,
@@ -454,6 +480,13 @@ To open `/Demo/test1.txt` from working directory: `/Demo/Demo1`,
 :e ../test3.txt
 ```
 
+Or
+
+```s
+:e %:h<tab>
+:e Demo/Demo1
+:e Demo/Demo1/../test1.txt # or :e Demo/test1.txt
+```
 
 ## Find
 
