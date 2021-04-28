@@ -415,6 +415,9 @@ Now we can use substitute like this: `:%s//<CTRL-r><CTRL-w>/g` (which will be `:
 
 # Working Directory
 
+
+## Set working directory
+
 - `:pwd` Show working directory.
 - `:cd %:p:h` Change the working directory to current file (for all windows).
 - `:lcd %:p:h` Change the working directory to current file (for active window).
@@ -425,6 +428,49 @@ To automatically change current directory:
 set autochdir
 ```
 
-
 > Reference: [Set working directory to the current file](https://vim.fandom.com/wiki/Set_working_directory_to_the_current_file)
+
+
+After setting the working directory, we can open file by relative path.
+
+For example, my files structure is as following,
+
+```
+¢u¢w¢w Demo
+|  ¢u¢w¢w Demo1
+|  |  ¢|¢w¢w test.txt
+|  ¢u¢w¢w Demo2
+|  |  ¢|¢w¢w test.txt
+|  ¢u¢w¢w test1.txt
+|  ¢u¢w¢w test2.txt
+|  ¢|¢w¢w test3.txt
+```
+
+To open `/Demo/test1.txt` from working directory: `/Demo/Demo1`,
+
+```s
+:pwd
+/Demo/Demo1
+:e ../test3.txt
+```
+
+
+## Find
+
+We can `:find` to open a file without to know the full path of any file.
+However we must add the paths to find.
+
+```s
+:pwd
+/Demo
+:set path+=Demo1/**
+:set path+=Demo2/**
+:find test
+```
+
+Press `tab` after the last command, and we will see:
+
+![](assets/find_by_set_path.jpg)
+
+
 
