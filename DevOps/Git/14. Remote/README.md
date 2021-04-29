@@ -136,17 +136,21 @@ $ git branch -d no_use_branch1
 
 
 
-# Syncing a fork
+# Collaboration with remote repository
 
+Here are 2 ways to collaborate with others in a remote repository.
 
-## Add new remote repository
+## 1.Fork and sync a remote repository
 
+To show how to do it, I forked a repository from [KarateJB/GitPractice](https://github.com/KarateJB/GitPractice) to [TheForceJB/GitPractice](https://github.com/TheForceJB/GitPractice).
+
+### Add new remote repository
 
 ```s
 $ git remote add <name> <repository_url>
 ```
 
-E.q.
+E.q. 
 
 ```s
 $ git remote add karatejb https://github.com/KarateJB/GitPractice.git
@@ -164,7 +168,7 @@ origin  https://github.com/TheForceJB/GitPractice.git (push)
 
 
 
-## Fetch and merge original repository
+### Fetch and merge original repository
 
 ```s
 $ git fetch <name>
@@ -177,6 +181,57 @@ E.q.
 
 ```s
 $ git fetch karatejb
-$ git checkout master
-$ git merge karatejb/master // or rebase
+$ git checkout master # Checkout master branch of your repository
+$ git merge karatejb/master # or rebase, this will merge/rebase the remote repository to your repository
 ```
+
+
+
+## 2.Clone and set fetch/push on different remote
+
+If we clone the remote repository of others, we will find that we do not have the permission to push commit to the remote repository.
+
+```s
+$ git clone https://github.com/KarateJB/GitPractice.git 
+$ git remote -v
+origin  https://github.com/KarateJB/GitPractice.git (fetch)
+origin  https://github.com/KarateJB/GitPractice.git (push)
+$ git checkout -b test
+$ git push --set-upstream origin test
+remote: Permission to KarateJB/GitPractice.git denied to TheForceJB.
+fatal: unable to access 'https://github.com/KarateJB/GitPractice.git/': The requested URL returned error: 403
+```
+
+We can add a push remote url as following,
+
+```s
+$ git remote set-url [--add] --push origin <repository_url>
+```
+
+
+I set the push url to the remote repository that I have permission.
+
+```s
+$ git remote set-url --push origin git@github.com:TheForceJB/GitPractice.git
+$ git remote -v
+origin  https://github.com/KarateJB/GitPractice.git (fetch)
+origin  git@github.com:TheForceJB/GitPractice.git (push)
+```
+
+Then I can push my commits to my repository and fetch the changes from the original remote repository.
+E.q.
+```s
+$ git checkout master
+$ git pull --rebase
+Updating 2ef8e2a..e237227
+Fast-forward
+ default.html | 1 +
+ 1 file changed, 1 insertion(+)
+$ git checkout test
+$ git rebase master
+```
+
+
+
+
+
