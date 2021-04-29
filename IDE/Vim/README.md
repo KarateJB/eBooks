@@ -28,9 +28,9 @@
 - `<number>L` Go right
 - `<number>G` Go with line number
 
-- `zz` 將目前選取行置中顯示
-- `zt` 將目前選取行顯示到最上面
-- `zb` 將目前選取行顯示到最下面
+- `zz` Centerize active line.
+- `zt` Put active line to the top of window.
+- `zb` Put active line to the bottom of window.
 
 
 
@@ -77,8 +77,8 @@
 
 ## To Indent
 
-- `>>` or `<<` 縮排
-- `>` or `<` 選取縮排
+- `>` or `<` Select the line to shift
+- `>>` or `<<` Shift line right or left
 
 
 ## To Search
@@ -559,17 +559,6 @@ W12: Warning: File "hosts" has changed and the buffer was changed in Vim as well
 ```
 
 > The file will be modified by the outside program, so vim will ask us to reload it or not.
-
-
-
-
-
-
-
-
-
-
-
 
 
 
