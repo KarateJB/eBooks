@@ -506,4 +506,72 @@ Press `tab` after the last command, and we will see:
 ![](assets/find_by_set_path.jpg)
 
 
+## Save a new file to non-exist directory
+
+For example, I open a new buffer with path: `New\test.txt`, that the directory is not exist.
+
+```
+:e New\test.txt
+:w
+"New\test.txt" E212: Can't open file for writing
+```
+
+We can use `mkdir` command in vim to solve the problem,
+
+```
+:!mkdir -p %:h
+:w
+```
+
+
+## Save a file without right permission
+
+For example, we would like to edit `/etc/hosts`,
+
+```s
+$ ls -al /etc/ | grep hosts
+-rw-r--r-- 1 root     root       174 Apr 29 03:47 hosts
+
+$ su jb
+$ whoami
+jb
+$ vim /etc/hosts
+```
+
+We will get the error when we want to save it.
+
+```
+:w
+E45: 'readonly' option is set (add ! to override)
+:w!
+E212: Can't open file for writing
+```
+
+We have to use `root`'s permission to save the file:
+
+```
+:w !sudo tee % > /dev/null
+[sudo] password for jb:
+xxxxxxxx
+
+W12: Warning: File "hosts" has changed and the buffer was changed in Vim as well.
+[O]k, (L)oad File: L
+```
+
+> The file will be modified by the outside program, so vim will ask us to reload it or not.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
