@@ -60,12 +60,12 @@ E.q.
 
 | Input keys | Result text |
 |:-----------|:-----|
-| `0` | We're |
+| `0` | **W**e're |
 | `cwYou` | You're |
 
 | Input keys | Result text |
 |:-----------|:-----|
-| `0` | We're |
+| `0` | **W**e're |
 | `cWIt's` | It's |
 
 
