@@ -563,4 +563,9 @@ W12: Warning: File "hosts" has changed and the buffer was changed in Vim as well
 
 
 
+# Motion
+
+> For more details: `:h motion.txt`
+
+
 
