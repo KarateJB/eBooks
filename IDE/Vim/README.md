@@ -22,15 +22,51 @@
 
 ## Moving
 
-- `<number>H` Go left
-- `<number>J` Go down
-- `<number>K` Go up 
-- `<number>L` Go right
-- `<number>G` Go with line number
+- `<number>h` Go {number} chars leftside.
+- `<number>j` Go {number} lines downward.
+- `<number>k` Go {number} lines upward.
+- `<number>l` Go {number} chars right.
+- `<number>G` Go with line number.
+
+- `gj` Display line downward.
+- `gk` Display line upward.
+
+- `0` To the first char of current line.
+- `g0` To the first char of current display line.
+- `$` To the last char of current line.
+- `g$` To the last char of current display line.
+- `^` To the first non-blank char of current line.   
+- `g^` To the first non-blank char of current display line.   
 
 - `zz` Centerize active line.
 - `zt` Put active line to the top of window.
 - `zb` Put active line to the bottom of window.
+- `<CTRL+u>` Moving viewport up.
+- `<CTRL+d>` Moving viewport down.
+
+
+> See the definitions of **word** and **WORD** by `:h word` or `:h WORD`.
+ 
+- `{number}w` {number} words forward, exclusive motion.
+- `{number}W` {number} WORDS forward, exclusive motion.
+- `{number}b` {number} words backward, exclusive motion.
+- `{number}B` {number} WORDS backward, exclusive motion.
+- `e` Forward to the end of {number} words inclusive.
+- `E` Forward to the end of {number} WORDS inclusive.
+- `ge` Backward to the end of {number} words inclusive.
+- `gE` Backward to the end of {number} WORDS inclusive.
+
+E.q. 
+
+| Input keys | Result text |
+|:-----------|:-----|
+| `0` | We're |
+| `cwYou` | You're |
+
+| Input keys | Result text |
+|:-----------|:-----|
+| `0` | We're |
+| `cWIt's` | It's |
 
 
 
@@ -89,6 +125,19 @@
 
 - `/` Search next in document, `?` Search previous in document.
 - `*` Search current word.
+
+
+### Advanced combination with Searching
+
+| Input keys | Result text |
+|:-----------|:------------|
+| `0` | Advanced combination with Searching. |
+| `dtS` | Searching. |
+| `u0` | Advanced combination with Searching. |
+| `c3f Keep `| Keep Searching. |
+| `u0/com` | Advanced combination with Searching. |
+| `d/Sea` | Advanced Searching. |
+
 
 ## To Replace
 
