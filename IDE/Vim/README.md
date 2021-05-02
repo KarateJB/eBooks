@@ -665,8 +665,8 @@ The following samples are started with the below text that the cursor is at the 
 | "..." double quotest   | `a"`         | `i"` |
 | `...` backticks        | `a``         | `i`` |
 | <xxx>...</xxx> XML tag | `at`         | `it` |
-| Sentence(•y§l)         | `as`         | `is` |
-| Paragraphs(¨q∏®)       | `as`         | `is` |
+| Sentence(Âè•Â≠ê)         | `as`         | `is` |
+| Paragraphs(ÊÆµËêΩ)       | `as`         | `is` |
 | Jump to the matched item (`([{}])`) after or under the cursor in this line | `%` |
 
 
@@ -703,7 +703,7 @@ An example to replace the matched **()**, **[]** or **{}**.
 |:-----------|:------------|
 | `0f[` | item[xxxxx] |
 | `%r)` | item[xxxxx) |
-| ```r(` | item(xxxxx) |
+| ` ``r( ` | item(xxxxx) |
 
 
 ## Jump list
