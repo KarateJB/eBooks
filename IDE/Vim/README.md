@@ -22,15 +22,51 @@
 
 ## Moving
 
-- `<number>H` Go left
-- `<number>J` Go down
-- `<number>K` Go up 
-- `<number>L` Go right
-- `<number>G` Go with line number
+- `<number>h` Go {number} chars leftside.
+- `<number>j` Go {number} lines downward.
+- `<number>k` Go {number} lines upward.
+- `<number>l` Go {number} chars right.
+- `<number>G` Go with line number.
+
+- `gj` Display line downward.
+- `gk` Display line upward.
+
+- `0` To the first char of current line.
+- `g0` To the first char of current display line.
+- `$` To the last char of current line.
+- `g$` To the last char of current display line.
+- `^` To the first non-blank char of current line.   
+- `g^` To the first non-blank char of current display line.   
 
 - `zz` Centerize active line.
 - `zt` Put active line to the top of window.
 - `zb` Put active line to the bottom of window.
+- `<CTRL+u>` Moving viewport up.
+- `<CTRL+d>` Moving viewport down.
+
+
+> See the definitions of **word** and **WORD** by `:h word` or `:h WORD`.
+ 
+- `{number}w` {number} words forward, exclusive motion.
+- `{number}W` {number} WORDS forward, exclusive motion.
+- `{number}b` {number} words backward, exclusive motion.
+- `{number}B` {number} WORDS backward, exclusive motion.
+- `e` Forward to the end of {number} words inclusive.
+- `E` Forward to the end of {number} WORDS inclusive.
+- `ge` Backward to the end of {number} words inclusive.
+- `gE` Backward to the end of {number} WORDS inclusive.
+
+E.q. 
+
+| Input keys | Result text |
+|:-----------|:-----|
+| `0` | **W**e're |
+| `cwYou` | You're |
+
+| Input keys | Result text |
+|:-----------|:-----|
+| `0` | **W**e're |
+| `cWIt's` | It's |
 
 
 
@@ -43,7 +79,9 @@
 
 - `dw` Delete any chars from current cursor and stops at next word.
 - `diw` Delete a word (exclude blank), often used on removing a word.
+  - `ciw` Delete and start edit mode.
 - `daw` Delete a word (include blank), ofter used on removing and insert a new word.
+  - `caw` Delete and start edit mode.
 - `dd` Delete row and move up the next row
 
 - `"0p` 貼上前一個複製的內容 
@@ -89,6 +127,20 @@
 
 - `/` Search next in document, `?` Search previous in document.
 - `*` Search current word.
+- To search on current line, `<shift+v>` -> `/\%V{pattern}`.
+
+
+### Advanced combination with Searching
+
+| Input keys | Result text |
+|:-----------|:------------|
+| `0` | Advanced combination with Searching. |
+| `dtS` | Searching. |
+| `u0` | Advanced combination with Searching. |
+| `c3f Keep `| Keep Searching. |
+| `u0/com` | Advanced combination with Searching. |
+| `d/Sea` | Advanced Searching. |
+
 
 ## To Replace
 
@@ -562,5 +614,115 @@ W12: Warning: File "hosts" has changed and the buffer was changed in Vim as well
 
 
 
+# Go to file
+
+- `gf` Goto file, often used with `:set suffixesadd+={file extension}`, see `:h gf` for more details.
 
 
+
+
+# Motion
+
+> For more details: `:h motion.txt`
+
+
+## (i)nside and (a)round
+
+The following samples are started with the below text that the cursor is at the `.`of `book.title`.
+
+```html
+<div>
+  <a href="{{book.url}}">{{book.title}}</a>
+</div>
+```
+
+- `vi{`
+
+  ![](assets/ia_sample_01.jpg)
+
+- `v2i{` or `va{`
+
+  ![](assets/ia_sample_02.jpg)
+
+- `vit`
+
+  ![](assets/ia_sample_03.jpg)
+
+- `v2it`
+
+  ![](assets/ia_sample_04.jpg)
+
+
+### Selection mapping
+
+| Select for | Keys (around) | Keys (inside) |
+|:-----------|:-------------:|:-------------:|
+| (...) parentheses      | `a)` or `ab` | `i)` or `ib` |
+| {...} braces           | `a}` or `aB` | `i}` or `iB` |
+| [...] brackets         | `a]`         | `i]` |
+| <...> angle brackets   | `a>`         | `i>` |
+| '...' single quotes    | `a'`         | `i'` |
+| "..." double quotest   | `a"`         | `i"` |
+| `...` backticks        | `a``         | `i`` |
+| <xxx>...</xxx> XML tag | `at`         | `it` |
+| Sentence(句子)         | `as`         | `is` |
+| Paragraphs(段落)       | `as`         | `is` |
+| Jump to the matched item (`([{}])`) after or under the cursor in this line | `%` |
+
+
+
+# Jump
+
+> See `:h jumps`.
+
+
+
+## Set Mark
+
+- `m{a-zA-Z}` Set mark, notice that the lowercase mark (a-z) is for current file only, while the uppercase mark (A-Z) is globally set.
+- `'{mark}` Jump to the mark, the cursor will be on the first non-blank char.
+- ``{mark}` Jump to the mark, the cursor will be on the char when setting the mark. (Recommended)
+- To quickly use mark, `mm` to set, ``m` to jump.
+
+## Automatic Mark
+
+| Key for mark | Description |
+|:------------:|:------------|
+| ```` | To the position before the latest jump. |
+| ``.` | To the postition where the last change was made. |
+| ``^` | To the position where the last Inser Mode was stopped. |
+| ``[` | To the first character of previously changed or yanked text. |
+| ``]` | To the last character of the previously changed or yanked text. |
+| ``<` | To the first line or char of the last selected Visual area. |
+| ``>` | To the last line or char of the last selected Visual area. |
+
+
+An example to replace the matched **()**, **[]** or **{}**.
+
+| Input keys | Result text |
+|:-----------|:------------|
+| `0f[` | item[xxxxx] |
+| `%r)` | item[xxxxx) |
+| ` ``r( ` | item(xxxxx) |
+
+
+## Jump list
+
+- `:jumps` See jump list.
+- `<CTRL+i>` Jump to next.
+- `<CTRL+o>` Jump to previous.
+
+The jump list includes:
+
+| Command/Input key(s) | Description |
+| `{line number}G` | Go to {line number}. |
+| `%` | |
+| `'{mark}` or ``{mark}` | Go to mark. |
+| `{number}H`, `M`, `{number}L` | Go to top/medium/bottom of the screen. |
+
+
+## Change list
+
+- `:changes` See change list.
+- `{count}g;` Go to {count} older position in change list. 
+- `{count}g,` Go to {count} newer cursor position in change list. 
