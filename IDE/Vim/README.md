@@ -79,7 +79,9 @@ E.q.
 
 - `dw` Delete any chars from current cursor and stops at next word.
 - `diw` Delete a word (exclude blank), often used on removing a word.
+  - `ciw` Delete and start edit mode.
 - `daw` Delete a word (include blank), ofter used on removing and insert a new word.
+  - `caw` Delete and start edit mode.
 - `dd` Delete row and move up the next row
 
 - `"0p` 貼上前一個複製的內容 
@@ -125,6 +127,7 @@ E.q.
 
 - `/` Search next in document, `?` Search previous in document.
 - `*` Search current word.
+- To search on current line, `<shift+v>` -> `/\%V{pattern}`.
 
 
 ### Advanced combination with Searching
@@ -642,3 +645,54 @@ The following samples are started with the below text that the cursor is at the 
 - `v2it`
 
   ![](assets/ia_sample_04.jpg)
+
+
+### Selection mapping
+
+| Select for | Keys (around) | Keys (inside) |
+|:-----------|:-------------:|:-------------:|
+| (...) parentheses      | `a)` or `ab` | `i)` or `ib` |
+| {...} braces           | `a}` or `aB` | `i}` or `iB` |
+| [...] brackets         | `a]`         | `i]` |
+| <...> angle brackets   | `a>`         | `i>` |
+| '...' single quotes    | `a'`         | `i'` |
+| "..." double quotest   | `a"`         | `i"` |
+| `...` backticks        | `a``         | `i`` |
+| <xxx>...</xxx> XML tag | `at`         | `it` |
+| Sentence(�y�l)         | `as`         | `is` |
+| Paragraphs(�q��)       | `as`         | `is` |
+| Jump to the matched item (`([{}])`) after or under the cursor in this line | `%` |
+
+
+
+## Jump
+
+### Set Mark
+
+- `m{a-zA-Z}` Set mark, notice that the lowercase mark (a-z) is for current file only, while the uppercase mark (A-Z) is globally set.
+- `'{mark}` Jump to the mark, the cursor will be on the first non-blank char.
+- ``{mark}` Jump to the mark, the cursor will be on the char when setting the mark. (Recommended)
+- To quickly use mark, `mm` to set, ``m` to jump.
+
+### Automatic Mark
+
+| Key for mark | Description |
+|:------------:|:------------|
+| ```` | To the position before the latest jump. |
+| ``.` | To the postition where the last change was made. |
+| ``^` | To the position where the last Inser Mode was stopped. |
+| ``[` | To the first character of previously changed or yanked text. |
+| ``]` | To the last character of the previously changed or yanked text. |
+| ``<` | To the first line or char of the last selected Visual area. |
+| ``>` | To the last line or char of the last selected Visual area. |
+
+
+An example to replace the matched **()**, **[]** or **{}**.
+
+| Input keys | Result text |
+|:-----------|:------------|
+| `0f[` | item[xxxxx] |
+| `%r)` | item[xxxxx) |
+| ```r(` | item(xxxxx) |
+
+

@@ -10,7 +10,7 @@ colors slate
 highlight LineNr guifg=DarkGray
 highlight Search guibg='Purple' guifg=#FFFFFF
 highlight String guifg=#FF5733
-highlight Visual guibg=#000000
+highlight Visual guibg=#042069 guifg=#FFFFFF
 highlight Pmenu guifg=#000000 guibg=#808080
 
 " Custom mappings
