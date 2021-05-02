@@ -614,6 +614,12 @@ W12: Warning: File "hosts" has changed and the buffer was changed in Vim as well
 
 
 
+# Go to file
+
+- `gf` Goto file, often used with `:set suffixesadd+={file extension}`, see `:h gf` for more details.
+
+
+
 
 # Motion
 
@@ -665,16 +671,20 @@ The following samples are started with the below text that the cursor is at the 
 
 
 
-## Jump
+# Jump
 
-### Set Mark
+> See `:h jumps`.
+
+
+
+## Set Mark
 
 - `m{a-zA-Z}` Set mark, notice that the lowercase mark (a-z) is for current file only, while the uppercase mark (A-Z) is globally set.
 - `'{mark}` Jump to the mark, the cursor will be on the first non-blank char.
 - ``{mark}` Jump to the mark, the cursor will be on the char when setting the mark. (Recommended)
 - To quickly use mark, `mm` to set, ``m` to jump.
 
-### Automatic Mark
+## Automatic Mark
 
 | Key for mark | Description |
 |:------------:|:------------|
@@ -696,3 +706,23 @@ An example to replace the matched **()**, **[]** or **{}**.
 | ```r(` | item(xxxxx) |
 
 
+## Jump list
+
+- `:jumps` See jump list.
+- `<CTRL+i>` Jump to next.
+- `<CTRL+o>` Jump to previous.
+
+The jump list includes:
+
+| Command/Input key(s) | Description |
+| `{line number}G` | Go to {line number}. |
+| `%` | |
+| `'{mark}` or ``{mark}` | Go to mark. |
+| `{number}H`, `M`, `{number}L` | Go to top/medium/bottom of the screen. |
+
+
+## Change list
+
+- `:changes` See change list.
+- `{count}g;` Go to {count} older position in change list. 
+- `{count}g,` Go to {count} newer cursor position in change list. 
