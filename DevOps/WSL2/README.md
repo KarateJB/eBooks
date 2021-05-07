@@ -1,5 +1,11 @@
 # WSL2
 
+## Show the distros on WSL2
+
+```s
+wsl -l -v
+```
+
 ## Set the default WSL version to the distro like this:
 
 ```s
