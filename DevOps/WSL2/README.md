@@ -1,5 +1,11 @@
 # WSL2
 
+## Show the distros on WSL2
+
+```s
+wsl -l -v
+```
+
 ## Set the default WSL version to the distro like this:
 
 ```s
@@ -114,4 +120,16 @@ You can connect to WSL2 with VSCODE by [Remote - WSL](https://marketplace.visual
 $ sudo chown <wsl_default_user> /path/file
 $ code /path/file
 $ sudo chown <the_original_user> /path/file
+```
+
+
+## Trouble Shooting
+
+### Docker 'cgroups: cannot find cgroup mount destination: unknown'
+
+> See [WSL2: docker: Error response from daemon: cgroups: cannot find cgroup mount destination: unknown. #4189](https://github.com/microsoft/WSL/issues/4189)
+
+```s
+$ sudo mkdir /sys/fs/cgroup/systemd
+$ sudo mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd
 ```
