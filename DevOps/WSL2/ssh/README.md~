@@ -1,8 +1,0 @@
-# ssh into WSL2
-
-## Reinstall SSH Server
-
-```s
-$ sudo apt-get purge openssh-server
-$ sudo apt-get install openssh-server
-```

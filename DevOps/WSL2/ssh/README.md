@@ -1,13 +1,13 @@
 # ssh into WSL2
 
-## 1.Reinstall SSH Server
+## Reinstall SSH Server
 
 ```s
 $ sudo apt-get purge openssh-server
 $ sudo apt-get install openssh-server
 ```
 
-## 2.Update/Enable the values in `/etc/ssh/sshd_config`
+## Update/Enable the values in `/etc/ssh/sshd_config`
 
 First change the owner of `sshd_config`, (and change it back to root after everything is done)
 
@@ -17,7 +17,7 @@ $ sudo chown <current_user> /etc/ssh/sshd_config
 
 | Key | Value | Note |
 |:---:|:------|:-----|
-| PermitRootLogin | yes | The value can be `yes`, `prohibit-password`, `forced-commands-only`, or `no`. |
+| PermitRootLogin | yes | (Optional) The value can be `yes`, `prohibit-password`, `forced-commands-only`, or `no`. |
 | PasswordAuthentication | yes | |
 
 
@@ -29,7 +29,7 @@ You can also change the following values for ssh into it from remote machine,
 | Port | 2222 | Notice that Windows 10/Server had used port 22 for its own SSH server. |
 
 
-## 3.Restart SSH-Server service
+## Restart SSH-Server service
 
 ```s
 $ sudo service ssh --full-restart

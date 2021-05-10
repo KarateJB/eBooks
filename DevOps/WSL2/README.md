@@ -121,3 +121,15 @@ $ sudo chown <wsl_default_user> /path/file
 $ code /path/file
 $ sudo chown <the_original_user> /path/file
 ```
+
+
+## Trouble Shooting
+
+### Docker 'cgroups: cannot find cgroup mount destination: unknown'
+
+> See [WSL2: docker: Error response from daemon: cgroups: cannot find cgroup mount destination: unknown. #4189](https://github.com/microsoft/WSL/issues/4189)
+
+```s
+$ sudo mkdir /sys/fs/cgroup/systemd
+$ sudo mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd
+```
