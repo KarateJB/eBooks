@@ -112,5 +112,23 @@ To delete a deployment:
 $ kubectl delete deployment kubernetes-idsrv-deployment
 ```
 
+We can update the deployment spec on the fly by
+
+```s
+$ kubectl edit deployments kubernetes-idsrv-deployment
+```
+
+Or rollback to the certain changes as following,
+
+```s
+$ kubectl rollout history deployment kubernetes-idsrv-deployment
+REVISION    CHANGE-CAUSE
+1           <none>
+
+$ kubectl rollout undo deployment kubernetes-idsrv-deployment [--to-revision=2]
+```
+
+
+## Ingress
 
 
