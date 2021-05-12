@@ -2,7 +2,7 @@
 # Create Resource Group
 
 ```s
-$ az group create --location japan --name EventHub [--subscription]
+$ az group create --location japan --name jb-resource-group [--subscription]
 ```
 
 > To see available locations, use 
@@ -18,7 +18,7 @@ $ az cognitiveservices account create \
 --kind ComputerVision \
 --name ComputerVisionService \
 --sku S1 \
---resource-group EventHub \
+--resource-group jb-resource-group \
 --location japaneast
 ```
 
@@ -33,7 +33,7 @@ Or by specified account name and resource group,
 ```s
 $ az cognitiveservices account show \
 --name ComputerVisionService \
---resource-group EventHub
+--resource-group jb-resource-group
 ```
 
 
@@ -44,7 +44,7 @@ To get the list of keys that we can use to do RESTful API calls,
 ```s
 $ az cognitiveservices account keys list \
 --name ComputerVisionService \
---resource-group EventHub
+--resource-group jb-resource-group
 
 {                                            
   "key1": "xxxxxxxxxxxxxxxxxx",
@@ -58,7 +58,7 @@ Now we save the value of `key1` to a variable like this (in bash),
 ```s
 $ export key=$(az cognitiveservices account keys list \
 --name ComputerVisionService \
---resource-group EventHub \
+--resource-group jb-resource-group \
 --query key1 -o tsv)
 
 
