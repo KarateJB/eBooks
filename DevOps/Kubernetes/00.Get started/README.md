@@ -172,3 +172,17 @@ Now copy the token and use it to login to Kubernetes Dashboard.
 
 ![](assets/004.png)
 
+
+
+## Trouble shooting
+
+### Docker Desktop (Windows)
+
+#### Kubernetes fails to start
+
+Delete the following directories and restart Docker, this should regenerate client certs for you, which include vm.docker.internal.
+
+```
+C:\ProgramData\DockerDesktop\pki
+C:\Users\yourUserName\AppData\Local\Docker\pki
+```
