@@ -1,6 +1,6 @@
 # Vim
 
-> <CTRL-r> means press `CTRL` and `r` keys in the same time. 
+> `<CTRL-r>` means press `CTRL` and `r` keys in the same time. 
 
 ## Chapaters
 
