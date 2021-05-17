@@ -28,9 +28,14 @@ testem.log
 /e2e/*.js
 /e2e/*.map
 
-#System Files
+# System Files
 .DS_Store
 Thumbs.db
 */**/*.prod.js
 */**/*.prod.ts
 */**/package.lock.json
+
+# Vim
+[._]*.sw[a-p]
+*.un~
+*~
