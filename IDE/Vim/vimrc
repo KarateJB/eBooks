@@ -5,6 +5,7 @@ set shell=\"C:/Program\ Files/Git/usr/bin/bash.exe\"
 set number
 set relativenumber
 set history=200
+set encoding=utf-8
 set guifont=Consolas:h14
 colors slate
 highlight LineNr guifg=DarkGray
