@@ -92,6 +92,8 @@ E.q.
    - `gcc` Comment out current line.
    - `gcap` Comment out current block.
 
+- `u` Undo
+- `<CTRL+r>` Redo (Undo undo)
 
 ## To Indent
 
