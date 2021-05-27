@@ -41,6 +41,7 @@ An example to replace the matched **()**, **[]** or **{}**.
 The jump list includes:
 
 | Command/Input key(s) | Description |
+|:---------------------|:------------|
 | `{line number}G` | Go to {line number}. |
 | `%` | |
 | `'{mark}` or ``{mark}` | Go to mark. |
