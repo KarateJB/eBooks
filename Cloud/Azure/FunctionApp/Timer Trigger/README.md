@@ -48,16 +48,16 @@ $ code ./MyFuncs
 ```
 
 
-### Create Function
+### Create Function project by template
 
-After opening VS Code, click the **Azure** icon -> **Create Function...**,
+After opening VS Code, click the [Azure] icon -> [Create Function...]
 
 ![](assets/vscode_create_func.jpg)
 
 Then fill out the spec as following:
 
 | Option | Choose |
-|:-------|:------:|
+|:-------|:-------|
 | Select a language | C# |
 | Select a .NET runtime | .NET Core 3 LTS |
 | Select a template for your project's first function | Timer trigger |
@@ -67,9 +67,139 @@ Then fill out the spec as following:
 | Select a storage account to debug ... | Use local emulator |
 
 
-The project files will be created:
+The project files will be created as following,
 
 ![](assets/project.jpg)
+
+
+### Local Settings
+
+We can put our applicaion configurations or connection strings into [local setting file](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=windows%2Ccsharp%2Cbash#local-settings-file): `local.settings.json`, for running and debugging Function locally.
+
+Lets put the Microsoft Teams's webhook url into `local.settings.json`:
+
+- local.settings.json
+
+```json
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "TeamsWebhook": "https://myoffice.webhook.office.com/webhookb2/xxxxxx/IncomingWebhook/yyyyyy"
+  }
+}
+```
+
+### Implement Sending Message
+
+First create a `Message` class:
+
+- Message.cs
+
+```csharp
+using Newtonsoft.Json;
+
+namespace MyTimerFuncs
+{
+    public class Message
+    {
+        [JsonProperty("title")]
+        public string Title {get; set;}
+
+        [JsonProperty("text")]
+        public string Text { get; set; }
+    }
+}
+```
+
+
+
+Then update our Function's entry method like below.
+
+- MyTimerFunc.cs
+
+```csharp
+namespace MyTimerFuncs
+{
+    public static class MyTimerFunc
+    {
+        private const string CRON_SCHEDULE = "0 */2 * * * *";
+
+        [FunctionName("MyTimerFunc")]
+        public static async Task RunAsync([TimerTrigger(CRON_SCHEDULE)]TimerInfo myTimer, ILogger log)
+        {
+            // Get webhook url
+            var webhookUrl = new Uri(Environment.GetEnvironmentVariable("TeamsWebhook"));
+
+            log.LogInformation($"Function starts at: {DateTime.Now}");
+
+            using(var httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                var msg = new Message { Title = "Star Wars",  Text = "The force is with you." };
+
+                var content = new StringContent(JsonConvert.SerializeObject(msg));
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                var response = await httpClient.PostAsync(webhookUrl, content);
+
+                log.LogInformation($"Function ends at: {DateTime.Now}, response's status code: {(int)response.StatusCode}");
+            }
+        }
+}
+```
+
+> Remember to update the `CRON_SCHEDULE` value before publishing.
+
+
+
+### Run locally
+
+1. Start Microsoft Azure Storage Emulator
+2. In VSCode, press F5 to run and debug the Function.
+
+
+
+## Publish
+
+### VSCode
+
+Click [Deploy to Function App...] as following,
+
+![](assets/vscode_publish_func.jpg)
+
+
+| Option | Choose |
+|:-------|:-------|
+| Select subscription | Your subscription |
+| Select Function App in Azure | The one we created in the previous step, that is `my-funcapp` |
+
+
+Once the publishing is completed, we will see the following message on VSCode.
+
+![](assets/vscode_publish_done.jpg)
+
+
+### Azure
+
+We have to set the webhook url to Function App's Configuration.
+
+![](assets/funcapp_config_01.jpg)
+
+![](assets/funcapp_config_02.jpg)
+
+Remeber to save the changes!
+
+
+### Monitoring
+
+We can see the overview and application logs in Azure Portal.
+
+![](assets/funcapp_monitor_01.jpg)
+
+![](assets/funcapp_monitor_02.jpg)
+
 
 
 
