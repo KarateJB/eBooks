@@ -1,0 +1,8 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "TeamsWebhook": "https://myoffice.webhook.office.com/webhookb2/xxxxxxx/IncomingWebhook/yyyyyyy"
+  }
+}
