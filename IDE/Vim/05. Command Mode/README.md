@@ -19,6 +19,11 @@ For more Ex cmd, see `:h ex-cmd-index`.
 
 ## Range/Line Ex command
 
+> `[range]` can be a single line e.q. `:3` (The line with line number 3), or relative line number, e.q. `:.+3` (The line with line number = current line + 3). <br />
+> It can be a range with format: `:<line number>,<line number>`, e.q. `:3,5` is the range between line 3 to 5. <br />
+> We can use relative number as well, such as `:.,.+3` means from current line to the next 3 lines.
+
+
 - `:[range]d` Delete range.
 - `:[range]y` Yank range.
 - `:[line #]put` Put yanked at the next line of line #.
