@@ -114,3 +114,23 @@ My Test3
 ```
 
 Now we can use substitute like this: `:%s//<CTRL-r><CTRL-w>/g` (which will be `:%s//TestCase/g`) to replace other `Test` to `TestCase`.
+
+
+
+## vimgrep
+
+**vimgrep** uses the quickfix list to store locations.
+
+
+- `:vimgrep /{pattern}/ {file} ... : Search in the files. 
+  - E.q. To search the word `Test` in all files:  `vimgrep /Test/ **`
+
+
+### Quickfix commands
+
+- `:cnext`/`:cprevious` to navigate the quickfix forwards/backwards in the quickfix list.
+- `:cfirst/:clast` to jump to the start and end of the quickfix list.
+- `:copen` to open the quickfix window. Use `<CTRL+r>` to jump to an entry.
+- `:cclose` to close the quickfix window.
+- `:cc` to display the current error.
+- `:colder/:cnewer` to jump older/newer quickfix lists.

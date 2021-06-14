@@ -69,7 +69,29 @@ E.q.
 - `"+p` 從系統剪貼簿貼上複製的內容到vim
 - `<CTRL-r>"` 在Command mode貼上yanked  
 
+
+### Registers 寄存器
+
+- `"{register}` prefix for using registers.
+  - Notice that the register:`0`, will be defaultly be set when doing a unnamed yank, such as `yy`, `yaw`.  
+  - Using register [a-z] will overwrite the content within it, using [A-Z] will append new content to existed one within it.
 - `"_` Prefix for black hole, such as `"_d`, `"_c`
+
+
+
+There are ten types of registers: (From `:h registers`)
+
+1. The unnamed register `""`
+2. 10 numbered registers "0 to "9
+3. The small delete register "-
+4. 26 named registers "a to "z or "A to "Z
+5. Three read-only registers ":, "., "%
+6. Alternate buffer register "#
+7. The expression register "=
+8. The selection and drop registers "*, "+ and "~ 
+9. The black hole register "_
+10. Last search pattern register "/
+
 
 
 ## To Edit
