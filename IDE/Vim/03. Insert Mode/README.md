@@ -36,3 +36,4 @@
 
 - `<CTRL-r>{register}`  Paste a register.
 - `<CTRL-r><CTRL-p>{register}` Paster a register without shift-block format.
+

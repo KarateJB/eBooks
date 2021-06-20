@@ -21,8 +21,8 @@
 - `zz` Centerize active line.
 - `zt` Put active line to the top of window.
 - `zb` Put active line to the bottom of window.
-- `<CTRL+u>` Moving viewport up.
-- `<CTRL+d>` Moving viewport down.
+- `<CTRL-u>` Moving viewport up.
+- `<CTRL-d>` Moving viewport down.
 
 
 > See the definitions of **word** and **WORD** by `:h word` or `:h WORD`.
@@ -69,6 +69,11 @@ E.q.
 - `"+p` 從系統剪貼簿貼上複製的內容到vim
 - `<CTRL-r>"` 在Command mode貼上yanked  
 
+- `p`/`P` Paste after/before current postion/line.
+- `gp`/`gP` Paste one or more lines after/before current line, but make the cursor stays at the end of the pasted text.
+  - e.q. I yanked a block of code and want to write something after the last line of the new code block. So I can do `gpi`.
+
+
 
 ### Registers 寄存器
 
@@ -76,6 +81,7 @@ E.q.
   - Notice that the register:`0`, will be defaultly be set when doing a unnamed yank, such as `yy`, `yaw`.  
   - Using register [a-z] will overwrite the content within it, using [A-Z] will append new content to existed one within it.
 - `"_` Prefix for black hole, such as `"_d`, `"_c`
+- Paste to a selected word in visual mode will set the replaced word to unnamed register.
 
 
 
@@ -115,7 +121,7 @@ There are ten types of registers: (From `:h registers`)
    - `gcap` Comment out current block.
 
 - `u` Undo
-- `<CTRL+r>` Redo (Undo undo)
+- `<CTRL-r>` Redo (Undo undo)
 
 ## To Indent
 
