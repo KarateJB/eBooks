@@ -74,26 +74,65 @@ We can reuse the recording by `{times}@{register}`:
 For example, we want to turn
 
 ```js
+var crews = ['JB']
 var animals = ['Dog','Cat','Tiger','Bear'];
 ```
 
 into
 
 ```js
+var crews = ["JB"]
 var animals = ["Dog","Cat","Tiger","Bear"];
 ```
 
 | Input keys | Note |
 |:-----------|:-----|
-| `0f'r"` | Replace the first `'` to `"`. |
+| `0f'r"` | Replace the first `'` to `"` on line 1. |
 | `qa` | Start recording to register `a`. |
 | `f'.` | Replace the second `'` to `"` by repeat last change (`.`). |
 | `q` | Stop recording. |
-| `22@a` | Execute `@` for 22 times, although there are not so many `'` to be replaced, it's ok. |
+| `j` | Move to line 2. |
+| `22@a` | Execute `@` for 22 times. Although there are not so many `'` to be replaced, the `@` will stops when it cannot do more `f'`. |
 
 
 
-### 
+### Skip the non-working part for @
 
-When the keys executed in a `@`(record) fails, the 
+When the keys executed in a @ fails, it will stop.
 
+This is a case that we want to turn
+
+```
+1) Dog
+2) cat
+3. Tiger
+4) Bear
+```
+
+into
+
+```js
+1. Dog
+2. Cat
+3. Tiger
+4. Bear
+```
+
+If we use the following steps, the @ will stop on line 3 cause it cannot find `)` in that line. So line 4 will not be update as we expected.
+
+| Input keys | Note |
+|:-----------|:-----|
+| `qa` | Go to line 1 and start recording to register `a`. |
+| `0f)r.j` | Find `)` and replace it with `.`, then go to next line. |
+| `q` | Stop recording. |
+| `22@a` | Repeat @ 22 times. |
+
+
+In this case, if we would like to ignore the bail on line 3. We have to use @ in this way.
+
+| Input keys | Note |
+|:-----------|:-----|
+| `qa` | Go to line 1 and start recording to register `a`. |
+| `0f)r.` | Find `)` and replace it with `.`. |
+| `jv2j` | Select the other 3 lines. |
+| `:'<,'>normal @a` | Repeat the @ on the other lines. This will result in skipping line 3 and others are updated as expected. |
