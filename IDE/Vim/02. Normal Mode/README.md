@@ -167,4 +167,4 @@ There are ten types of registers: (From `:h registers`)
 
 ## Show file information
 
-- `<CTRL+g>`: file information.
+- `<CTRL-g>`: file information.
