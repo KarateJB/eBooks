@@ -2,13 +2,13 @@ version: "3"
 services:
   
   website:
-    image: demok8s:latest
+    image: demo-k8s:latest
     build:
       context: ../
       dockerfile: docker/dockerfile
       args:
         env: ${DOCKER_ENV}
-    container_name: demok8s
+    container_name: demo-k8s
     # environment:
       # ASPNETCORE_ENVIRONMENT: Docker
       # ASPNETCORE_Kestrel__Certificates__Default__Password:

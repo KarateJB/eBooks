@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo-k8s-pod
+  labels:
+    app: demo-k8s
+spec:
+  containers:
+    - name: demok8s
+      image: karatejb/demo-k8s:latest
+      ports:
+        - containerPort: 5000
+        - containerPort: 5001
+
+# Port forwarding for the Pods 
+# kubectl port-forward [--address <ip>] <pod_name> 5001:5001

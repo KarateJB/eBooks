@@ -1,5 +1,51 @@
 # Basic
 
+## Before we get started
+
+The sample docker image is [karatejb@demok8s:latest]().
+You can build the same image to your repositories in Docker Hub by the following command.
+
+```s
+$ cd "99.Samples/aspnet5"
+$ docker build -t <Docker_ID>/demo-k8s -f docker/dockerfile .
+$ docker push <Docker_ID>/demo-k8s:latest
+```
+
+## Namespace
+
+### Create Namespace
+
+```s
+$ kubectl create namespace demo-k8s
+```
+
+Or use a yaml file.
+
+```s
+$ kubectl create -f namespace.yml
+namespace/demo-k8s created
+```
+
+- namespace.yml
+
+```yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: demo-k8s
+```
+
+### Delete namespace
+
+```s
+$ kubecrl delete namespace demo-k8s
+namespace/demo-k8s deleted
+```
+
+
+
+
+
 ## Pod
 
 ### yaml sample
@@ -8,19 +54,20 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: kubernetes-idsrv-pod
+  name: demo-k8s-pod
   labels:
-    app: idsrv-demo
+    app: demo-k8s
 spec:
   containers:
     - name: kubernetes-idsrv-backend
       image: karatejb/idsrv4-backend
       ports:
+        - containerPort: 5000
         - containerPort: 5001
 ```
 
 
-To create a pod: `kubernetes-idsrv-pod`:
+To create a pod: ``:
 
 ```s
 $ kubectl create -f kubernetes-idsrv.ymal
@@ -35,6 +82,19 @@ To delete a pod,
 ```s
 $ kubectl delete pods kubernetes-idsrv-pod
 ```
+
+### Use Port Forwarding to access the AP in a cluster
+
+```s
+$ kubectl port-forward demo-k8s-pod 80:5000 443:5001 --namespace demo-k8s
+```
+
+We can assign the IP as well:
+
+```s
+$ kubectl port-forward --address 192.168.xxx.xxx demo-k8s-pod 80:5000 443:5001 --namespace demo-k8s
+```
+
 
 ## Service
 
