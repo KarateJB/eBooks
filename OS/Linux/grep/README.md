@@ -33,6 +33,39 @@ $ ls /tutorials | grep README
 Which will show the file names contains `README`.
 
 
+## Show file names that do/donot match
+
+For example, I have 2 csv file:
+
+- data1.csv
+
+```
+COL1, Y
+COL1, N
+COL2, Male
+COL2, Female
+```
+
+- data2.csv
+
+```
+COL1, Male
+COL1, Female
+```
+
+And I want to know which file do/donot have the content that ends with `Y` or `N`.
+
+```s
+$ grep -l "[YN]$" *.csv
+data1.csv
+```
+
+```s
+$ grep -L "[YN]$" *.csv
+data2.csv
+```
+
+
 
 
 ## Popular Arguments
@@ -46,5 +79,4 @@ Which will show the file names contains `README`.
 | `-B {number} | Show the {number} lines BEFORE the matched line. |
 | `-C {number} | Show the {number} lines BEFORE and AFTER the matched line. |
 | `-color=[always|auto|never] | Show the result with color. |
-
 
