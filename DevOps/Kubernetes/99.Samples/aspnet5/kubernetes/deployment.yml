@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-k8s-deployment
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: demo-k8s
+    spec:
+      containers:
+        - name: demok8s
+          image: karatejb/demo-k8s:latest # The Docker image
+          ports:
+            - containerPort: 5000
+            - containerPort: 5001
+  selector:
+    matchLabels:
+      app: demo-k8s
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-k8s-service
+spec:
+  selector:
+    app: demo-k8s
+  ports:
+    - name: http-port
+      protocol: TCP
+      port: 5000
+      targetPort: 5000
+    - name: https-port
+      protocol: TCP
+      port: 5001
+      targetPort: 5001
+  type: LoadBalancer
