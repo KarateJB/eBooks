@@ -5,7 +5,7 @@ metadata:
   name: demo-k8s-service # The name of the service
 spec:
   selector:
-    app: demo-k8s # The lable of pods
+    app: demo-k8s # The lable of selected pods
   type: NodePort
   ports:
     - name: http-port

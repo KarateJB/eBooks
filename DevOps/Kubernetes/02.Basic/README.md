@@ -280,12 +280,21 @@ $ kubectl delete deployment kubernetes-idsrv-deployment
 
 
 
-### 
+## Ingress
+
+> It exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Traffic routing is controlled by rules defined on the Ingress resource.
+>
+> See 
+> - [official document](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+> - [Additional Controllers](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/#additional-controllers)
+
+
 
 
 
 
 ## Ingress
+
 
 
 

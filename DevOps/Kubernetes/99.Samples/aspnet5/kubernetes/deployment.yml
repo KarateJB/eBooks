@@ -16,7 +16,7 @@ spec:
           ports:
             - containerPort: 5000
             - containerPort: 5001
-  selector:
+  selector: # The label selector
     matchLabels:
       app: demo-k8s
 
