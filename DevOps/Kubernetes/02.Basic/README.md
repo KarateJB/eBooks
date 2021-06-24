@@ -120,7 +120,7 @@ spec:
   ports:
     - name: http-port
       protocol: TCP
-      port: 5000 # The port of pod
+      port: 5000 # The port of service to expose
       targetPort: 5000 # The port that service will send requests to, that your pod will be listening on.
       nodePort: 30500 # The port mapped to node
     - name: https-port
@@ -130,7 +130,20 @@ spec:
       nodePort: 30501
 ```
 
-To create a service:
+### port vs targetPort vs nodePort
+
+> Reference: [Using Kubernetes Port, TargetPort, and NodePort](https://www.bmc.com/blogs/kubernetes-port-targetport-nodeport/)
+
+| Type | Description |
+|:-----|:------------|
+| Port | Exposes the Kubernetes service on the specified port within the cluster. Other pods within the cluster can communicate with this server on the specified port. |
+| TargetPort | It is the port on which the service will send requests to, that your pod will be listening on. Your application in the container will need to be listening on this port also. |
+| NodePort | It exposes a service externally to the cluster by means of the target nodes IP address and the NodePort. NodePort is the default setting if the port field is not specified. |
+
+
+
+
+### Create Service
 
 ```s
 $ kubectl create -f service.yaml --namespace demo-k8s
@@ -159,7 +172,7 @@ Events:                   <none>
 ```
 
 
-To delete a service:
+### Delete Service
 
 ```s
 $ kubectl delete services demo-k8s-service
