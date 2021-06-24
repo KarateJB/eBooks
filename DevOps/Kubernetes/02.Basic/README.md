@@ -302,14 +302,242 @@ $ kubectl delete deployment kubernetes-idsrv-deployment
 > - [Additional Controllers](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/#additional-controllers)
 
 
+In the following example, we will use [ingress-nginx](https://github.com/kubernetes/ingress-nginx)([NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx)) to direct different requests to different Pods.
+
+- demo-k8s-grey.com
+
+  ![](assets/demo-k8s-grey.jpg)
+
+- demo-k8s-blue.com
+
+  ![](assets/demo-k8s-blue.jpg)
+
+
+
+### 1.Create Deployment
+
+I pushed the Docker Images with 2 tags that have different background-color:
+- karatejb/demo-k8s:blue-theme: Blue background-color.
+- karatejb/demo-k8s:grey-theme: Grey background-color.
+
+- ingress-deployment.yml
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-k8s-blue-deployment
+  namespace: demo-k8s
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: demo-k8s-blue
+    spec:
+      containers:
+        - name: demok8s
+          image: karatejb/demo-k8s:blue-theme
+          ports:
+            - containerPort: 5000
+            - containerPort: 5001
+  selector:
+    matchLabels:
+      app: demo-k8s-blue
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-k8s-grey-deployment
+  namespace: demo-k8s
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: demo-k8s-grey
+    spec:
+      containers:
+        - name: demok8s
+          image: karatejb/demo-k8s:grey-theme
+          ports:
+            - containerPort: 5000
+            - containerPort: 5001
+  selector:
+    matchLabels:
+      app: demo-k8s-grey
+```
+
+Lets make the Pods ready by,
+
+```s
+$ kubectl apply -f ingress-deployment.yml
+$ kubectl get pods --namespace demo-k8s
+NAME                                        READY   STATUS    RESTARTS   AGE 
+demo-k8s-blue-deployment-7854c6794f-4gzwt   1/1     Running   2          176m
+demo-k8s-blue-deployment-7854c6794f-7dzw5   1/1     Running   2          176m
+demo-k8s-grey-deployment-6b98fc4545-l6wk8   1/1     Running   2          176m
+demo-k8s-grey-deployment-6b98fc4545-mfgwn   1/1     Running   2          176m
+```
 
 
 
 
-## Ingress
+### 2.Create Service
+
+Now we will create 2 services that each of them target ports 80/443 on any Pod with the label `app=demo-k8s-blue` or `app=demo-k8s-grey`.
 
 
+- ingress-service.yml
 
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-k8s-blue-service # The name of the service
+  namespace: demo-k8s
+spec:
+  type: NodePort
+  selector:
+    app: demo-k8s-blue # The lable of pods
+  ports:
+    - name: http-port
+      protocol: TCP
+      port: 80 # The port of service to expose
+      targetPort: 5000 # The port that service will send requests to, that your pod will be listening on.
+    - name: https-port
+      protocol: TCP
+      port: 443
+      targetPort: 5001
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-k8s-grey-service
+  namespace: demo-k8s
+spec:
+  type: NodePort
+  selector:
+    app: demo-k8s-grey # The lable of pods
+  ports:
+    - name: http-port
+      protocol: TCP
+      port: 80 # The port of service to expose
+      targetPort: 5000 # The port that service will send requests to, that your pod will be listening on.
+    - name: https-port
+      protocol: TCP
+      port: 443
+      targetPort: 5001
+```
+
+Now create the Services by,
+
+```s
+$ kubectl apply -f ingress-service.yml
+$ kubectl get service --namespace demo-k8s
+NAME                    TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
+demo-k8s-blue-service   NodePort   10.108.197.226   <none>        80:30088/TCP,443:32573/TCP   98m
+demo-k8s-grey-service   NodePort   10.104.17.188    <none>        80:32558/TCP,443:31958/TCP   98m
+```
+
+
+### 3.Install and Create Ingress
+
+
+#### Installation
+
+Before we create Ingress object, we have to install [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/deploy/#installation-guide).
+
+> See [Installation Guide](https://kubernetes.github.io/ingress-nginx/deploy/#installation-guide) for more details.
+
+For example, for [minikube](https://minikube.sigs.k8s.io/):
+
+```s
+$ minikube addons enable ingress
+```
+
+and for [Docker Desktop](https://www.docker.com/products/docker-desktop)(from version 18.06.0-ce):
+
+```s
+$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.47.0/deploy/static/provider/cloud/deploy.yaml
+```
+
+We can verify installation by,
+
+```s
+$ kubectl get pods -n ingress-nginx \
+  -l app.kubernetes.io/name=ingress-nginx --watch
+```
+
+Or get the version of NGINX Ingress Controller:
+
+```s
+$ kubectl get pod --namespace ingress-nginx | grep "^ingress-nginx-controller."
+ingress-nginx-controller-xxxxx   1/1     Running     0          139m
+$ kubectl exec -it ingress-nginx-controller-xxxxx -n ingress-nginx -- bash
+$ /nginx-ingress-controller --version
+-------------------------------------------------------------------------------
+NGINX Ingress controller
+  Release:       v0.46.0
+  Build:         6348dde672588d5495f70ec77257c230dc8da134
+  Repository:    https://github.com/kubernetes/ingress-nginx
+  nginx version: nginx/1.19.6
+```
+
+#### Create Ingress
+
+Now lets write the yaml file of Ingress.
+
+- ingress.yml
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demo-k8s-ingress
+  namespace: demo-k8s
+spec:
+  rules:
+    - host: demo-k8s-blue.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: demo-k8s-blue-service
+                port:
+                  number: 80
+    - host: demo-k8s-grey.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix 
+            backend:
+              service:
+                name: demo-k8s-grey-service
+                port:
+                  number: 80
+```
+
+To create Ingress:
+
+```s
+$ kubectl apply -f ingress.yml
+$ kubectl get ingress --namespace demo-k8s
+NAME               CLASS    HOSTS                                 ADDRESS     PORTS   AGE
+demo-k8s-ingress   <none>   demo-k8s-blue.com,demo-k8s-grey.com   localhost   80      121m
+```
+
+Now temporarily put the IP mappings to `hots` file.
+
+```s
+echo 192.168.107.137  demo-k8s-grey.com >> /etc/hosts
+echo 192.168.107.137  demo-k8s-blue.com >> /etc/hosts
+```
+
+And we will get the result as expected.
 
 
 

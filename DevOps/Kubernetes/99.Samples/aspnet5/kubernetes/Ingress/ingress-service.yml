@@ -13,7 +13,6 @@ spec:
       protocol: TCP
       port: 80 # The port of service to expose
       targetPort: 5000 # The port that service will send requests to, that your pod will be listening on.
-      # nodePort: 30500 # The port mapped to node
     - name: https-port
       protocol: TCP
       port: 443
@@ -34,7 +33,6 @@ spec:
       protocol: TCP
       port: 80 # The port of service to expose
       targetPort: 5000 # The port that service will send requests to, that your pod will be listening on.
-      # nodePort: 30502 # The port mapped to node
     - name: https-port
       protocol: TCP
       port: 443
