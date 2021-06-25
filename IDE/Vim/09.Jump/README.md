@@ -35,8 +35,8 @@ An example to replace the matched **()**, **[]** or **{}**.
 ## Jump list
 
 - `:jumps` See jump list.
-- `<CTRL+i>` Jump to next.
-- `<CTRL+o>` Jump to previous.
+- `<CTRL-i>` Jump to next.
+- `<CTRL-o>` Jump to previous.
 
 The jump list includes:
 

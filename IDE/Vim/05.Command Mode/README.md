@@ -78,7 +78,7 @@ If you want to put SN from line 38 to 40:
 
 ## AutoCompleted in Command Mode
 
-- `:<CTRL+d>` shows all autocompleted words list. e.q. `:cop<CTRL+d>` shows `copen copy`.
+- `:<CTRL-d>` shows all autocompleted words list. e.q. `:cop<CTRL-d>` shows `copen copy`.
 - Options (see `:h 'wildmode'`)
   - For bash user
 
@@ -130,7 +130,7 @@ Now we can use substitute like this: `:%s//<CTRL-r><CTRL-w>/g` (which will be `:
 
 - `:cnext`/`:cprevious` to navigate the quickfix forwards/backwards in the quickfix list.
 - `:cfirst/:clast` to jump to the start and end of the quickfix list.
-- `:copen` to open the quickfix window. Use `<CTRL+r>` to jump to an entry.
+- `:copen` to open the quickfix window. Use `<CTRL-r>` to jump to an entry.
 - `:cclose` to close the quickfix window.
 - `:cc` to display the current error.
 - `:colder/:cnewer` to jump older/newer quickfix lists.

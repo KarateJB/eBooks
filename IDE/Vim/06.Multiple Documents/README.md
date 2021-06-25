@@ -24,9 +24,9 @@
 
 ## Split Window
 
-- `sp[lit]` or `<CTRL+w>s` Split horizontally. The current window will be split with a new vertical window.
+- `sp[lit]` or `<CTRL-w>s` Split horizontally. The current window will be split with a new vertical window.
   - `sp[lit] {file_path}`
-- `vsp[lit]` or `<CTRL+w>v` Split vertically. The current window will be split with a new horizontal window.
+- `vsp[lit]` or `<CTRL-w>v` Split vertically. The current window will be split with a new horizontal window.
   - `vsp[lit] {file_path}`
 - `clo[se]` Close active window.
 - `on[ly]` Close other windows(s) except active one.
@@ -36,17 +36,17 @@
 
 | Hotkey | Description |
 |:------:|:------------|
-| `<CTRL+w>w` or `<CTRL+w><CTRL+w>` | Switch window |
-| `<CTRL+w>h` | Switch to left-sidewindow |
-| `<CTRL+w>j` | Switch to down-side window |
-| `<CTRL+w>k` | Switch to up-side window |
-| `<CTRL+w>l` | Switch to right-side window |
-| `<CTRL+w>c` | Close active window |
-| `<CTRL+w>=` | Resize all windows with same height and width |
-| `<CTRL+w>_` | Resize active windows with max height |
-| `{N}<CTRL+w>_` | Resize active windows with N-rows height, e.q. `20<CTRL+W>_` |
-| `<CTRL+w>|` | Resize active windows with max width |
-| `{N}<CTRL+w>|` | Resize active windows with N-columns width |
+| `<CTRL-w>w` or `<CTRL-w><CTRL-w>` | Switch window |
+| `<CTRL-w>h` | Switch to left-sidewindow |
+| `<CTRL-w>j` | Switch to down-side window |
+| `<CTRL-w>k` | Switch to up-side window |
+| `<CTRL-w>l` | Switch to right-side window |
+| `<CTRL-w>c` | Close active window |
+| `<CTRL-w>=` | Resize all windows with same height and width |
+| `<CTRL-w>_` | Resize active windows with max height |
+| `{N}<CTRL-w>_` | Resize active windows with N-rows height, e.q. `20<CTRL-W>_` |
+| `<CTRL-w>|` | Resize active windows with max width |
+| `{N}<CTRL-w>|` | Resize active windows with N-columns width |
 
 
 ## Tab
@@ -56,7 +56,7 @@
 - `:tabs` List all tabs and its SN.
 - `:tabnew` Create a new Tab without any file.
 - `:tabe[dit] {file_path}` Create a new Tab with a file.
-- `<CTRL+w>T` Send active window to a new Tab.
+- `<CTRL-w>T` Send active window to a new Tab.
 - `:tabc[lose]` Close current Tab and its window(s).
 - `:tabo[nly]` Close other Tabs but keep active one.
 - `:tabn[ext]` or `gt` Go to next Tab.
