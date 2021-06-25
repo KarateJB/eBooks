@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-k8s-service # The name of the service
+spec:
+  selector:
+    app: demo-k8s # The lable of selected pods
+  type: NodePort
+  ports:
+    - name: http-port
+      protocol: TCP
+      port: 5000 # The port of service to expose
+      targetPort: 5000 # The port that service will send requests to, that your pod will be listening on.
+      nodePort: 30500 # The port mapped to node
+    - name: https-port
+      protocol: TCP
+      port: 5001
+      targetPort: 5001
+      nodePort: 30501

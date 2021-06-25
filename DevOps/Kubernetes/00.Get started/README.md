@@ -1,27 +1,27 @@
 # Get started
 
-## Basic command 
+## Basic command
 
 - Show Server/Client version
 
-```
+```s
 $ kubectl version
 ```
 
 - Get nodes
 
-```
+```s
 $ kubectl get nodes
 ```
 
 - Get namespaces
 
-```
+```s
 $ kubectl get namespaces
 ```
 
 e.q.
-```
+```s
 $ kubectl get namespaces
 NAME                   STATUS   AGE
 default                Active   16h
@@ -34,17 +34,17 @@ kubernetes-dashboard   Active   15h
 
 - Show pods of a namespace
 
-```
+```s
 $ kubectl get --namespace <namespace> pods
 ```
 
-ex.
-```
+e.q.
+```s
 $ kubectl get --namespace kube-system pods
 ```
 
 e.q.
-```
+```s
 $ kubectl get --namespace kube-system pods
 NAME                                     READY   STATUS    RESTARTS   AGE
 coredns-6dcc67dcbc-vkjw5                 1/1     Running   1          16h
@@ -155,13 +155,13 @@ We can use the following command to get the token to login.
 
 * Bash
 
-```
+```s
 $ kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')
 ```
 
 * Powershell
 
-```
+```s
 $ kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | sls admin-user | ForEach-Object { $_ -Split '\s+' } | Select -First 1)
 ```
 
@@ -172,3 +172,17 @@ Now copy the token and use it to login to Kubernetes Dashboard.
 
 ![](assets/004.png)
 
+
+
+## Trouble shooting
+
+### Docker Desktop (Windows)
+
+#### Kubernetes fails to start
+
+Delete the following directories and restart Docker, this should regenerate client certs for you, which include vm.docker.internal.
+
+```
+C:\ProgramData\DockerDesktop\pki
+C:\Users\yourUserName\AppData\Local\Docker\pki
+```

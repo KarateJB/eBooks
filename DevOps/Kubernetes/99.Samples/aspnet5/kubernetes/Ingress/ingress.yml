@@ -1,0 +1,39 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demo-k8s-ingress
+  namespace: demo-k8s
+  annotations:
+    # kubernetes.io/ingress.class: "nginx"
+    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    ingress.kubernetes.io/configuration-snippet: |
+      if ($host = "demo-k8s-blue.com") {
+          return 308 https://demo-k8s-blue.com$request_uri;
+      }
+      else if ($host = "demo-k8s-grey.com") {
+          return 308 https://demo-k8s-grey.com$request_uri;
+      }
+spec:
+  rules:
+    - host: demo-k8s-blue.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: demo-k8s-blue-service
+                port:
+                  number: 3000
+    - host: demo-k8s-grey.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix 
+            backend:
+              service:
+                name: demo-k8s-grey-service
+                port:
+                  number: 3000

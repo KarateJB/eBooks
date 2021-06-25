@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-k8s-blue-deployment
+  namespace: demo-k8s
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: demo-k8s-blue
+    spec:
+      containers:
+        - name: demok8s
+          image: karatejb/demo-k8s:blue-theme
+          ports:
+            - containerPort: 5000
+            - containerPort: 5001
+  selector:
+    matchLabels:
+      app: demo-k8s-blue
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-k8s-grey-deployment
+  namespace: demo-k8s
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: demo-k8s-grey
+    spec:
+      containers:
+        - name: demok8s
+          image: karatejb/demo-k8s:grey-theme
+          ports:
+            - containerPort: 5000
+            - containerPort: 5001
+  selector:
+    matchLabels:
+      app: demo-k8s-grey
