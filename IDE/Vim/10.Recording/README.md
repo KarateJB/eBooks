@@ -2,7 +2,7 @@
 
 ## Recording
 
-- `q{register}`/`q` start/stop recording to a register.
+- `q{register:[0-9a-zA-Z]}`/`q` start/stop recording to a register. When using uppercase register, it will be append-mode.
 - `:reg {register}` Show the keys recorded.
 - `@{register}` Excute the contents recored in register.
 - `@@` Repeat the previous @.
@@ -136,3 +136,108 @@ In this case, if we would like to ignore the bail on line 3. We have to use @ in
 | `0f)r.` | Find `)` and replace it with `.`. |
 | `jv2j` | Select the other 3 lines. |
 | `:'<,'>normal @a` | Repeat the @ on the other lines. This will result in skipping line 3 and others are updated as expected. |
+
+
+
+### Use variable to increasing number in @
+
+We would like to turn 
+
+```
+Dog
+Cat
+Rabbit
+Hippo
+```
+
+to
+
+```
+1) Dog
+2) Cat
+3) Rabbit
+4) Hippo
+```
+
+
+| Input keys | Note |
+|:-----------|:-----|
+| `let i=1` | Declare a variable `i` and initialize it with 1. |
+| `qa` | Start recording to register `a`. |
+| `I<CTRL-r>=i<ENTER>) <ESC>` | Insert the value of variable `i`. |
+| `:let i += 1<ENTER>` | Increase the value of `i` by 1. |
+| `q` | Stop recording. |
+| `jv2j` | Select the other lines. |
+| `'<,'>normal @a` | Apply @ to the selected lines. |
+
+
+
+
+## Append new keys to register
+
+For example, use `qA` to append new key(s) to register `a`.
+
+| Input keys | Note |
+|:-----------|:-----|
+| `qa` | Start recording. |
+| `f)r.` | Replace `)` with `.`. |
+| `q` | Stop recording. |
+
+
+However, if we would like to make the repeated keys from `f)r.` to `f)r.j`...
+
+
+| Input keys | Note |
+|:-----------|:-----|
+| `qA` | Start recording in append-mode. |
+| `j` | Append key `j` to `a`. |
+| `q` | Stop recording. |
+
+Lets see the keys in register `a` now
+
+```
+:reg a
+```
+
+![](assets/record-by-append.jpg)
+
+
+## Edit Keys in Register
+
+Paste and copy back the content in a register in order to add/edit keys in a register for more complex scenario.
+Followed by the previous example, we have register `a` with keys: `0f)r.j`, and we want to update it to `0f)r]j`.
+
+### 1. Paster the content to document
+
+```
+:put a
+```
+
+or
+
+```
+"ap
+```
+
+Now edit the keys to `0f)r]j` and save it to register `a` by 
+
+```
+0"ay$
+```
+
+Which will result in,
+
+![](assets/record-edit.jpg)
+
+
+
+DO NOT use `"add` cus it will also save the "new line" symbols to register and result in unexpected result.
+
+![](assets/record-ng.jpg)
+
+![](assets/record-ng-2.jpg)
+
+
+
+
+
