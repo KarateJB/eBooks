@@ -4,11 +4,17 @@ kind: Ingress
 metadata:
   name: demo-k8s-ingress
   namespace: demo-k8s
-  # annotations:
-    # use the shared ingress-nginx
+  annotations:
     # kubernetes.io/ingress.class: "nginx"
-  # annotations:
-  #   nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    ingress.kubernetes.io/configuration-snippet: |
+      if ($host = "demo-k8s-blue.com") {
+          return 308 https://demo-k8s-blue.com$request_uri;
+      }
+      else if ($host = "demo-k8s-grey.com") {
+          return 308 https://demo-k8s-grey.com$request_uri;
+      }
 spec:
   rules:
     - host: demo-k8s-blue.com
@@ -20,7 +26,7 @@ spec:
               service:
                 name: demo-k8s-blue-service
                 port:
-                  number: 80
+                  number: 3000
     - host: demo-k8s-grey.com
       http:
         paths:
@@ -30,4 +36,4 @@ spec:
               service:
                 name: demo-k8s-grey-service
                 port:
-                  number: 80
+                  number: 3000

@@ -508,7 +508,7 @@ spec:
               service:
                 name: demo-k8s-blue-service
                 port:
-                  number: 80
+                  number: 80 # = The exposed HTTP port of service
     - host: demo-k8s-grey.com
       http:
         paths:
@@ -518,8 +518,17 @@ spec:
               service:
                 name: demo-k8s-grey-service
                 port:
-                  number: 80
+                  number: 80 # = The exposed HTTP port of service
 ```
+
+Notice:
+
+* [path and pathType](https://kubernetes.io/docs/concepts/services-networking/ingress/#examples): Each path in an Ingress is required to have a corresponding path type.
+* port:number: The exposed HTTP port of the target service. ingress-nginx will bind the HTTPS port automatically.
+
+
+
+
 
 To create Ingress:
 
@@ -540,4 +549,51 @@ echo 192.168.107.137  demo-k8s-blue.com >> /etc/hosts
 And we will get the result as expected.
 
 
+### Advanced Configuration with Annotations
 
+We can use [Annotations](https://docs.nginx.com/nginx-ingress-controller/configuration/ingress-resources/advanced-configuration-with-annotations/) to use advanced NGINX features and customize the NGINX behavior for Ingress resource.
+
+For example, the following Annotations will redirect all HTTP requests to HTTPS requests.
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demo-k8s-ingress
+  namespace: demo-k8s
+  annotations:
+    ingress.kubernetes.io/configuration-snippet: |
+      if ($host = "demo-k8s-blue.com") {
+          return 308 https://demo-k8s-blue.com$request_uri;
+      }
+      else if ($host = "demo-k8s-grey.com") {
+          return 308 https://demo-k8s-grey.com$request_uri;
+      }
+spec:
+  rules:
+    - host: demo-k8s-blue.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: demo-k8s-blue-service
+                port:
+                  number: 80
+    - host: demo-k8s-grey.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix 
+            backend:
+              service:
+                name: demo-k8s-grey-service
+                port:
+                  number: 80
+```
+
+
+We can watch the traffic:
+
+![](assets/ingress-redirect.jpg)

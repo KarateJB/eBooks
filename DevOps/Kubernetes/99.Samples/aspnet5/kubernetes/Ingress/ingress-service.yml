@@ -11,11 +11,11 @@ spec:
   ports:
     - name: http-port
       protocol: TCP
-      port: 80 # The port of service to expose
+      port: 3000 # The port of service to expose
       targetPort: 5000 # The port that service will send requests to, that your pod will be listening on.
     - name: https-port
       protocol: TCP
-      port: 443
+      port: 3001
       targetPort: 5001
 
 ---
@@ -31,9 +31,9 @@ spec:
   ports:
     - name: http-port
       protocol: TCP
-      port: 80 # The port of service to expose
+      port: 3000 # The port of service to expose
       targetPort: 5000 # The port that service will send requests to, that your pod will be listening on.
     - name: https-port
       protocol: TCP
-      port: 443
+      port: 3001
       targetPort: 5001
