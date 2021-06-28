@@ -119,8 +119,8 @@ For example, we can mask the names in these steps.
 
 | Input keys | Result text | Note |
 |:-----------|:------------|:-----|
-| `/\v(Tom|A|Jim)(my)` | Tommy, Amy and Jimmy | |
-| `:%s//\1**\2/g` | Tom**my, A**my and Jim**my | |
+| `/\v(Tom|A|Jim)(my)` | Tommy, Amy and Jimmy | The brackets: `()` are must. |
+| `:%s//\1**\2/g` | Tom**my, A**my and Jim**my | `\1` means the matched value in first `()`, and `\2` means the matched value in second `()`. |
 ```
 
 ## Use ? to search a URL
@@ -149,17 +149,26 @@ Which is better than
 Or use "escape({string}, {chars})":
 
 ```
-/<CTRL-r>=escape('https://localhost:3001/Books', getcmdtype().'/')
+/<CTRL-r>=escape('https://localhost:3001/Books', getcmdtype().'\')
 ```
+which equals to `/<CTRL-r>=escape('...', '/\')`.
 
 or 
 
 ```
 ?<CTRL-r>=escape('https://localhost:3001/Books', getcmdtype().'\')
 ```
+which equals to `?<CTRL-r>=escape('...', '?\')
+
+> Notice that "getcmdtype()" will return current command's type.
+> See `:h getcmdtype()` for more details.
 
 
 
+or yank the URL to register `a` and
+
+```
+/<CTRL-r>=escape(@a, getcmdtype().'\')
 
 
 
