@@ -24,3 +24,14 @@
 | ``ve`` | I like  and **Mary**. | |
 | ``p`` | I like  and Peter. | Paste `Peter` to replace the word: `Mary`. Notice the word `Mary` will be put into the unnamed register (in Visual Mode). |
 | ```mP`` | I like Mary and Peter. | Jump back and paste what in unamed register, and that will be `Mary`. |
+
+
+## Sample 3
+
+
+| Input keys | Result text | Note |
+|:-----------|:------------|:-----|
+| `/\v(Peter) and (Mary)` | I like Peter and Mary. | Search and keep "Peter" to register 1 and "Mary" to register 2 in next step. |
+| `:%s//\2 and \1/g` | I like Mary and Peter. | Replace the search result with `{register 2} and {register 1}`. |
+
+

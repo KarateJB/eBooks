@@ -82,6 +82,7 @@ E.q.
   - Using register [a-z] will overwrite the content within it, using [A-Z] will append new content to existed one within it.
 - `"_` Prefix for black hole, such as `"_d`, `"_c`
 - Paste to a selected word in visual mode will set the replaced word to unnamed register.
+- Paste the content in a register by `"{register}p` in Normal mode or `<CTRL-r>=@{register}` in Insert mode.
 
 
 
