@@ -56,12 +56,12 @@ Then we have to escape some chars in our search (the original regex is `([0-9]*)
 /\([0-9]*\)\d\{2\}).\+
 ```
 
-In the above regex pattern, we have to escape the 
+In the above regex pattern, we have to escape the special chars.
 
-We can use "Very Magic"(`\v`) to ease the regex-pattern:
+We can use "Very Magic"(`\v`) to ease the regex-pattern and use regex in the normal way:
 
 ```
-/v([0-9]*)\d{2}\).+
+/\v([0-9]*)\d{2}\).+
 ```
 
 
@@ -169,7 +169,7 @@ or yank the URL to register `a` and
 
 ```
 /<CTRL-r>=escape(@a, getcmdtype().'\')
-
+```
 
 
 
