@@ -16,6 +16,9 @@
 ## Insert
 
 - `<CTRL-r>=` Insert the computed result, e.q. `<CTRL-r>=11*2<Enter>` will insert 22.
+- `<CTRL-r>{register}` will paste the content in a register.
+  - `<CTRL-r>=@{register}` also do the same thing.
+
 
 - `<CTRL-v>{code}` Insert a character by Unicode decimal(十進位)  or hexadecimal(十六進位).
    - Decimal code: `<CTRL-v>065` will output `A`.

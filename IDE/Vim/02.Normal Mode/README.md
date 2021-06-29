@@ -137,6 +137,9 @@ There are ten types of registers: (From `:h registers`)
 -  `o`/`O` 往下/上插一行 
 
 - `/` Search next in document, `?` Search previous in document.
+  - `gn` Select the current/next found word when in search mode.
+  - `gN` Select the current/previous word when in search mode.
+- `/{pattern}/e`/`?{pattern}?e` Search and put the cursor at the end of the pattern.
 - `*` Search current word.
 - To search on current line, `<shift+v>` -> `/\%V{pattern}`.
 

@@ -44,4 +44,10 @@ The following samples are started with the below text that the cursor is at the 
 | <xxx>...</xxx> XML tag | `at`         | `it` |
 | Sentence(句子)         | `as`         | `is` |
 | Paragraphs(段落)       | `as`         | `is` |
-| Jump to the matched item (`([{}])`) after or under the cursor in this line | `%` |
+
+
+### Jump to matched item ([{}])
+
+- `%` will jump to the matched item (`([{}])`) after or under the cursor in this line.
+- `c%` or `d%` can remove the word around `([{}])`.
+  - e.q. To remove "(xxxxx)", use `f(d%`.

@@ -8,6 +8,7 @@ set history=200
 set encoding=utf-8
 set fileencoding=utf-8
 set wrap
+set noincsearch
 set guifont=Consolas:h14
 colors slate
 highlight LineNr guifg=DarkGray

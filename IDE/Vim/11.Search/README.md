@@ -1,5 +1,47 @@
 # Search (By Pattern)
 
+## Search options
+
+- `:set wrapscan` Searches wrap around the end of the file.
+  - Turn off `wrapscan` to stop search at the end of file.
+- `:set hlsearch`/`:set hls` highlights the found word.
+- `:set nohlsearch`/`:set hlsearch!`/`:set hls!` disable highlighting the found word.  - `:nohlsearch`/`:nohls` will temporarily disable highlighting the found word until next search.
+- `:set incsearch`/`:set is` Progressive search mode, which will highlight what you type before really start searching.
+  - `:set noincsearch`\`set nois` to disable it.
+
+
+
+## Search history
+
+- `q/` opens search history. Move on an search pattern to edit or <ENTER> to make a search.
+
+
+
+## Get search result's count
+
+### Use substitute
+
+| Input keys | Note |
+|:-----------|:-----|
+| `/\v<the>\C` | First search for "the". |
+| `:%s///gn` | `n` will skip substitute and the command will show the statistics, e.q. "32 matches on 25 lines". |
+
+
+### Use vimgrep
+
+> Also see [05.Command Mode >> vimgrep].
+
+- `:vimgrep /{pattern}/[g][j] {file} ...` : Search in the files.
+
+
+| Input keys | Note |
+|:-----------|:-----|
+| `/\v<the>\C` | First search for "the". |
+| `:vimgrep //g %` | It will show (1 of 32). We can use `:cnext` or `:cprev` to navigate the quickfix list after vimgrep. |
+
+
+
+
 ## Case-sensitive searching
 
 ### Configuration
