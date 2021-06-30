@@ -26,6 +26,7 @@ We can open netrw in vim in these ways:
 
 - `:pwd` Show working directory.
 - `:cd %:p:h` Change the working directory to current file (for all windows).
+  - `:cd %:p:h/..` Change the working directory to "/..".
 - `:lcd %:p:h` Change the working directory to current file (for active window).
 
 > `%`: The full path of current file.
