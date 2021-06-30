@@ -1,10 +1,22 @@
+# Authentication
+
+Take Github for example, we can use [PAT(Personal Access Token)](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) or [SSH key](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) to access it.
+
+
 # Clone
 
 ## Add remote end-point then clone
 
 - Add remote end-point
-```
+
+```s
 $ git remote add origin https://github.com/KarateJB/Test.git
+```
+
+or
+
+```s
+$ git remote add origin git@github.com:KarateJB/Test.git
 ```
 
 - Clone
@@ -16,10 +28,31 @@ $ git clone
 
 We can simply the above steps by
 
-```
+```s
 $ git clone https://github.com/KarateJB/Test.git [<Local Directory Name>]
 ```
 
+or
+
+```s
+$ git clone git@github.com:KarateJB/Test.git [<Local Directory Name>]
+```
+
+## Check remote
+
+```s
+$ git remote -v
+
+```
+
+If you want to switch remote URLs from HTTPS to SSH or from SSH to HTTPS:
+
+```s
+# From HTTPS to SSH
+$ git remote set-url origin git@github.com:KarateJB/Test.git
+# From SSH to HTTPS
+$ git remote set-url origin https://github.com/KarateJB/Test.git
+```
 
 
 # Push
