@@ -122,8 +122,11 @@ Now we can use substitute like this: `:%s//<CTRL-r><CTRL-w>/g` (which will be `:
 **vimgrep** uses the quickfix list to store locations.
 
 
-- `:vimgrep /{pattern}/ {file} ... : Search in the files. 
-  - E.q. To search the word `Test` in all files:  `vimgrep /Test/ **`
+- `:vimgrep /{pattern}/[g][j] {file} ...` : Search in the files.
+  - `g` option specifies that all matches for a search will be returned instead of just one per line.
+  - `j` option specifies that Vim will not jump to the first match automatically.
+
+e.q. To search the word `Test` in all files:  `vimgrep /Test/ **`
 
 
 ### Quickfix commands
