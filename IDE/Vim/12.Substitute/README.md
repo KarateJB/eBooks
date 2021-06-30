@@ -79,7 +79,7 @@ XXX, XXX.
 
 ### Substitute after search
 
-We can do substitute by using the search pattern like this:
+We can do substitution by using the search pattern like this:
 
 | Input keys | Note |
 |:-----------|:-----|
