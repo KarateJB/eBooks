@@ -134,6 +134,8 @@ Which will copy the titles to the end of current doc.
 
 ## Advanced range for Ex command
 
+### Sample 1
+
 Here is a CSS file.
 
 ```css
@@ -210,3 +212,75 @@ body {
 }
 ```
 
+### Sample 2
+
+Here is a TODO list:
+
+```
+== July meetings ==
+
+7/04
+(2) Q&A
+(1) Review go-live doc
+
+7/12
+(2) Go-live shedule discussion
+(3) Q&A
+(1) R&R
+
+== Augest meetings ==
+
+8/15
+(2) Go live
+(1) Celebration party
+```
+
+As you can see, the orders of TODO items in each day are not correct.
+We will fix it by the following steps.
+
+First select each day and it's TODO items:
+
+```
+/\v^[1-9]+\/.*(\n.+)*$
+```
+
+The regex pattern:
+- `^[1-9]+`: The pattern must begins with "{number}/"
+- `\/.*`: Followed by "/...", the "..." is optional.
+- `(\n.+)*`: Followed by several new line and it cannot be empty.
+
+![](assets/adv_global-1.jpg)
+
+
+Now lets sort the TODO items in each day:
+
+```
+:g//.+1,/^$/-1 sort
+```
+
+| Command | Description |
+|:--------|:------------|
+| `g//` | Use the previous search pattern in global command. |
+| `/.+1,/^$/-1` | Execute the Ex command on the range, from `.+1`(the next line of date) to `/^$/-1`(the previous line of empty line, "^$" means the regex of empty line). |
+| ` sort` | The Ex command, that will sort the specified range. |
+
+The final result will be:
+
+```
+## July meetings
+
+7/04
+(1) Review go-live doc
+(2) Q&A
+
+7/12
+(1) R&R
+(2) Go-live shedule discussion
+(3) Q&A
+
+## Augest meetings
+
+8/15
+(1) Celebration party
+(2) Go live
+```
