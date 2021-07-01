@@ -27,7 +27,7 @@ Here are some common ones.
 |:---------------:|:------------|
 | `\r`(*nix)/`\n`(windows) | "new-line" symbol. |
 | `\t` | "Tab" |
-| `\\` | "\" |
+| `\\` | Backslash |
 | `\0` | Replaced with the whole matched pattern. |
 | `\1` | Replaced with the matched pattern in the first pair of (). |
 | `\2` | Replaced with the matched pattern in the second pair of (). Same usage from `\3` to `\9`. |
@@ -224,7 +224,7 @@ Lets save the updated files by,
 ```
 
 > We can combine the last two commands to one: <br />
-> `cfdo %s//Jon Bon Jovi/g | update`
+> `:cfdo %s//Jon Bon Jovi/g | update`
 
 
 
