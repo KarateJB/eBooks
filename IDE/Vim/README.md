@@ -4,16 +4,20 @@
 
 ## Chapaters
 
-- [01. Setup](01.%20Setup)
-- [02. Normal Mode](02.%20Normal%20Mode)
-- [03. Insert Mode](03.%20Insert%20Mode)
-- [04. Visual Mode](04.%20Visual%20Mode)
-- [05. Command Mode](05.%20Command%20Mode)
-- [06. Multiple Documents](06.%20Multiple%20Documents)
-- [07. Working Directory](07.%20Working%20Directory)
-- [08. Motion](08.%20Motion)
-- [09. Jump](09.%20Jump) 
+- [01.Setup](01.Setup)
+- [02.Normal Mode](02.Normal%20Mode)
+- [03.Insert Mode](03.Insert%20Mode)
+- [04.Visual Mode](04.Visual%20Mode)
+- [05.Command Mode](05.Command%20Mode)
+- [06.Multiple Documents](06.Multiple%20Documents)
+- [07.Working Directory](07.Working%20Directory)
+- [08.Motion](08.Motion)
+- [09.Jump](09.Jump) 
+- [10.Recording](10.Recording)
+- [11.Search](11.Search)
+- [12.Substitute](12.Substitute)
+- [13.Global](13.Global)
 
-
+- [99.Samples](99.Samples)
 
 
