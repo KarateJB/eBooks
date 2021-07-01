@@ -28,10 +28,29 @@
 
 ## Sample 3
 
-
 | Input keys | Result text | Note |
 |:-----------|:------------|:-----|
 | `/\v(Peter) and (Mary)` | I like Peter and Mary. | Search and keep "Peter" to register 1 and "Mary" to register 2 in next step. |
-| `:%s//\2 and \1/g` | I like Mary and Peter. | Replace the search result with `{register 2} and {register 1}`. |
+| `:s//\2 and \1/g` | I like Mary and Peter. | Replace the search result with `{register 2} and {register 1}`. |
+
+
+## Sample 4
+
+| Input keys | Result text | Note |
+|:-----------|:------------|:-----|
+|            | I like JB and Amy. |
+| `/\v(JB|Amy)` | Search "JB" or "Amy". |
+| `s//\={"JB":"Amy","Amy":"JB"}[submatch(0)]/g` | Use swapper to replace "JB" with "Amy", "Amy" with "JB". |
+
+Here we can learn how to use swapper:
+
+```
+:let swapper={"JB":"Father","Amy":"My girl"}
+:echo swapper["JB"]
+Father
+:echo swapper["Amy"]
+My girl
+```
+
 
 

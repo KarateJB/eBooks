@@ -14,7 +14,7 @@ To disalble an option, type `!` at the end of it. E.q. `set rnu!`.
 ## Help
 
 - `:help text-object` Text object selection
-- `:help paste` 
+- `:help paste` Paste mode, which is useful when using Vim in a terminal.
 
 ## vimrc
 
