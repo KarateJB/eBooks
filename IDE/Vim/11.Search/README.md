@@ -15,6 +15,15 @@
 
 - `q/` opens search history. Move on an search pattern to edit or <ENTER> to make a search.
 
+## Special patterns
+
+| Pattern | Description |
+|:-------:|:------------|
+| `\n`  | A newline character (line ending). |
+| `\_s` | A whitespace (space or tab) or newline character. |
+| `\_^` | The beginning of a line (zero width). |
+| `\_$` | The end of a line (zero width). |
+| `\_.` | Any character including a newline. |
 
 
 ## Get search result's count
