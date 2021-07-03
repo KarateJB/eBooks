@@ -1,3 +1,0 @@
-# Ctags
-
-## Install
