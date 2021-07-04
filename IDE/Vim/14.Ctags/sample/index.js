@@ -52,8 +52,9 @@ var reverseStringSplit = (originArr) => {
          i++;
     }
     
-    console.log('counters', counters);
+    console.log('counters',Sample counters);
     return Math.max(...counters);
 };
 
+// Test..
 console.log(reverseStringSplit("LRLRLR"));
