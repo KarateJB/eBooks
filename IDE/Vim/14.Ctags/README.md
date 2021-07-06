@@ -1,6 +1,6 @@
 # Ctags
 
-## Install
+## Install Exuberant Ctags
 
 ### Ubuntu
 
@@ -19,21 +19,29 @@ We can install the maintained impementation of ctags: [Unerversal Ctags](https:/
 
 ### Windows 
 
-We can use [chocolatey](https://community.chocolatey.org/) to install [emacs](https://community.chocolatey.org/packages/Emacs)
+We can use [chocolatey](https://community.chocolatey.org/) to install [Exuberant Ctags](https://community.chocolatey.org/packages/ctags) or [Universal Ctags](https://community.chocolatey.org/packages/universal-ctags).
+
+We will take Universal Ctags for example,
 
 ```s
-$ choco install emacs
+$ choco install universal-ctags
 ```
 
 
 Set the path to environment variable:
 
 ```s
-$ setx path "%PATH%; C:\ProgramData\chocolatey\lib\Emacs\tools\emacs\bin" /m
+$ setx path "%PATH%; C:\ProgramData\chocolatey\lib\universal-ctags\tools" /m
 $ ctags --version
-ctags (GNU Emacs 27.2)
-Copyright (C) 2021 Free Software Foundation, Inc.
+Universal Ctags 5.9.0(c436bca6), Copyright (C) 2015 Universal Ctags Team
+Universal Ctags is derived from Exuberant Ctags.
 ```
+
+
+> We can use [GNU Emacs etags](https://www.emacswiki.org/emacs/EmacsTags) to generate the tag file as well. Notice that the command arguments are not the same. <br />
+> Install [Emacs](https://community.chocolatey.org/packages/emacs) by <br />
+> `choco install emacs`
+
 
 
 ## Use Ctags to build index of codes

@@ -126,7 +126,43 @@ Now we can use substitute like this: `:%s//<CTRL-r><CTRL-w>/g` (which will be `:
   - `g` option specifies that all matches for a search will be returned instead of just one per line.
   - `j` option specifies that Vim will not jump to the first match automatically.
 
-e.q. To search the word `Test` in all files:  `vimgrep /Test/ **`
+
+### Search in multiple files
+
+#### To search the word "Test" in all files
+
+```
+:vimgrep /Test/g **
+```
+
+#### To search the world "isMatch" in a directory
+
+```
+:vimgrep /isMatch/g modules/*.js
+```
+
+The result for `:copen`:
+
+![](assets/vimgrep-mfile.jpg)
+
+
+
+#### To search with argument list
+
+```
+:args modules/*.js
+:args
+# The above command will show "[modules\matcj.js]   modules\match_reverse.js"
+:vimgrep /isMatch/g ##
+```
+
+> See `:h cmdline-special`
+
+The result for `:copen`:
+
+![](assets/vimgrep-mfile.jpg)
+
+
 
 
 ### Quickfix commands
@@ -136,4 +172,4 @@ e.q. To search the word `Test` in all files:  `vimgrep /Test/ **`
 - `:copen` to open the quickfix window. Use `<CTRL-r>` to jump to an entry.
 - `:cclose` to close the quickfix window.
 - `:cc` to display the current error.
-- `:colder/:cnewer` to jump older/newer quickfix lists.
+- `:[count]colder`/`:[count]cnewer` to jump older/newer quickfix lists.
