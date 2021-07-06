@@ -34,7 +34,7 @@ For more Ex cmd, see `:h ex-cmd-index`.
   - e.q. `2,3normal A,` will append , to the end of lines on line 2 ~ 3.
   - e.q. `'<,'>normal .` will repeat the last edit on highlighted lines.
 - `:[range]s/{pattern}/{string}/{flags}` Substitute what matchs {pattern} to {string} in the range.
-- `:[range]global/{pattern}/{cmd}` Execute Ex command on each line that matchs {pattern}.
+- `:[range]g[lobal]/{pattern}/{cmd}` Execute Ex command on each line that matchs {pattern}.
   - e.q. `:%g/AAA/move $` will move all the lines that contain AAA to the end of the file.
 
 
@@ -167,9 +167,16 @@ The result for `:copen`:
 
 ### Quickfix commands
 
-- `:cnext`/`:cprevious` to navigate the quickfix forwards/backwards in the quickfix list.
-- `:cfirst/:clast` to jump to the start and end of the quickfix list.
-- `:copen` to open the quickfix window. Use `<CTRL-r>` to jump to an entry.
-- `:cclose` to close the quickfix window.
-- `:cc` to display the current error.
-- `:[count]colder`/`:[count]cnewer` to jump older/newer quickfix lists.
+- `:cnext`/`:cprevious` navigates the quickfix forwards/backwards in the quickfix list.
+- `:cfirst/:clast` jumps to the start and end of the quickfix list.
+- `:copen` opens the quickfix window. Use `<CTRL-r>` to jump to an entry.
+- `:cclose` closes the quickfix window.
+- `:cc` displays the current error.
+- `:[count]colder`/`:[count]cnewer` jumps to older/newer quickfix list.
+- `cnfile` jumps to [count] next file's first matched text.
+- `cpfile` jumps to [count] previois file's last matched text.
+- `cc {Number}` jumps to {Number} matched text.
+- `cdo {cmd}` executes {cmd} on each line in the quickfix list.
+- `cfdo {cmd}` excutes {cmd} once on each file in the quickfix list.
+
+

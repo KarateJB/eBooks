@@ -1,5 +1,15 @@
 # Mutiple documents
 
+## Buffer list and Argument list
+
+- Buffer list: files in vim buffers. A buffer is a file loaded into memory for editing. All opened files are associated with a buffer.
+- Args list: files open from the vim command line using `:args`.
+
+
+> The argument list and buffer list complement each other. We can think of it this way: the argument list is a subset of the buffer list. That can be useful if you want to run an Ex command across a set of files, but not all of them. <br />
+> For more detais, see [Buffer list vs Arguments list](https://www.reddit.com/r/vim/comments/u3nv6/buffer_list_vs_arguments_list/c4s6gml?utm_source=share&utm_medium=web2x&context=3).
+
+
 ## List buffers
 
 - `:ls` list all buffers from files.
@@ -17,9 +27,10 @@
 - `:b[uffer] {buffer_sn}` Quick switch to certain buffer.
 - `:bf[irst]` Switch to the first buffer.
 - `:bl[ast]` Switch to the last buffer.
-- `:bufdo {command}` Execute command on all buffers.
-  e.q. `bufdo w` Save all buffers to files.
 - `:bd[elete] {buffer_sn1} [{buffer_sn2}]` Delete buffer(s).
+- `:bufdo {command}` Execute command on all buffers.
+  - e.q. `bufdo w` Save all buffers to files.
+  - e.q. `bufdo normal @a` Execute marco in register "a for all buffers.
 
 
 ## Split Window
@@ -68,3 +79,13 @@
   - `tabm 0` Move current Tab to the first position.
   - `tabm` Move current Tab to the last position.
   
+
+## Args
+
+- `ar[gs] {arglist}[!]` Define {arglist} as the new argument list and edit the first one. If `!` is appended, Vim will discard any changes to current buffer.
+- `arga[dd]` Add current buffer name to the argument list.
+- `arga[dd] {file_name}` Add the {name}s to the argument list.
+- `argd[elete] {file_pattern}` Delete files from the argument list that match the {file_pattern}.
+- `argdo {Ex command}` Execute command on each one in the argument list.
+  - e.q. `argdo normal @a` execute marco in register "a" for all arguments in the list.
+
