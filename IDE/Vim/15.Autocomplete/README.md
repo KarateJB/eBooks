@@ -5,7 +5,6 @@ When in Insert Mode, use the following hotkeys to autocomplete what we type.
 > See `:h ins-completion` for more details.
 
 
-
 | Input keys | Description |
 |:-----------|:------------|
 | `<CTRL-n>` | Show autocompletion list and stay in the first one. |
@@ -16,6 +15,7 @@ When in Insert Mode, use the following hotkeys to autocomplete what we type.
 | `<CTRL-x><CTRL-l>` | Show whole lines with matched keywords. |
 | `<CTRL-x><CTRL-]` | Show tags that are in the tag file. |
 | `<CTRL-x><CTRL-k>` | Show keywords in dictionary. |
+| `<CTRL-x><CTRL-o>` | Omni completion. |
 
 
 Notice that we can use "<Up>" and "<Down>" to navigate the autocomplete list. But it is suggested to use `<CTRL-n>`/`<CTRL-p>` to navigate because it will fill the selected item to the buffer without pressing `<ENTER>` or `<CTRL-y>` and you can press any key to continue your typing.
@@ -145,9 +145,9 @@ By enable spell-checking, we can show keywords in the spell list with `<CTRL-x><
 If we dont want to enable "spell" option, we can load the keywords from specific file(s).
 
 ```
-:set dictionary=dic/starwars.txt,dic/avengers.txt
+:set dictionary=dictionary/starwars.txt,dictionary/avengers.txt
 :set dictionary?
-dic/starwars.txt,dic/avengers.txt
+dictionary/starwars.txt,dictionary/avengers.txt
 ```
 
 Now we can get the keywords from the dictionary file(s) by `<CTRL-x><CTRL-k>`.
@@ -181,7 +181,7 @@ product_b.release.day = "Tueday";
 
 Here is the trick:
 
-![](assets/ac-xp.jpg)
+![](assets/ac-xp.gif)
 
 
 The steps:
@@ -189,11 +189,29 @@ The steps:
 | Input keys | Result | Note |
 |:-----------|:-------|:-----|
 | `iproduct<CTRL-n>` | product_a | Insert 'product' and complete it as "product_a". |
-| `<CTRL-x><CTRL-p>` | product_a.release | Complete '.release' which are followed by previous completion, "product_a". |
-| `<CTRL-x><CTRL-p>` | product_a.release.date | Complete '.date' which are followed by previous completion "product_a.release". |
+| `<CTRL-x><CTRL-p>` | product_a.release | Complete '.release' which are followed by previous completion. |
+| `<CTRL-x><CTRL-p>` | product_a.release.date | Complete '.date' which are followed by previous completion. |
 | `<CTRL-x><CTRL-p>` | product_a.release.date = "2021 | Complete ' = "2021' which are followed by previous completion. |
 | `-09-09";` | product_a.release.date = "2021-09-09"; | |
 
+
+## Omin(全能) completion
+
+- `<CTRL-x><CTRL-o>` omni completion.
+
+Omni completion provides smart autocompletion for programs.
+Check the default support file types by `:h compl-omni-filetypes` or install new plugins.
+
+To enable using Omin completion, edit the "vimrc" with...
+
+```
+set nocompatibe
+filetype plugin on
+```
+
+Here is an example of HTML file.
+
+![](assets/ac-omni.gif)
 
 
 
