@@ -43,6 +43,21 @@
 - `on[ly]` Close other windows(s) except active one.
 
 
+### Configurations
+
+- `:set splitbelow` / `:set nosplitbelow` enable/disable splitting the new buffer to bottom (when doing `sp`).
+- `:set splitright` / `:set nosplitright` enable/disable splitting the new buffer to right (when doing `vsp`).
+
+
+### Force splitting to below/right
+
+We can force splitting to below(`sp`) or right(`vsp`) by
+
+- `:belowright sp[lit] {file}` split horizontally to the bottom.
+  - or by `:below sp {file}`
+- `:belowright vsp[lit] {file}` split vertically to the right.
+
+
 ### Hotkeys
 
 | Hotkey | Description |
@@ -58,6 +73,10 @@
 | `{N}<CTRL-w>_` | Resize active windows with N-rows height, e.q. `20<CTRL-W>_` |
 | `<CTRL-w>|` | Resize active windows with max width |
 | `{N}<CTRL-w>|` | Resize active windows with N-columns width |
+| `<CTRL-w>s` | Split current buffer horizontally. |
+| `<CTRL-w>v` | Split current buffer vertically. |
+
+
 
 
 ## Tab
@@ -67,7 +86,6 @@
 - `:tabs` List all tabs and its SN.
 - `:tabnew` Create a new Tab without any file.
 - `:tabe[dit] {file_path}` Create a new Tab with a file.
-- `<CTRL-w>T` Send active window to a new Tab.
 - `:tabc[lose]` Close current Tab and its window(s).
 - `:tabo[nly]` Close other Tabs but keep active one.
 - `:tabn[ext]` or `gt` Go to next Tab.
@@ -78,7 +96,20 @@
 - `:tabm[ove] {N}` Move current Tab to index N. e.q.
   - `tabm 0` Move current Tab to the first position.
   - `tabm` Move current Tab to the last position.
-  
+- `:tab sb {buffer_sn}` Move the buffer to a new tab. If {buffer_sn} is ignored, the current buffer will be moved.
+  - We can do the same thing by hotkeys:
+    1. `<CTRL-w>s` or `<CTRL-w>v` to split current buffer
+    2. `<CTRL-w>T` will move the buffer to a new tab
+
+
+### Hotkeys
+
+- `<CTRL-w>T` Send active window to a new Tab.
+- `gt`/`gT` switch tab forward/backward.
+
+
+
+
 
 ## Args
 
