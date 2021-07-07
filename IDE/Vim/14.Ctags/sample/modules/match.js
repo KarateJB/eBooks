@@ -9,4 +9,12 @@ var isMatch = (pattern, patternToCompare) => {
   }
 };
 
-export { isMatch };
+var isNotMatch = (pattern, patternToCompare) => {    
+	  if( pattern.length !== patternToCompare.length)
+		    return true;
+	  else {
+		      return patternToCompare === pattern ? false : true;
+		    }
+};
+
+export { isMatch, isNotMatch };
