@@ -15,11 +15,7 @@ When in Insert Mode, use the following hotkeys to autocomplete what we type.
 | `<CTRL-x><CTRL-f>` | Show file names. |
 | `<CTRL-x><CTRL-l>` | Show whole lines with matched keywords. |
 | `<CTRL-x><CTRL-]` | Show tags that are in the tag file. |
-| | |
-| | |
-| | |
-| | |
-| | |
+| `<CTRL-x><CTRL-k>` | Show keywords in dictionary. |
 
 
 Notice that we can use "<Up>" and "<Down>" to navigate the autocomplete list. But it is suggested to use `<CTRL-n>`/`<CTRL-p>` to navigate because it will fill the selected item to the buffer without pressing `<ENTER>` or `<CTRL-y>` and you can press any key to continue your typing.
@@ -31,22 +27,12 @@ Here are how to use the autocompetion list:
 - `<CTRL-y>` confirms the selected item. i.e. "yes".
 - `<CTRL-e>` exit the autocompletion list. i.e. "exit".
 
-Rebuild
 
-## Samples
-
-*test1.txt*
-
-```
-```
+> I put 2 files at `./sample/test1.txt` and `./sample/test2.txt` that be used to practice the following examples. <br />
+> Also you can use the `./sample/dictionary/*.txt` to practice the example of using "dictionary".
 
 
-*test2.txt*
-
-```
-```
-
-### Autocomplete by keywords
+## Autocomplete by keywords
 
 - `<CTRL-n>`/`<CTRL-p>` shows the autocompletion list that can be chosen.
 
@@ -77,22 +63,19 @@ The flags list can be found in `:h 'complete'`. I listed the ones of default set
 | t | tag completion. same as "]". |
 
 
-#### When ":set noignorecase":
+### When ":set noignorecase":
 
 ![](assets/ac-kws-noignorecase.jpg)
 
 
-#### When ":set ignorecase":
+### When ":set ignorecase":
 
 ![](assets/ac-kws-ignorecase.gif)
 
 However, since we typed "re" and it's useless to autocomplete with "Red", "Retry" or "Rebuild". So we have to enable "ignorecase" and "infercase" options in the same time.
 
 ```
-:set infercase
-
-# Or
-:set inf
+:set inf[ercase]
 ```
 
 ![](assets/ac-kws-ignorecase-infercase.jpg)
@@ -101,7 +84,7 @@ However, since we typed "re" and it's useless to autocomplete with "Red", "Retry
 For more details, see `:h 'infercase'`.
 
 
-#### Only show the keywords in current buffer
+### Only show the keywords in current buffer
 
 When using `<CTRL-n>`, autocomplete will show every matched keywords in buffer lists as below,
 
@@ -115,21 +98,21 @@ If we want to show keywords ONLY in current buffer:
 
 
 
-### Autocomplete file name
+## Autocomplete file name
 
 - `<CTRL-x><CTRL-f>` shows the file names.
 
 ![](assets/ac-filename.jpg)
 
 
-### Show lines with matched keyword
+## Autocomplete a line
 
 - `<CTRL-x><CTRL-l>` shows the match lines that STARTS WITH what you typed.
 
 ![](assets/ac-line.jpg)
 
 
-### Show keywords in tag file
+## Show keywords in tag file
 
 Take the sample codes in "14.Ctags/sample" for example.
 We can create the tag file by `:!ctags -R` and then we can find the keywords within the tag file:
@@ -137,6 +120,79 @@ We can create the tag file by `:!ctags -R` and then we can find the keywords wit
 - `<CTRL-x><CTRL-]>` shows the tags.
 
 ![](assets/ac-tags.jpg)
+
+
+
+## Show keywords in dictionary
+
+- `<CTRL-x><CTRL-k>` show keywords in dictionary.
+
+There are several ways to enable the available dictionary.
+
+### Enable spell checking option
+
+```
+:set spell
+```
+
+By enable spell-checking, we can show keywords in the spell list with `<CTRL-x><CTRL-k>`:
+
+![](assets/ac-spell.jpg)
+
+
+### Set file(s) as dictionary source(s)
+
+If we dont want to enable "spell" option, we can load the keywords from specific file(s).
+
+```
+:set dictionary=dic/starwars.txt,dic/avengers.txt
+:set dictionary?
+dic/starwars.txt,dic/avengers.txt
+```
+
+Now we can get the keywords from the dictionary file(s) by `<CTRL-x><CTRL-k>`.
+
+![](assets/dictionary.jpg)
+
+
+
+## Complete words that follow the previous completion
+
+With insert mode's `<CTRL-x><CTRL-p>` after `<CTRL-p>` or `<CTRL-n>`, we can complete words that follow the previous completion.
+
+This trick is very useful when you want to complete a "pattern"(a few words) but not just a "word" or a whole "line".
+
+For example, we have a document like this,
+
+```
+product_a.release.date = "2021-08-08";
+product_b.release.day = "Monday";
+```
+
+And we want to change the value of `product_a.release.date` and `product_b.release.day` in new lines like the following result.
+
+```
+product_a.release.date = "2021-08-08";
+product_b.release.day = "Monday";
+
+product_a.release.date = "2021-09-09";
+product_b.release.day = "Tueday";
+```
+
+Here is the trick:
+
+![](assets/ac-xp.jpg)
+
+
+The steps:
+
+| Input keys | Result | Note |
+|:-----------|:-------|:-----|
+| `iproduct<CTRL-n>` | product_a | Insert 'product' and complete it as "product_a". |
+| `<CTRL-x><CTRL-p>` | product_a.release | Complete '.release' which are followed by previous completion, "product_a". |
+| `<CTRL-x><CTRL-p>` | product_a.release.date | Complete '.date' which are followed by previous completion "product_a.release". |
+| `<CTRL-x><CTRL-p>` | product_a.release.date = "2021 | Complete ' = "2021' which are followed by previous completion. |
+| `-09-09";` | product_a.release.date = "2021-09-09"; | |
 
 
 
