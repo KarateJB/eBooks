@@ -17,6 +17,9 @@
 - [11.Search](11.Search)
 - [12.Substitute](12.Substitute)
 - [13.Global](13.Global)
+- [14.Ctags](14.Ctags)
+- [15.Autocomplete](15.Autocomplete)
+- [16.Spell](16.Spell)
 
 - [99.Samples](99.Samples)
 
