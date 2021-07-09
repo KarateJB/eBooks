@@ -3,6 +3,8 @@
 ***
 ## Glossary
 
+| Name | Description |
+|:------:|:------------|
 | buffer | A buffer is the text in memory that you are editing. |
 | window | A window in Vim is just a way to view a buffer. A window can view any buffer, and a buffer can be viewed and edited by more than one windows. For example , `vsp` will split current buffer to the new window. |
 | tab | A tab is a collection of windows. |
@@ -68,7 +70,7 @@ or apply the configuration to each window by,
 
 
 ***
-## vimrc or load configuration from file
+## Default vimrc or load from file
 
 We can put the options' setting in the **vimrc** file as the default options.
 See `:h vimrc` for more details.
@@ -83,11 +85,35 @@ For example, `:source options/markdown.vim` to apply the options in "./options/m
   
 
 
+### Load custom vimrc file by a URL
+
+We can put the vimrc file to [Gist](gist.github.com) and write a function to load it by curl.
+
+```
+" Get custom vimrc file with a url
+function! GetAndSource(url)
+
+  execute '!curl -k ' . a:url . ' -o vimrc.vim'
+  source vimrc.vim
+  execute '!rm vimrc.vim'
+
+endfunction
+```
+
+Now we can load the remote vimrc file like this:
+
+```
+:call GetAndSource("https://url")
+```
+
+> Reference: [Source a vimrc from a webpage?](https://vi.stackexchange.com/a/10073/34886)
+
 ***
 ## Help
 
 - `:help text-object` Text object selection
 - `:help paste` Paste mode, which is useful when using Vim in a terminal.
+- `:help user-functions` How to write user function.
 
 
 

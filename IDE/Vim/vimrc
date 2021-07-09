@@ -23,3 +23,13 @@ noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
 
+" Get custom vimrc file with a url
+function! GetAndSource(url)
+
+  execute '!curl -k ' . a:url . ' -o vimrc.vim'
+  source vimrc.vim
+  execute '!rm vimrc.vim'
+
+endfunction
+
+
