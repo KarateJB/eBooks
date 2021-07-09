@@ -4,7 +4,7 @@
 
 ## Chapaters
 
-- [01.Setup](01.Setup)
+- [01.Basic](01.Basic)
 - [02.Normal Mode](02.Normal%20Mode)
 - [03.Insert Mode](03.Insert%20Mode)
 - [04.Visual Mode](04.Visual%20Mode)
