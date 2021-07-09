@@ -1,5 +1,32 @@
 # Setup
 
+## How to set options
+
+- `:h option-list` shows short explanation of each option.
+- `:set <option>` enable the option (when the option is boolean-type).
+  - `:set no<option>` disable the option.
+  - `:set <option>!` revert the option.
+- `:set <option>={value}` set the option with {value} (when the option is non-boolean-type.
+- `:set <option>&` set the option to default value.
+- `:setlocal <option>[={value}]` Like ":set" but set only the value local to the current buffer or window.  Not all options have a local value.  If the option does not have a local value the global value is set.
+
+### Set multiple option
+
+We can set multiple options in one command separated with blank:
+
+```
+:setlocal tabstop=4 expandtab
+```
+
+> See how to use "tabstop", "expandtab" and "softtabstop":<br />
+> - [Tab settings in Vim](https://arisweedler.medium.com/tab-settings-in-vim-1ea0863c5990)
+> - [vim技巧：詳解tabstop、softtabstop、expandtab三個選項的區別](https://kknews.cc/code/gp46ae8.html)
+
+
+
+原文網址：https://kknews.cc/code/gp46ae8.html
+
+
 ## Useful commands
 
 - `:set rnu` or `:set relativenumber` : Set relative number.
