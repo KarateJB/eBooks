@@ -1,4 +1,16 @@
-# Setup
+# Basic
+
+***
+## Glossary
+
+| buffer | A buffer is the text in memory that you are editing. |
+| window | A window in Vim is just a way to view a buffer. A window can view any buffer, and a buffer can be viewed and edited by more than one windows. For example , `vsp` will split current buffer to the new window. |
+| tab | A tab is a collection of windows. |
+
+
+
+***
+## Setup
 
 ## How to set options
 
@@ -6,9 +18,11 @@
 - `:set <option>` enable the option (when the option is boolean-type).
   - `:set no<option>` disable the option.
   - `:set <option>!` revert the option.
+  - Not all options have a global value. If the option does not have a global value the local value is set.
 - `:set <option>={value}` set the option with {value} (when the option is non-boolean-type.
 - `:set <option>&` set the option to default value.
 - `:setlocal <option>[={value}]` Like ":set" but set only the value local to the current buffer or window.  Not all options have a local value.  If the option does not have a local value the global value is set.
+
 
 ### Set multiple option
 
@@ -23,10 +37,27 @@ We can set multiple options in one command separated with blank:
 > - [vim技巧：詳解tabstop、softtabstop、expandtab三個選項的區別](https://kknews.cc/code/gp46ae8.html)
 
 
+### Set option on every buffer/window
 
-原文網址：https://kknews.cc/code/gp46ae8.html
+Some options can only be applied to current buffer/window but not globally.
+* e.q. `tabstop` is for current buffer.
+* e.q. `number` is for current window.
 
 
+We can apply the configuration to each buffer by,
+
+```
+:bufdo setlocal tabstop=4
+```
+
+or apply the configuration to each window by,
+
+```
+:windo setlocal number
+```
+
+
+***
 ## Useful commands
 
 - `:set rnu` or `:set relativenumber` : Set relative number.
@@ -35,13 +66,29 @@ We can set multiple options in one command separated with blank:
 - `:history` : Show history.
 - `:ter[minal]` : Open terminal, the terminal path can be specified by `:set shell=`.  
 
-To disalble an option, type `!` at the end of it. E.q. `set rnu!`.
+
+***
+## vimrc or load configuration from file
+
+We can put the options' setting in the **vimrc** file as the default options.
+See `:h vimrc` for more details.
+
+Further more, we can load the options from a file to configure current buffer.
+
+```
+:source {file}
+```
+
+For example, `:source options/markdown.vim` to apply the options in "./options/markdown.vim".
+  
 
 
+***
 ## Help
 
 - `:help text-object` Text object selection
 - `:help paste` Paste mode, which is useful when using Vim in a terminal.
 
-## vimrc
+
+
 
