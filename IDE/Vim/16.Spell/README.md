@@ -42,10 +42,10 @@ Here are the steps:
 | Input keys | Note |
 |:-----------|:------------|
 | `]szg` | Move to "Helloween" and add it as good word to the word list file. |
-| `]s1=z` | Move to "Drogon" and correct it to "Dragon". |
+| `]s1z=` | Move to "Drogon" and correct it to "Dragon". |
 | `]szg` | Move to "ALITA" and add it as good word to word list file. |
 | `zug` | Cancel "ALITA" as a good word from the word list file. |
-| `]s1=z` | Move to "moveis" and correct it to "movies". |
+| `]s1z=` | Move to "moveis" and correct it to "movies". |
 
 The final result:
 
