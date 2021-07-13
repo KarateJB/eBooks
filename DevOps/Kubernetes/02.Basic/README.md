@@ -1,5 +1,6 @@
 # Basic
 
+***
 ## Before we get started
 
 The sample docker image is [karatejb@demok8s:latest]().
@@ -11,6 +12,14 @@ $ docker build -t <Docker_ID>/demo-k8s -f docker/dockerfile .
 $ docker push <Docker_ID>/demo-k8s:latest
 ```
 
+### Sample code/manifest
+
+The sample code/file are located at [99.Samples\aspnet5\kubernetes\Basic](../99.Samples/aspnet5/kubernetes/Basic)
+
+
+
+
+***
 ## Namespace
 
 ### Create Namespace
@@ -46,6 +55,7 @@ namespace/demo-k8s deleted
 
 
 
+***
 ## Pods
 
 > Pods are the smallest deployable units in Kubernetes.
@@ -100,6 +110,7 @@ $ kubectl port-forward --address 192.168.xxx.xxx demo-k8s-pod 80:5000 443:5001 -
 ```
 
 
+***
 ## Service
 
 > An abstract way to expose an application running on a set of Pods as a network service.
@@ -180,6 +191,7 @@ $ kubectl delete services demo-k8s-service
 
 
 
+***
 ## Deployments
 
 > A Deployment provides declarative updates for Pods and ReplicaSets.
@@ -293,6 +305,7 @@ $ kubectl delete deployment kubernetes-idsrv-deployment
 
 
 
+***
 ## Ingress
 
 > It exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Traffic routing is controlled by rules defined on the Ingress resource.
@@ -311,6 +324,12 @@ In the following example, we will use [ingress-nginx](https://github.com/kuberne
 - demo-k8s-blue.com
 
   ![](assets/demo-k8s-blue.jpg)
+
+
+
+
+The sample code/file are located at [99.Samples\aspnet5\kubernetes\Ingress](../99.Samples/aspnet5/kubernetes/Ingress)
+
 
 
 

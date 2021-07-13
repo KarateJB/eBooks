@@ -2,6 +2,8 @@
 
 > See [Persistent Volumes](https://kubernetes.io/docs/concepts/storage/persistent-volumes/)
 
+
+***
 ## Resource object
 
 ### Persistent Volume (PV)
@@ -12,6 +14,8 @@ PVs are resources in the cluster.
 
 PVCs are requests for resources and act as claim checks to the resource.
 
+
+***
 ## Lifecycle of volume and claim
 
 - Provisioning
@@ -22,6 +26,8 @@ PVCs are requests for resources and act as claim checks to the resource.
 - Expanding Persisten Volumes Claims
 
 
+
+***
 ## Provisioning
 
 PVs may be provisioned: statically or dynamically.

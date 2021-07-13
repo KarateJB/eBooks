@@ -1,5 +1,6 @@
 # Minikub
 
+***
 ## Install Minikub
 
 > Reference: [minikub start](https://minikube.sigs.k8s.io/docs/start/)
@@ -10,6 +11,7 @@ $ sudo install minikube-linux-amd64 /usr/local/bin/minikube
 $ apt-get install -y conntrack 
 ```
 
+***
 ## Start Minikub
 
 ```s
