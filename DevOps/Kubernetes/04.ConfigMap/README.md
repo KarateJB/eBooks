@@ -8,12 +8,18 @@ A ConfigMap is an API object used to store non-confidential data in key-value pa
 ***
 ## Create/Delete a ConfigMap
 
+### Create
+
 ```s
-# Create
 $ kubectl create configmap|cm <map-name> [--from-file=[key=]source] [--from-env-file=source] [--from-literal=key1=value1] [--dry-run]
-# Delete
+```
+
+### Delete
+
+```s
 $ Kubectl delete configmap|cm <map-name>
 ```
+
 
 
 ### Sample 1. Create ConfigMap from a file
@@ -86,7 +92,7 @@ Events:  <none>
 
 ### Sample 3. Create ConfigMap by env file
 
-> Caution:
+> Cautions:
 > 1. `from-env-file` cannot be combined with `from-file` or `from-literal`.
 > 2.  When passing `--from-env-file` multiple times to create a ConfigMap from multiple data sources, only the last env-file is used.
 
@@ -245,7 +251,7 @@ root@demo-k8s-pod:/app# echo $ASPNETCORE_FORWAREDHEADERS_ENABLED
 true
 ```
 
-> !! Notice that using ConfigMap with `volumeMounts` like the above will DELETE and RECREATE the mounted path (directory and subpaths). The next sample will show how to avoild this case.
+> !! Notice that using ConfigMap with `volumeMounts` like the above will DELETE and RECREATE the mounted path (directory and subpaths), see [Issue#51165: config map deletes existing files and sub directory at mount point](https://github.com/kubernetes/kubernetes/issues/51165). The next sample will show how to avoild this case.
 
 
 
@@ -465,7 +471,7 @@ $ kubectl apply -f configmap-appsettings.yml -n demo-k8s
 ```
 
 
-Now we can use the same [manifest](### Sample 3. of using ConfigMap) to create the Pod.
+Now we can use the same [manifest](#Sample-3-of-using-ConfigMap) to create the Pod.
 
 ```s
 $ kubectl apply -f pod_with_created_configmap_2.yml -n demo-k8s
@@ -565,14 +571,6 @@ spec:
       targetPort: 5001
   type: LoadBalancer
 ---
-
-
-
-
-
-
-
-
-
+```
 
 
