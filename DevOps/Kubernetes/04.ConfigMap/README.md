@@ -22,10 +22,14 @@ $ Kubectl delete configmap|cm <map-name>
 
 
 
+## Samples
+
+The sample code/file are located at [99.Samples\aspnet5\kubernetes\configmap](../99.Samples/aspnet5/kubernetes/configmap)
+
 ### Sample 1. Create ConfigMap from a file
 
 ```s
-$ kubectl create configmap ap-config --from-file=./appsettings.Docker.json  --namespace demo-k8s
+$ kubectl create configmap ap-config --from-file=./appsettings.kubernetes.json  --namespace demo-k8s
 
 $ kubectl describe configmap ap-config -n demo-k8s
 Name:         ap-config
@@ -35,7 +39,7 @@ Annotations:  <none>
 
 Data
 ====
-appsettings.Docker.json:
+appsettings.kubernetes.json:
 ----
 {
   "Customize": {
@@ -48,7 +52,7 @@ Events:  <none>
 $ kubectl get configmap ap-config -o yaml -n demo-k8s
 apiVersion: v1
 data:
-  appsettings.Docker.json: "{\r\n \"Customize\": {\r\n    \"Theme\": \"#00BFFF\"  }\r\n}\r\n"
+  appsettings.kubernetes.json: "{\r\n \"Customize\": {\r\n    \"Theme\": \"#00BFFF\"  }\r\n}\r\n"
 kind: ConfigMap
 metadata:
   creationTimestamp: "2021-07-12T11:09:20Z"
