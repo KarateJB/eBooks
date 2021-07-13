@@ -52,7 +52,7 @@ namespace/demo-k8s deleted
 > See [official document](https://kubernetes.io/docs/concepts/workloads/pods/).
 
 
-### yaml sample
+### Manifest sample
 
 ```yaml
 apiVersion: v1
@@ -106,7 +106,7 @@ $ kubectl port-forward --address 192.168.xxx.xxx demo-k8s-pod 80:5000 443:5001 -
 > See [official document](https://kubernetes.io/docs/concepts/services-networking/service/).
 
 
-### yaml sample
+### Manifest sample
 
 ```yaml
 apiVersion: v1
@@ -188,7 +188,7 @@ $ kubectl delete services demo-k8s-service
 
 
 
-### yaml sample
+### Manifest sample
 
 ```yaml
 apiVersion: apps/v1

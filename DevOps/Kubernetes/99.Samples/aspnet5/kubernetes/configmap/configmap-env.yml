@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-k8s-env-configmap
+  labels:
+    app: demo-k8s
+data:
+  ASPNETCORE_ENVIRONMENT: "kubernetes"
+  ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"

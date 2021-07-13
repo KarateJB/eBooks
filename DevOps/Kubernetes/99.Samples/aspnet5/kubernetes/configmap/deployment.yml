@@ -1,5 +1,36 @@
-# Before apply this manifest, create the ConfigMap as following.
-# kubectl create cm demo-k8s-configmap --from-file=./appsettings.kubernetes.json --from-literal=aspnetcore-environment="kubernetes" --from-literal=aspnetcore-forwardedheaders-enabled="true" -n demo-k8s
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-k8s-env-configmap
+  labels:
+    app: demo-k8s
+data:
+  ASPNETCORE_ENVIRONMENT: "kubernetes"
+  ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-k8s-configmap
+  labels:
+    app: demo-k8s
+data:
+  appsettings.kubernetes.json: |-
+    {
+      "Logging": {
+        "LogLevel": {
+          "Default": "Information",
+          "Microsoft": "Warning",
+          "Microsoft.Hosting.Lifetime": "Information"
+        }
+      },
+      "Customize": {
+        "Theme": "#9d95df"
+      }
+    }
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -14,16 +45,13 @@ spec:
     spec:
       containers:
         - name: demok8s
-          image: karatejbacr.azurecr.io/demo-k8s:latest # The Docker image
+          image: karatejb/demo-k8s:latest # The Docker image
           ports:
             - containerPort: 5000
             - containerPort: 5001
-          env:
-            - name: ASPNETCORE_ENVIRONMENT
-              valueFrom:
-                configMapKeyRef:
-                  name: demo-k8s-configmap
-                  key: ap-env
+          envFrom:
+            - configMapRef:
+                name: demo-k8s-env-configmap
           volumeMounts:
             - name: config-volume
               mountPath: /app/appsettings.kubernetes.json

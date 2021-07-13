@@ -1,6 +1,12 @@
 # Before apply this manifest, create the ConfigMap as following.
+
+# Method 1.
 # kubectl create cm demo-k8s-configmap --from-file=./appsettings.kubernetes.json -n demo-k8s
 # kubectl create cm demo-k8s-env-configmap --from-env-file=./app.env -n demo-k8s
+
+# Method 2.
+# kubectl apply -f configmap-env.yml -n demo-k8s
+# kubectl apply -f configmap-appsettings.yml -n demo-k8s
 ---
 apiVersion: v1
 kind: Pod

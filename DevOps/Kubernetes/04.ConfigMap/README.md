@@ -407,3 +407,172 @@ The result is as expected,
 $ kubectl -n demo-k8s exec -it demo-k8s-pod -- bash -c 'echo $ASPNETCORE_ENVIRONMENT $ASPNETCORE_FORWARDEDHEADERS_ENABLED'
 kubernetes true
 ```
+
+
+
+***
+## Create ConfigMap in manifest file
+
+### ConfigMap manifest
+
+We can write the yaml file as the ConfigMap manifest.
+
+- configmap-env.yml
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-k8s-env-configmap
+  labels:
+    app: demo-k8s
+data:
+  ASPNETCORE_ENVIRONMENT: "kubernetes"
+  ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
+```
+
+
+- configmap-appsettings.yml
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-k8s-configmap
+  labels:
+    app: demo-k8s
+data:
+  appsetting.kubernetes.json: |-
+    {
+      "Logging": {
+        "LogLevel": {
+          "Default": "Information",
+          "Microsoft": "Warning",
+          "Microsoft.Hosting.Lifetime": "Information"
+        }
+      },
+      "Customize": {
+        "Theme": "#9d95df"
+      }
+    }
+```
+
+Create the ConfigMaps by,
+
+```s
+$ kubectl apply -f configmap-env.yml -n demo-k8s
+$ kubectl apply -f configmap-appsettings.yml -n demo-k8s
+```
+
+
+Now we can use the same [manifest](### Sample 3. of using ConfigMap) to create the Pod.
+
+```s
+$ kubectl apply -f pod_with_created_configmap_2.yml -n demo-k8s
+```
+
+
+
+### A full sample of creating deployment
+
+In summary, we can create the runnable application by the following yaml file of Deployment.
+
+```yaml
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-k8s-env-configmap
+  labels:
+    app: demo-k8s
+data:
+  ASPNETCORE_ENVIRONMENT: "kubernetes"
+  ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-k8s-configmap
+  labels:
+    app: demo-k8s
+data:
+  appsettings.kubernetes.json: |-
+    {
+      "Logging": {
+        "LogLevel": {
+          "Default": "Information",
+          "Microsoft": "Warning",
+          "Microsoft.Hosting.Lifetime": "Information"
+        }
+      },
+      "Customize": {
+        "Theme": "#9d95df"
+      }
+    }
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-k8s-deployment
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: demo-k8s
+    spec:
+      containers:
+        - name: demok8s
+          image: karatejbacr.azurecr.io/demo-k8s:latest # The Docker image
+          ports:
+            - containerPort: 5000
+            - containerPort: 5001
+          envFrom:
+            - configMapRef:
+                name: demo-k8s-env-configmap
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/appsettings.kubernetes.json
+              subPath: appsettings.kubernetes.json
+      imagePullSecrets:
+        - name: acrcred
+      volumes:
+        - name: config-volume
+          configMap:
+            name: demo-k8s-configmap
+  selector: # The label selector
+    matchLabels:
+      app: demo-k8s
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-k8s-service
+spec:
+  selector:
+    app: demo-k8s
+  ports:
+    - name: http-port
+      protocol: TCP
+      port: 5000
+      targetPort: 5000
+    - name: https-port
+      protocol: TCP
+      port: 5001
+      targetPort: 5001
+  type: LoadBalancer
+---
+
+
+
+
+
+
+
+
+
+
+
