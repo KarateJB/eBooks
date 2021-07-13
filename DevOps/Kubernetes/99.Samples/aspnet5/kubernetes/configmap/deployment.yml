@@ -56,8 +56,6 @@ spec:
             - name: config-volume
               mountPath: /app/appsettings.kubernetes.json
               subPath: appsettings.kubernetes.json
-      imagePullSecrets:
-        - name: acrcred
       volumes:
         - name: config-volume
           configMap:
