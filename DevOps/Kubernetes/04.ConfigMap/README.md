@@ -24,7 +24,7 @@ $ Kubectl delete configmap|cm <map-name>
 
 ## Samples
 
-The sample code/file are located at [99.Samples\aspnet5\kubernetes\configmap](../99.Samples/aspnet5/kubernetes/configmap)
+The sample code/file are located at [99.Samples\aspnet5\kubernetes\configmap](../99.Samples/aspnet5/kubernetes/ConfigMap)
 
 ### Sample 1. Create ConfigMap from a file
 
@@ -574,7 +574,6 @@ spec:
       port: 5001
       targetPort: 5001
   type: LoadBalancer
----
 ```
 
 

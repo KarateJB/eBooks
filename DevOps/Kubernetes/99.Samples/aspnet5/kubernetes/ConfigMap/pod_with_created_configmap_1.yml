@@ -1,0 +1,39 @@
+# Before apply this manifest, create the ConfigMap as following.
+# kubectl create cm demo-k8s-configmap --from-file=./appsettings.kubernetes.json --from-literal=aspnetcore-environment="kubernetes" --from-literal=aspnetcore-forwardedheaders-enabled="true" -n demo-k8s
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo-k8s-pod # The name of the pod
+  labels:
+    app: demo-k8s
+spec:
+  containers:
+    - name: demok8s
+      image: karatejb/demo-k8s:latest # The Docker image
+      ports:
+        - containerPort: 5000
+        - containerPort: 5001
+      env:
+        - name: ASPNETCORE_ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: demo-k8s-configmap
+              key: aspnetcore-environment
+        - name: ASPNETCORE_FORWARDEDHEADERS_ENABLED
+          valueFrom:
+            configMapKeyRef:
+              name: demo-k8s-configmap
+              key: aspnetcore-forwardedheaders-enabled
+      volumeMounts:
+        - name: config-volume
+          # mountPath: /app/config # DO NOT use this line, it will DELETE and RECREATE the /app
+          mountPath: /app/appsettings.kubernetes.json
+          subPath: appsettings.kubernetes.json
+  volumes:
+    - name: config-volume
+      configMap:
+        name: demo-k8s-configmap
+
+# Port forwarding for the Pods 
+# kubectl port-forward [--address <ip>] <pod_name> 5001:5001
