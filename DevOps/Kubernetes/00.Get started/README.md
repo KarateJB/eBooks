@@ -1,5 +1,6 @@
 # Get started
 
+***
 ## Basic command
 
 - Show Server/Client version
@@ -99,6 +100,7 @@ $ kubectl exec --namespace kube-system kube-apiserver-docker-desktop -- uname -a
 ```
 
 
+***
 ## Kubernetes Dashboard
 
 > See 
@@ -174,6 +176,8 @@ Now copy the token and use it to login to Kubernetes Dashboard.
 
 
 
+
+***
 ## Trouble shooting
 
 ### Docker Desktop (Windows)
