@@ -1,3 +1,6 @@
+# Before apply this manifest, create the ConfigMap as following.
+# kubectl create cm demo-k8s-configmap --from-file=./appsettings.kubernetes.json -n demo-k8s
+# kubectl create cm demo-k8s-env-configmap --from-env-file=./app.env -n demo-k8s
 ---
 apiVersion: v1
 kind: Pod
@@ -12,17 +15,19 @@ spec:
       ports:
         - containerPort: 5000
         - containerPort: 5001
-      env:
-        - name: ASPNETCORE_ENVIRONMENT
-          valueFrom:
-            configMapKeyRef:
-              name: demo-k8s-configmap
-              key: aspnetcore-environment
-        - name: ASPNETCORE_FORWARDEDHEADERS_ENABLED
-          valueFrom:
-            configMapKeyRef:
-              name: demo-k8s-configmap
-              key: aspnetcore-forwardedheaders-enabled
+      envFrom:
+        - configMapRef:
+            name: demo-k8s-env-configmap
+        # - name: ASPNETCORE_ENVIRONMENT
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       name: demo-k8s-env-configmap
+        #       key: ASPNETCORE_ENVIRONMENT
+        # - name: ASPNETCORE_FORWARDEDHEADERS_ENABLED
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       name: demo-k8s-env-configmap
+        #       key: ASPNETCORE_FORWARDEDHEADERS_ENABLED
       volumeMounts:
         - name: config-volume
           # mountPath: /app/config # DO NOT use this line, it will DELETE and RECREATE the /app

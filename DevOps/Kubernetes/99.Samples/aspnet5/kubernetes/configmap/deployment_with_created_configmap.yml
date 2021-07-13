@@ -1,3 +1,5 @@
+# Before apply this manifest, create the ConfigMap as following.
+# kubectl create cm demo-k8s-configmap --from-file=./appsettings.kubernetes.json --from-literal=aspnetcore-environment="kubernetes" --from-literal=aspnetcore-forwardedheaders-enabled="true" -n demo-k8s
 ---
 apiVersion: apps/v1
 kind: Deployment

@@ -10,7 +10,7 @@ A ConfigMap is an API object used to store non-confidential data in key-value pa
 
 ```s
 # Create
-$ kubectl create configmap|cm <map-name> [--from-file=[key=]source] [--from-literal=key1=value1] [--dry-run]
+$ kubectl create configmap|cm <map-name> [--from-file=[key=]source] [--from-env-file=source] [--from-literal=key1=value1] [--dry-run]
 # Delete
 $ Kubectl delete configmap|cm <map-name>
 ```
@@ -84,8 +84,42 @@ config2:
 Events:  <none>
 ```
 
+### Sample 3. Create ConfigMap by env file
 
-### Sample 3. Create ConfigMap by literal(s)
+> Caution:
+> 1. `from-env-file` cannot be combined with `from-file` or `from-literal`.
+> 2.  When passing `--from-env-file` multiple times to create a ConfigMap from multiple data sources, only the last env-file is used.
+
+
+- app.env
+
+```
+ASPNETCORE_ENVIRONMENT=kubernetes
+ASPNETCORE_FORWARDEDHEADERS_ENABLED=true
+```
+
+```s
+$ kubectl create configmap ap-config --from-env-file=./app.env --namespace demo-k8s
+$ kubectl describe configmap ap-config -n demo-k8s
+Name:         ap-config
+Namespace:    demo-k8s
+Labels:       <none>
+Annotations:  <none>
+
+Data
+====
+ASPNETCORE_FORWARDEDHEADERS_ENABLED:
+----
+true
+ASPNETCORE_ENVIRONMENT:
+----
+kubernetes
+Events:  <none>
+```
+
+
+
+### Sample 4. Create ConfigMap by literal(s)
 
 ```s
 $ kubectl create configmap ap-config --from-literal=db1="Postgres" --from-literal=db2="SQL Server" --namespace=demo-k8s
@@ -107,7 +141,7 @@ Events:  <none>
 ```
 
 
-### Sample 4. Create ConfigMap by file and literal
+### Sample 5. Create ConfigMap by file and literal
 
 ```s
 $ kubectl create configmap ap-config --from-file=./appsettings.k8s.json --from-literal=ap-env="k8s" --namespace=demo-k8s
@@ -137,7 +171,7 @@ Events:  <none>
 ***
 ## Bind ConfigMap to yaml file
 
-### Sample for understanding how to apply ConfigMap
+### Sample 1. for understanding how to apply ConfigMap
 
 Lets see how ConfigMap can be used in our manifest.
 
@@ -153,7 +187,7 @@ $ kubectl create cm demo-k8s-configmap --from-file=./appsettings.kubernetes.json
 
 Then create a pod's yaml file:
 
-- pod_with_created_configmap.yml
+- pod_with_created_configmap_1.yml
 
 ```yaml
 apiVersion: v1
@@ -216,7 +250,7 @@ true
 
 
 
-### Sample of using ConfigMap
+### Sample 2. of using ConfigMap
 
 
 Now we would like to put the file: `appsettings.kubernetes.json` under "/app" of the container and ignore the other 2 files (which are literals for setting the environment variables).
@@ -226,8 +260,12 @@ First change our ConfigMap as follwoing,
 ```s
 $ kubectl delete cm demo-k8s-configmap -n demo-k8s
 $ kubectl create cm demo-k8s-configmap --from-file=./appsettings.kubernetes.json --from-literal=aspnetcore-environment="kubernetes" --from-literal=aspnetcore-forwardedheaders-enabled="true" -n demo-k8s
+```
+
 
 Here is the correct manifest to copy the file and set the env variables from ConfigMap:
+
+- pod_with_created_configmap_1.yml
 
 ```yaml
 apiVersion: v1
@@ -280,4 +318,92 @@ kubernetes true
 
 
 
+### Sample 3. of using ConfigMap
 
+Followed by the previous sample, now we will use the "env file" in the ConfigMap.
+
+```s
+$ kubectl create cm demo-k8s-configmap --from-file=./appsettings.kubernetes.json -n demo-k8s
+$ kubectl create cm demo-k8s-configmap --from-env-file=./app.env -n demo-k8s
+```
+
+- pod_with_created_configmap_2.yml
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo-k8s-pod # The name of the pod
+  labels:
+    app: demo-k8s
+spec:
+  containers:
+    - name: demok8s
+      image: karatejb/demo-k8s:latest # The Docker image
+      ports:
+        - containerPort: 5000
+        - containerPort: 5001
+      env:
+        - name: ASPNETCORE_ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: demo-k8s-env-configmap
+              key: ASPNETCORE_ENVIRONMENT
+        - name: ASPNETCORE_FORWARDEDHEADERS_ENABLED
+          valueFrom:
+            configMapKeyRef:
+              name: demo-k8s-env-configmap
+              key: ASPNETCORE_FORWARDEDHEADERS_ENABLED
+      volumeMounts:
+        - name: config-volume
+          # mountPath: /app/config # DO NOT use this line, it will DELETE and RECREATE the /app
+          mountPath: /app/appsettings.kubernetes.json
+          subPath: appsettings.kubernetes.json
+  imagePullSecrets:
+    - name: acrcred
+  volumes:
+    - name: config-volume
+      configMap:
+        name: demo-k8s-configmap
+```
+
+
+However, we can simply the manifest by using `envFrom`:
+
+- pod_with_created_configmap_2.yml
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo-k8s-pod # The name of the pod
+  labels:
+    app: demo-k8s
+spec:
+  containers:
+    - name: demok8s
+      image: karatejb/demo-k8s:latest # The Docker image
+      ports:
+        - containerPort: 5000
+        - containerPort: 5001
+      envFrom:
+        - configMapRef:
+            name: demo-k8s-env-configmap
+      volumeMounts:
+        - name: config-volume
+          mountPath: /app/appsettings.kubernetes.json
+          subPath: appsettings.kubernetes.json
+  imagePullSecrets:
+    - name: acrcred
+  volumes:
+    - name: config-volume
+      configMap:
+        name: demo-k8s-configmap
+```
+
+The result is as expected,
+
+```s
+$ kubectl -n demo-k8s exec -it demo-k8s-pod -- bash -c 'echo $ASPNETCORE_ENVIRONMENT $ASPNETCORE_FORWARDEDHEADERS_ENABLED'
+kubernetes true
+```
