@@ -194,7 +194,7 @@ spec:
 Create the pod by `kubectl apply -f pod_with_created_configmap.yml -n demo-k8s` and we will find there are 3 files at "/app/config" in the container.
 
 ```s
-$ kubectl -n demo-k8s exec -it demo-k8s-pod -- bash
+$ kubectl -n demo-k8s-pod exec -it demo-k8s-pod -- bash
 
 # List files in /app/config/
 root@demo-k8s-pod:/app# ls -1 config
@@ -221,7 +221,63 @@ true
 
 Now we would like to put the file: `appsettings.kubernetes.json` under "/app" of the container and ignore the other 2 files (which are literals for setting the environment variables).
 
+First change our ConfigMap as follwoing,
+
+```s
+$ kubectl delete cm demo-k8s-configmap -n demo-k8s
+$ kubectl create cm demo-k8s-configmap --from-file=./appsettings.kubernetes.json --from-literal=aspnetcore-environment="kubernetes" --from-literal=aspnetcore-forwardedheaders-enabled="true" -n demo-k8s
+
 Here is the correct manifest to copy the file and set the env variables from ConfigMap:
 
 ```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo-k8s-pod # The name of the pod
+  labels:
+    app: demo-k8s
+spec:
+  containers:
+    - name: demok8s
+      image: karatejb/demo-k8s:latest # The Docker image
+      ports:
+        - containerPort: 5000
+        - containerPort: 5001
+      env:
+        - name: ASPNETCORE_ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: demo-k8s-configmap
+              key: aspnetcore-environment
+        - name: ASPNETCORE_FORWARDEDHEADERS_ENABLED
+          valueFrom:
+            configMapKeyRef:
+              name: demo-k8s-configmap
+              key: aspnetcore-forwardedheaders-enabled
+      volumeMounts:
+        - name: config-volume
+          mountPath: /app/appsettings.kubernetes.json
+          subPath: appsettings.kubernetes.json
+  imagePullSecrets:
+    - name: acrcred
+  volumes:
+    - name: config-volume
+      configMap:
+        name: demo-k8s-configmap
+
 ```
+
+The result is as expected,
+
+```s
+# Try to grep "appsettings.kubernetes.json", "aspnetcore-environment", "aspnetcore-forwardedheaders-enabled"
+$ kubectl -n demo-k8s exec demo-k8s-pod -- ls -1 | grep "appsettings.kubernetes.json\|aspnetcore-environment\|aspnetcore-forwardedheaders-enabled"
+appsettings.kubernetes.json
+# Check the environment variables
+$ kubectl -n demo-k8s exec -it demo-k8s-pod -- bash -c 'echo $ASPNETCORE_ENVIRONMENT $ASPNETCORE_FORWARDEDHEADERS_ENABLED'
+kubernetes true
+```
+
+
+
+
