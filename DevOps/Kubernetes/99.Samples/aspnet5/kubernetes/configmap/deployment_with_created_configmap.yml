@@ -12,23 +12,26 @@ spec:
     spec:
       containers:
         - name: demok8s
-          image: karatejb/demo-k8s:latest # The Docker image
+          image: karatejbacr.azurecr.io/demo-k8s:latest # The Docker image
           ports:
             - containerPort: 5000
             - containerPort: 5001
           env:
-            - name: ASPNETCORE_ENVIRONMENT2
+            - name: ASPNETCORE_ENVIRONMENT
               valueFrom:
                 configMapKeyRef:
-                  name: ap-config
+                  name: demo-k8s-configmap
                   key: ap-env
           volumeMounts:
             - name: config-volume
-              mountPath: /app/config
+              mountPath: /app/appsettings.kubernetes.json
+              subPath: appsettings.kubernetes.json
+      imagePullSecrets:
+        - name: acrcred
       volumes:
         - name: config-volume
           configMap:
-            name: ap-config
+            name: demo-k8s-configmap
   selector: # The label selector
     matchLabels:
       app: demo-k8s
