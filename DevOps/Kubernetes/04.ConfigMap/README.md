@@ -577,3 +577,134 @@ spec:
 ```
 
 
+
+***
+## Update ConfigMap
+
+> Notice that any update on the exist ConfigMap will not take effect on a running Deployment event if you "replace" or "apply" the Deployment after "edit" or "replace" the ConfigMap.
+
+
+
+### Edit ConfigMap
+
+```s
+$ kubectl edit configmap <map-name>
+```
+
+This will open the editor and we can edit it on the fly.
+
+
+
+### Edit manifest and Replace ConfigMap
+
+If you are using a manifest to manage the content of ConfigMap, we can edit the manifest and then replace the exist ConfigMap by,
+
+```s
+$ kubectl replace -f <manifest file>
+```
+
+For example, we update the ConfigMap manifest from
+
+- configmap-env.yml
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-k8s-env-configmap
+  labels:
+    app: demo-k8s
+data:
+  ASPNETCORE_ENVIRONMENT: "kubernetes"
+  ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
+```
+
+to
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-k8s-env-configmap
+  labels:
+    app: demo-k8s
+data:
+  ASPNETCORE_ENVIRONMENT: "Docker"
+  ASPNETCORE_FORWARDEDHEADERS_ENABLED: "false"
+```
+
+then replace the ConfigMap by `kubectl replace -f configmap-env.yml -n demo-k8s`.
+
+
+
+### Update from new content of a file or literal
+
+If we created the ConfigMap by `from-file`, `from-env-file` or `from-literal` and want to update the value.
+There is no direct way to replace the value but we can use the "stdout" and "pipe" to do the trick.
+
+The command should be looked like this:
+
+```s
+$ kubectl create configmap <exist-map-name> [--from-file=source|--from-env-file=source|--from-literal=key=value] \
+  --dry-run -o yaml \
+  | kubectl apply -f -
+```
+
+For example,
+
+```s
+$ kubectl create configmap demo-k8s-configmap --from-file=./appsettings.kubernetes.json -n d
+emo-k8s --dry-run=client -o yaml | kubectl apply -f -
+```
+
+
+```s
+$ kubectl create configmap demo-k8s-env-configmap --from-env-file=./app.env -n demo-k8s --dr
+y-run=client -o yaml | kubectl apply -f -
+```
+
+
+```s
+$ kubectl create cm ap-configmap --from-literal=aspnetcore-environment="kubernetes" --from-l 
+iteral=aspnetcore-forwardedheaders-enabled="true" -n demo-k8s
+configmap/ap-configmap created
+$ kubectl describe cm ap-configmap -n demo-k8s
+Name:         ap-configmap
+Namespace:    demo-k8s
+Labels:       <none>
+Annotations:  <none>
+
+Data
+====
+aspnetcore-environment:
+----
+kubernetes
+aspnetcore-forwardedheaders-enabled:
+----
+true
+Events:  <none>
+
+$ kubectl create cm ap-configmap --from-literal=aspnetcore-environment="Docker" --from-liter
+al=aspnetcore-forwardedheaders-enabled="false" -n demo-k8s --dry-run=client -o yaml | kubect
+l apply -f - 
+$ kubectl describe cm ap-configmap -n demo-k8s
+Name:         ap-configmap
+Namespace:    demo-k8s    
+Labels:       <none>
+Annotations:  <none>
+
+Data
+====
+aspnetcore-environment:
+----
+Docker
+aspnetcore-forwardedheaders-enabled:
+----
+false
+Events:  <none>
+```
+
+
+
+
+

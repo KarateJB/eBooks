@@ -6,5 +6,5 @@ metadata:
   labels:
     app: demo-k8s
 data:
-  ASPNETCORE_ENVIRONMENT: "Docker"
+  ASPNETCORE_ENVIRONMENT: "kubernetes"
   ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
