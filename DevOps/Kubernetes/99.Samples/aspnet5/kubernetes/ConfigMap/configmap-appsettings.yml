@@ -6,7 +6,7 @@ metadata:
   labels:
     app: demo-k8s
 data:
-  appsettings.kubernetes.json: |-
+  appsettings.Kubernetes.json: |-
     {
       "Logging": {
         "LogLevel": {

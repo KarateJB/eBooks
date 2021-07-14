@@ -11,7 +11,7 @@ A ConfigMap is an API object used to store non-confidential data in key-value pa
 ### Create
 
 ```s
-$ kubectl create configmap|cm <map-name> [--from-file=[key=]source] [--from-env-file=source] [--from-literal=key1=value1] [--dry-run]
+$ kubectl create configmap|cm <map-name> [--from-file=[key=]source] [--from-env-file=source] [--from-literal=key1=value1] [--dry-run=server|client|none]
 ```
 
 ### Delete
@@ -29,7 +29,7 @@ The sample code/file are located at [99.Samples\aspnet5\kubernetes\ConfigMap](..
 ### Sample 1. Create ConfigMap from a file
 
 ```s
-$ kubectl create configmap ap-config --from-file=./appsettings.kubernetes.json  --namespace demo-k8s
+$ kubectl create configmap ap-config --from-file=./appsettings.Kubernetes.json  --namespace demo-k8s
 
 $ kubectl describe configmap ap-config -n demo-k8s
 Name:         ap-config
@@ -39,7 +39,7 @@ Annotations:  <none>
 
 Data
 ====
-appsettings.kubernetes.json:
+appsettings.Kubernetes.json:
 ----
 {
   "Customize": {
@@ -52,7 +52,7 @@ Events:  <none>
 $ kubectl get configmap ap-config -o yaml -n demo-k8s
 apiVersion: v1
 data:
-  appsettings.kubernetes.json: "{\r\n \"Customize\": {\r\n    \"Theme\": \"#00BFFF\"  }\r\n}\r\n"
+  appsettings.Kubernetes.json: "{\r\n \"Customize\": {\r\n    \"Theme\": \"#00BFFF\"  }\r\n}\r\n"
 kind: ConfigMap
 metadata:
   creationTimestamp: "2021-07-12T11:09:20Z"
@@ -104,7 +104,7 @@ Events:  <none>
 - app.env
 
 ```
-ASPNETCORE_ENVIRONMENT=kubernetes
+ASPNETCORE_ENVIRONMENT=Kubernetes
 ASPNETCORE_FORWARDEDHEADERS_ENABLED=true
 ```
 
@@ -123,7 +123,7 @@ ASPNETCORE_FORWARDEDHEADERS_ENABLED:
 true
 ASPNETCORE_ENVIRONMENT:
 ----
-kubernetes
+Kubernetes
 Events:  <none>
 ```
 
@@ -187,12 +187,12 @@ Lets see how ConfigMap can be used in our manifest.
 
 First, let's make an experiment and create a ConfigMap by defining:
 
-- file: `appsettings.kubernetes.json`
+- file: `appsettings.Kubernetes.json`
 - literal as a environment variable: `aspnetcore-environment="Docker"`
 - literal as a environment variable: `aspnetcore-forwardedheaders-enabled="true"`
 
 ```s
-$ kubectl create cm demo-k8s-configmap --from-file=./appsettings.kubernetes.json --from-literal=aspnetcore-environment="Docker" --from-literal=aspnetcore-forwardedheaders-enabled="true" -n demo-k8s
+$ kubectl create cm demo-k8s-configmap --from-file=./appsettings.Kubernetes.json --from-literal=aspnetcore-environment="Docker" --from-literal=aspnetcore-forwardedheaders-enabled="true" -n demo-k8s
 ```
 
 Then create a pod's yaml file:
@@ -242,7 +242,7 @@ $ kubectl -n demo-k8s-pod exec -it demo-k8s-pod -- bash
 
 # List files in /app/config/
 root@demo-k8s-pod:/app# ls -1 config
-appsettings.kubernetes.json
+appsettings.Kubernetes.json
 aspnetcore-environment
 aspnetcore-forwardedheaders-enabled
 
@@ -263,13 +263,13 @@ true
 ### Sample 2. of using ConfigMap
 
 
-Now we would like to put the file: `appsettings.kubernetes.json` under "/app" of the container and ignore the other 2 files (which are literals for setting the environment variables).
+Now we would like to put the file: `appsettings.Kubernetes.json` under "/app" of the container and ignore the other 2 files (which are literals for setting the environment variables).
 
 First change our ConfigMap as follwoing,
 
 ```s
 $ kubectl delete cm demo-k8s-configmap -n demo-k8s
-$ kubectl create cm demo-k8s-configmap --from-file=./appsettings.kubernetes.json --from-literal=aspnetcore-environment="kubernetes" --from-literal=aspnetcore-forwardedheaders-enabled="true" -n demo-k8s
+$ kubectl create cm demo-k8s-configmap --from-file=./appsettings.Kubernetes.json --from-literal=aspnetcore-environment="Kubernetes" --from-literal=aspnetcore-forwardedheaders-enabled="true" -n demo-k8s
 ```
 
 
@@ -304,8 +304,8 @@ spec:
               key: aspnetcore-forwardedheaders-enabled
       volumeMounts:
         - name: config-volume
-          mountPath: /app/appsettings.kubernetes.json
-          subPath: appsettings.kubernetes.json
+          mountPath: /app/appsettings.Kubernetes.json
+          subPath: appsettings.Kubernetes.json
   imagePullSecrets:
     - name: acrcred
   volumes:
@@ -318,12 +318,12 @@ spec:
 The result is as expected,
 
 ```s
-# Try to grep "appsettings.kubernetes.json", "aspnetcore-environment", "aspnetcore-forwardedheaders-enabled"
-$ kubectl -n demo-k8s exec demo-k8s-pod -- ls -1 | grep "appsettings.kubernetes.json\|aspnetcore-environment\|aspnetcore-forwardedheaders-enabled"
-appsettings.kubernetes.json
+# Try to grep "appsettings.Kubernetes.json", "aspnetcore-environment", "aspnetcore-forwardedheaders-enabled"
+$ kubectl -n demo-k8s exec demo-k8s-pod -- ls -1 | grep "appsettings.Kubernetes.json\|aspnetcore-environment\|aspnetcore-forwardedheaders-enabled"
+appsettings.Kubernetes.json
 # Check the environment variables
 $ kubectl -n demo-k8s exec -it demo-k8s-pod -- bash -c 'echo $ASPNETCORE_ENVIRONMENT $ASPNETCORE_FORWARDEDHEADERS_ENABLED'
-kubernetes true
+Kubernetes true
 ```
 
 
@@ -333,7 +333,7 @@ kubernetes true
 Followed by the previous sample, now we will use the "env file" in the ConfigMap.
 
 ```s
-$ kubectl create cm demo-k8s-configmap --from-file=./appsettings.kubernetes.json -n demo-k8s
+$ kubectl create cm demo-k8s-configmap --from-file=./appsettings.Kubernetes.json -n demo-k8s
 $ kubectl create cm demo-k8s-configmap --from-env-file=./app.env -n demo-k8s
 ```
 
@@ -367,8 +367,8 @@ spec:
       volumeMounts:
         - name: config-volume
           # mountPath: /app/config # DO NOT use this line, it will DELETE and RECREATE the /app
-          mountPath: /app/appsettings.kubernetes.json
-          subPath: appsettings.kubernetes.json
+          mountPath: /app/appsettings.Kubernetes.json
+          subPath: appsettings.Kubernetes.json
   imagePullSecrets:
     - name: acrcred
   volumes:
@@ -401,8 +401,8 @@ spec:
             name: demo-k8s-env-configmap
       volumeMounts:
         - name: config-volume
-          mountPath: /app/appsettings.kubernetes.json
-          subPath: appsettings.kubernetes.json
+          mountPath: /app/appsettings.Kubernetes.json
+          subPath: appsettings.Kubernetes.json
   imagePullSecrets:
     - name: acrcred
   volumes:
@@ -415,7 +415,7 @@ The result is as expected,
 
 ```s
 $ kubectl -n demo-k8s exec -it demo-k8s-pod -- bash -c 'echo $ASPNETCORE_ENVIRONMENT $ASPNETCORE_FORWARDEDHEADERS_ENABLED'
-kubernetes true
+Kubernetes true
 ```
 
 
@@ -437,7 +437,7 @@ metadata:
   labels:
     app: demo-k8s
 data:
-  ASPNETCORE_ENVIRONMENT: "kubernetes"
+  ASPNETCORE_ENVIRONMENT: "Kubernetes"
   ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
 ```
 
@@ -452,7 +452,7 @@ metadata:
   labels:
     app: demo-k8s
 data:
-  appsetting.kubernetes.json: |-
+  appsetting.Kubernetes.json: |-
     {
       "Logging": {
         "LogLevel": {
@@ -496,7 +496,7 @@ metadata:
   labels:
     app: demo-k8s
 data:
-  ASPNETCORE_ENVIRONMENT: "kubernetes"
+  ASPNETCORE_ENVIRONMENT: "Kubernetes"
   ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
 
 ---
@@ -507,7 +507,7 @@ metadata:
   labels:
     app: demo-k8s
 data:
-  appsettings.kubernetes.json: |-
+  appsettings.Kubernetes.json: |-
     {
       "Logging": {
         "LogLevel": {
@@ -544,8 +544,8 @@ spec:
                 name: demo-k8s-env-configmap
           volumeMounts:
             - name: config-volume
-              mountPath: /app/appsettings.kubernetes.json
-              subPath: appsettings.kubernetes.json
+              mountPath: /app/appsettings.Kubernetes.json
+              subPath: appsettings.Kubernetes.json
       imagePullSecrets:
         - name: acrcred
       volumes:
@@ -615,7 +615,7 @@ metadata:
   labels:
     app: demo-k8s
 data:
-  ASPNETCORE_ENVIRONMENT: "kubernetes"
+  ASPNETCORE_ENVIRONMENT: "Kubernetes"
   ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
 ```
 
@@ -653,7 +653,7 @@ $ kubectl create configmap <exist-map-name> [--from-file=source|--from-env-file=
 For example,
 
 ```s
-$ kubectl create configmap demo-k8s-configmap --from-file=./appsettings.kubernetes.json -n d
+$ kubectl create configmap demo-k8s-configmap --from-file=./appsettings.Kubernetes.json -n d
 emo-k8s --dry-run=client -o yaml | kubectl apply -f -
 ```
 
@@ -665,7 +665,7 @@ y-run=client -o yaml | kubectl apply -f -
 
 
 ```s
-$ kubectl create cm ap-configmap --from-literal=aspnetcore-environment="kubernetes" --from-l 
+$ kubectl create cm ap-configmap --from-literal=aspnetcore-environment="Kubernetes" --from-l 
 iteral=aspnetcore-forwardedheaders-enabled="true" -n demo-k8s
 configmap/ap-configmap created
 $ kubectl describe cm ap-configmap -n demo-k8s
@@ -678,7 +678,7 @@ Data
 ====
 aspnetcore-environment:
 ----
-kubernetes
+Kubernetes
 aspnetcore-forwardedheaders-enabled:
 ----
 true

@@ -6,7 +6,7 @@ metadata:
   labels:
     app: demo-k8s
 data:
-  ASPNETCORE_ENVIRONMENT: "kubernetes"
+  ASPNETCORE_ENVIRONMENT: "Kubernetes"
   ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
 
 ---
@@ -54,8 +54,8 @@ spec:
                 name: demo-k8s-env-configmap
           volumeMounts:
             - name: config-volume
-              mountPath: /app/appsettings.kubernetes.json
-              subPath: appsettings.kubernetes.json
+              mountPath: /app/appsettings.Kubernetes.json
+              subPath: appsettings.Kubernetes.json
       volumes:
         - name: config-volume
           configMap:
