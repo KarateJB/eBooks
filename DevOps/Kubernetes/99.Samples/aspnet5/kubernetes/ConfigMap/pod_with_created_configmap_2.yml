@@ -39,8 +39,6 @@ spec:
           # mountPath: /app/config # DO NOT use this line, it will DELETE and RECREATE the /app
           mountPath: /app/appsettings.Kubernetes.json
           subPath: appsettings.Kubernetes.json
-  imagePullSecrets:
-    - name: acrcred
   volumes:
     - name: config-volume
       configMap:

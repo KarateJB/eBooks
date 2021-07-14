@@ -330,7 +330,7 @@ Kubernetes true
 
 ### Sample 3. of using ConfigMap
 
-Followed by the previous sample, now we will use the "env file" in the ConfigMap.
+Followed by the previous sample, now we will use the "env file" as the ConfigMap.
 
 ```s
 $ kubectl create cm demo-k8s-configmap --from-file=./appsettings.Kubernetes.json -n demo-k8s
