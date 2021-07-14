@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using DemoK8s.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +23,7 @@ namespace DemoK8s.Controllers
         public IActionResult Index()
         {
             var bgColor = this.configuration["Customize:Theme"];
+            Console.WriteLine($"Theme: {bgColor}");
             ViewBag.BgColor = bgColor;
             return View();
         }
