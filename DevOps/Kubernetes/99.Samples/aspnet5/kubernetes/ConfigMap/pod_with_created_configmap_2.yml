@@ -24,6 +24,7 @@ spec:
       envFrom:
         - configMapRef:
             name: demo-k8s-env-configmap
+      # env:
         # - name: ASPNETCORE_ENVIRONMENT
         #   valueFrom:
         #     configMapKeyRef:

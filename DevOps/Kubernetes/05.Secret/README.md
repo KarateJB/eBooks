@@ -48,12 +48,11 @@ $ kubectl create secret generic <secret-name> [--type=string] [--from-file=[key=
 ```
 
 
-### Samples
 
 We will some real samples of using Secrets in the manifest.
 The sample code/file are located at [99.Samples\aspnet5\kubernetes\Secrets](../99.Samples/aspnet5/kubernetes/Secrets)
 
-#### Sample 1. of using Secrets
+### Sample 1. of using Secrets
 
 We will use Secrects to put the file: `appsettings.Kubernetes.json` under "/app" of the container and set the environment variabels.
 
@@ -116,7 +115,7 @@ spec:
 
 
 
-### Sample 2. of using ConfigMap
+### Sample 2. of using Secret
 
 Followed by the previous sample, now we will use the "env file" as the Secret.
 
@@ -128,9 +127,212 @@ $ kubectl create secret generic demo-k8s-env-secret --from-env-file=./app.env -n
 - pod_with_created_secret_2.yml
 
 ```yaml
-
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo-k8s-pod # The name of the pod
+  labels:
+    app: demo-k8s
+spec:
+  containers:
+    - name: demok8s
+      image: karatejb/demo-k8s:latest # The Docker image
+      ports:
+        - containerPort: 5000
+        - containerPort: 5001
+      env:
+        - name: ASPNETCORE_ENVIRONMENT
+          valueFrom:
+            secretKeyRef:
+              name: demo-k8s-env-secret
+              key: ASPNETCORE_ENVIRONMENT
+        - name: ASPNETCORE_FORWARDEDHEADERS_ENABLED
+          valueFrom:
+            secretKeyRef:
+              name: demo-k8s-env-secret
+              key: ASPNETCORE_FORWARDEDHEADERS_ENABLED
+      volumeMounts:
+        - name: secret-volume
+          mountPath: /app/appsettings.Kubernetes.json
+          subPath: appsettings.Kubernetes.json
+  volumes:
+    - name: secret-volume
+      secret:
+        secretName: demo-k8s-secret
 ```
 
+
+
+However, we can simply the manifest by using `envFrom`:
+
+- pod_with_created_secret_2.yml
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo-k8s-pod # The name of the pod
+  labels:
+    app: demo-k8s
+spec:
+  containers:
+    - name: demok8s
+      image: karatejb/demo-k8s:latest # The Docker image
+      ports:
+        - containerPort: 5000
+        - containerPort: 5001
+      envFrom:
+        - secretRef:
+            name: demo-k8s-env-secret
+      volumeMounts:
+        - name: secret-volume
+          # mountPath: /app/config # DO NOT use this line, it will DELETE and RECREATE the /app
+          mountPath: /app/appsettings.Kubernetes.json
+          subPath: appsettings.Kubernetes.json
+  volumes:
+    - name: secret-volume
+      secret:
+        secretName: demo-k8s-secret
+```
+
+
+The result is as expected,
+
+```s
+$ kubectl -n demo-k8s exec -it demo-k8s-pod -- bash -c 'echo $ASPNETCORE_ENVIRONMENT $ASPNETCORE_FORWARDEDHEADERS_ENABLED'
+Kubernetes true
+```
+
+
+### Create Secret by manifest file
+
+We can write the yaml file as the Secret manifest.
+
+- secret-env.yml
+
+```yaml
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: demo-k8s-env-secret
+  labels:
+    app: demo-k8s
+data:
+  ASPNETCORE_ENVIRONMENT: S3ViZXJuZXRlcw==
+  ASPNETCORE_FORWARDEDHEADERS_ENABLED: dHJ1ZQ==
+```
+
+- secret-appsettings.yml
+
+```yaml
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: demo-k8s-secret
+  labels:
+    app: demo-k8s
+data:
+  appsettings.Kubernetes.json: ew0KICAiTG9nZ2luZyI6IHsNCiAgICAiTG9nTGV2ZWwiOiB7DQogICAgICAiRGVmYXVsdCI6ICJJbmZvcm1hdGlvbiIsDQogICAgICAiTWljcm9zb2Z0IjogIldhcm5pbmciLA0KICAgICAgIk1pY3Jvc29mdC5Ib3N0aW5nLkxpZmV0aW1lIjogIkluZm9ybWF0aW9uIg0KICAgIH0NCiAgfSwNCiAgIkN1c3RvbWl6ZSI6IHsNCiAgICAiVGhlbWUiOiAiIzlkOTVkZiINCiAgfQ0KfQ0K``
+```
+
+
+Create the Secrests by,
+
+```s
+$ kubectl apply -f secret-env.yml -n demo-k8s
+$ kubectl apply -f secret-appsettings.yml -n demo-k8s
+```
+
+Now we can use the same [manifest](#Sample-2-of-using-Secret) to create the Pod.
+
+```s
+$ kubectl apply -f pod_with_created_secret_2.yml -n demo-k8s
+```
+
+
+### A full sample of creating Deployment
+
+In summary, we can create the Deployment manifest as following.
+
+```yaml
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: demo-k8s-env-secret
+  labels:
+    app: demo-k8s
+data:
+  ASPNETCORE_ENVIRONMENT: S3ViZXJuZXRlcw==
+  ASPNETCORE_FORWARDEDHEADERS_ENABLED: dHJ1ZQ==
+
+---
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: demo-k8s-secret
+  labels:
+    app: demo-k8s
+data:
+  appsettings.Kubernetes.json: ew0KICAiTG9nZ2luZyI6IHsNCiAgICAiTG9nTGV2ZWwiOiB7DQogICAgICAiRGVmYXVsdCI6ICJJbmZvcm1hdGlvbiIsDQogICAgICAiTWljcm9zb2Z0IjogIldhcm5pbmciLA0KICAgICAgIk1pY3Jvc29mdC5Ib3N0aW5nLkxpZmV0aW1lIjogIkluZm9ybWF0aW9uIg0KICAgIH0NCiAgfSwNCiAgIkN1c3RvbWl6ZSI6IHsNCiAgICAiVGhlbWUiOiAiIzlkOTVkZiINCiAgfQ0KfQ0K
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-k8s-deployment
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: demo-k8s
+    spec:
+      containers:
+        - name: demok8s
+          image: karatejb/demo-k8s:latest # The Docker image
+          ports:
+            - containerPort: 5000
+            - containerPort: 5001
+          envFrom:
+            - secretRef:
+                name: demo-k8s-env-secret
+          volumeMounts:
+            - name: secret-volume
+              mountPath: /app/appsettings.Kubernetes.json
+              subPath: appsettings.Kubernetes.json
+      # imagePullSecrets:
+      #   - name: acrcred
+      volumes:
+        - name: secret-volume
+          secret:
+            secretName: demo-k8s-secret
+  selector: # The label selector
+    matchLabels:
+      app: demo-k8s
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-k8s-service
+spec:
+  selector:
+    app: demo-k8s
+  ports:
+    - name: http-port
+      protocol: TCP
+      port: 5000
+      targetPort: 5000
+    - name: https-port
+      protocol: TCP
+      port: 5001
+      targetPort: 5001
+  type: LoadBalancer
+```
 
 
 
@@ -159,7 +361,7 @@ data:
 kind: Secret
 metadata:
   creationTimestamp: "2021-07-14T07:38:31Z"
-  name: my-acrcred
+  name: acrcred
   namespace: demo-k8s
   resourceVersion: "906837"
   uid: 11d5cec2-5346-4ff9-8f26-6c4b492a500b

@@ -227,8 +227,6 @@ spec:
       volumeMounts:
         - name: config-volume
           mountPath: /app/config
-  imagePullSecrets:
-    - name: acrcred
   volumes:
     - name: config-volume
       configMap:
@@ -306,8 +304,6 @@ spec:
         - name: config-volume
           mountPath: /app/appsettings.Kubernetes.json
           subPath: appsettings.Kubernetes.json
-  imagePullSecrets:
-    - name: acrcred
   volumes:
     - name: config-volume
       configMap:
@@ -369,8 +365,6 @@ spec:
           # mountPath: /app/config # DO NOT use this line, it will DELETE and RECREATE the /app
           mountPath: /app/appsettings.Kubernetes.json
           subPath: appsettings.Kubernetes.json
-  imagePullSecrets:
-    - name: acrcred
   volumes:
     - name: config-volume
       configMap:
@@ -403,8 +397,6 @@ spec:
         - name: config-volume
           mountPath: /app/appsettings.Kubernetes.json
           subPath: appsettings.Kubernetes.json
-  imagePullSecrets:
-    - name: acrcred
   volumes:
     - name: config-volume
       configMap:
@@ -421,7 +413,7 @@ Kubernetes true
 
 
 ***
-## Create ConfigMap in manifest file
+## Create ConfigMap by manifest file
 
 ### ConfigMap manifest
 
@@ -485,7 +477,7 @@ $ kubectl apply -f pod_with_created_configmap_2.yml -n demo-k8s
 
 ### A full sample of creating deployment
 
-In summary, we can create the runnable application by the following yaml file of Deployment.
+In summary, we can create the Deployment manifest as following.
 
 ```yaml
 ---
@@ -535,7 +527,7 @@ spec:
     spec:
       containers:
         - name: demok8s
-          image: karatejbacr.azurecr.io/demo-k8s:latest # The Docker image
+          image: karatejb/demo-k8s:latest # The Docker image
           ports:
             - containerPort: 5000
             - containerPort: 5001
@@ -546,8 +538,6 @@ spec:
             - name: config-volume
               mountPath: /app/appsettings.Kubernetes.json
               subPath: appsettings.Kubernetes.json
-      imagePullSecrets:
-        - name: acrcred
       volumes:
         - name: config-volume
           configMap:
