@@ -3,14 +3,26 @@
 ***
 ## Before we get started
 
-The sample docker image is [karatejb@demok8s:latest]().
+The sample docker images are 
+- [karatejb@demo-k8s](https://hub.docker.com/repository/docker/karatejb/demo-k8s)
+- [karatejb@demo-k8s-web](https://hub.docker.com/repository/docker/karatejb/demo-k8s-web)
+
+
+
 You can build the same image to your repositories in Docker Hub by the following command.
 
 ```s
 $ cd "99.Samples/aspnet5"
-$ docker build -t <Docker_ID>/demo-k8s -f docker/dockerfile .
+$ docker build -t <Docker_ID>/demo-k8s:latest -f docker/dockerfile .
 $ docker push <Docker_ID>/demo-k8s:latest
 ```
+
+```s
+$ cd "99.Samples/angular"
+$ docker build -t <Docker_ID>/demo-k8s-web:latest -f docker/dockerfile .
+$ docker push <Docker_ID>/demo-k8s-web:latest
+```
+
 
 ### Sample code/manifest
 
@@ -503,6 +515,29 @@ NGINX Ingress controller
   Repository:    https://github.com/kubernetes/ingress-nginx
   nginx version: nginx/1.19.6
 ```
+
+#### Uninstall
+
+1. Delete the "nginx-ingress" namespace.
+
+```s
+$ kubectl delete n nginx-ingress
+```
+
+2. Delete the ClusterRole amd ClusterRoleBinding.
+
+```s
+$ kubectl delete clusterrole nginx-ingress
+$ kubectl delete clusterrolebinding nginx-ingress
+```
+
+3. Delete the Custom Resource Definitions.
+
+```s
+$ kubectl delete -f common/crds/
+```
+
+
 
 #### Create Ingress
 
