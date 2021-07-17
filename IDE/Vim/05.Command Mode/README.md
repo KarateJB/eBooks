@@ -29,6 +29,12 @@ For more Ex cmd, see `:h ex-cmd-index`.
 - `:[line #]put` Put yanked at the next line of line #.
 - `:[range]copy {address}` Copy the range to the next line of {address}. Short as `t` (copy **T**o).
 - `:[range]move {address}` Move the range to the next line of {address}. Short as `m`.
+  - `:m 12` move current line to after line 12.
+  - `:m 0` move current line to before first line.
+  - `:m $` move current line to after last line.
+  - `:m 'a` move current line to after line with mark a (see using marks).
+  - `:m 'a-1` move current line to before line with mark a.
+  - `:m '}-1` move current line to the end of the current paragraph.
 - `:[range]join` Join all the lines in the range.
 - `:[range]normal {commands}` Execute normal-mode command on every line in the range.
   - e.q. `2,3normal A,` will append , to the end of lines on line 2 ~ 3.

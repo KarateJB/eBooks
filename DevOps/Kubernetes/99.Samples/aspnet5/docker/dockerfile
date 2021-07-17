@@ -1,3 +1,4 @@
+#### Build stage ####
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /app
 
@@ -8,6 +9,7 @@ RUN dotnet restore
 RUN dotnet publish --configuration Release --output "/app/publish"
 
 
+#### Runtime stage ####
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS runtime
 
 # Arg for current environment, eg. Development, Docker, Production. Use docker-compose file to overwrite.
